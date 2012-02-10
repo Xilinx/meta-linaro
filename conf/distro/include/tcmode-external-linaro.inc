@@ -1,0 +1,59 @@
+#
+# Configuration to use an external Linaro binary toolchain
+#
+
+EXTERNAL_TOOLCHAIN ?= "/usr/local/linaro-binary-toolchain/${TARGET_ARCH}"
+
+TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
+PATH =. "${TOOLCHAIN_PATH_ADD}"
+
+ELT_TARGET_SYS = "arm-linux-gnueabi"
+TARGET_PREFIX = "${ELT_TARGET_SYS}-"
+
+PREFERRED_PROVIDER_linux-libc-headers = "external-linaro-toolchain"
+PREFERRED_PROVIDER_linux-libc-headers-dev = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-initial = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-intermediate = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++ = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}binutils = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs = "external-linaro-toolchain"
+PREFERRED_PROVIDER_libgcc = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/libc = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/libintl = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/libiconv = "external-linaro-toolchain"
+PREFERRED_PROVIDER_glibc-thread-db = "external-linaro-toolchain"
+PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-linaro-toolchain"
+
+TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/include "
+TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib "
+
+TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
+
+def populate_toolchain_links(d):
+    import errno
+    import os
+    from glob import glob
+
+    d = d.createCopy()
+    d.finalize()
+
+    pattern = bb.data.expand('${EXTERNAL_TOOLCHAIN}/bin/${TARGET_PREFIX}*', d)
+    files = glob(pattern)
+    if not files:
+        bb.fatal("Unable to populate toolchain binary symlinks")
+
+    bindir = d.getVar('STAGING_BINDIR_TOOLCHAIN', True)
+    bb.mkdirhier(bindir)
+    for f in files:
+        base = os.path.basename(f)
+        newpath = os.path.join(bindir, base)
+        try:
+            os.symlink(f, newpath)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST:
+                break
+            bb.fatal("Unable to populate toolchain binary symlink for %s: %s" % (newpath, exc))
+
+require conf/distro/include/external-linaro-toolchain-versions.inc
