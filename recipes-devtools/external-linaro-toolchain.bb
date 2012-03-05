@@ -29,7 +29,7 @@ PV = "${ELT_VER_MAIN}"
 PR = "r0"
 
 # https://launchpad.net/linaro-toolchain-binaries
-# http://launchpad.net/linaro-toolchain-binaries/trunk/2012.01/+download/gcc-linaro-arm-linux-gnueabi-2012.01-20120125_linux.tar.bz2
+# http://launchpad.net/linaro-toolchain-binaries/trunk/2012.02/+download/gcc-linaro-arm-linux-gnueabi-2012.02-20120222_linux.tar.bz2
 SRC_URI = "file://SUPPORTED"
 
 do_install() {
@@ -189,3 +189,8 @@ FILES_${PN} += "\
 	${base_libdir}/libSegFault.so \
 	${base_libdir}/libpcprofile.so \
 "
+ELT_VER_MAIN ??= ""
+
+python () {
+    if not d.getVar("ELT_VER_MAIN"):
+	raise bb.parse.SkipPackage("External Linaro toolchain not configured (ELT_VER_MAIN not set).")
