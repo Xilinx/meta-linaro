@@ -15,7 +15,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
 BINV = "4.6.3"
-SRC_URI = "http://launchpad.net/gcc-linaro/4.6/4.6-2012.02/+download/gcc-linaro-4.6-2012.02.tar.bz2"
+SRC_URI = "http://launchpad.net/gcc-linaro/4.6/4.6-2012.02/+download/gcc-linaro-4.6-2012.02.tar.bz2 \
+	   file://optional_libstdc.patch \
+	   file://use-defaults.h-and-t-oe-in-B.patch \
+	  "
 
 SRC_URI[md5sum] = "2b7887846f8e5ac1ca58fe4dfaabf5a6"
 SRC_URI[sha256sum] = "cddc96360c46366a98de38c806e0e4eced61dfee5e544e587de636e913b74fe3"
