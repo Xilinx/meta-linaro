@@ -47,9 +47,11 @@ do_install() {
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*  ${D}${libdir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/share/*  ${D}${datadir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/*  ${D}${includedir}
+	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/${ELT_TARGET_SYS}/*  ${D}${includedir}
 
 	rm -r ${D}${libdir}/${ELT_TARGET_SYS}
 	rm -r ${D}${base_libdir}/${ELT_TARGET_SYS}
+	rm -r ${D}${includedir}/${ELT_TARGET_SYS}
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
 	ln -sf ld-2.13.so ${D}${base_libdir}/ld-linux.so.3
