@@ -1,2 +1,1 @@
-require gcc-cross_${PV}.bb
-require recipes-devtools/gcc/gcc-cross-intermediate.inc
+require recipes-devtools/gcc/gcc-cross-intermediate_4.6.bb
