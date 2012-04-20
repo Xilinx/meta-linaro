@@ -31,6 +31,13 @@ TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib -Wl,-rp
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
 
+DISTRO_FEATURES_LIBC = "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-crypt \
+			libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+			libc-getlogin libc-idn libc-inet-anl libc-libm libc-libm-big \
+			libc-memusage libc-nis libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams libc-sunrpc \
+			libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+			libc-posix-wchar-io"
+
 def populate_toolchain_links(d):
     import errno
     import os
