@@ -38,6 +38,9 @@ DISTRO_FEATURES_LIBC = "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-c
 			libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
 			libc-posix-wchar-io"
 
+ENABLE_BINARY_LOCALE_GENERATION = "0"
+GLIBC_INTERNAL_USE_BINARY_LOCALE = "precompiled"
+
 def populate_toolchain_links(d):
     import errno
     import os
