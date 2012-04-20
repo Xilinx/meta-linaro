@@ -1,8 +1,10 @@
 require recipes-devtools/gcc/gcc-common.inc
 
 PR = "r0"
+RELEASE = "2012.04"
+BINV = "4.6.4"
 
-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-linaro-4.6-2012.02' ], d)}"
+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-linaro-4.6-${RELEASE}' ], d)}"
 DEPENDS =+ "mpfr gmp libmpc"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
 
@@ -14,17 +16,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
-BINV = "4.6.3"
-SRC_URI = "http://launchpad.net/gcc-linaro/4.6/4.6-2012.02/+download/gcc-linaro-4.6-2012.02.tar.bz2 \
+SRC_URI = "https://launchpad.net/gcc-linaro/4.6/4.6-${RELEASE}/+download/gcc-${PV}-${RELEASE}.tar.bz2 \
 	   file://optional_libstdc.patch \
 	   file://use-defaults.h-and-t-oe-in-B.patch \
 	  "
 
-SRC_URI[md5sum] = "2b7887846f8e5ac1ca58fe4dfaabf5a6"
-SRC_URI[sha256sum] = "cddc96360c46366a98de38c806e0e4eced61dfee5e544e587de636e913b74fe3"
+SRC_URI[md5sum] = "f9be35eddfed2d5f4325901a373b37f9"
+SRC_URI[sha256sum] = "9b934d0589c32ea9df27cca5d659f5751a213dacb1530f91f43e92b06b084938"
 
-S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-2012.02"
-B = "${WORKDIR}/gcc-${PV}-2012.02/build.${HOST_SYS}.${TARGET_SYS}"
+S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
+B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
 
 # Language Overrides
 FORTRAN = ""
