@@ -26,8 +26,8 @@ PREFERRED_PROVIDER_virtual/libiconv = "external-linaro-toolchain"
 PREFERRED_PROVIDER_glibc-thread-db = "external-linaro-toolchain"
 PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-linaro-toolchain"
 
-TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/include "
-TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib "
+TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/include "
+TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib "
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
 
