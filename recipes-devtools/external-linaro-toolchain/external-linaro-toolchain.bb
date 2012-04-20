@@ -29,7 +29,7 @@ PV = "${ELT_VER_MAIN}"
 PR = "r0"
 
 # https://launchpad.net/linaro-toolchain-binaries
-# http://launchpad.net/linaro-toolchain-binaries/trunk/2012.02/+download/gcc-linaro-arm-linux-gnueabi-2012.02-20120222_linux.tar.bz2
+# http://launchpad.net/linaro-toolchain-binaries/trunk/2012.03/+download/gcc-linaro-arm-linux-gnueabi-2012.03-20120326_linux.tar.bz2
 SRC_URI = "file://SUPPORTED"
 
 do_install() {
@@ -41,16 +41,13 @@ do_install() {
 	install -d ${D}${datadir}
 	install -d ${D}${includedir}
 
+	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib/*  ${D}${base_libdir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/${ELT_TARGET_SYS}/*  ${D}${base_libdir}
-	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/*  ${D}${base_libdir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/${ELT_TARGET_SYS}/*  ${D}${libdir}
-	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*  ${D}${libdir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/share/*  ${D}${datadir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/*  ${D}${includedir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/${ELT_TARGET_SYS}/*  ${D}${includedir}
 
-	rm -r ${D}${libdir}/${ELT_TARGET_SYS}
-	rm -r ${D}${base_libdir}/${ELT_TARGET_SYS}
 	rm -r ${D}${includedir}/${ELT_TARGET_SYS}
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
@@ -82,6 +79,7 @@ PACKAGES =+ "\
 	libgcc-dev \
 	libstdc++ \
 	libstdc++-dev \
+	libstdc++-staticdev \
 	linux-libc-headers \
 	linux-libc-headers-dev \
 "
@@ -120,6 +118,7 @@ PKGV_libgcc = "${ELT_VER_GCC}"
 PKGV_libgcc-dev = "${ELT_VER_GCC}"
 PKGV_libstdc++ = "${ELT_VER_GCC}"
 PKGV_libstdc++-dev = "${ELT_VER_GCC}"
+PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
