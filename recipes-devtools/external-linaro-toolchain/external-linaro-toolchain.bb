@@ -26,7 +26,7 @@ PROVIDES += "\
 	virtual/linux-libc-headers \
 "
 PV = "${ELT_VER_MAIN}"
-PR = "r0"
+PR = "r1"
 
 # https://launchpad.net/linaro-toolchain-binaries
 # http://launchpad.net/linaro-toolchain-binaries/trunk/2012.03/+download/gcc-linaro-arm-linux-gnueabi-2012.03-20120326_linux.tar.bz2
@@ -84,9 +84,11 @@ PACKAGES =+ "\
 	linux-libc-headers-dev \
 "
 
-INSANE_SKIP_libgcc = "1"
-INSANE_SKIP_libstdc++ = "1"
-INSANE_SKIP_gdbserver = "1"
+INSANE_SKIP_${PN}-dbg = "staticdev"
+INSANE_SKIP_${PN}-utils += "ldflags"
+INSANE_SKIP_libstdc++ += "ldflags"
+INSANE_SKIP_libgcc += "ldflags"
+INSANE_SKIP_gdbserver += "ldflags"
 
 PKG_${PN} = "eglibc"
 PKG_${PN}-dev = "eglibc-dev"
