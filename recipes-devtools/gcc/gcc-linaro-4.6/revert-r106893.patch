@@ -1,0 +1,19 @@
+This patch reverts a backport from mainline that fixes an ICE when using LTO
+but also introduces a regression when using NEON intrinsics. It's a temporary
+workaround till a better fix is available. For details visit:
+https://bugs.launchpad.net/gcc-linaro/+bug/1013209
+
+Index: gcc-linaro-4.6-2012.06/gcc/config/arm/arm.c
+===================================================================
+@@ -20451,8 +20451,10 @@ neon_dereference_pointer (tree exp, enum
+   upper_bound = build_int_cst (size_type_node, nelems - 1);
+   array_type = build_array_type (elem_type, build_index_type (upper_bound));
+ 
++  /* Dereference EXP using that type.  */
++  exp = convert (build_pointer_type (array_type), exp);
+   return fold_build2 (MEM_REF, array_type, exp,
+-		      build_int_cst (build_pointer_type (array_type), 0));
++		      build_int_cst (TREE_TYPE (exp), 0));
+ }
+ 
+ /* Expand a Neon builtin.  */
