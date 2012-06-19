@@ -7,7 +7,7 @@ EXTERNAL_TOOLCHAIN ?= "/usr/local/linaro-binary-toolchain/${TARGET_ARCH}"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
-ELT_TARGET_SYS = "arm-linux-gnueabi"
+ELT_TARGET_SYS = "arm-linux-gnueabihf"
 TARGET_PREFIX = "${ELT_TARGET_SYS}-"
 
 PREFERRED_PROVIDER_linux-libc-headers = "external-linaro-toolchain"
