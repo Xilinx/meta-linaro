@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.7.inc
 require gcc-linaro-common-4.7.inc
 
-PR = "r3"
+PR = "r4"
 RELEASE = "2012.06"
 BINV = "4.7.1"
 
@@ -12,6 +12,7 @@ SRC_URI = "http://launchpad.net/gcc-linaro/${BASEPV}/${BASEPV}-${RELEASE}/+downl
 	   file://64bithack.patch \
 	   file://optional_libstdc.patch \
 	   file://use-defaults.h-and-t-oe-in-B.patch \
+	   file://fix-g++-sysroot.patch \
 	  "
 
 SRC_URI[md5sum] = "d82f23f7feaad1721932481fe6fbc99c"
