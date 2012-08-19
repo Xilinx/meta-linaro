@@ -12,6 +12,6 @@ IMAGE_FEATURES += "\
 	dev-pkgs \
 	tools-debug \
 	tools-sdk \
-	ssh-server-dropbear \
+	ssh-server-openssh \
 	package-management \
 	"
