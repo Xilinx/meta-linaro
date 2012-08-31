@@ -14,7 +14,6 @@ PROVIDES += "\
 	virtual/${TARGET_PREFIX}gcc \
 	virtual/${TARGET_PREFIX}g++ \
 	virtual/${TARGET_PREFIX}gcc-initial \
-	virtual/${TARGET_PREFIX}gcc-intermediate \
 	virtual/${TARGET_PREFIX}binutils \
 	virtual/${TARGET_PREFIX}libc-for-gcc \
 	virtual/${TARGET_PREFIX}compilerlibs \
@@ -26,7 +25,7 @@ PROVIDES += "\
 	virtual/linux-libc-headers \
 "
 PV = "${ELT_VER_MAIN}"
-PR = "r1"
+PR = "r2"
 
 # https://launchpad.net/linaro-toolchain-binaries
 # http://launchpad.net/linaro-toolchain-binaries/trunk/2012.03/+download/gcc-linaro-arm-linux-gnueabi-2012.03-20120326_linux.tar.bz2
