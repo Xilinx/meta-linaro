@@ -1,0 +1,32 @@
+diff -x .git -uNr glibc.orig/elf/elf.h glibc/elf/elf.h
+--- glibc.orig/elf/elf.h	2012-10-01 10:11:45.000000000 +0100
++++ glibc/elf/elf.h	2012-09-25 16:46:46.000000000 +0100
+@@ -249,6 +249,7 @@
+ #define EM_OPENRISC	92		/* OpenRISC 32-bit embedded processor */
+ #define EM_ARC_A5	93		/* ARC Cores Tangent-A5 */
+ #define EM_XTENSA	94		/* Tensilica Xtensa Architecture */
++#define EM_AARCH64	183		/* ARM AARCH64 */
+ #define EM_TILEPRO	188		/* Tilera TILEPro */
+ #define EM_TILEGX	191		/* Tilera TILE-Gx */
+ #define EM_NUM		192
+@@ -2306,6 +2307,20 @@
+ #define SHT_ARM_ATTRIBUTES	(SHT_LOPROC + 3) /* ARM attributes section.  */
+ 
+ 
++/* AArch64 specific declarations.  */
++
++#define R_AARCH64_NONE            0
++#define R_AARCH64_ABS64         257
++#define R_AARCH64_ABS32         258
++#define R_AARCH64_COPY         1024
++#define R_AARCH64_GLOB_DAT     1025	/* Create GOT entry.  */
++#define R_AARCH64_JUMP_SLOT    1026	/* Create PLT entry.  */
++#define R_AARCH64_RELATIVE     1027	/* Adjust by program base.  */
++#define R_AARCH64_TLS_DTPMOD64 1028
++#define R_AARCH64_TLS_DTPREL64 1029
++#define R_AARCH64_TLS_TPREL64  1030
++#define R_AARCH64_TLSDESC      1031
++
+ /* ARM relocs.  */
+ 
+ #define R_ARM_NONE		0	/* No reloc */
