@@ -11,7 +11,7 @@ PR = "r1+svn${SRCPV}"
 # using 4.7.1.0 for upgrade path when we move past 4.7.2 release
 # then we should drop the last 0 as well.
 
-#PV = "4.8.0.0+svn${SRCPV}"
+#PV = "4.7.2"
 
 # BINV should be incremented after updating to a revision
 # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
@@ -21,11 +21,11 @@ PR = "r1+svn${SRCPV}"
 
 DEFAULT_PREFERENCE_aarch64 = "1"
 
-BINV = "4.8.0"
+BINV = "4.7.2"
 
 SRCREV = "${AUTOREV}"
-BRANCH = "aarch64-branch"
-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.8' ], d)}"
+BRANCH = "aarch64-4.7-branch"
+SRC_BRANCH = "ARM/${BRANCH}"
 
 DEPENDS =+ "mpfr gmp libmpc"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
@@ -38,7 +38,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
-SRC_BRANCH = "ARM/aarch64-branch"
 SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
 file://optional_libstdc.patch \
 "
