@@ -1,0 +1,1 @@
+COMPATIBLE_MACHINE_aarch64 = "fwefw"
