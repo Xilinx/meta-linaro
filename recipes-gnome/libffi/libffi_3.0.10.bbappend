@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE_aarch64 = "fwefw"
+COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
