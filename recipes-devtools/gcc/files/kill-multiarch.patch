@@ -1,0 +1,19 @@
+---
+ gcc/config/aarch64/aarch64-linux.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- aarch64-4.7-branch.orig/gcc/config/aarch64/aarch64-linux.h
++++ aarch64-4.7-branch/gcc/config/aarch64/aarch64-linux.h
+@@ -19,11 +19,11 @@
+    <http://www.gnu.org/licenses/>.  */
+ 
+ #ifndef GCC_AARCH64_LINUX_H
+ #define GCC_AARCH64_LINUX_H
+ 
+-#define MULTIARCH_TUPLE "aarch64-linux-gnu"
++#define MULTIARCH_TUPLE
+ 
+ #undef STANDARD_STARTFILE_PREFIX_1
+ #define STANDARD_STARTFILE_PREFIX_1 "/lib/" MULTIARCH_TUPLE "/"
+ 
+ #undef STANDARD_STARTFILE_PREFIX_2
