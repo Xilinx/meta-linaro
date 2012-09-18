@@ -23,7 +23,7 @@ DEFAULT_PREFERENCE_aarch64 = "1"
 
 BINV = "4.7.2"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "191389"
 BRANCH = "aarch64-4.7-branch"
 SRC_BRANCH = "ARM/${BRANCH}"
 
