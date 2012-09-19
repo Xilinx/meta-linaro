@@ -23,7 +23,7 @@ DEFAULT_PREFERENCE_aarch64 = "1"
 
 BINV = "4.7.2"
 
-SRCREV = "191389"
+SRCREV = "${AUTOREV}"
 BRANCH = "aarch64-4.7-branch"
 SRC_BRANCH = "ARM/${BRANCH}"
 
@@ -40,7 +40,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 
 SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
 file://optional_libstdc.patch \
-file://kill-multiarch.patch \
 "
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SRC_BRANCH}"
