@@ -1,0 +1,69 @@
+Following our earlier publication of GCC, binutils, newlib and libgloss
+ports, ARM is pleased to announce a port of GDB to its AArch64 architecture.
+
+Please note that while the port of GDB has been used to debug in anger,
+it should still be considered a work-in-progress.
+
+This port of GDB provides cross debugging support for targets
+aarch64-none-elf and aarch64-none-linux-gnu via GDBSERVER and native
+debugging of aarch64-none-linux-gnu.
+
+The port includes support for hardware break and watch points, however
+the ptrace() interface for this feature has recently changed in the
+linux kernel, the relevant support in GDB and GDBSERVER will follow shortly.
+
+This port has a number of limitations that we would like to address in
+the future, notably:
+
+* The aarch64-none-linux-gnu target support does not support TLS variables.
+
+* The native aarch64-none-linux-gnu debugger does not support the debug
+of aarch32 processes.
+
+* Reading of ELF core files is not implemented.
+
+/Marcus
+
+
+Proposed ChangeLog entries:
+
+Index: ChangeLog
+
+2012-09-26  Jim MacArthur  <jim.macarthur@arm.com>
+             Marcus Shawcroft  <marcus.shawcroft@arm.com>
+             Nigel Stephens  <nigel.stephens@arm.com>
+             Yufeng Zhang  <yufeng.zhang@arm.com>
+
+	* Makefile.in: Add AArch64.
+	* aarch64-linux-nat.c: New file.
+	* aarch64-linux-tdep.c: New file.
+	* aarch64-newlib-tdep.c: New file.
+	* aarch64-tdep.c: New file.
+	* aarch64-tdep.h: New file.
+	* config/aarch64/aarch64-linux.mh: New file.
+	* configure.host: Add AArch64.
+	* configure.tgt: Add AArch64.
+	* defs.h (enum gdb_osabi): Add GDB_OSABI_NEWLIB.
+	* features/Makefile: Add AArch64.
+	* features/aarch64-core.xml: New file.
+	* features/aarch64-fpu.xml: New file.
+	* features/aarch64-without-fpu.c: New file (generated).
+	* features/aarch64-without-fpu.xml: New file.
+	* features/aarch64.c: New file (generated).
+	* features/aarch64.xml: New file.
+	* osabi.c (gdb_osabi_names): Add "Newlib".
+	* regformats/aarch64-without-fpu.dat: New file (generated).
+	* regformats/aarch64.dat: New file (generated).
+
+Index: gdbserver/ChangeLog
+
+2012-09-26  Jim MacArthur  <jim.macarthur@arm.com>
+             Marcus Shawcroft  <marcus.shawcroft@arm.com>
+             Nigel Stephens  <nigel.stephens@arm.com>
+             Yufeng Zhang  <yufeng.zhang@arm.com>
+
+	* Makefile.in: Add AArch64.
+	* configure.srv: Add AArch64.
+	* linux-aarch64-low.c: New file.
+	* linux-low.c: For various 'ptrace' calls, cast '0's as the 3rd
+	and 4th arguments to PTRACE_ARG3_TYPE and PTRACE_ARG4_TYPE respectively.
