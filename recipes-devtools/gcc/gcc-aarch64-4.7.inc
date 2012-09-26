@@ -1,6 +1,6 @@
 require gcc-common.inc
 
-PR = "r2+svn${SRCPV}"
+PR = "r3+svn${SRCPV}"
 
 # Third digit in PV should be incremented after a minor release
 # happens from this branch on gcc e.g. currently its 4.7.1
@@ -40,6 +40,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 
 SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
 file://optional_libstdc.patch \
+file://drop-aarch64_simd_reg_or_zero-duplicate.patch \
 "
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SRC_BRANCH}"
