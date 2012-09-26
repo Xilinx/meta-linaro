@@ -1,0 +1,19 @@
+---
+ Makefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- git.orig/Makefile
++++ git/Makefile
+@@ -40,11 +40,11 @@ CHOSEN_NODE	:= chosen {						\
+ 			bootargs = $(BOOTARGS);				\
+ 			linux,initrd-start = <$(FILESYSTEM_START)>;	\
+ 			linux,initrd-end = <$(FILESYSTEM_END)>;		\
+ 		   };
+ else
+-BOOTARGS	:= "console=ttyAMA0 root=/dev/nfs nfsroot=10.1.69.68:/work/debootstrap/aarch64,tcp rw ip=dhcp $(BOOTARGS_EXTRA)"
++BOOTARGS	:= "console=ttyAMA0 root=/dev/mmcblk0 earlyprintk consolelog=9 rw $(BOOTARGS_EXTRA)"
+ CHOSEN_NODE	:= chosen {						\
+ 			bootargs = $(BOOTARGS);				\
+ 		   };
+ endif
+ 
