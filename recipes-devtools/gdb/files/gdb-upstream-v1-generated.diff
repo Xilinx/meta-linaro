@@ -7,7 +7,7 @@
 
 --- /dev/null
 +++ gdb-7.5/gdb/features/aarch64-without-fpu.c
-@@ -0,0 +1,53 @@
+@@ -0,0 +1,54 @@
 +/* THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi:set ro:
 +  Original: aarch64-without-fpu.xml */
 +
@@ -61,6 +61,7 @@
 +  tdesc_create_reg (feature, "cpsr", 33, 1, NULL, 32, "int");
 +
 +  tdesc_aarch64_without_fpu = result;
++}
 --- /dev/null
 +++ gdb-7.5/gdb/features/aarch64.c
 @@ -0,0 +1,174 @@
