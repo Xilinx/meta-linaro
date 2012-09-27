@@ -21,7 +21,7 @@ PR = "r4+svn${SRCPV}"
 
 DEFAULT_PREFERENCE_aarch64 = "1"
 
-BINV = "4.7.2"
+BINV = "4.7.3"
 
 SRCREV = "${AUTOREV}"
 BRANCH = "aarch64-4.7-branch"
