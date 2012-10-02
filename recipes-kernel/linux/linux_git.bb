@@ -34,6 +34,7 @@ do_compile_append() {
 }
 
 do_deploy_append() {
+	install -d ${DEPLOY_DIR_IMAGE}
 	install -m 0644 ${BW}/linux-system.axf ${DEPLOY_DIR_IMAGE}/linux-system-${KERNEL_IMAGE_BASE_NAME}.axf
 	cd ${DEPLOY_DIR_IMAGE}
 	ln -sf linux-system-${KERNEL_IMAGE_BASE_NAME}.axf linux-system.axf
