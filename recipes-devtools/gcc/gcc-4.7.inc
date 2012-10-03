@@ -1,6 +1,6 @@
 require gcc-common.inc
 
-PR = "r5+svn${SRCPV}"
+PR = "r13"
 
 # Third digit in PV should be incremented after a minor release
 # happens from this branch on gcc e.g. currently its 4.7.1
@@ -8,10 +8,7 @@ PR = "r5+svn${SRCPV}"
 # on branch then PV should be incremented to 4.7.2+svnr${SRCPV}
 # to reflect that change
 
-# using 4.7.1.0 for upgrade path when we move past 4.7.2 release
-# then we should drop the last 0 as well.
-
-#PV = "4.7.2"
+PV = "4.7.2"
 
 # BINV should be incremented after updating to a revision
 # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
@@ -19,13 +16,9 @@ PR = "r5+svn${SRCPV}"
 # 4.7.1 then the value below will have 2 which will mean 4.7.2
 # which will be next minor release and so on.
 
-DEFAULT_PREFERENCE_aarch64 = "1"
+BINV = "4.7.2"
 
-BINV = "4.7.3"
-
-SRCREV = "${AUTOREV}"
-BRANCH = "aarch64-4.7-branch"
-SRC_BRANCH = "ARM/${BRANCH}"
+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
 
 DEPENDS =+ "mpfr gmp libmpc"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
@@ -38,7 +31,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
-SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
+SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://100-uclibc-conf.patch \
            file://gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -81,10 +74,12 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
 	   file://ppc_no_crtsavres.patch \
 	   file://0001-crtstuff.c-USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch \
 	   file://0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch \
-"
+	  "
+SRC_URI[md5sum] = "cc308a0891e778cfda7a151ab8a6e762"
+SRC_URI[sha256sum] = "8a9283d7010fb9fe5ece3ca507e0af5c19412626384f8a5e9434251ae100b084"
 
-S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SRC_BRANCH}"
-B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
+S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
 
 # Language Overrides
 FORTRAN = ""
