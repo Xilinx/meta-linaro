@@ -27,10 +27,6 @@ echo "BBLAYERS += '`realpath $PWD/../openembedded-core/meta`'" >>conf/bblayers.c
 
 echo 'SCONF_VERSION = "1"'					 			>>conf/site.conf
 echo 'IMAGE_ROOTFS_ALIGNMENT = "2048"' 					>>conf/site.conf
-echo 'GCCVERSION    = "aarch64-4.7"' 					>>conf/site.conf
-echo 'SDKGCCVERSION = "aarch64-4.7"' 					>>conf/site.conf
-echo 'BINUVERSION = "2.23.51.20120918"'					>>conf/site.conf
-echo 'LINUXLIBCVERSION = "3.6.0"'      					>>conf/site.conf
 echo 'INHERIT += "rm_work"' 							>>conf/site.conf
 echo 'BB_GENERATE_MIRROR_TARBALLS = "True"' 			>>conf/site.conf
 echo 'MACHINE = "genericarmv8"'							>>conf/site.conf
