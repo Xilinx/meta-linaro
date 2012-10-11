@@ -1,9 +1,9 @@
 require recipes-devtools/gcc/gcc-4.7.inc
 require gcc-linaro-common-4.7.inc
 
-PR = "r4"
-RELEASE = "2012.06"
-BINV = "4.7.1"
+PR = "r5"
+RELEASE = "2012.10"
+BINV = "4.7.3"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}-${RELEASE}' ], d)}"
 
@@ -15,8 +15,8 @@ SRC_URI = "http://launchpad.net/gcc-linaro/${BASEPV}/${BASEPV}-${RELEASE}/+downl
 	   file://fix-g++-sysroot.patch \
 	  "
 
-SRC_URI[md5sum] = "d82f23f7feaad1721932481fe6fbc99c"
-SRC_URI[sha256sum] = "bf117a376d3a8c2f964bddd66787cea574c5c6d2e1d2695e7cb11816480949a0"
+SRC_URI[md5sum] = "a5ca87667350f1395d4da40c94ef059c"
+SRC_URI[sha256sum] = "74ef10e86fe3343e89a7e20f22f4f75b2403fa23e45e97441cc11898c9075e59"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
