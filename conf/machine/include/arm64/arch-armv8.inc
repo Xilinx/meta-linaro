@@ -17,7 +17,7 @@ PACKAGE_EXTRA_ARCHS += "aarch64"
 
 # toolchain bits which were in conf/site.conf
 
-GCCVERSION       = "aarch64-4.7" 
-SDKGCCVERSION    = "aarch64-4.7"
-BINUVERSION      = "2.23.51.20120920"
-LINUXLIBCVERSION = "3.6+git%"
+GCCVERSION       ?= "linaro-4.7"
+SDKGCCVERSION    ?= "linaro-4.7"
+BINUVERSION      ?= "2.23.51.20120920"
+LINUXLIBCVERSION ?= "3.6+git%"
