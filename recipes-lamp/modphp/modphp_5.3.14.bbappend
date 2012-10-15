@@ -1,0 +1,3 @@
+PACKAGECONFIG = "mysql"
+
+PRINC = "1"
