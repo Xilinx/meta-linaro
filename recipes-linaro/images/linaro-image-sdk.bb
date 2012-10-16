@@ -14,4 +14,5 @@ IMAGE_FEATURES += "\
 	tools-sdk \
 	ssh-server-openssh \
 	package-management \
+	ltp \
 	"
