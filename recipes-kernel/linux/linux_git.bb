@@ -2,7 +2,7 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "git://git.linaro.org/kernel/linaro-aarch64.git;branch=linaro-aarch64-3.6;name=kernel \
            git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
