@@ -17,6 +17,9 @@ while true; do
 
             tmp=${tty##$PORT,}
             SPEED=${tmp%%n*}
+
+            # if console=/dev/tty* without speed is given
+            [ $SPEED = $PORT ] && SPEED=115200
             BITS=${tmp##${SPEED}n}
 
             # 8bit serial is default
