@@ -6,6 +6,7 @@ IMAGE_INSTALL = "\
 	task-core-boot \
 	${ROOTFS_PKGMANAGE_BOOTSTRAP} \
 	${CORE_IMAGE_EXTRA_INSTALL} \
+	ltp \
 	"
 
 IMAGE_FEATURES += "\
@@ -14,5 +15,4 @@ IMAGE_FEATURES += "\
 	tools-sdk \
 	ssh-server-openssh \
 	package-management \
-	ltp \
 	"
