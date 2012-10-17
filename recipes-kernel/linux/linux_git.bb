@@ -2,7 +2,7 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r2"
+PR = "r3"
 
 SRC_URI = "git://git.linaro.org/kernel/linaro-aarch64.git;branch=linaro-aarch64-3.6;name=kernel \
            git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
@@ -44,10 +44,10 @@ do_compile_append() {
 }
 
 do_deploy_append() {
-	install -d ${DEPLOY_DIR_IMAGE}
-	install -m 0644 ${BW}/linux-system-ve.axf ${DEPLOY_DIR_IMAGE}/linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf
-	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOY_DIR_IMAGE}/linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
-	cd ${DEPLOY_DIR_IMAGE}
+	install -d ${DEPLOYDIR}
+	install -m 0644 ${BW}/linux-system-ve.axf ${DEPLOYDIR}/linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf
+	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOYDIR}/linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
+	cd ${DEPLOYDIR}
 	ln -sf linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-ve.axf
 	ln -sf linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-foundation.axf
 }
