@@ -1,1 +1,0 @@
-KEXECTOOLS_aarch64 ?= ""
