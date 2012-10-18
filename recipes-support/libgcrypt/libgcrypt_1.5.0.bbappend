@@ -1,4 +1,0 @@
-FULL_OPTIMIZATION_aarch64 = "-Os -pipe ${DEBUG_FLAGS}"
-BUILD_OPTIMIZATION_aarch64 = "-Os -pipe"
-
-INCPR = "1"
