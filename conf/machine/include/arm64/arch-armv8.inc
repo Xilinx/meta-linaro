@@ -19,5 +19,5 @@ PACKAGE_EXTRA_ARCHS += "aarch64"
 
 GCCVERSION       ?= "linaro-4.7"
 SDKGCCVERSION    ?= "linaro-4.7"
-BINUVERSION      ?= "2.23.51.20120920"
+BINUVERSION      ?= "2.23.51%"
 LINUXLIBCVERSION ?= "3.6+git%"
