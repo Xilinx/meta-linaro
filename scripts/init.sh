@@ -20,6 +20,7 @@ git clone git://git.openembedded.org/bitbake
 # add required layers
 
 echo "BBLAYERS = '`realpath $PWD/../meta-openembedded/meta-oe`'" >>conf/bblayers.conf 
+echo "BBLAYERS += '`realpath $PWD/../meta-openembedded/meta-webserver`'" >>conf/bblayers.conf 
 echo "BBLAYERS += '`realpath $PWD/../meta-openembedded/toolchain-layer`'" >>conf/bblayers.conf 
 echo "BBLAYERS += '`realpath $PWD/../meta-aarch64`'" >>conf/bblayers.conf
 echo "BBLAYERS += '`realpath $PWD/../meta-linaro`'" >>conf/bblayers.conf
@@ -43,7 +44,7 @@ echo 'INHERIT += "own-mirrors"' 								>>conf/site.conf
 
 # enable sstate mirror
 
-echo 'SSTATE_MIRRORS = "file://.* http://snapshots.linaro.org/openembedded/sstate-cache/"' >>conf/site.conf
+#echo 'SSTATE_MIRRORS = "file://.* http://snapshots.linaro.org/openembedded/sstate-cache/"' >>conf/site.conf
 
 # enable a distro feature that is compatible with the minimal goal we have
 
