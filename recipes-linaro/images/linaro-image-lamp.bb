@@ -9,4 +9,4 @@ IMAGE_INSTALL += "\
 	modphp \
 	"
 
-IMAGE_FEATURES += "package-management ssh-server-dropbear"
+IMAGE_FEATURES += "package-management ssh-server-openssh"
