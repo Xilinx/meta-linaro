@@ -7,6 +7,7 @@ IMAGE_INSTALL += "\
 	mysql5-server \
 	mysql5-client \
 	modphp \
+	sudo \
 	"
 
 IMAGE_FEATURES += "package-management ssh-server-openssh"
