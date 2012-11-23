@@ -1,6 +1,6 @@
 inherit core-image
 
-PR = "r1"
+PR = "r2"
 
 IMAGE_INSTALL += "\
 	apache2 \
@@ -8,6 +8,7 @@ IMAGE_INSTALL += "\
 	mysql5-client \
 	modphp \
 	sudo \
+	linaro-lava-tests \
 	"
 
 IMAGE_FEATURES += "package-management ssh-server-openssh"
