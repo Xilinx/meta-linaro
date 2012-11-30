@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "\
 	file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
 "
 
-PR = "r1"
+PR = "r2"
 
 inherit update-rc.d
 
@@ -32,6 +32,7 @@ S = "${WORKDIR}"
 INITSCRIPT_PACKAGES = "${PN} auto-console-login"
 INITSCRIPT_NAME_auto-serial-console = "auto-serial-console"
 INITSCRIPT_NAME_auto-console-login = "auto-console-login"
+INITSCRIPT_PARAMS = "start 99 5 ."
 
 do_install () {
 	install -m 0755 -d ${D}${sysconfdir}/default
