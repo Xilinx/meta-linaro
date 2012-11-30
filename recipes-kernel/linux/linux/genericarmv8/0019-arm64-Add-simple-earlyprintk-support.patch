@@ -1,0 +1,343 @@
+From 214dc67d9acb40bc4ba313137f5adb38409479b7 Mon Sep 17 00:00:00 2001
+From: Catalin Marinas <catalin.marinas@arm.com>
+Date: Tue, 23 Oct 2012 14:55:08 +0100
+Subject: [PATCH 19/19] arm64: Add simple earlyprintk support
+
+This patch adds support for "earlyprintk=" parameter on the kernel
+command line. The format is:
+
+  earlyprintk=<name>[,<addr>][,<options>]
+
+where <name> is the name of the (UART) device, e.g. "pl011", <addr> is
+the I/O address. The <options> aren't currently used.
+
+The mapping of the earlyprintk device is done very early during kernel
+boot and there are restrictions on which functions it can call. A
+special early_io_map() function is added which creates the mapping from
+the pre-defined EARLY_IOBASE to the device I/O address passed via the
+kernel parameter. The pgd entry corresponding to EARLY_IOBASE is
+pre-populated in head.S during kernel boot.
+
+Only PL011 is currently supported and it is assumed that the interface
+is already initialised by the boot loader before the kernel is started.
+
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ Documentation/arm64/memory.txt   |   2 +
+ arch/arm64/Kconfig.debug         |   9 +++
+ arch/arm64/include/asm/io.h      |   3 +
+ arch/arm64/include/asm/memory.h  |   1 +
+ arch/arm64/include/asm/mmu.h     |   1 +
+ arch/arm64/kernel/Makefile       |   1 +
+ arch/arm64/kernel/early_printk.c | 118 +++++++++++++++++++++++++++++++++++++++
+ arch/arm64/kernel/head.S         |  12 +++-
+ arch/arm64/mm/mmu.c              |  42 ++++++++++++++
+ 9 files changed, 187 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm64/kernel/early_printk.c
+
+diff --git a/Documentation/arm64/memory.txt b/Documentation/arm64/memory.txt
+index 4110cca9..23a1b8d 100644
+--- a/Documentation/arm64/memory.txt
++++ b/Documentation/arm64/memory.txt
+@@ -35,6 +35,8 @@ ffffffbc00000000	ffffffbdffffffff	   8GB		vmemmap
+ 
+ ffffffbe00000000	ffffffbffbbfffff	  ~8GB		[guard, future vmmemap]
+ 
++ffffffbffbc00000	ffffffbffbdfffff	   2MB		earlyprintk device
++
+ ffffffbffbe00000	ffffffbffbe0ffff	  64KB		PCI I/O space
+ 
+ ffffffbbffff0000	ffffffbcffffffff	  ~2MB		[guard]
+diff --git a/arch/arm64/Kconfig.debug b/arch/arm64/Kconfig.debug
+index d7553f2..79871cd 100644
+--- a/arch/arm64/Kconfig.debug
++++ b/arch/arm64/Kconfig.debug
+@@ -24,4 +24,13 @@ config DEBUG_STACK_USAGE
+ 	  Enables the display of the minimum amount of free stack which each
+ 	  task has ever had available in the sysrq-T output.
+ 
++config EARLY_PRINTK
++	bool "Early printk support"
++	default y
++	help
++	  Say Y here if you want to have an early console using the
++	  earlyprintk=<name>[,<addr>][,<options>] kernel parameter. It
++	  is assumed that the early console device has been initialised
++	  by the boot loader prior to starting the Linux kernel.
++
+ endmenu
+diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+index d2f05a6..57f12c9 100644
+--- a/arch/arm64/include/asm/io.h
++++ b/arch/arm64/include/asm/io.h
+@@ -230,6 +230,9 @@ extern void __iounmap(volatile void __iomem *addr);
+ #define ioremap_wc(addr, size)		__ioremap((addr), (size), __pgprot(PROT_NORMAL_NC))
+ #define iounmap				__iounmap
+ 
++#define PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF)
++#define PROT_SECT_DEVICE_nGnRE	(PROT_SECT_DEFAULT | PTE_PXN | PTE_UXN | PMD_ATTRINDX(MT_DEVICE_nGnRE))
++
+ #define ARCH_HAS_IOREMAP_WC
+ #include <asm-generic/iomap.h>
+ 
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 1cac16a..381f556 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -43,6 +43,7 @@
+ #define PAGE_OFFSET		UL(0xffffffc000000000)
+ #define MODULES_END		(PAGE_OFFSET)
+ #define MODULES_VADDR		(MODULES_END - SZ_64M)
++#define EARLYCON_IOBASE		(MODULES_VADDR - SZ_4M)
+ #define VA_BITS			(39)
+ #define TASK_SIZE_64		(UL(1) << VA_BITS)
+ 
+diff --git a/arch/arm64/include/asm/mmu.h b/arch/arm64/include/asm/mmu.h
+index d4f7fd5..2494fc0 100644
+--- a/arch/arm64/include/asm/mmu.h
++++ b/arch/arm64/include/asm/mmu.h
+@@ -26,5 +26,6 @@ typedef struct {
+ 
+ extern void paging_init(void);
+ extern void setup_mm_for_reboot(void);
++extern void __iomem *early_io_map(phys_addr_t phys, unsigned long virt);
+ 
+ #endif
+diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+index e2caff1..623c098 100644
+--- a/arch/arm64/kernel/Makefile
++++ b/arch/arm64/kernel/Makefile
+@@ -16,6 +16,7 @@ arm64-obj-$(CONFIG_MODULES)		+= arm64ksyms.o module.o
+ arm64-obj-$(CONFIG_SMP)			+= smp.o
+ arm64-obj-$(CONFIG_HW_PERF_EVENTS)	+= perf_event.o
+ arm64-obj-$(CONFIG_HAVE_HW_BREAKPOINT)+= hw_breakpoint.o
++arm64-obj-$(CONFIG_EARLY_PRINTK)	+= early_printk.o
+ 
+ obj-y					+= $(arm64-obj-y) vdso/
+ obj-m					+= $(arm64-obj-m)
+diff --git a/arch/arm64/kernel/early_printk.c b/arch/arm64/kernel/early_printk.c
+new file mode 100644
+index 0000000..7e320a2
+--- /dev/null
++++ b/arch/arm64/kernel/early_printk.c
+@@ -0,0 +1,118 @@
++/*
++ * Earlyprintk support.
++ *
++ * Copyright (C) 2012 ARM Ltd.
++ * Author: Catalin Marinas <catalin.marinas@arm.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++#include <linux/kernel.h>
++#include <linux/console.h>
++#include <linux/init.h>
++#include <linux/string.h>
++#include <linux/mm.h>
++#include <linux/io.h>
++
++#include <linux/amba/serial.h>
++
++static void __iomem *early_base;
++static void (*printch)(char ch);
++
++/*
++ * PL011 single character TX.
++ */
++static void pl011_printch(char ch)
++{
++	while (readl_relaxed(early_base + UART01x_FR) & UART01x_FR_TXFF)
++		;
++	writeb_relaxed(ch, early_base + UART01x_DR);
++	while (readl_relaxed(early_base + UART01x_FR) & UART01x_FR_BUSY)
++		;
++}
++
++struct earlycon_match {
++	const char *name;
++	void (*printch)(char ch);
++};
++
++static const struct earlycon_match earlycon_match[] __initconst = {
++	{ .name = "pl011", .printch = pl011_printch, },
++	{}
++};
++
++static void early_write(struct console *con, const char *s, unsigned n)
++{
++	while (n-- > 0) {
++		if (*s == '\n')
++			printch('\r');
++		printch(*s);
++		s++;
++	}
++}
++
++static struct console early_console = {
++	.name =		"earlycon",
++	.write =	early_write,
++	.flags =	CON_PRINTBUFFER | CON_BOOT,
++	.index =	-1,
++};
++
++/*
++ * Parse earlyprintk=... parameter in the format:
++ *
++ *   <name>[,<addr>][,<options>]
++ *
++ * and register the early console. It is assumed that the UART has been
++ * initialised by the bootloader already.
++ */
++static int __init setup_early_printk(char *buf)
++{
++	const struct earlycon_match *match = earlycon_match;
++	phys_addr_t paddr = 0;
++
++	if (!buf) {
++		pr_warning("No earlyprintk arguments passed.\n");
++		return 0;
++	}
++
++	while (match->name) {
++		size_t len = strlen(match->name);
++		if (!strncmp(buf, match->name, len)) {
++			buf += len;
++			break;
++		}
++		match++;
++	}
++	if (!match->name) {
++		pr_warning("Unknown earlyprintk arguments: %s\n", buf);
++		return 0;
++	}
++
++	/* I/O address */
++	if (!strncmp(buf, ",0x", 3)) {
++		char *e;
++		paddr = simple_strtoul(buf + 1, &e, 16);
++		buf = e;
++	}
++	/* no options parsing yet */
++
++	if (paddr)
++		early_base = early_io_map(paddr, EARLYCON_IOBASE);
++
++	printch = match->printch;
++	register_console(&early_console);
++
++	return 0;
++}
++
++early_param("earlyprintk", setup_early_printk);
+diff --git a/arch/arm64/kernel/head.S b/arch/arm64/kernel/head.S
+index a2f02b6..4fcc379 100644
+--- a/arch/arm64/kernel/head.S
++++ b/arch/arm64/kernel/head.S
+@@ -81,10 +81,8 @@
+ 
+ #ifdef CONFIG_ARM64_64K_PAGES
+ #define MM_MMUFLAGS	PTE_ATTRINDX(MT_NORMAL) | PTE_FLAGS
+-#define IO_MMUFLAGS	PTE_ATTRINDX(MT_DEVICE_nGnRE) | PTE_XN | PTE_FLAGS
+ #else
+ #define MM_MMUFLAGS	PMD_ATTRINDX(MT_NORMAL) | PMD_FLAGS
+-#define IO_MMUFLAGS	PMD_ATTRINDX(MT_DEVICE_nGnRE) | PMD_SECT_XN | PMD_FLAGS
+ #endif
+ 
+ /*
+@@ -341,6 +339,7 @@ ENDPROC(__calc_phys_offset)
+  *   - identity mapping to enable the MMU (low address, TTBR0)
+  *   - first few MB of the kernel linear mapping to jump to once the MMU has
+  *     been enabled, including the FDT blob (TTBR1)
++ *   - UART mapping if CONFIG_EARLY_PRINTK is enabled (TTBR1)
+  */
+ __create_page_tables:
+ 	pgtbl	x25, x26, x24			// idmap_pg_dir and swapper_pg_dir addresses
+@@ -393,6 +392,15 @@ __create_page_tables:
+ 	sub	x6, x6, #1			// inclusive range
+ 	create_block_map x0, x7, x3, x5, x6
+ 1:
++#ifdef CONFIG_EARLY_PRINTK
++	/*
++	 * Create the pgd entry for the UART mapping. The full mapping is done
++	 * later based earlyprintk kernel parameter.
++	 */
++	ldr	x5, =EARLYCON_IOBASE		// UART virtual address
++	add	x0, x26, #2 * PAGE_SIZE		// section table address
++	create_pgd_entry x26, x0, x5, x6, x7
++#endif
+ 	ret
+ ENDPROC(__create_page_tables)
+ 	.ltorg
+diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+index a6885d8..f4dd585 100644
+--- a/arch/arm64/mm/mmu.c
++++ b/arch/arm64/mm/mmu.c
+@@ -25,6 +25,7 @@
+ #include <linux/nodemask.h>
+ #include <linux/memblock.h>
+ #include <linux/fs.h>
++#include <linux/io.h>
+ 
+ #include <asm/cputype.h>
+ #include <asm/sections.h>
+@@ -251,6 +252,47 @@ static void __init create_mapping(phys_addr_t phys, unsigned long virt,
+ 	} while (pgd++, addr = next, addr != end);
+ }
+ 
++#ifdef CONFIG_EARLY_PRINTK
++/*
++ * Create an early I/O mapping using the pgd/pmd entries already populated
++ * in head.S as this function is called too early to allocated any memory. The
++ * mapping size is 2MB with 4KB pages or 64KB or 64KB pages.
++ */
++void __iomem * __init early_io_map(phys_addr_t phys, unsigned long virt)
++{
++	unsigned long size, mask;
++	bool page64k = IS_ENABLED(ARM64_64K_PAGES);
++	pgd_t *pgd;
++	pud_t *pud;
++	pmd_t *pmd;
++	pte_t *pte;
++
++	/*
++	 * No early pte entries with !ARM64_64K_PAGES configuration, so using
++	 * sections (pmd).
++	 */
++	size = page64k ? PAGE_SIZE : SECTION_SIZE;
++	mask = ~(size - 1);
++
++	pgd = pgd_offset_k(virt);
++	pud = pud_offset(pgd, virt);
++	if (pud_none(*pud))
++		return NULL;
++	pmd = pmd_offset(pud, virt);
++
++	if (page64k) {
++		if (pmd_none(*pmd))
++			return NULL;
++		pte = pte_offset_kernel(pmd, virt);
++		set_pte(pte, __pte((phys & mask) | PROT_DEVICE_nGnRE));
++	} else {
++		set_pmd(pmd, __pmd((phys & mask) | PROT_SECT_DEVICE_nGnRE));
++	}
++
++	return (void __iomem *)((virt & mask) + (phys & ~mask));
++}
++#endif
++
+ static void __init map_mem(void)
+ {
+ 	struct memblock_region *reg;
+-- 
+1.8.0
+

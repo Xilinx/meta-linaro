@@ -1,0 +1,125 @@
+From 8e620b0476696e9428442d3551f3dad47df0e28f Mon Sep 17 00:00:00 2001
+From: Catalin Marinas <catalin.marinas@arm.com>
+Date: Thu, 15 Nov 2012 17:21:16 +0000
+Subject: [PATCH] arm64: Distinguish between user and kernel XN bits
+
+On AArch64, the meaning of the XN bit has changed to UXN (user). The PXN
+(privileged) bit must be set to prevent kernel execution. Without the
+PXN bit set, the CPU may speculatively access device memory. This patch
+ensures that all the mappings that the kernel must not execute from
+(including user mappings) have the PXN bit set.
+
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ arch/arm64/include/asm/io.h            |  2 +-
+ arch/arm64/include/asm/pgtable-hwdef.h |  6 +++--
+ arch/arm64/include/asm/pgtable.h       | 40 +++++++++++++++++-----------------
+ 3 files changed, 25 insertions(+), 23 deletions(-)
+
+diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+index 54f6116..d2f05a6 100644
+--- a/arch/arm64/include/asm/io.h
++++ b/arch/arm64/include/asm/io.h
+@@ -222,7 +222,7 @@ extern void __iomem *__ioremap(phys_addr_t phys_addr, size_t size, pgprot_t prot
+ extern void __iounmap(volatile void __iomem *addr);
+ 
+ #define PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF | PTE_DIRTY)
+-#define PROT_DEVICE_nGnRE	(PROT_DEFAULT | PTE_XN | PTE_ATTRINDX(MT_DEVICE_nGnRE))
++#define PROT_DEVICE_nGnRE	(PROT_DEFAULT | PTE_PXN | PTE_UXN | PTE_ATTRINDX(MT_DEVICE_nGnRE))
+ #define PROT_NORMAL_NC		(PROT_DEFAULT | PTE_ATTRINDX(MT_NORMAL_NC))
+ 
+ #define ioremap(addr, size)		__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
+diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
+index 0f3b458..75fd13d 100644
+--- a/arch/arm64/include/asm/pgtable-hwdef.h
++++ b/arch/arm64/include/asm/pgtable-hwdef.h
+@@ -38,7 +38,8 @@
+ #define PMD_SECT_S		(_AT(pmdval_t, 3) << 8)
+ #define PMD_SECT_AF		(_AT(pmdval_t, 1) << 10)
+ #define PMD_SECT_NG		(_AT(pmdval_t, 1) << 11)
+-#define PMD_SECT_XN		(_AT(pmdval_t, 1) << 54)
++#define PMD_SECT_PXN		(_AT(pmdval_t, 1) << 53)
++#define PMD_SECT_UXN		(_AT(pmdval_t, 1) << 54)
+ 
+ /*
+  * AttrIndx[2:0] encoding (mapping attributes defined in the MAIR* registers).
+@@ -57,7 +58,8 @@
+ #define PTE_SHARED		(_AT(pteval_t, 3) << 8)		/* SH[1:0], inner shareable */
+ #define PTE_AF			(_AT(pteval_t, 1) << 10)	/* Access Flag */
+ #define PTE_NG			(_AT(pteval_t, 1) << 11)	/* nG */
+-#define PTE_XN			(_AT(pteval_t, 1) << 54)	/* XN */
++#define PTE_PXN			(_AT(pteval_t, 1) << 53)	/* Privileged XN */
++#define PTE_UXN			(_AT(pteval_t, 1) << 54)	/* User XN */
+ 
+ /*
+  * AttrIndx[2:0] encoding (mapping attributes defined in the MAIR* registers).
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index 8960239..14aba2d 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -62,23 +62,23 @@ extern pgprot_t pgprot_default;
+ 
+ #define _MOD_PROT(p, b)	__pgprot(pgprot_val(p) | (b))
+ 
+-#define PAGE_NONE		_MOD_PROT(pgprot_default, PTE_NG | PTE_XN | PTE_RDONLY)
+-#define PAGE_SHARED		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_XN)
+-#define PAGE_SHARED_EXEC	_MOD_PROT(pgprot_default, PTE_USER | PTE_NG)
+-#define PAGE_COPY		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_XN | PTE_RDONLY)
+-#define PAGE_COPY_EXEC		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_RDONLY)
+-#define PAGE_READONLY		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_XN | PTE_RDONLY)
+-#define PAGE_READONLY_EXEC	_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_RDONLY)
+-#define PAGE_KERNEL		_MOD_PROT(pgprot_default, PTE_XN | PTE_DIRTY)
+-#define PAGE_KERNEL_EXEC	_MOD_PROT(pgprot_default, PTE_DIRTY)
+-
+-#define __PAGE_NONE		__pgprot(_PAGE_DEFAULT | PTE_NG | PTE_XN | PTE_RDONLY)
+-#define __PAGE_SHARED		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_XN)
+-#define __PAGE_SHARED_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG)
+-#define __PAGE_COPY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_XN | PTE_RDONLY)
+-#define __PAGE_COPY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_RDONLY)
+-#define __PAGE_READONLY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_XN | PTE_RDONLY)
+-#define __PAGE_READONLY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_RDONLY)
++#define PAGE_NONE		_MOD_PROT(pgprot_default, PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define PAGE_SHARED		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN | PTE_UXN)
++#define PAGE_SHARED_EXEC	_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN)
++#define PAGE_COPY		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define PAGE_COPY_EXEC		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN | PTE_RDONLY)
++#define PAGE_READONLY		_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define PAGE_READONLY_EXEC	_MOD_PROT(pgprot_default, PTE_USER | PTE_NG | PTE_PXN | PTE_RDONLY)
++#define PAGE_KERNEL		_MOD_PROT(pgprot_default, PTE_PXN | PTE_UXN | PTE_DIRTY)
++#define PAGE_KERNEL_EXEC	_MOD_PROT(pgprot_default, PTE_UXN | PTE_DIRTY)
++
++#define __PAGE_NONE		__pgprot(_PAGE_DEFAULT | PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define __PAGE_SHARED		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN)
++#define __PAGE_SHARED_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN)
++#define __PAGE_COPY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define __PAGE_COPY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_RDONLY)
++#define __PAGE_READONLY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN | PTE_RDONLY)
++#define __PAGE_READONLY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_RDONLY)
+ 
+ #endif /* __ASSEMBLY__ */
+ 
+@@ -130,10 +130,10 @@ extern struct page *empty_zero_page;
+ #define pte_young(pte)		(pte_val(pte) & PTE_AF)
+ #define pte_special(pte)	(pte_val(pte) & PTE_SPECIAL)
+ #define pte_write(pte)		(!(pte_val(pte) & PTE_RDONLY))
+-#define pte_exec(pte)		(!(pte_val(pte) & PTE_XN))
++#define pte_exec(pte)		(!(pte_val(pte) & PTE_UXN))
+ 
+ #define pte_present_exec_user(pte) \
+-	((pte_val(pte) & (PTE_VALID | PTE_USER | PTE_XN)) == \
++	((pte_val(pte) & (PTE_VALID | PTE_USER | PTE_UXN)) == \
+ 	 (PTE_VALID | PTE_USER))
+ 
+ #define PTE_BIT_FUNC(fn,op) \
+@@ -262,7 +262,7 @@ static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
+ 
+ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+ {
+-	const pteval_t mask = PTE_USER | PTE_XN | PTE_RDONLY;
++	const pteval_t mask = PTE_USER | PTE_PXN | PTE_UXN | PTE_RDONLY;
+ 	pte_val(pte) = (pte_val(pte) & ~mask) | (pgprot_val(newprot) & mask);
+ 	return pte;
+ }
+-- 
+1.8.0
+

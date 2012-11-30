@@ -2,9 +2,9 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r3"
+PR = "r0"
 
-SRC_URI = "git://git.linaro.org/kernel/linaro-aarch64.git;branch=linaro-aarch64-3.6;name=kernel \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git;name=kernel \
            git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
 "
 
@@ -12,13 +12,24 @@ SRCREV_FORMAT = "kernel"
 
 S = "${WORKDIR}/git"
 
-SRCREV = "${AUTOREV}"
+SRCREV_kernel = "e9296e89b85604862bd9ec2d54dc43edad775c0d"
+SRCREV_bootwrapper = "${AUTOREV}"
 
-PV = "3.6.0+git${SRCPV}"
+PV = "3.7.0+rc7+git${SRCPV}"
 
 COMPATIBLE_HOST = "aarch64"
 
-SRC_URI += "file://defconfig"
+SRC_URI += "file://defconfig \
+            file://0001-arm64-versatile-express-foundation-device-tree.patch \
+            file://0007-arm64-Force-use-of-common-clk-at-architecture-level.patch \
+            file://0008-arm64-Include-the-clkdev.h-generic-header.patch \
+            file://0014-mmc-mmci-use-io-read-write-_rep-accessors-instead-of.patch \
+            file://0015-net-smc91x-use-io-read-write-_rep-accessors-instead-.patch \
+            file://0016-irqchip-Add-ARM-Generic-Interrupt-Controller-support.patch \
+            file://0017-arm64-ARMv8-software-model-SoC-support.patch \
+            file://0018-arm64-Add-CLCD-support-to-the-ARMv8-model-platform.patch \
+            file://0019-arm64-Add-simple-earlyprintk-support.patch \
+            "
 
 KERNEL_IMAGETYPE = "Image"
 
