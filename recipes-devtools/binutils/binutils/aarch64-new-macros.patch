@@ -1,0 +1,274 @@
+From binutils-return-77988-listarch-binutils=sources dot redhat dot com at sourceware dot org Thu Nov 15 16:29:39 2012
+Return-Path: <binutils-return-77988-listarch-binutils=sources dot redhat dot com at sourceware dot org>
+Delivered-To: listarch-binutils at sources dot redhat dot com
+Received: (qmail 14195 invoked by alias); 15 Nov 2012 16:29:35 -0000
+Received: (qmail 14185 invoked by uid 22791); 15 Nov 2012 16:29:31 -0000
+X-SWARE-Spam-Status: No, hits=-2.0 required=5.0	tests=AWL,BAYES_00,KHOP_RCVD_UNTRUST,RCVD_IN_DNSWL_LOW,TW_OC
+X-Spam-Check-By: sourceware.org
+Received: from service87.mimecast.com (HELO service87.mimecast.com) (91.220.42.44)    by sourceware.org (qpsmtpd/0.43rc1) with ESMTP; Thu, 15 Nov 2012 16:29:25 +0000
+Received: from cam-owa1.Emea.Arm.com (fw-tnat.cambridge.arm.com [217.140.96.21]) by service87.mimecast.com; Thu, 15 Nov 2012 16:29:23 +0000
+Received: from [10.1.69.62] ([10.1.255.212]) by cam-owa1.Emea.Arm.com with Microsoft SMTPSVC(6.0.3790.0);	 Thu, 15 Nov 2012 16:29:22 +0000
+Message-ID: <50A51861.2060807@arm.com>
+Date: Thu, 15 Nov 2012 16:29:21 +0000
+From: Yufeng Zhang <Yufeng dot Zhang at arm dot com>
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:8.0) Gecko/20111105 Thunderbird/8.0
+MIME-Version: 1.0
+To: "binutils at sourceware dot org" <binutils at sourceware dot org>
+Subject: [Patch, ARM/AArch64] Add new elf note types
+X-MC-Unique: 112111516292303901
+Content-Type: multipart/mixed; boundary="------------090900070806030107000507"
+X-IsSubscribed: yes
+Mailing-List: contact binutils-help at sourceware dot org; run by ezmlm
+Precedence: bulk
+List-Id: <binutils.sourceware.org>
+List-Subscribe: <mailto:binutils-subscribe at sourceware dot org>
+List-Archive: <http://sourceware.org/ml/binutils/>
+List-Post: <mailto:binutils at sourceware dot org>
+List-Help: <mailto:binutils-help at sourceware dot org>, <http://sourceware dot org/ml/#faqs>
+Sender: binutils-owner at sourceware dot org
+Delivered-To: mailing list binutils at sourceware dot org
+
+This is a multi-part message in MIME format.
+--------------090900070806030107000507
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+This patch adds support for three ARM elf note types in bfd and readelf.
+
+Is it OK to commit it?
+
+Thanks,
+Yufeng
+
+
+include/elf/
+
+2012-11-15  Yufeng Zhang  <yufeng.zhang@arm.com>
+
+         * common.h (NT_ARM_TLS, NT_ARM_HW_BREAK, NT_ARM_HW_WATCH): New
+macro
+         definitions.
+
+bfd/
+
+2012-11-15  Yufeng Zhang  <yufeng.zhang@arm.com>
+
+         * elf-bfd.h (elfcore_write_arm_tls): Add prototype.
+         (elfcore_write_arm_hw_break): Likewise.
+         (elfcore_write_arm_hw_watch): Likewise.
+         * elf.c (elfcore_grok_arm_tls): New function.
+         (elfcore_grok_arm_hw_break): Likewise.
+         (elfcore_grok_arm_hw_watch): Likewise.
+         (elfcore_grok_note): Call the new functions to handle the
+         corresponding notes.
+         (elfcore_write_arm_tls): New function.
+         (elfcore_write_arm_hw_break): Likewise.
+         (elfcore_write_arm_hw_watch): Likewise.
+         (elfcore_write_register_note): Call the new functions to handle the
+         corresponding pseudo sections.
+
+binutils/
+
+2012-11-15  Yufeng Zhang  <yufeng.zhang@arm.com>
+
+         * readelf.c (get_note_type): Handle NT_ARM_TLS, NT_ARM_HW_BREAK
+         and NT_ARM_HW_WATCH.
+--------------090900070806030107000507
+Content-Type: text/x-patch; name=aarch64-new-elf-note-types.patch
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="aarch64-new-elf-note-types.patch"
+
+---
+ bfd/elf-bfd.h        |    6 +++
+ bfd/elf.c            |   81 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ binutils/readelf.c   |    6 +++
+ include/elf/common.h |    6 +++
+ 4 files changed, 99 insertions(+)
+
+--- git.orig/bfd/elf-bfd.h
++++ git/bfd/elf-bfd.h
+@@ -2267,10 +2267,16 @@ extern char *elfcore_write_s390_last_bre
+   (bfd *, char *, int *, const void *, int);
+ extern char *elfcore_write_s390_system_call
+   (bfd *, char *, int *, const void *, int);
+ extern char *elfcore_write_arm_vfp
+   (bfd *, char *, int *, const void *, int);
++extern char *elfcore_write_arm_tls
++  (bfd *, char *, int *, const void *, int);
++extern char *elfcore_write_arm_hw_break
++  (bfd *, char *, int *, const void *, int);
++extern char *elfcore_write_arm_hw_watch
++  (bfd *, char *, int *, const void *, int);
+ extern char *elfcore_write_lwpstatus
+   (bfd *, char *, int *, long, int, const void *);
+ extern char *elfcore_write_register_note
+   (bfd *, char *, int *, const char *, const void *, int);
+ 
+--- git.orig/bfd/elf.c
++++ git/bfd/elf.c
+@@ -8158,10 +8158,28 @@ static bfd_boolean
+ elfcore_grok_arm_vfp (bfd *abfd, Elf_Internal_Note *note)
+ {
+   return elfcore_make_note_pseudosection (abfd, ".reg-arm-vfp", note);
+ }
+ 
++static bfd_boolean
++elfcore_grok_arm_tls (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-arm-tls", note);
++}
++
++static bfd_boolean
++elfcore_grok_arm_hw_break (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-arm-hw-break", note);
++}
++
++static bfd_boolean
++elfcore_grok_arm_hw_watch (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-arm-hw-watch", note);
++}
++
+ #if defined (HAVE_PRPSINFO_T)
+ typedef prpsinfo_t   elfcore_psinfo_t;
+ #if defined (HAVE_PRPSINFO32_T)		/* Sparc64 cross Sparc32 */
+ typedef prpsinfo32_t elfcore_psinfo32_t;
+ #endif
+@@ -8598,10 +8616,31 @@ elfcore_grok_note (bfd *abfd, Elf_Intern
+ 	  && strcmp (note->namedata, "LINUX") == 0)
+ 	return elfcore_grok_arm_vfp (abfd, note);
+       else
+ 	return TRUE;
+ 
++    case NT_ARM_TLS:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_arm_tls (abfd, note);
++      else
++	return TRUE;
++
++    case NT_ARM_HW_BREAK:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_arm_hw_break (abfd, note);
++      else
++	return TRUE;
++
++    case NT_ARM_HW_WATCH:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_arm_hw_watch (abfd, note);
++      else
++	return TRUE;
++
+     case NT_PRPSINFO:
+     case NT_PSINFO:
+       if (bed->elf_backend_grok_psinfo)
+ 	if ((*bed->elf_backend_grok_psinfo) (abfd, note))
+ 	  return TRUE;
+@@ -9398,10 +9437,46 @@ elfcore_write_arm_vfp (bfd *abfd,
+   return elfcore_write_note (abfd, buf, bufsiz,
+ 			     note_name, NT_ARM_VFP, arm_vfp, size);
+ }
+ 
+ char *
++elfcore_write_arm_tls (bfd *abfd,
++		       char *buf,
++		       int *bufsiz,
++		       const void *arm_tls,
++		       int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_ARM_TLS, arm_tls, size);
++}
++
++char *
++elfcore_write_arm_hw_break (bfd *abfd,
++			    char *buf,
++			    int *bufsiz,
++			    const void *arm_hw_break,
++			    int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_ARM_HW_BREAK, arm_hw_break, size);
++}
++
++char *
++elfcore_write_arm_hw_watch (bfd *abfd,
++			    char *buf,
++			    int *bufsiz,
++			    const void *arm_hw_watch,
++			    int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_ARM_HW_WATCH, arm_hw_watch, size);
++}
++
++char *
+ elfcore_write_register_note (bfd *abfd,
+ 			     char *buf,
+ 			     int *bufsiz,
+ 			     const char *section,
+ 			     const void *data,
+@@ -9433,10 +9508,16 @@ elfcore_write_register_note (bfd *abfd,
+     return elfcore_write_s390_last_break (abfd, buf, bufsiz, data, size);
+   if (strcmp (section, ".reg-s390-system-call") == 0)
+     return elfcore_write_s390_system_call (abfd, buf, bufsiz, data, size);
+   if (strcmp (section, ".reg-arm-vfp") == 0)
+     return elfcore_write_arm_vfp (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-arm-tls") == 0)
++    return elfcore_write_arm_tls (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-arm-hw-break") == 0)
++    return elfcore_write_arm_hw_break (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-arm-hw-watch") == 0)
++    return elfcore_write_arm_hw_watch (abfd, buf, bufsiz, data, size);
+   return NULL;
+ }
+ 
+ static bfd_boolean
+ elf_parse_notes (bfd *abfd, char *buf, size_t size, file_ptr offset)
+--- git.orig/binutils/readelf.c
++++ git/binutils/readelf.c
+@@ -12801,10 +12801,16 @@ get_note_type (unsigned e_type)
+ 	return _("NT_S390_CTRS (s390 control registers)");
+       case NT_S390_PREFIX:
+ 	return _("NT_S390_PREFIX (s390 prefix register)");
+       case NT_ARM_VFP:
+ 	return _("NT_ARM_VFP (arm VFP registers)");
++      case NT_ARM_TLS:
++	return _("NT_ARM_TLS (arm TLS registers)");
++      case NT_ARM_HW_BREAK:
++	return _("NT_ARM_HW_BREAK (arm hardware breakpoint registers)");
++      case NT_ARM_HW_WATCH:
++	return _("NT_ARM_HW_WATCH (arm hardware watchpoint registers)");
+       case NT_PSTATUS:
+ 	return _("NT_PSTATUS (pstatus structure)");
+       case NT_FPREGS:
+ 	return _("NT_FPREGS (floating point registers)");
+       case NT_PSINFO:
+--- git.orig/include/elf/common.h
++++ git/include/elf/common.h
+@@ -551,10 +551,16 @@
+ 					/*   note name must be "LINUX".  */
+ #define NT_S390_SYSTEM_CALL     0x307   /* S390 system call restart data */
+ 					/*   note name must be "LINUX".  */
+ #define NT_ARM_VFP	0x400		/* ARM VFP registers */
+ 					/*   note name must be "LINUX".  */
++#define NT_ARM_TLS	0x401		/* ARM TLS registers */
++					/*   note name must be "LINUX".  */
++#define NT_ARM_HW_BREAK	0x402		/* ARM hardware breakpoint registers */
++					/*   note name must be "LINUX".  */
++#define NT_ARM_HW_WATCH	0x403		/* ARM hardware watchpoint registers */
++					/*   note name must be "LINUX".  */
+ #define NT_SIGINFO	0x53494749	/* Fields of siginfo_t.  */
+ #define NT_FILE		0x46494c45	/* Description of mapped files.  */
+ 
+ /* Note segments for core files on dir-style procfs systems.  */
+ 

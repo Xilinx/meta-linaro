@@ -1,0 +1,110 @@
+From binutils-return-77989-listarch-binutils=sources dot redhat dot com at sourceware dot org Thu Nov 15 17:52:43 2012
+Return-Path: <binutils-return-77989-listarch-binutils=sources dot redhat dot com at sourceware dot org>
+Delivered-To: listarch-binutils at sources dot redhat dot com
+Received: (qmail 21430 invoked by alias); 15 Nov 2012 17:52:41 -0000
+Received: (qmail 21421 invoked by uid 22791); 15 Nov 2012 17:52:40 -0000
+X-SWARE-Spam-Status: No, hits=-2.1 required=5.0	tests=AWL,BAYES_00,KHOP_RCVD_UNTRUST,RCVD_IN_DNSWL_LOW
+X-Spam-Check-By: sourceware.org
+Received: from service87.mimecast.com (HELO service87.mimecast.com) (91.220.42.44)    by sourceware.org (qpsmtpd/0.43rc1) with ESMTP; Thu, 15 Nov 2012 17:52:32 +0000
+Received: from cam-owa1.Emea.Arm.com (fw-tnat.cambridge.arm.com [217.140.96.21]) by service87.mimecast.com; Thu, 15 Nov 2012 17:52:31 +0000
+Received: from [10.1.69.62] ([10.1.255.212]) by cam-owa1.Emea.Arm.com with Microsoft SMTPSVC(6.0.3790.0);	 Thu, 15 Nov 2012 17:52:31 +0000
+Message-ID: <50A52BDE.8000007@arm.com>
+Date: Thu, 15 Nov 2012 17:52:30 +0000
+From: Yufeng Zhang <Yufeng dot Zhang at arm dot com>
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:8.0) Gecko/20111105 Thunderbird/8.0
+MIME-Version: 1.0
+To: "binutils at sourceware dot org" <binutils at sourceware dot org>
+Subject: [Patch, AArch64] Define elf_backend_grok_prstatus
+X-MC-Unique: 112111517523102501
+Content-Type: multipart/mixed; boundary="------------050509090407050807080604"
+X-IsSubscribed: yes
+Mailing-List: contact binutils-help at sourceware dot org; run by ezmlm
+Precedence: bulk
+List-Id: <binutils.sourceware.org>
+List-Subscribe: <mailto:binutils-subscribe at sourceware dot org>
+List-Archive: <http://sourceware.org/ml/binutils/>
+List-Post: <mailto:binutils at sourceware dot org>
+List-Help: <mailto:binutils-help at sourceware dot org>, <http://sourceware dot org/ml/#faqs>
+Sender: binutils-owner at sourceware dot org
+Delivered-To: mailing list binutils at sourceware dot org
+
+This is a multi-part message in MIME format.
+--------------050509090407050807080604
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+This patch defines elf_backend_grok_prstatus for the AArch64 port.  OK=20
+to commit?
+
+Thanks,
+Yufeng
+
+
+bfd/
+
+2012-11-15  Yufeng Zhang  <yufeng.zhang@arm.com>
+
+	* elf64-aarch64.c (elf64_aarch64_grok_prstatus): New function.
+	(elf_backend_grok_prstatus): Define to elf64_aarch64_grok_prstatus.
+--------------050509090407050807080604
+Content-Type: text/x-patch; name=aarch64-grok-prstatus.patch
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="aarch64-grok-prstatus.patch"
+
+diff --git a/bfd/elf64-aarch64.c b/bfd/elf64-aarch64.c
+index 423fb9b..708b362 100644
+--- a/bfd/elf64-aarch64.c
++++ b/bfd/elf64-aarch64.c
+@@ -1516,11 +1516,47 @@ elf64_aarch64_reloc_name_lookup (bfd *abfd ATTRIBUTE_UNUSED,
+   return NULL;
+ }
+
++/* Support for core dump NOTE sections.  */
++
++static bfd_boolean
++elf64_aarch64_grok_prstatus (bfd *abfd, Elf_Internal_Note *note)
++{
++  int offset;
++  size_t size;
++
++  switch (note->descsz)
++    {
++      default:
++	return FALSE;
++
++      case 408:		/* sizeof(struct elf_prstatus) on Linux/arm64.  */
++	/* pr_cursig */
++	elf_tdata (abfd)->core_signal
++	  = bfd_get_16 (abfd, note->descdata + 12);
++
++	/* pr_pid */
++	elf_tdata (abfd)->core_lwpid
++	  = bfd_get_32 (abfd, note->descdata + 32);
++
++	/* pr_reg */
++	offset = 112;
++	size = 288;
++
++	break;
++    }
++
++  /* Make a ".reg/999" section.  */
++  return _bfd_elfcore_make_pseudosection (abfd, ".reg",
++					  size, note->descpos + offset);
++}
++
+ #define TARGET_LITTLE_SYM               bfd_elf64_littleaarch64_vec
+ #define TARGET_LITTLE_NAME              "elf64-littleaarch64"
+ #define TARGET_BIG_SYM                  bfd_elf64_bigaarch64_vec
+ #define TARGET_BIG_NAME                 "elf64-bigaarch64"
+
++#define elf_backend_grok_prstatus	elf64_aarch64_grok_prstatus
++
+ typedef unsigned long int insn32;
+
+ /* The linker script knows the section names for placement.
+--------------050509090407050807080604--
+

@@ -1,0 +1,131 @@
+From 66d212aa41e4facb1d7dd3d24b7b8fb87917a5e0 Mon Sep 17 00:00:00 2001
+From: Ulrich Weigand <uweigand@de.ibm.com>
+Date: Wed, 15 Jun 2011 16:36:52 +0000
+Subject: [PATCH] include/elf/ 	* common.h (NT_ARM_VFP): Define.
+
+bfd/
+	* elf-bfd.h (elfcore_write_arm_vfp): Add prototype.
+	* elf.c (elfcore_grok_arm_vfp): New function.
+	(elfcore_grok_note): Call it to handle NT_ARM_VFP notes.
+	(elfcore_write_arm_vfp): New function.
+	(elfcore_write_register_note): Call it to handle .reg-arm-vfp.
+
+binutils/
+	* readelf.c (get_note_type): Handle NT_ARM_VFP.
+---
+ bfd/ChangeLog         |  8 ++++++++
+ bfd/elf-bfd.h         |  2 ++
+ bfd/elf.c             | 27 +++++++++++++++++++++++++++
+ binutils/ChangeLog    |  4 ++++
+ binutils/readelf.c    |  2 ++
+ include/elf/ChangeLog |  4 ++++
+ include/elf/common.h  |  2 ++
+ 7 files changed, 49 insertions(+)
+
+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
+index abe9f72..2489eda 100644
+diff --git a/bfd/elf-bfd.h b/bfd/elf-bfd.h
+index f2d73ac..64a9dc0 100644
+--- a/bfd/elf-bfd.h
++++ b/bfd/elf-bfd.h
+@@ -2225,6 +2225,8 @@ extern char *elfcore_write_s390_ctrs
+   (bfd *, char *, int *, const void *, int);
+ extern char *elfcore_write_s390_prefix
+   (bfd *, char *, int *, const void *, int);
++extern char *elfcore_write_arm_vfp
++  (bfd *, char *, int *, const void *, int);
+ extern char *elfcore_write_lwpstatus
+   (bfd *, char *, int *, long, int, const void *);
+ extern char *elfcore_write_register_note
+diff --git a/bfd/elf.c b/bfd/elf.c
+index 4664c58..15e0cd3 100644
+--- a/bfd/elf.c
++++ b/bfd/elf.c
+@@ -7976,6 +7976,12 @@ elfcore_grok_s390_prefix (bfd *abfd, Elf_Internal_Note *note)
+   return elfcore_make_note_pseudosection (abfd, ".reg-s390-prefix", note);
+ }
+ 
++static bfd_boolean
++elfcore_grok_arm_vfp (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-arm-vfp", note);
++}
++
+ #if defined (HAVE_PRPSINFO_T)
+ typedef prpsinfo_t   elfcore_psinfo_t;
+ #if defined (HAVE_PRPSINFO32_T)		/* Sparc64 cross Sparc32 */
+@@ -8395,6 +8401,13 @@ elfcore_grok_note (bfd *abfd, Elf_Internal_Note *note)
+       else
+         return TRUE;
+ 
++    case NT_ARM_VFP:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_arm_vfp (abfd, note);
++      else
++	return TRUE;
++
+     case NT_PRPSINFO:
+     case NT_PSINFO:
+       if (bed->elf_backend_grok_psinfo)
+@@ -9149,6 +9162,18 @@ elfcore_write_s390_prefix (bfd *abfd,
+ }
+ 
+ char *
++elfcore_write_arm_vfp (bfd *abfd,
++		       char *buf,
++		       int *bufsiz,
++		       const void *arm_vfp,
++		       int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_ARM_VFP, arm_vfp, size);
++}
++
++char *
+ elfcore_write_register_note (bfd *abfd,
+ 			     char *buf,
+ 			     int *bufsiz,
+@@ -9178,6 +9203,8 @@ elfcore_write_register_note (bfd *abfd,
+     return elfcore_write_s390_ctrs (abfd, buf, bufsiz, data, size);
+   if (strcmp (section, ".reg-s390-prefix") == 0)
+     return elfcore_write_s390_prefix (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-arm-vfp") == 0)
++    return elfcore_write_arm_vfp (abfd, buf, bufsiz, data, size);
+   return NULL;
+ }
+ 
+diff --git a/binutils/ChangeLog b/binutils/ChangeLog
+index 320bd7f..82d6b52 100644
+diff --git a/binutils/readelf.c b/binutils/readelf.c
+index 2724a9a..5a6521c 100644
+--- a/binutils/readelf.c
++++ b/binutils/readelf.c
+@@ -12284,6 +12284,8 @@ get_note_type (unsigned e_type)
+ 	return _("NT_S390_CTRS (s390 control registers)");
+       case NT_S390_PREFIX:
+ 	return _("NT_S390_PREFIX (s390 prefix register)");
++      case NT_ARM_VFP:
++	return _("NT_ARM_VFP (arm VFP registers)");
+       case NT_PSTATUS:
+ 	return _("NT_PSTATUS (pstatus structure)");
+       case NT_FPREGS:
+diff --git a/include/elf/ChangeLog b/include/elf/ChangeLog
+index 0147d5a..76fa7e5 100644
+diff --git a/include/elf/common.h b/include/elf/common.h
+index 7f54531..70088a0 100644
+--- a/include/elf/common.h
++++ b/include/elf/common.h
+@@ -539,6 +539,8 @@
+ 					/*   note name must be "LINUX".  */
+ #define NT_S390_PREFIX	0x305		/* S390 prefix register */
+ 					/*   note name must be "LINUX".  */
++#define NT_ARM_VFP	0x400		/* ARM VFP registers */
++					/*   note name must be "LINUX".  */
+ 
+ /* Note segments for core files on dir-style procfs systems.  */
+ 
+-- 
+1.8.0
+
