@@ -17,3 +17,9 @@ Index: gdb/gdbserver/Makefile.in
  
  # LDFLAGS is specifically reserved for setting from the command line
  # when running make.
+INTERNAL_WARN_CFLAGS} $(WERROR_CFLAGS) ${CFLAGS}
+ 
+ # LDFLAGS is specifically reserved for setting from the command line
+ # when running make.
+ LDFLAGS = @LDFLAGS@
+ INTERNAL_LDFLAGS = $(LDFLAGS) @RDYNAMIC@

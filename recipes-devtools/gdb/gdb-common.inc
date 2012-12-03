@@ -14,7 +14,7 @@ LTTNGUST_sh4 = ""
 LTTNGUST_aarch64 = ""
 
 INC_PR = "r0"
-PV = "7.5.1+git${SRCPV}"
+PV = "7.5.50.20121130+git${SRCPV}"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
@@ -31,7 +31,7 @@ SRC_URI = "git://sourceware.org/git/gdb.git;branch=master \
            file://aarch64-gdb-and-gdbserver-v2-3.patch \
            file://aarch64-gdb-and-gdbserver-v2-4.patch \
            file://aarch64-gdb-and-gdbserver-v2-5.patch \
-		   file://add-linux-elf.h-include.patch \
+		   file://aarch64-add-linux-elf.h-include.patch \
 "
 
 S = "${WORKDIR}/git"
