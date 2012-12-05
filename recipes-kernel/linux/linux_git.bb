@@ -2,7 +2,7 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git;name=kernel \
            git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
@@ -29,6 +29,7 @@ SRC_URI += "file://defconfig \
             file://0017-arm64-ARMv8-software-model-SoC-support.patch \
             file://0018-arm64-Add-CLCD-support-to-the-ARMv8-model-platform.patch \
             file://0019-arm64-Add-simple-earlyprintk-support.patch \
+            file://0020-arm64-libgcc.a-breakage.patch \
             "
 
 KERNEL_IMAGETYPE = "Image"

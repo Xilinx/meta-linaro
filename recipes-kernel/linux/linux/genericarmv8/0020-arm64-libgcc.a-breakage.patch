@@ -1,0 +1,51 @@
+From 05e926ae805a4ef80a2c27194303a21c9ddaf5f8 Mon Sep 17 00:00:00 2001
+From: Paul Sokolovsky <Paul.Sokolovsky@linaro.org>
+Date: Thu, 27 Sep 2012 12:56:05 -0500
+Subject: [PATCH] arm64: libgcc.a breakage
+
+NOT FOR UPSTREAM, until more information is gathered.
+
+Custom build system throws the following break:
+
++ aarch64-linux-gnu-ld -EL -r -o vmlinux.o arch/arm64/kernel/head.o
+ init/built-in.o --start-group usr/built-in.o arch/arm64/kernel/built-in.o
+ arch/arm64/mm/built-in.o arch/arm64/platforms/built-in.o
+ kernel/built-in.o mm/built-in.o fs/built-in.o ipc/built-in.o
+ security/built-in.o crypto/built-in.o block/built-in.o
+ arch/arm64/lib/lib.a lib/lib.a libgcc.a arch/arm64/lib/built-in.o
+ lib/built-in.o libgcc.a drivers/built-in.o sound/built-in.o
+ firmware/built-in.o net/built-in.o --end-group
+aarch64-linux-gnu-ld: cannot find libgcc.a: No such file or directory
+aarch64-linux-gnu-ld: cannot find libgcc.a: No such file or directory
+make: *** [vmlinux] Error 1
+
+Reported-by: Paul Sokolovsky <Paul.Sokolovsky@linaro.org>
+Not-Signed-off-by: Omar Ramirez Luna <omar.luna@linaro.org>
+---
+ arch/arm64/Makefile | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+index 93e871e..d82e933 100644
+--- a/arch/arm64/Makefile
++++ b/arch/arm64/Makefile
+@@ -15,8 +15,6 @@ CPPFLAGS_vmlinux.lds = -DTEXT_OFFSET=$(TEXT_OFFSET)
+ OBJCOPYFLAGS	:=-O binary -R .note -R .note.gnu.build-id -R .comment -S
+ GZFLAGS		:=-9
+ 
+-LIBGCC 		:= $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
+-
+ KBUILD_DEFCONFIG := defconfig
+ 
+ KBUILD_CFLAGS	+= -mgeneral-regs-only
+@@ -39,7 +37,6 @@ export	TEXT_OFFSET GZFLAGS
+ core-y		+= arch/arm64/kernel/ arch/arm64/mm/ \
+ 		   arch/arm64/platforms/
+ libs-y		:= arch/arm64/lib/ $(libs-y)
+-libs-y		+= $(LIBGCC)
+ 
+ # Default target when executing plain make
+ KBUILD_IMAGE := Image.gz
+-- 
+1.8.0
+
