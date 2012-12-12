@@ -2,20 +2,17 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r1"
+PR = "r0"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git;name=kernel \
+SRC_URI = " \
+           ${KERNELORG_MIRROR}/linux/kernel/v3.x/linux-${PV}.tar.bz2 \
            git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
 "
 
-SRCREV_FORMAT = "kernel"
+SRC_URI[md5sum] = "5323f3faadd051e83af605a63be5ea2e"
+SRC_URI[sha256sum] = "dc08d87a579fe2918362e6666e503a95a76296419195cb499aa9dd4dbe171a9e"
 
-S = "${WORKDIR}/git"
-
-SRCREV_kernel = "e9296e89b85604862bd9ec2d54dc43edad775c0d"
 SRCREV_bootwrapper = "${AUTOREV}"
-
-PV = "3.7.0+rc7+git${SRCPV}"
 
 COMPATIBLE_HOST = "aarch64"
 
