@@ -2,7 +2,7 @@ inherit core-image
 
 DESCRIPTION = "A small SDK based image for Linaro development work."
 
-PR = "r1"
+PR = "r2"
 
 IMAGE_INSTALL = "\
 	task-core-boot \
@@ -15,6 +15,7 @@ IMAGE_INSTALL = "\
 
 IMAGE_FEATURES += "\
 	dev-pkgs \
+	staticdev-pkgs \
 	tools-debug \
 	tools-sdk \
 	ssh-server-openssh \
