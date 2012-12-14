@@ -3,7 +3,7 @@ require gcc-linaro-common-4.6.inc
 
 PR = "r4"
 RELEASE = "2012.11"
-BINV = "4.6.5"
+BINV = "4.6.4"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
