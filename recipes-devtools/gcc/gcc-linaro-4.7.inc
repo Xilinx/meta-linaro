@@ -5,7 +5,7 @@ PR = "r8"
 RELEASE = "2012.12"
 BINV = "4.7.3"
 
-SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-linaro-4.7-${RELEASE}.tar.bz2 \
+SRC_URI = "http://launchpad.net/gcc-linaro/4.7/4.7-${RELEASE}/+download/gcc-linaro-4.7-${RELEASE}.tar.bz2 \
 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://64bithack.patch \
 	   file://optional_libstdc.patch \

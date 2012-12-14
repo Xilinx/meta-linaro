@@ -2,7 +2,7 @@ require recipes-devtools/gcc/gcc-4.6.inc
 require gcc-linaro-common-4.6.inc
 
 PR = "r4"
-RELEASE = "2012.11"
+RELEASE = "2012.12"
 BINV = "4.6.4"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
@@ -14,8 +14,8 @@ SRC_URI = "https://launchpad.net/gcc-linaro/4.6/4.6-${RELEASE}/+download/gcc-${P
 	   file://use-defaults.h-and-t-oe-in-B.patch \
 	  "
 
-SRC_URI[md5sum] = "d2632b8d3c0e44025dd1c8661db0c201"
-SRC_URI[sha256sum] = "f812580a1115ef5640643943e62bba956a529fc3945a77c2cffa1c578a57ef04"
+SRC_URI[md5sum] = "6b6c6a4faa026edd1193cf6426309039"
+SRC_URI[sha256sum] = "2a6be41a50b31446ba158558f666591978a8adfeab8fbe60131441d78722f119"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
