@@ -1,6 +1,6 @@
 --- a/Utilities/KWIML/ABI.h.in
 +++ b/Utilities/KWIML/ABI.h.in
-@@ -414,6 +414,15 @@
+@@ -414,6 +414,14 @@
  #elif defined(__SYSC_ZARCH__)
  # define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
  
@@ -12,13 +12,12 @@
 +#  define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
 +# endif
 +
-+/* Intel x86 */
  /* Unknown CPU */
  #elif !defined(@KWIML@_ABI_NO_ERROR_ENDIAN)
  # error "Byte order of target CPU unknown."
 --- a/Source/kwsys/CPU.h.in
 +++ b/Source/kwsys/CPU.h.in
-@@ -98,6 +98,15 @@
+@@ -98,6 +98,14 @@
  #elif defined(__SYSC_ZARCH__)
  # define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
  
@@ -29,7 +28,6 @@
 +# else
 +#  define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
 +# endif
-+
 +
  /* Unknown CPU */
  #else
