@@ -1,0 +1,58 @@
+--- a/pr/tests/foreign.c
++++ b/pr/tests/foreign.c
+@@ -54,6 +54,7 @@
+ 
+ #if defined(_PR_PTHREADS) && !defined(_PR_DCETHREADS)
+ #include <pthread.h>
++#include <limits.h>
+ #include "md/_pth.h"
+ static void *pthread_start(void *arg)
+ {
+@@ -113,7 +114,7 @@
+     case thread_pthread:
+ #if defined(_PR_PTHREADS) && !defined(_PR_DCETHREADS)
+         {
+-            int rv;
++            int rv, sz;
+             pthread_t id;
+             pthread_attr_t tattr;
+             StartObject *start_object;
+@@ -128,7 +129,8 @@
+             rv = pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_DETACHED);
+             PR_ASSERT(0 == rv);
+ 
+-            rv = pthread_attr_setstacksize(&tattr, 64 * 1024);
++            sz = PTHREAD_STACK_MIN > (64 * 1024) ? PTHREAD_STACK_MIN : (64 * 1024);
++            rv = pthread_attr_setstacksize(&tattr, sz);
+             PR_ASSERT(0 == rv);
+ 
+             rv = _PT_PTHREAD_CREATE(&id, tattr, pthread_start, start_object);
+--- a/pr/tests/provider.c
++++ b/pr/tests/provider.c
+@@ -609,6 +609,7 @@
+ #if defined(_PR_PTHREADS) && !defined(_PR_DCETHREADS)
+ #include "md/_pth.h"
+ #include <pthread.h>
++#include <limits.h>
+ 
+ static void *pthread_start(void *arg)
+ {
+@@ -692,7 +693,7 @@
+     case thread_pthread:
+ #if defined(_PR_PTHREADS) && !defined(_PR_DCETHREADS)
+         {
+-            int rv;
++            int rv, sz;
+             pthread_t id;
+             pthread_attr_t tattr;
+             StartObject *start_object;
+@@ -707,7 +708,8 @@
+             rv = pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_DETACHED);
+             PR_ASSERT(0 == rv);
+ 
+-            rv = pthread_attr_setstacksize(&tattr, 64 * 1024);
++            sz = PTHREAD_STACK_MIN > (64 * 1024) ? PTHREAD_STACK_MIN : (64 * 1024);
++            rv = pthread_attr_setstacksize(&tattr, sz);
+             PR_ASSERT(0 == rv);
+ 
+             rv = _PT_PTHREAD_CREATE(&id, tattr, pthread_start, start_object);
