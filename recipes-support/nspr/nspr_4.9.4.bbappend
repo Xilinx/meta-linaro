@@ -5,10 +5,7 @@ SRC_URI_append = " \
           file://fix-testsuite.patch \
 "
 
-
-do_configure() {
+do_configure_prepend() {
     gnu-configize --force
     mv config.sub config.guess build/autoconf
-    oe_runconf
 }
-   
