@@ -2,7 +2,7 @@ KERNEL_ENABLE_CGROUPS = "1"
 
 require recipes-kernel/linux/linux.inc
 
-PR = "r0"
+PR = "r1"
 
 SRC_URI = " \
            ${KERNELORG_MIRROR}/linux/kernel/v3.x/linux-${PV}.tar.bz2 \

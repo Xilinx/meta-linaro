@@ -415,7 +415,7 @@ CONFIG_OF_NET=y
 # CONFIG_PARPORT is not set
 CONFIG_BLK_DEV=y
 # CONFIG_BLK_DEV_COW_COMMON is not set
-# CONFIG_BLK_DEV_LOOP is not set
+CONFIG_BLK_DEV_LOOP=y
 
 #
 # DRBD disabled because PROC_FS, INET or CONNECTOR not selected
