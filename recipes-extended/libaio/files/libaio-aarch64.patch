@@ -3,17 +3,6 @@
  src/libaio.h       |   10 ++++++++++
  2 files changed, 12 insertions(+)
 
---- a/harness/cases/16.t
-+++ b/harness/cases/16.t
-@@ -18,6 +18,8 @@
- #define SYS_eventfd 318
- #elif defined(__alpha__)
- #define SYS_eventfd 478
-+#elif defined(__aarch64__)
-+#define SYS_eventfd 1044
- #else
- #error define SYS_eventfd for your arch!
- #endif
 --- a/src/libaio.h
 +++ b/src/libaio.h
 @@ -107,6 +107,16 @@
