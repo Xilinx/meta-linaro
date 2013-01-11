@@ -1,16 +1,13 @@
 #FILESPATHPKG =. "binutils-git:"
-SRCREV = "356e60f035fc024240085a6e3ddd800e8351ff17"
-PR_append = "+gitr${SRCPV}"
+SRCREV = "0ba0fddb32272c8e561b9c12688c639a1218c864"
 LICENSE = "GPLv3"
 
-PV = "2.23.51.20121130"
+PV = "2.23.51.20130109+gitr${SRCPV}"
 PR = "r0"
 
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://sourceware.org/git/binutils.git;branch=master;protocol=git \
-           file://aarch64-new-macros.patch \
-           file://aarch64-elf_backend_grok_prstatus.patch \
 "
 
 DEFAULT_PREFERENCE = "1"
