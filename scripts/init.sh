@@ -31,11 +31,13 @@ echo "BBLAYERS += '`realpath $PWD/../openembedded-core/meta`'" >>conf/bblayers.c
 echo 'SCONF_VERSION = "1"'					 			>>conf/site.conf
 echo 'IMAGE_ROOTFS_ALIGNMENT = "2048"' 					>>conf/site.conf
 echo 'INHERIT += "rm_work"' 							>>conf/site.conf
-echo 'BB_GENERATE_MIRROR_TARBALLS = "True"' 			>>conf/site.conf
 echo 'MACHINE = "genericarmv8"'							>>conf/site.conf
 echo 'BB_NUMBER_THREADS = "8"'							>>conf/site.conf
 echo 'PARALLEL_MAKE = "-j8"'							>>conf/site.conf
 echo 'IMAGE_FSTYPES = "tar.gz ext2"'					>>conf/site.conf
+echo 'IMAGE_LINGUAS = "en-gb"'					>>conf/site.conf
+echo "GCCVERSION       ?= \"linaro-4.7\""					>>conf/site.conf
+echo "SDKGCCVERSION    ?= \"linaro-4.7\""					>>conf/site.conf
 
 # enable source mirror
 
@@ -48,7 +50,7 @@ echo 'INHERIT += "own-mirrors"' 								>>conf/site.conf
 
 # enable a distro feature that is compatible with the minimal goal we have
 
-echo 'DISTRO_FEATURES = "alsa argp ext2 largefile usbgadget usbhost xattr nfs zeroconf ${DISTRO_FEATURES_LIBC}"' >>conf/site.conf
+echo 'DISTRO_FEATURES = "x11 alsa argp ext2 largefile usbgadget usbhost xattr nfs zeroconf ${DISTRO_FEATURES_LIBC}"' >>conf/site.conf
 
 # get rid of MACHINE setting from local.conf
 
