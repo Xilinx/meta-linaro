@@ -1,0 +1,35 @@
+--- a/Source/JavaScriptCore/wtf/Platform.h
++++ b/Source/JavaScriptCore/wtf/Platform.h
+@@ -299,6 +299,11 @@
+ #define WTF_CPU_NEEDS_ALIGNED_ACCESS 1
+ #endif
+ 
++/* CPU(AARCH64) - Aarch64 */
++#if defined(__aarch64__)
++#define WTF_CPU_AARCH64 1
++#endif
++
+ /* ==== OS() - underlying operating system; only to be used for mandated low-level services like 
+    virtual memory, not to choose a GUI toolkit ==== */
+ 
+@@ -899,7 +904,8 @@
+     || CPU(ALPHA) \
+     || CPU(SPARC64) \
+     || CPU(S390X) \
+-    || CPU(PPC64)
++    || CPU(PPC64) \
++    || CPU(AARCH64)
+ #define WTF_USE_JSVALUE64 1
+ #else
+ #define WTF_USE_JSVALUE32_64 1
+--- a/Source/JavaScriptCore/wtf/dtoa/utils.h
++++ b/Source/JavaScriptCore/wtf/dtoa/utils.h
+@@ -49,7 +49,7 @@
+ defined(__ARMEL__) || \
+ defined(_MIPS_ARCH_MIPS32R2)
+ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
+-#elif CPU(MIPS) || CPU(PPC) || CPU(PPC64) || OS(WINCE) || CPU(SH4) || CPU(S390) || CPU(S390X) || CPU(IA64) || CPU(SPARC) || CPU(ALPHA)
++#elif CPU(MIPS) || CPU(PPC) || CPU(PPC64) || OS(WINCE) || CPU(SH4) || CPU(S390) || CPU(S390X) || CPU(IA64) || CPU(SPARC) || CPU(ALPHA) || CPU(AARCH64)
+ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
+ #elif defined(_M_IX86) || defined(__i386__)
+ #if defined(_WIN32)
