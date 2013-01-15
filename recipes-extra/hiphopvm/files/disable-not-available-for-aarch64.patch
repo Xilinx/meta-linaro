@@ -1,0 +1,50 @@
+---
+ CMake/HPHPFindLibs.cmake |   22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+--- git.orig/CMake/HPHPFindLibs.cmake
++++ git/CMake/HPHPFindLibs.cmake
+@@ -43,12 +43,12 @@ find_package(Libinotify)
+ if (LIBINOTIFY_INCLUDE_DIR)
+ 	include_directories(${LIBINOTIFY_INCLUDE_DIR})
+ endif()
+ 
+ # unwind checks
+-find_package(Libunwind REQUIRED)
+-include_directories(${LIBUNWIND_INCLUDE_DIR})
++# find_package(Libunwind REQUIRED)
++# include_directories(${LIBUNWIND_INCLUDE_DIR})
+ 
+ # iconv checks
+ find_package(Libiconv REQUIRED)
+ include_directories(${LIBICONV_INCLUDE_DIR})
+ if (LIBICONV_CONST)
+@@ -223,19 +223,19 @@ endif()
+ if (GOOGLE_CPU_PROFILER_ENABLED)
+ 	add_definitions(-DGOOGLE_CPU_PROFILER=1)
+ endif()
+ 
+ # tbb libs
+-find_package(TBB REQUIRED)
+-if (${TBB_INTERFACE_VERSION} LESS 5005)
+-	unset(TBB_FOUND CACHE)
+-	unset(TBB_INCLUDE_DIRS CACHE)
+-	unset(TBB_LIBRARIES CACHE)
+-	message(FATAL_ERROR "TBB is too old, please install at least 3.0(5005), preferably 4.0(6000) or higher")
+-endif()
+-include_directories(${TBB_INCLUDE_DIRS})
+-link_directories(${TBB_LIBRARY_DIRS})
++# find_package(TBB REQUIRED)
++# if (${TBB_INTERFACE_VERSION} LESS 5005)
++# 	unset(TBB_FOUND CACHE)
++# 	unset(TBB_INCLUDE_DIRS CACHE)
++# 	unset(TBB_LIBRARIES CACHE)
++# 	message(FATAL_ERROR "TBB is too old, please install at least 3.0(5005), preferably 4.0(6000) or higher")
++# endif()
++# include_directories(${TBB_INCLUDE_DIRS})
++# link_directories(${TBB_LIBRARY_DIRS})
+ 
+ # mcrypt libs
+ find_package(Mcrypt REQUIRED)
+ include_directories(${Mcrypt_INCLUDE_DIR})
+ 
