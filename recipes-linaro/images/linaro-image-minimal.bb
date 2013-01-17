@@ -1,3 +1,3 @@
 require recipes-core/images/core-image-minimal.bb
 
-IMAGE_FEATURES += "ssh-server-openssh"
+IMAGE_FEATURES += "ssh-server-openssh nfs-server"

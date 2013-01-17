@@ -12,4 +12,4 @@ IMAGE_INSTALL += "\
 	linaro-lava-tests \
 	"
 
-IMAGE_FEATURES += "package-management ssh-server-openssh"
+IMAGE_FEATURES += "package-management ssh-server-openssh nfs-server"
