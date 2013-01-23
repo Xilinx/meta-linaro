@@ -12,7 +12,6 @@ google-glog \
 icu \
 libcap \
 libc-client \
-libdwarf \
 libevent-fb \
 libmcrypt \
 libmemcached \
@@ -26,8 +25,11 @@ libpam \
 pcre \
 readline \
 zlib \
+tbb \
 "
-#DEPENDS += "tbb google-perftools"
+
+# optional (for now) dependencies:
+#DEPENDS += "libdwarf libunwind google-perftools"
 
 LICENSE = "PHP Zend"
 
@@ -43,7 +45,7 @@ SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
 
 PV = "0.0+git${SRCPV}"
-PR = "r0"
+PR = "r1"
 
 do_configure_prepend() {
 	export HPHP_HOME="${B}"
