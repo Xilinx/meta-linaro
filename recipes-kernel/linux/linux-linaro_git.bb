@@ -10,7 +10,7 @@ PV = "3.7+3.8-rc+git${SRCPV}"
 
 SRC_URI = " \
            git://git.linaro.org/kernel/linux-linaro-tracking.git;branch=linux-linaro;name=kernel \
-           git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;name=bootwrapper;destsuffix=bootwrapper \
+           git://git.linaro.org/arm/models/boot-wrapper-aarch64.git;branch=ubuntu;name=bootwrapper;destsuffix=bootwrapper \
 "
 
 SRCREV_bootwrapper = "${AUTOREV}"
