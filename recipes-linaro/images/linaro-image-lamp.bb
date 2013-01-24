@@ -1,4 +1,4 @@
-inherit core-image
+require linaro-image-common.inc
 
 PR = "r3"
 
@@ -8,8 +8,6 @@ IMAGE_INSTALL += "\
 	mysql5-client \
 	php-fpm \
 	php-fpm-apache2 \
-	sudo \
-	linaro-lava-tests \
 	"
 
-IMAGE_FEATURES += "package-management ssh-server-openssh nfs-server"
+IMAGE_FEATURES += "package-management"

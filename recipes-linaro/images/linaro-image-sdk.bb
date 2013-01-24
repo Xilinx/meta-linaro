@@ -1,16 +1,11 @@
-inherit core-image
+require linaro-image-common.inc
 
 DESCRIPTION = "A small SDK based image for Linaro development work."
 
 PR = "r2"
 
-IMAGE_INSTALL = "\
-	task-core-boot \
-	${ROOTFS_PKGMANAGE_BOOTSTRAP} \
-	${CORE_IMAGE_EXTRA_INSTALL} \
+IMAGE_INSTALL += "\
 	ltp \
-	sudo \
-	linaro-lava-tests \
 	"
 
 IMAGE_FEATURES += "\
@@ -18,7 +13,5 @@ IMAGE_FEATURES += "\
 	staticdev-pkgs \
 	tools-debug \
 	tools-sdk \
-	ssh-server-openssh \
 	package-management \
-	nfs-server \
 	"
