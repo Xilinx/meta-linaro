@@ -9,9 +9,12 @@ RDEPENDS_${PN} = "\
     binutils-dev \
     binutils-staticdev \
     bison \
+    boost-dev \
+    boost-staticdev \
     boost \
     bzip2-dev \
     cmake \
+    curl-dev \
     elfutils-dev \
     elfutils-staticdev \
     expat \
