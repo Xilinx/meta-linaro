@@ -7,4 +7,4 @@ IMAGE_INSTALL += " \
 	sudo \
     "
 
-IMAGE_INSTALL_aarch64 += "perf"
+IMAGE_INSTALL_append_aarch64 += "perf"
