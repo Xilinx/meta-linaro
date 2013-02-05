@@ -1,4 +1,4 @@
-require recipes-support/libevent/libevent_2.0.16.bb
+require recipes-support/libevent/libevent_2.0.21.bb
 
 PROVIDES = "libevent"
 
