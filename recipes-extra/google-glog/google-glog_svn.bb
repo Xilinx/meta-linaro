@@ -10,7 +10,7 @@ SRC_URI = "svn://google-glog.googlecode.com/svn/;module=trunk;protocol=http"
 
 SRCREV = "${AUTOREV}"
 
-PV = "0.3.2+svn${SRCREV}"
+PV = "0.3.2+svn${SRCPV}"
 
 S = "${WORKDIR}/trunk"
 
