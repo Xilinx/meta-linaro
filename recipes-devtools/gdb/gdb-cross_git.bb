@@ -1,4 +1,4 @@
-require gdb-cross.inc
+require recipes-devtools/gdb/gdb-cross.inc
 
 SRC_URI += "file://sim-install-6.6.patch"
 
