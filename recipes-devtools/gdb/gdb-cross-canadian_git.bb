@@ -1,5 +1,5 @@
 require gdb-common.inc
-require gdb-cross-canadian.inc
+require recipes-devtools/gdb/gdb-cross-canadian.inc
 
 PR = "${INC_PR}.0"
 
