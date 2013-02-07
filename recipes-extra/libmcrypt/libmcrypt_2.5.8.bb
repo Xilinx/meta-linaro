@@ -1,3 +1,5 @@
+DESCRIPTION = "Replacement for the old crypt() package and crypt(1) command, with extensions."
+HOMEPAGE = "http://mcrypt.sourceforge.net/"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff"
 
