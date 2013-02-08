@@ -14,7 +14,7 @@ LTTNGUST_sh4 = ""
 LTTNGUST_aarch64 = ""
 
 INC_PR = "r0"
-PV = "7.5.50.20121130+git${SRCPV}"
+PV = "7.5.50.20130208+git${SRCPV}"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
@@ -23,16 +23,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 
 inherit autotools
 
-SRCREV = "bc53aa3990b78fb4dca922592f5a358898a63a0c"
+SRCREV = "f17e8198bdfc430f13816aba90c1e5f6130b9424"
 
-SRC_URI = "git://sourceware.org/git/gdb.git;branch=master \
-           file://aarch64-gdb-and-gdbserver-v2-1.patch \
-           file://aarch64-gdb-and-gdbserver-v2-2.patch \
-           file://aarch64-gdb-and-gdbserver-v2-3.patch \
-           file://aarch64-gdb-and-gdbserver-v2-4.patch \
-           file://aarch64-gdb-and-gdbserver-v2-5.patch \
-		   file://aarch64-add-linux-elf.h-include.patch \
-"
+SRC_URI = "git://sourceware.org/git/gdb.git;branch=master"
 
 S = "${WORKDIR}/git"
 
