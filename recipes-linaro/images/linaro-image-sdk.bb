@@ -35,7 +35,7 @@ IMAGE_INSTALL += " \
 	libmemcached \
 	libpam \
 	libxml2 \
-	mysql5-client \
+	libmysqlclient-r \
 	ncurses \
 	onig \
 	openldap \
