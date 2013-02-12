@@ -12,6 +12,7 @@ google-glog \
 icu \
 libcap \
 libc-client \
+libdwarf \
 libevent-fb \
 libmcrypt \
 libmemcached \
@@ -29,7 +30,7 @@ tbb \
 "
 
 # optional (for now) dependencies:
-#DEPENDS += "libdwarf libunwind google-perftools"
+#DEPENDS += "libunwind google-perftools"
 
 LICENSE = "PHP Zend"
 
