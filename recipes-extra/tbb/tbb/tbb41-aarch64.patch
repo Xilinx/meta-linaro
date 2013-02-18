@@ -1,3 +1,9 @@
+Author: Leif Lindholm <leif.lindholm@linaro.org>
+
+Upstream-Status: not there yet
+
+https://bugs.launchpad.net/linaro-aarch64/+bug/1091353
+
 diff --git a/build/linux.inc b/build/linux.inc
 index bdad142..7db323c 100644
 --- a/build/linux.inc
