@@ -1,13 +1,12 @@
 require linaro-image-common.inc
 
-PR = "r3"
+IMAGE_INSTALL += " \
+    ${LAMP_IMAGE_INSTALL} \
+    ${SDK_IMAGE_INSTALL}"
 
-IMAGE_INSTALL += "\
-	apache2 \
-	mysql5-server \
-	mysql5-client \
-	php-fpm \
-	php-fpm-apache2 \
+IMAGE_FEATURES += "\
+	dev-pkgs \
+	staticdev-pkgs \
+	tools-debug \
+	tools-sdk \
 	"
-
-IMAGE_FEATURES += "package-management"
