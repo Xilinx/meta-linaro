@@ -10,7 +10,6 @@ PRDATE = "20130116"
 PR = "r${PRDATE}"
 
 SRC_URI = "http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb41_${PRDATE}oss_src.tgz \
-           file://tbb41-aarch64.patch \
            file://cross-compile.patch \
            file://tbb.pc"
 
