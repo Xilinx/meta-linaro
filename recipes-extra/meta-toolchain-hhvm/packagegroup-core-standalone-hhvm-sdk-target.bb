@@ -1,6 +1,5 @@
 SUMMARY = "HipHop VM porting SDK (target tools)"
 LICENSE = "MIT"
-PR = "r0"
 
 inherit packagegroup
 
@@ -27,6 +26,8 @@ RDEPENDS_${PN} = "\
     libcap-staticdev \
     libc-client-dev \
     libc-client-staticdev \
+    libdwarf-dev \
+    libdwarf-staticdev \
     libevent-fb-dev \
     libevent-fb-staticdev \
     libglade-dev \
