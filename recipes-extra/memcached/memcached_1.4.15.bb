@@ -1,3 +1,7 @@
+DESCRIPTION = "Free & open source, high-performance, distributed memory object \
+caching system, generic in nature, but intended for use in speeding up dynamic \
+web applications by alleviating database load."
+HOMEPAGE = "http://memcached.org/"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=7e5ded7363d335e1bb18013ca08046ff"
 
