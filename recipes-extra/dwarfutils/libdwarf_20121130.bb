@@ -8,4 +8,6 @@ do_install() {
     install -m 0644 dwarf.h libdwarf.h ${D}${includedir}/libdwarf
 }
 
+ALLOW_EMPTY_${PN} = "1"
+
 BBCLASSEXTEND = "native"
