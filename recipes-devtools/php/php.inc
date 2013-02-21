@@ -7,7 +7,7 @@ DEPENDS = "zlib libxml2 virtual/libiconv php-native lemon-native mysql5 \
            libc-client openssl sqlite3"
 DEPENDS_virtclass-native = "zlib-native libxml2-native"
 
-INC_PR = "r4"
+INC_PR = "r5"
 
 SRC_URI = "http://www.php.net/distributions/php-${PV}.tar.bz2"
 
