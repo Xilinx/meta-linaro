@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel siteinfo
 
-PR = "r0"
+PR = "r1"
 PV = "3.7+3.8-rc+git${SRCPV}"
 
 SRC_URI = " \
@@ -15,7 +15,7 @@ SRC_URI = " \
 
 SRCREV_bootwrapper = "${AUTOREV}"
 SRCREV_kernel = "${AUTOREV}"
-SRCREV_FORMAT = "LLkernel+BWbootwrapper"
+SRCREV_FORMAT = "kernel"
 
 S = "${WORKDIR}/git"
 BW = "${WORKDIR}/bootwrapper"
