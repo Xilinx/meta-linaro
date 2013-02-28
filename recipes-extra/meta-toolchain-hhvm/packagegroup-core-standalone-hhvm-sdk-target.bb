@@ -34,6 +34,8 @@ RDEPENDS_${PN} = "\
     libmcrypt-dev \
     libmemcached-dev \
     libmemcached-staticdev \
+    libmysqlclient-dev \
+    libmysqlclient-staticdev \
     libmysqlclient-r-dev \
     libmysqlclient-r-staticdev \
     libpam-dev \
