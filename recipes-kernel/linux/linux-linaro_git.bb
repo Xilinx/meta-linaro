@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel siteinfo
 
-PR = "r1"
-PV = "3.7+3.8-rc+git${SRCPV}"
+PV = "3.8+git${SRCPV}"
 
 SRC_URI = " \
            git://git.linaro.org/kernel/linux-linaro-tracking.git;branch=linux-linaro;name=kernel \
