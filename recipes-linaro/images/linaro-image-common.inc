@@ -48,6 +48,7 @@ SDK_IMAGE_INSTALL += "\
     readline \
     tbb \
     zlib \
+    sshfs-fuse \
     "
 
 LAMP_IMAGE_INSTALL += "\
