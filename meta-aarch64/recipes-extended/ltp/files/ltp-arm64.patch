@@ -1,0 +1,752 @@
+diff -urN ltp-full-20120903.orig/testcases/kernel/include/aarch64.in ltp-full-20120903/testcases/kernel/include/aarch64.in
+--- ltp-full-20120903.orig/testcases/kernel/include/aarch64.in	1970-01-01 02:00:00.000000000 +0200
++++ ltp-full-20120903/testcases/kernel/include/aarch64.in	2012-10-15 17:05:24.153016081 +0300
+@@ -0,0 +1,257 @@
++io_setup 0
++io_destroy 1
++io_submit 2
++io_cancel 3
++io_getevents 4
++setxattr 5
++lsetxattr 6
++fsetxattr 7
++getxattr 8
++lgetxattr 9
++fgetxattr 10
++listxattr 11
++llistxattr 12
++flistxattr 13
++removexattr 14
++lremovexattr 15
++fremovexattr 16
++getcwd 17
++lookup_dcookie 18
++eventfd2 19
++epoll_create1 20
++epoll_ctl 21
++epoll_pwait 22
++dup 23
++dup3 24
++fcntl 25
++inotify_init1 26
++inotify_add_watch 27
++inotify_rm_watch 28
++ioctl 29
++ioprio_set 30
++ioprio_get 31
++flock 32
++mknodat 33
++mkdirat 34
++unlinkat 35
++symlinkat 36
++linkat 37
++renameat 38
++umount2 39
++mount 40
++pivot_root 41
++nfsservctl 42
++statfs 43
++fstatfs 44
++truncate 45
++ftruncate 46
++fallocate 47
++faccessat 48
++chdir 49
++fchdir 50
++chroot 51
++fchmod 52
++fchmodat 53
++fchownat 54
++fchown 55
++openat 56
++close 57
++vhangup 58
++pipe2 59
++quotactl 60
++getdents64 61
++lseek 62
++read 63
++write 64
++readv 65
++writev 66
++pread64 67
++pwrite64 68
++preadv 69
++pwritev 70
++sendfile 71
++pselect6 72
++ppoll 73
++signalfd4 74
++vmsplice 75
++splice 76
++tee 77
++readlinkat 78
++fstatat 79
++fstat 80
++sync 81
++fsync 82
++fdatasync 83
++sync_file_range2 84
++sync_file_range 84
++timerfd_create 85
++timerfd_settime 86
++timerfd_gettime 87
++utimensat 88
++acct 89
++capget 90
++capset 91
++personality 92
++exit 93
++exit_group 94
++waitid 95
++set_tid_address 96
++unshare 97
++futex 98
++set_robust_list 99
++get_robust_list 100
++nanosleep 101
++getitimer 102
++setitimer 103
++kexec_load 104
++init_module 105
++delete_module 106
++timer_create 107
++timer_gettime 108
++timer_getoverrun 109
++timer_settime 110
++timer_delete 111
++clock_settime 112
++clock_gettime 113
++clock_getres 114
++clock_nanosleep 115
++syslog 116
++ptrace 117
++sched_setparam 118
++sched_setscheduler 119
++sched_getscheduler 120
++sched_getparam 121
++sched_setaffinity 122
++sched_getaffinity 123
++sched_yield 124
++sched_get_priority_max 125
++sched_get_priority_min 126
++sched_rr_get_interval 127
++restart_syscall 128
++kill 129
++tkill 130
++tgkill 131
++sigaltstack 132
++rt_sigsuspend 133
++rt_sigaction 134
++rt_sigprocmask 135
++rt_sigpending 136
++rt_sigtimedwait 137
++rt_sigqueueinfo 138
++rt_sigreturn 139
++setpriority 140
++getpriority 141
++reboot 142
++setregid 143
++setgid 144
++setreuid 145
++setuid 146
++setresuid 147
++getresuid 148
++setresgid 149
++getresgid 150
++setfsuid 151
++setfsgid 152
++times 153
++setpgid 154
++getpgid 155
++getsid 156
++setsid 157
++getgroups 158
++setgroups 159
++uname 160
++sethostname 161
++setdomainname 162
++getrlimit 163
++setrlimit 164
++getrusage 165
++umask 166
++prctl 167
++getcpu 168
++gettimeofday 169
++settimeofday 170
++adjtimex 171
++getpid 172
++getppid 173
++getuid 174
++geteuid 175
++getgid 176
++getegid 177
++gettid 178
++sysinfo 179
++mq_open 180
++mq_unlink 181
++mq_timedsend 182
++mq_timedreceive 183
++mq_notify 184
++mq_getsetattr 185
++msgget 186
++msgctl 187
++msgrcv 188
++msgsnd 189
++semget 190
++semctl 191
++semtimedop 192
++semop 193
++shmget 194
++shmctl 195
++shmat 196
++shmdt 197
++socket 198
++socketpair 199
++bind 200
++listen 201
++accept 202
++connect 203
++getsockname 204
++getpeername 205
++sendto 206
++recvfrom 207
++setsockopt 208
++getsockopt 209
++shutdown 210
++sendmsg 211
++recvmsg 212
++readahead 213
++brk 214
++munmap 215
++mremap 216
++add_key 217
++request_key 218
++keyctl 219
++clone 220
++execve 221
++mmap 222
++fadvise64 223
++swapon 224
++swapoff 225
++mprotect 226
++msync 227
++mlock 228
++munlock 229
++mlockall 230
++munlockall 231
++mincore 232
++madvise 233
++remap_file_pages 234
++mbind 235
++get_mempolicy 236
++set_mempolicy 237
++migrate_pages 238
++move_pages 239
++rt_tgsigqueueinfo 240
++perf_event_open 241
++accept4 242
++recvmmsg 243
++wait4 260
++prlimit64 261
++fanotify_init 262
++fanotify_mark 263
++name_to_handle_at 264
++open_by_handle_at 265
++clock_adjtime 266
++syncfs 267
++setns 268
++sendmmsg 269
++cacheflush 0x1002
++set_tls 0x1005
+diff -urN ltp-full-20120903.orig/testcases/kernel/include/order ltp-full-20120903/testcases/kernel/include/order
+--- ltp-full-20120903.orig/testcases/kernel/include/order	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/include/order	2012-10-15 17:05:24.169015861 +0300
+@@ -1,3 +1,4 @@
++aarch64
+ arm
+ hppa
+ i386
+diff -urN ltp-full-20120903.orig/testcases/kernel/include/regen.sh ltp-full-20120903/testcases/kernel/include/regen.sh
+--- ltp-full-20120903.orig/testcases/kernel/include/regen.sh	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/include/regen.sh	2012-10-15 17:05:24.169015861 +0300
+@@ -27,7 +27,7 @@
+ 
+ #define syscall(NR, ...) ({ \\
+ 	int __ret; \\
+-	if (NR == 0) { \\
++	if (NR == __LTP__NR_INVALID_SYSCALL) { \\
+ 		errno = ENOSYS; \\
+ 		__ret = -1; \\
+ 	} else { \\
+@@ -71,11 +71,12 @@
+ echo -n "Generating stub list ... "
+ echo "" >> "${output_pid}"
+ echo "/* Common stubs */" >> "${output_pid}"
++echo "#define __LTP__NR_INVALID_SYSCALL -1" >> "${output_pid}"
+ for nr in $(awk '{print $1}' "${srcdir}/"*.in | sort -u) ; do
+ 	nr="__NR_$nr"
+ 	cat <<-EOF >> "${output_pid}"
+ 	# ifndef $nr
+-	#  define $nr 0
++	#  define $nr __LTP__NR_INVALID_SYSCALL
+ 	# endif
+ 	EOF
+ done
+diff -urN ltp-full-20120903.orig/testcases/kernel/mem/shmt/shmt09.c ltp-full-20120903/testcases/kernel/mem/shmt/shmt09.c
+--- ltp-full-20120903.orig/testcases/kernel/mem/shmt/shmt09.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/mem/shmt/shmt09.c	2012-10-15 17:05:24.169015861 +0300
+@@ -61,7 +61,7 @@
+ #define INCREMENT 		8388608	/* 8Mb */
+ #elif defined (__mips__)  ||  defined (__hppa__) || defined (__sparc__)
+ #define INCREMENT		262144	/* 256Kb */
+-#elif defined __sh__ || defined (__arm__)
++#elif defined __sh__ || defined (__arm__) || defined(__aarch64__)
+ #define INCREMENT 		16384   /* 16kb */
+ #else
+ #define INCREMENT 		SHMLBA
+@@ -162,7 +162,7 @@
+ 	tst_resm(TPASS, "sbrk, shmat");
+ 
+ /*--------------------------------------------------------*/
+-#if defined (__ia64__) || defined(__mips__) || defined(__hppa__) || defined(__arm__)
++#if defined (__ia64__) || defined(__mips__) || defined(__hppa__) || defined(__arm__) || defined(__aarch64__)
+ 	while ((vp = sbrk(INCREMENT)) != (void *)-1) ;
+ 	if (errno != ENOMEM) {
+ 		tst_resm(TFAIL, "Error: sbrk failed, errno = %d\n", errno);
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/cacheflush/cacheflush01.c ltp-full-20120903/testcases/kernel/syscalls/cacheflush/cacheflush01.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/cacheflush/cacheflush01.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/cacheflush/cacheflush01.c	2012-10-15 17:05:12.529177068 +0300
+@@ -44,16 +44,9 @@
+ #include <stdlib.h>
+ #include <errno.h>
+ 
+-/* Harness Specific Include Files. */
+-#include "test.h"
+-#include "usctest.h"
+-#include "linux_syscall_numbers.h"
++/* cacheflush man page states that cacheflush() is only applicable to
++ * MIPS architecture -- regardless, it's a good negative test.. */
+ 
+-#if defined __NR_cacheflush && __NR_cacheflush > 0
+-#include <asm/cachectl.h>
+-#else
+-/* Fake linux_syscall_numbers.h */
+-#define __NR_cacheflush		0
+ #ifndef   ICACHE
+ #define   ICACHE   (1<<0)		/* flush instruction cache        */
+ #endif
+@@ -63,6 +56,22 @@
+ #ifndef   BCACHE
+ #define   BCACHE   (ICACHE|DCACHE)	/* flush both caches              */
+ #endif
++
++/* Harness Specific Incnude Files. */
++#include "test.h"
++#include "usctest.h"
++#include "linux_syscall_numbers.h"
++
++/* cacheflush man page states that cacheflush() is only applicable to
++ * MIPS architecture -- regardless, it's a good negative test.. */
++#if defined __mips__
++#include <asm/cachectl.h>
++#ifndef __NR_cacheflush
++#define __NR_cacheflush		0
++#endif
++#else
++/* Fake linux_syscall_numbers.h */
++#define __NR_cacheflush		0
+ #endif
+ 
+ /* Extern Global Variables */
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents01.c ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents01.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents01.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents01.c	2012-10-15 17:05:24.169015861 +0300
+@@ -81,6 +81,21 @@
+ 	char *dir_name = NULL;
+ 	struct dirent *dirp;
+ 
++	/*
++	 * Here's a case where invoking the system call directly
++	 * doesn't seem to work.  getdents.h has an assembly
++	 * macro to do the job.
++	 *
++	 * equivalent to  - getdents(fd, dirp, count);
++	 * if we could call getdents that way.
++	 */
++
++#ifdef __NR_getdents
++#define getdents(arg1, arg2, arg3) syscall(__NR_getdents, arg1, arg2, arg3)
++#else
++#define getdents(arg1, arg2, arg3) -ENOSYS
++#endif
++
+ 	if ((msg = parse_opts(ac, av, NULL, NULL)) != NULL)
+ 		tst_brkm(TBROK, NULL, "OPTION PARSING ERROR - %s", msg);
+ 
+@@ -109,14 +124,17 @@
+ 		rval = getdents(fd, dirp, count);
+ 		if (rval < 0) {
+ 
+-			TEST_ERROR_LOG(errno);
++			rval *= -1;
++			TEST_ERROR_LOG(rval);
+ 
+-			tst_resm(TFAIL|TERRNO, "getdents failed unexpectedly");
++			tst_resm(TFAIL, "%s call failed - errno = %d "
++				 ": %s", TCID, rval, strerror(rval));
+ 			continue;
+ 		}
+ 
+ 		if (rval == 0) {
+-			tst_resm(TFAIL, "getdents failed - returned end of directory");
++			tst_resm(TFAIL, "%s call failed - returned "
++				 "end of directory", TCID);
+ 			continue;
+ 		}
+ 
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents02.c ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents02.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents02.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents02.c	2012-10-15 17:05:18.189098682 +0300
+@@ -69,12 +69,21 @@
+ 
+ int exp_enos[] = { EBADF, 0 };	/* 0 terminated list of expected errnos */
+ 
++#ifndef __i386__
++int main(void)
++{
++	tst_brkm(TCONF, NULL, "this test will only run on i386");
++	tst_exit();
++}
++#else
++
+ int main(int ac, char **av)
+ {
+ 	int lc;
+ 	char *msg;
+ 	int rval, fd;
+ 	int count;
++	const int cnum = __NR_getdents;
+ 	size_t size = 0;
+ 	char *dir_name = NULL;
+ 	struct dirent *dirp;
+@@ -100,15 +109,25 @@
+ 
+ 		fd = -5;
+ 
+-		rval = getdents(fd, dirp, count);
++		/*
++		 * here's a case where invoking the system call directly
++		 * doesn't seem to work.  getdents.h has an assembly
++		 * macro to do the job.
++		 *
++		 * equivalent to  - getdents(fd, dirp, count);
++		 * if we could call getdents that way.
++		 */
++
++		rval = GETDENTS_ASM();
+ 
+ 		/*
+ 		 * Hopefully we get an error due to the bad file descriptor.
+ 		 */
+ 		if (rval < 0) {
+-			TEST_ERROR_LOG(errno);
++			rval *= -1;
++			TEST_ERROR_LOG(rval);
+ 
+-			switch (errno) {
++			switch (rval) {
+ 			case EBADF:
+ 				tst_resm(TPASS,
+ 				    "failed as expected with EBADF");
+@@ -151,3 +170,5 @@
+ 
+ 	tst_rmdir();
+ }
++
++#endif /* __i386__ */
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents03.c ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents03.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents03.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents03.c	2012-10-15 17:05:18.189098682 +0300
+@@ -72,12 +72,21 @@
+ 
+ int exp_enos[] = { EINVAL, 0 };	/* 0 terminated list of expected errnos */
+ 
++#ifndef __i386__
++int main(void)
++{
++	tst_brkm(TCONF, NULL, "this test will only run on i386");
++	tst_exit();
++}
++#else
++
+ int main(int ac, char **av)
+ {
+ 	int lc;
+ 	char *msg;
+ 	int rval, fd;
+ 	int count;
++	const int cnum = __NR_getdents;
+ 	size_t size = 0;
+ 	char *dir_name = NULL;
+ 	struct dirent *dirp;
+@@ -105,16 +114,26 @@
+ 		if ((fd = open(dir_name, O_RDONLY)) == -1)
+ 			tst_brkm(TBROK, cleanup, "open of directory failed");
+ 
+-		rval = getdents(fd, dirp, count);
++		/*
++		 * here's a case where invoking the system call directly
++		 * doesn't seem to work.  getdents.h has an assembly
++		 * macro to do the job.
++		 *
++		 * equivalent to  - getdents(fd, dirp, count)
++		 * if we could call getdents that way.
++		 */
++
++		rval = GETDENTS_ASM();
+ 
+ 		/*
+ 		 * Hopefully we get an error due to the small buffer.
+ 		 */
+ 
+ 		if (rval < 0) {
+-			TEST_ERROR_LOG(errno);
++			rval *= -1;
++			TEST_ERROR_LOG(rval);
+ 
+-			switch (errno) {
++			switch (rval) {
+ 			case EINVAL:
+ 				tst_resm(TPASS,
+ 				    "getdents failed with EINVAL as expected");
+@@ -162,3 +181,5 @@
+ 
+ 	tst_rmdir();
+ }
++
++#endif /* __i386__ */
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents04.c ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents04.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents04.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents04.c	2012-10-15 17:05:18.193098626 +0300
+@@ -73,11 +73,20 @@
+ 
+ int exp_enos[] = { ENOTDIR, 0 };	/* 0 terminated list of expected errnos */
+ 
++#ifndef __i386__
++int main(void)
++{
++	tst_brkm(TCONF, NULL, "this test will only run on i386");
++	tst_exit();
++}
++#else
++
+ int main(int ac, char **av)
+ {
+ 	int lc;
+ 	char *msg;
+ 	int count, rval, fd;
++	const int cnum = 141;
+ 	size_t size = 0;
+ 	char *dir_name = NULL;
+ 	struct dirent *dirp;
+@@ -122,7 +131,15 @@
+ 		if (S_ISDIR(sbuf->st_mode))
+ 			tst_brkm(TBROK, cleanup, "fd is a directory");
+ 
+-		rval = getdents(fd, dirp, count);
++		/*
++		 * here's a case where invoking the system call directly
++		 * doesn't seem to work.  getdents.h has an assembly
++		 * macro to do the job.
++		 *
++		 * equivalent to getdents(fd, dirp, count);
++		 */
++
++		rval = GETDENTS_ASM();
+ 
+ 		/*
+ 		 * Calling with a non directory file descriptor should give
+@@ -130,9 +147,10 @@
+ 		 */
+ 
+ 		if (rval < 0) {
+-			TEST_ERROR_LOG(errno);
++			rval *= -1;
++			TEST_ERROR_LOG(rval);
+ 
+-			switch (errno) {
++			switch (rval) {
+ 			case ENOTDIR:
+ 				tst_resm(TPASS,
+ 				    "getdents failed as expected with ENOTDIR");
+@@ -180,3 +198,5 @@
+ 
+ 	tst_rmdir();
+ }
++
++#endif /* __i386__ */
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents.h ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents.h
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/getdents/getdents.h	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/getdents/getdents.h	2012-10-15 17:05:18.189098682 +0300
+@@ -23,62 +23,25 @@
+ 
+ #ifndef __GETDENTS_H
+ #define __GETDENTS_H	1
+-
+-#include <dirent.h>
+-#include <stdio.h>
+-#include <string.h>
+-#include <unistd.h>
+ #include <sys/syscall.h>
+ 
+-/*
+- * The dirent struct that the C library exports is not the same
+- * as the kernel ABI, so we can't include dirent.h and use the
+- * dirent struct from there.  Further, since the Linux headers
+- * don't export their vision of the struct either, we have to
+- * declare our own here.  Wheeeeee.
+- */
+-
+-struct linux_dirent {
+-	unsigned long   d_ino;
+-	unsigned long   d_off;
+-	unsigned short  d_reclen;
+-	char            d_name[];
+-};
+-
+-static inline int
+-getdents(unsigned int fd, struct dirent *dirp, unsigned int count)
+-{
+-	union {
+-		struct linux_dirent *dirp;
+-		char *buf;
+-	} ptrs;
+-	char buf[count];
+-	long ret;
+-	unsigned int i;
+-
+-	ptrs.buf = buf;
+-	ret = syscall(SYS_getdents, fd, buf, count);
+-	if (ret < 0)
+-		return ret;
+-
+-#define kdircpy(field) memcpy(&dirp[i].field, &ptrs.dirp->field, sizeof(dirp[i].field))
+-
+-	i = 0;
+-	while (i < count && i < ret) {
+-		unsigned long reclen;
+-
+-		kdircpy(d_ino);
+-		kdircpy(d_reclen);
+-		reclen = dirp[i].d_reclen;
+-		kdircpy(d_off);
+-		strcpy(dirp[i].d_name, ptrs.dirp->d_name);
+-
+-		ptrs.buf += reclen;
+-
+-		i += reclen;
+-	}
+-
+-	return ret;
+-}
++#ifdef __i386__
++	#define GETDENTS_ASM() ({ int __rval;				\
++				__asm__ __volatile__("			\
++					movl	%4, %%edx \n		\
++					movl	%3, %%ecx \n		\
++					movl	%2, %%ebx \n		\
++					movl	%1, %%eax \n		\
++					int	$0x80 \n		\
++					movl	%%eax, %0"		\
++				: "=a" (__rval)				\
++				: "a" (cnum), "b" (fd), "c" (dirp), "d" (count)\
++				: "memory"				\
++				);					\
++				__rval;					\
++		    	})
++#else
++	#define GETDENTS_ASM() 0
++#endif /* __i386__ */
+ 
+ #endif /* getdents.h */
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/profil/profil01.c ltp-full-20120903/testcases/kernel/syscalls/profil/profil01.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/profil/profil01.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/profil/profil01.c	2012-10-15 17:05:24.173015806 +0300
+@@ -58,6 +58,8 @@
+ 
+ #ifdef __arm__
+ #define ADDRESS_OFFSET 0x8000
++#elif defined(__aarch64__)
++#define ADDRESS_OFFSET 0x400000
+ #else
+ #define ADDRESS_OFFSET 0
+ #endif
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl01.c ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl01.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl01.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl01.c	2012-10-15 17:05:24.173015806 +0300
+@@ -58,9 +58,13 @@
+ static int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
+ 	   void *newval, size_t newlen)
+ {
++#ifdef __NR__sysctl
+ 	struct __sysctl_args args =
+ 	    { name, nlen, oldval, oldlenp, newval, newlen };
+ 	return syscall(__NR__sysctl, &args);
++#else
++	return -ENOSYS;
++#endif
+ }
+ 
+ #define SIZE(x) sizeof(x)/sizeof(x[0])
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl03.c ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl03.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl03.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl03.c	2012-10-15 17:05:24.173015806 +0300
+@@ -78,9 +78,13 @@
+ int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
+ 	   void *newval, size_t newlen)
+ {
++#ifdef __NR__sysctl
+ 	struct __sysctl_args args =
+ 	    { name, nlen, oldval, oldlenp, newval, newlen };
+ 	return syscall(__NR__sysctl, &args);
++#else
++	return -ENOSYS;
++#endif
+ }
+ 
+ #define SIZE(x) sizeof(x)/sizeof(x[0])
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl04.c ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl04.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl04.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl04.c	2012-10-15 17:05:24.173015806 +0300
+@@ -59,9 +59,13 @@
+ int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
+ 	   void *newval, size_t newlen)
+ {
++#ifdef __NR__sysctl
+ 	struct __sysctl_args args =
+ 	    { name, nlen, oldval, oldlenp, newval, newlen };
+ 	return syscall(__NR__sysctl, &args);
++#else
++	return -ENOSYS;
++#endif
+ }
+ 
+ #define SIZE(x) sizeof(x)/sizeof(x[0])
+diff -urN ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl05.c ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl05.c
+--- ltp-full-20120903.orig/testcases/kernel/syscalls/sysctl/sysctl05.c	2012-09-03 07:39:27.000000000 +0300
++++ ltp-full-20120903/testcases/kernel/syscalls/sysctl/sysctl05.c	2012-10-15 17:05:24.173015806 +0300
+@@ -61,9 +61,13 @@
+ int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
+ 	   void *newval, size_t newlen)
+ {
++#ifdef __NR__sysctl
+ 	struct __sysctl_args args =
+ 	    { name, nlen, oldval, oldlenp, newval, newlen };
+ 	return syscall(__NR__sysctl, &args);
++#else
++	return -ENOSYS;
++#endif
+ }
+ 
+ #define SIZE(x) sizeof(x)/sizeof(x[0])
