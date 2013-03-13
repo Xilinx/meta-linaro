@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     linaro-lava-tests \
     sudo \
     stress \
+    lava-test-runner \
     "
 
 IMAGE_INSTALL_append_aarch64 += "perf"
