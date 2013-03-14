@@ -34,7 +34,7 @@ do_compile_append() {
     cd ${BW}
     make clean
     oe_runmake DTC=${S}/scripts/dtc/dtc \
-         FDT_SRC=${S}/arch/arm64/boot/dts/vexpress-foundation-v8.dts \
+         FDT_SRC=${S}/arch/arm64/boot/dts/foundation-v8.dts \
          CC="${CC}" LD="${LD}" \
          IMAGE=linux-system-foundation.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda"'
