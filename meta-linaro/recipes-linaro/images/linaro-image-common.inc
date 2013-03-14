@@ -7,6 +7,7 @@ IMAGE_INSTALL += " \
     sudo \
     stress \
     lava-test-runner \
+    nss-myhostname \
     "
 
 IMAGE_INSTALL_append_aarch64 += "perf"
