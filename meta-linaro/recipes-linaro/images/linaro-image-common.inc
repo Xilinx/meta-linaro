@@ -6,7 +6,6 @@ IMAGE_INSTALL += " \
     linaro-lava-tests \
     sudo \
     stress \
-    lava-test-runner \
     nss-myhostname \
     "
 
