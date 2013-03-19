@@ -1,6 +1,6 @@
 require gcc-common.inc
 
-PR = "r5+svn${SRCPV}"
+#PR = "r5+svn${SRCPV}"
 
 # Third digit in PV should be incremented after a minor release
 # happens from this branch on gcc e.g. currently its 4.7.1
@@ -38,7 +38,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
-SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} \
+BROKEN = "1"
+#SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${SRC_BRANCH} 
+SRC_URI = " \
 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://100-uclibc-conf.patch \
            file://gcc-uclibc-locale-ctype_touplow_t.patch \
