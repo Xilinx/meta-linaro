@@ -149,7 +149,8 @@ FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
 FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
 FILES_libstdc++-dev = "\
 	${includedir}/c++/${PV} \
-	${base_libdir}/libstdc++.so \
+	${base_libdir}/libstdc++.so"
+FILES_libstdc++-staticdev = "\
 	${base_libdir}/libstdc++.a \
 	${base_libdir}/libsupc++.a \
 "
