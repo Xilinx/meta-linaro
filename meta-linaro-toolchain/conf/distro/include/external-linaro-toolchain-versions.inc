@@ -26,7 +26,7 @@ def elt_get_version(d):
 def elt_get_main_version(d):
 	version = elt_get_version(d)
 	if version != 'UNKNOWN':
-		return version.split()[-1].rstrip(')')
+		return version.split()[6].split('-')[3]
 	else:
 		return version
 
