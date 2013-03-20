@@ -4,6 +4,7 @@ IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 
 IMAGE_INSTALL += " \
     linaro-lava-tests \
+    powertop \
     sudo \
     stress \
     nss-myhostname \
