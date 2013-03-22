@@ -8,6 +8,7 @@ IMAGE_INSTALL += " \
     sudo \
     stress \
     nss-myhostname \
+    bash \
     "
 
 IMAGE_INSTALL_append_aarch64 += "perf"
