@@ -6,7 +6,7 @@ IMAGE_INSTALL += " \
     linaro-lava-tests \
     powertop \
     sudo \
-    stress \
+    stress-dbg \
     nss-myhostname \
     bash \
     "
