@@ -20,7 +20,7 @@ RDEPENDS_${PN} = "\
     flex \
     gd-dev \
     gd-staticdev \
-    google-glog-dev \
+    glog-dev \
     icu-dev \
     libcap-dev \
     libcap-staticdev \

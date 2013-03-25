@@ -8,7 +8,7 @@ elfutils \
 expat \
 flex-native \
 gd \
-google-glog \
+glog \
 icu \
 libcap \
 libc-client \
