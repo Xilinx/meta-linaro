@@ -19,7 +19,7 @@ SRC_URI[md5sum] = "3809790e1001a1b32d59c9fee590ee85"
 SRC_URI[sha256sum] = "4ae2c10899e3b6ef2f686013ec5901fc658444ca90178efaca6014b0665c34b6"
 
 do_compile() {
-    oe_runmake compiler=gcc arch=aarch64 runtime=cc4.7_libc2.17_kernel3.8 tbb tbbmalloc
+    oe_runmake compiler=gcc arch=${HOST_ARCH} runtime=cc4.7_libc2.17_kernel3.8 tbb tbbmalloc
 }
 
 do_install() {
