@@ -31,7 +31,7 @@ SDK_IMAGE_INSTALL += "\
     expat \
     flex \
     gd \
-    google-glog \
+    glog \
     icu \
     libbz2 \
     libcap \
