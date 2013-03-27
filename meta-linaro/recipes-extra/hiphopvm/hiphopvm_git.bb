@@ -27,10 +27,13 @@ pcre \
 readline \
 zlib \
 tbb \
+${EXTRA_DEPENDS} \
 "
 
 # optional (for now) dependencies:
-#DEPENDS += "libunwind google-perftools"
+EXTRA_DEPENDS = "libunwind gperftools"
+EXTRA_DEPENDS_aarch64 = ""
+
 # 64-bit platforms only
 COMPATIBLE_HOST = '(x86_64.*|aarch64.*)-linux'
 
