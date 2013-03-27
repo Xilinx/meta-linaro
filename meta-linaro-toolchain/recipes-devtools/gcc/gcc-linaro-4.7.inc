@@ -1,8 +1,8 @@
 require recipes-devtools/gcc/gcc-4.7.inc
 require gcc-linaro-common-4.7.inc
 
-PR = "r9"
 RELEASE = "2013.03"
+PR = "r${RELEASE}"
 BINV = "4.7.3"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"

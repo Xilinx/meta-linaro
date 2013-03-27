@@ -1,8 +1,8 @@
 require recipes-devtools/gcc/gcc-4.6.inc
 require gcc-linaro-common-4.6.inc
 
-PR = "r5"
 RELEASE = "2013.03"
+PR = "r${RELEASE}"
 BINV = "4.6.4"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
