@@ -44,10 +44,11 @@ LIC_FILES_CHKSUM = " \
 		file://LICENSE.ZEND;md5=69e7a9c51846dd6692f1b946f95f6c60"
 
 SRC_URI = "git://github.com/facebook/hiphop-php.git \
-           file://hrw-check-for-libdwarf-in-our-place-first.patch"
+           file://hrw-check-for-libdwarf-in-our-place-first.patch \
+           "
 
 # disable libunwind for aarch64
-SRC_URI_aarch64 += "file://disable-not-available-for-aarch64.patch"
+SRC_URI_append_aarch64 = "file://disable-not-available-for-aarch64.patch"
 
 SRCREV = "${AUTOREV}"
 
