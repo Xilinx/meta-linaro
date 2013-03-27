@@ -31,6 +31,8 @@ tbb \
 
 # optional (for now) dependencies:
 #DEPENDS += "libunwind google-perftools"
+# 64-bit platforms only
+COMPATIBLE_HOST = '(x86_64.*|aarch64.*)-linux'
 
 LICENSE = "PHP Zend"
 
