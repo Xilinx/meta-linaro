@@ -52,6 +52,7 @@ CFLAGS += " -DPTYS_ARE_GETPT -DPTYS_ARE_SEARCHED -D_GNU_SOURCE"
 acpaths = ""
 
 do_install  () {
+    install -d ${D}${libdir}/php
     oe_runmake 'INSTALL_ROOT=${D}' install
 }
 
