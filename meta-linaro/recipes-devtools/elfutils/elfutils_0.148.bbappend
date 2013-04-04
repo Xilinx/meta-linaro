@@ -8,4 +8,4 @@ FILES_libasm-dev = "${libdir}/libasm.so ${includedir}/elfutils/libasm.h"
 FILES_libdw-dev  = "${libdir}/libdw.so  ${includedir}/dwarf.h ${includedir}/elfutils/libdw*.h"
 FILES_SOLIBSDEV = ""
 
-INSANE_SKIP_libdw = "dev-so"
+INSANE_SKIP_${MLPREFIX}libdw = "dev-so"
