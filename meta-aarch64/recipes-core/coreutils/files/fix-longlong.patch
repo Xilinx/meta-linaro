@@ -1,0 +1,45 @@
+From 9fe7c5b6eb373d859390dd5a7844a666d8b7818b Mon Sep 17 00:00:00 2001
+From: Torbjörn Granlund <tg@gmplib.org>
+Date: Mon, 04 Mar 2013 17:57:33 +0000
+Subject: build: fix factor build failure on aarch64
+
+* src/longlong.h (__aarch64__): Make add_ssaaaa and sub_ddmmss work.
+* NEWS: Mention the build fix.
+Reported at https://bugzilla.redhat.com/917735
+---
+(limited to 'src/longlong.h')
+
+--- a/src/longlong.h
++++ b/src/longlong.h
+@@ -529,23 +529,16 @@
+ #endif /* __arm__ */
+ 
+ #if defined (__aarch64__) && W_TYPE_SIZE == 64
++/* FIXME: Extend the immediate range for the low word by using both
++   ADDS and SUBS, since they set carry in the same way.  */
+ #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
+-  __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
+-	   : "=r" (sh), "=&r" (sl)					\
+-	   : "r" (ah), "rZ" (bh), "%r" (al), "rI" (bl) __CLOBBER_CC)
++  __asm__ ("adds\t%1, %x4, %5\n\tadc\t%0, %x2, %x3"                     \
++       : "=r" (sh), "=&r" (sl)                  \
++       : "rZ" (ah), "rZ" (bh), "%r" (al), "rI" (bl) __CLOBBER_CC)
+ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+-  do {									\
+-    if (__builtin_constant_p (bl))					\
+-      {									\
+-	__asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
+-		 : "=r" (sh), "=&r" (sl)				\
+-		 : "r" (ah), "r" (bh), "r" (al), "rI" (bl) __CLOBBER_CC); \
+-      }									\
+-    else /* only bh might be a constant */				\
+-      __asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
+-	       : "=r" (sh), "=&r" (sl)					\
+-	       : "r" (ah), "rZ" (bh), "r" (al), "rI" (bl) __CLOBBER_CC);\
+-    } while (0)
++  __asm__ ("subs\t%1, %x4, %5\n\tsbc\t%0, %x2, %x3"                     \
++           : "=r,r" (sh), "=&r,&r" (sl)                                 \
++           : "rZ,rZ" (ah), "rZ,rZ" (bh), "r,Z" (al), "rI,r" (bl) __CLOBBER_CC)
+ #define umul_ppmm(ph, pl, m0, m1) \
+   do {									\
+     UDItype __m0 = (m0), __m1 = (m1);					\
