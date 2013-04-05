@@ -24,6 +24,21 @@ PROVIDES += "\
 	glibc-thread-db \
 	eglibc \
 	libgcc \
+	libg2c \
+	libg2c-dev \
+	libssp \
+	libssp-dev \
+	libssp-staticdev \
+	libgfortran \
+	libgfortran-dev \
+	libmudflap \
+	libmudflap-dev \
+	libgomp \
+	libgomp-dev \
+	libgomp-staticdev \
+	libitm \
+	libitm-dev \
+	libitm-staticdev \
 	virtual/linux-libc-headers \
 "
 
@@ -31,7 +46,6 @@ PV = "${ELT_VER_MAIN}"
 PR = "r2"
 
 # https://launchpad.net/linaro-toolchain-binaries
-# http://launchpad.net/linaro-toolchain-binaries/trunk/2012.03/+download/gcc-linaro-arm-linux-gnueabi-2012.03-20120326_linux.tar.bz2
 SRC_URI = "file://SUPPORTED"
 
 do_install() {
@@ -63,7 +77,7 @@ do_install() {
 	fi
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
-	ln -sf ld-2.13.so ${D}${base_libdir}/ld-linux.so.3
+	ln -sf ld-${ELT_VER_LIBC}.so ${D}${base_libdir}/ld-linux.so.3
 	ln -sf ../../lib/libnsl.so.1 ${D}${libdir}/libnsl.so
 	ln -sf ../../lib/librt.so.1 ${D}${libdir}/librt.so
 	ln -sf ../../lib/libcrypt.so.1 ${D}${libdir}/libcrypt.so
@@ -81,6 +95,14 @@ do_install() {
 	ln -sf ../../lib/libdl.so.2 ${D}${libdir}/libdl.so
 	ln -sf ../../lib/libnss_nisplus.so.2 ${D}${libdir}/libnss_nisplus.so
 	ln -sf ../../lib/libm.so.6 ${D}${libdir}/libm.so
+
+	if [ -d ${D}${base_libdir}/arm-linux-gnueabi ]; then
+	   rm -rf ${D}${base_libdir}/arm-linux-gnueabi
+	fi
+
+	if [ -d ${D}${base_libdir}/ldscripts ]; then
+	   rm -rf ${D}${base_libdir}/ldscripts
+	fi
 
 	if [ -f ${D}${libdir}/libc.so ];then
 		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" ${D}${libdir}/libc.so
@@ -104,6 +126,20 @@ PACKAGES =+ "\
 	libstdc++-staticdev \
 	linux-libc-headers \
 	linux-libc-headers-dev \
+	libssp \
+	libssp-dev \
+	libssp-staticdev \
+	libgfortran \
+	libgfortran-dev \
+	libmudflap \
+	libmudflap-dev \
+	libmudflap-staticdev \
+	libgomp \
+	libgomp-dev \
+	libgomp-staticdev \
+	libitm \
+	libitm-dev \
+	libitm-staticdev \
 "
 
 INSANE_SKIP_${PN}-dbg = "staticdev"
@@ -175,7 +211,8 @@ FILES_${PN} += "\
 	${base_libdir}/libcrypt-*.so \
 	${base_libdir}/libc.so.* \
 	${base_libdir}/libc-*.so \
-	${base_libdir}/libm*.so.* \
+	${base_libdir}/libm.so.* \
+	${base_libdir}/libmemusage.so \
 	${base_libdir}/libm-*.so \
 	${base_libdir}/ld*.so.* \
 	${base_libdir}/ld-*.so \
@@ -214,7 +251,61 @@ FILES_${PN} += "\
 	${base_libdir}/libmemusage.so \
 	${base_libdir}/libSegFault.so \
 	${base_libdir}/libpcprofile.so \
-"
+    "
+
+FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
+FILES_libstdc++-dev = "\
+  ${includedir}/c++/ \
+  ${base_libdir}/libstdc++.so \
+  ${base_libdir}/libstdc++.la \
+  ${base_libdir}/libsupc++.la"
+FILES_libstdc++-staticdev = "\
+  ${base_libdir}/libstdc++.a \
+  ${base_libdir}/libsupc++.a"
+
+FILES_libstdc++-precompile-dev = "${includedir}/c++/${TARGET_SYS}/bits/*.gch"
+
+FILES_libssp = "${base_libdir}/libssp.so.*"
+FILES_libssp-dev = " \
+  ${base_libdir}/libssp*.so \
+  ${base_libdir}/libssp*_nonshared.a \
+  ${base_libdir}/libssp*.la \
+  ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp"
+FILES_libssp-staticdev = " \
+  ${base_libdir}/libssp*.a"
+
+FILES_libgfortran = "${base_libdir}/libgfortran.so.*"
+FILES_libgfortran-dev = " \
+  ${base_libdir}/libgfortran.a \
+  ${base_libdir}/libgfortran.so \
+  ${base_libdir}/libgfortranbegin.a"
+
+FILES_libmudflap = "${base_libdir}/libmudflap*.so.*"
+FILES_libmudflap-dev = "\
+  ${base_libdir}/libmudflap*.so \
+  ${base_libdir}/libmudflap*.a \
+  ${base_libdir}/libmudflap*.la"
+
+FILES_libitm = "${base_libdir}/libitm*${SOLIBS}"
+FILES_libitm-dev = "\
+  ${base_libdir}/libitm*${SOLIBSDEV} \
+  ${base_libdir}/libitm*.la \
+  ${base_libdir}/libitm.spec \
+  "
+FILES_libitm-staticdev = "\
+  ${base_libdir}/libitm*.a \
+  "
+
+FILES_libgomp = "${base_libdir}/libgomp*${SOLIBS}"
+FILES_libgomp-dev = "\
+  ${base_libdir}/libgomp*${SOLIBSDEV} \
+  ${base_libdir}/libgomp*.la \
+  ${base_libdir}/libgomp.spec \
+  ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
+  "
+FILES_libgomp-staticdev = "\
+  ${base_libdir}/libgomp*.a \
+  "
 ELT_VER_MAIN ??= ""
 
 python () {
