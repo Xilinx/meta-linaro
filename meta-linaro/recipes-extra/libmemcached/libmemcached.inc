@@ -8,5 +8,3 @@ SRC_URI = "http://launchpad.net/libmemcached/1.0/${PV}/+download/libmemcached-${
 TARGET_LDFLAGS += "-luuid"
 
 inherit autotools gettext pkgconfig
-
-CACHED_CONFIGUREVARS = 'ac_cv_c_endian=${@base_conditional("SITEINFO_ENDIANNESS", "le", "little", "big", d)}'
