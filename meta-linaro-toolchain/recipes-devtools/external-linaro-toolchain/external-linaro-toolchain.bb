@@ -22,9 +22,11 @@ PROVIDES += "\
 	virtual/libintl \
 	virtual/libiconv \
 	glibc-thread-db \
+	eglibc \
 	libgcc \
 	virtual/linux-libc-headers \
 "
+
 PV = "${ELT_VER_MAIN}"
 PR = "r2"
 
