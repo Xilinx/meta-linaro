@@ -22,7 +22,7 @@ BW = "${WORKDIR}/bootwrapper"
 COMPATIBLE_HOST = "aarch64"
 KERNEL_IMAGETYPE = "Image"
 
-BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk rw"
+BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,0x1c0900000 rw"
 
 do_configure_prepend() {
     ARCH=arm64 scripts/kconfig/merge_config.sh -m linaro/configs/linaro-base.conf \
