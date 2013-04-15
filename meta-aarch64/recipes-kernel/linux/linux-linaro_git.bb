@@ -26,7 +26,7 @@ BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,
 
 do_configure_prepend() {
     ARCH=arm64 scripts/kconfig/merge_config.sh -m linaro/configs/linaro-base.conf \
-    linaro/configs/vexpress64.conf 
+    linaro/configs/vexpress64.conf linaro/configs/ubuntu-minimal.conf
 }
 
 do_compile_append() {
