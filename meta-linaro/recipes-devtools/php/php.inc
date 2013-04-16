@@ -7,7 +7,7 @@ DEPENDS = "zlib libxml2 virtual/libiconv php-native lemon-native mysql5 \
            libc-client openssl sqlite3"
 DEPENDS_virtclass-native = "zlib-native libxml2-native"
 
-INC_PR = "r5"
+INC_PR = "r4"
 
 SRC_URI = "http://www.php.net/distributions/php-${PV}.tar.bz2"
 
@@ -30,15 +30,15 @@ EXTRA_OECONF = "--enable-mbstring --enable-discard-path --enable-wddx \
                 --disable-embedded-mysqli \
                 --with-mysql="${STAGING_DIR_TARGET}${prefix}" \
                 --with-mysqli="${STAGING_BINDIR_CROSS}/mysql_config" \
-		--with-sqlite3=${STAGING_LIBDIR}/.. --enable-sqlite-utf8 \
+        --with-sqlite3=${STAGING_LIBDIR}/.. --enable-sqlite-utf8 \
                 --with-pdo-mysql="${STAGING_BINDIR_CROSS}/mysql_config" \
                 --with-pdo-sqlite=${STAGING_LIBDIR}/.. ${COMMON_EXTRA_OECONF} \
-               "
+"
 EXTRA_OECONF_virtclass-native = "--with-cgi --without-libpng --without-libjpeg \
                 --with-zlib --with-zlib-dir=${STAGING_LIBDIR_NATIVE}/.. \
                 --with-libxml-dir=${STAGING_BINDIR_NATIVE} \
                 ${COMMON_EXTRA_OECONF} \
-               "
+"
 
 LIBS_virtclass-native = " -lxml2 "
 LIBS_pn-php =" -lpthread "
@@ -52,7 +52,6 @@ CFLAGS += " -DPTYS_ARE_GETPT -DPTYS_ARE_SEARCHED -D_GNU_SOURCE"
 acpaths = ""
 
 do_install  () {
-    install -d ${D}${libdir}/php
     oe_runmake 'INSTALL_ROOT=${D}' install
 }
 
@@ -65,7 +64,6 @@ do_install_append_pn-php-native() {
 # fixme
 do_install_append_pn-php() {
     install -d ${D}/${sysconfdir}/
-
     if [ -d ${D}/${STAGING_DIR_NATIVE}/${sysconfdir} ];then
          mv ${D}/${STAGING_DIR_NATIVE}/${sysconfdir}/* ${D}/${sysconfdir}/
     fi
@@ -86,8 +84,8 @@ do_install_append_pn-php() {
     install -m 0755 ${S}/sapi/fpm/init.d.php-fpm ${D}${sysconfdir}/init.d/php-fpm
     TMP=`dirname ${D}/${TMPDIR}`
     while test ${TMP} != ${D}; do
-      rmdir ${TMP}
-      TMP=`dirname ${TMP}`;
+        rmdir ${TMP}
+        TMP=`dirname ${TMP}`;
     done
 }
 
