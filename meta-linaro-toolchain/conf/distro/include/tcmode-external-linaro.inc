@@ -9,6 +9,7 @@ PATH =. "${TOOLCHAIN_PATH_ADD}"
 
 ELT_TARGET_SYS ?= "arm-linux-gnueabihf"
 TARGET_PREFIX = "${ELT_TARGET_SYS}-"
+GCCMULTILIB_forcevariable = "--disable-multilib"
 
 PREFERRED_PROVIDER_linux-libc-headers = "external-linaro-toolchain"
 PREFERRED_PROVIDER_linux-libc-headers-dev = "external-linaro-toolchain"
