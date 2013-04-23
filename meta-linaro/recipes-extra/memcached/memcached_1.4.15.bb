@@ -13,7 +13,3 @@ SRC_URI[sha256sum] = "169721ab7a7531add6ae9f6b14b6b5641725fe0b1f0bdf5c3a43277259
 DEPENDS = "libevent"
 
 inherit autotools
-
-do_configure_prepend_aarch64() {
-	export ac_cv_c_endian=little
-}
