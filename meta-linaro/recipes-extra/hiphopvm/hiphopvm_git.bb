@@ -16,6 +16,7 @@ libdwarf \
 libevent-fb \
 libmcrypt \
 libmemcached \
+libunwind \
 libxml2 \
 mysql5 \
 ncurses \
@@ -31,7 +32,7 @@ ${EXTRA_DEPENDS} \
 "
 
 # optional (for now) dependencies:
-EXTRA_DEPENDS = "libunwind gperftools"
+EXTRA_DEPENDS = "gperftools"
 EXTRA_DEPENDS_aarch64 = ""
 
 # 64-bit platforms only
@@ -46,9 +47,6 @@ LIC_FILES_CHKSUM = " \
 SRC_URI = "git://github.com/facebook/hiphop-php.git \
            file://hrw-check-for-libdwarf-in-our-place-first.patch \
            "
-
-# disable libunwind for aarch64
-SRC_URI_append_aarch64 = "file://disable-not-available-for-aarch64.patch"
 
 SRCREV = "${AUTOREV}"
 
