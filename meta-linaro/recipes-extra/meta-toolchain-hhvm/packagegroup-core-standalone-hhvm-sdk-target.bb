@@ -41,6 +41,8 @@ RDEPENDS_${PN} = "\
     libpam-dev \
     libpcre-dev \
     libpcre-staticdev \
+    libunwind-dev \
+    libunwind-staticdev \
     libxml2-dev \
     libxml2-staticdev \
     ncurses-dev \
