@@ -43,6 +43,7 @@ SDK_IMAGE_INSTALL += "\
     libmysqlclient-r \
     libpam \
     libpcre \
+    libunwind \
     libxml2 \
     ncurses \
     onig \
