@@ -10,8 +10,6 @@ S = "${WORKDIR}/git"
 SRC_URI = "git://sourceware.org/git/binutils.git;branch=master;protocol=git \
 "
 
-DEFAULT_PREFERENCE = "1"
-
 LIC_FILES_CHKSUM="\
     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552\
