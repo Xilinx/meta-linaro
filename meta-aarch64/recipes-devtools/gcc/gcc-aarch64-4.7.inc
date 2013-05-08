@@ -1,4 +1,4 @@
-require gcc-common.inc
+require recipes-devtools/gcc/gcc-common.inc
 
 #PR = "r5+svn${SRCPV}"
 

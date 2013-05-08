@@ -1,5 +1,5 @@
 require recipes-devtools/gcc/gcc-${PV}.inc
-require gcc-cross4.inc
+require recipes-devtools/gcc/gcc-cross4.inc
 
 EXTRA_OECONF += "--disable-libunwind-exceptions \
                  --with-mpfr=${STAGING_DIR_NATIVE}${prefix_native} \
