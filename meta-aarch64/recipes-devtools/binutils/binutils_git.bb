@@ -1,4 +1,4 @@
-require binutils.inc
+require recipes-devtools/binutils/binutils.inc
 require binutils-git.inc
 
 DEPENDS += "flex bison zlib"

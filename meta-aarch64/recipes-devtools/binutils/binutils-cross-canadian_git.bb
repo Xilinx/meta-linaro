@@ -1,3 +1,3 @@
-require binutils.inc
+require recipes-devtools/binutils/binutils.inc
 require binutils-git.inc
-require binutils-cross-canadian.inc
+require recipes-devtools/binutils/binutils-cross-canadian.inc

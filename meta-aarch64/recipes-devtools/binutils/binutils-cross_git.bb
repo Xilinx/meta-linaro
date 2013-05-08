@@ -1,3 +1,3 @@
-require binutils.inc
-require binutils-git.inc
-require binutils-cross.inc
+require recipes-devtools/binutils/binutils.inc
+require recipes-devtools/binutils/binutils-git.inc
+require recipes-devtools/binutils/binutils-cross.inc
