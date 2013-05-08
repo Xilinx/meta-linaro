@@ -1,0 +1,26 @@
+Upstream-Status: Pending
+
+By Lennert Buytenhek <buytenh@wantstofly.org>
+Adds support for arm*b-linux* big-endian ARM targets
+
+See http://gcc.gnu.org/PR16350
+
+---
+ gcc/config/arm/linux-elf.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- aarch64-4.7-branch.orig/gcc/config/arm/linux-elf.h
++++ aarch64-4.7-branch/gcc/config/arm/linux-elf.h
+@@ -46,11 +46,11 @@
+ 
+ #define SUBTARGET_EXTRA_LINK_SPEC " -m " TARGET_LINKER_EMULATION " -p"
+ 
+ #undef  MULTILIB_DEFAULTS
+ #define MULTILIB_DEFAULTS \
+-	{ "marm", "mlittle-endian", "mfloat-abi=hard", "mno-thumb-interwork" }
++	{ "marm", TARGET_ENDIAN_OPTION, "mfloat-abi=hard", "mno-thumb-interwork" }
+ 
+ /* Now we define the strings used to build the spec file.  */
+ #undef  LIB_SPEC
+ #define LIB_SPEC \
+   "%{pthread:-lpthread} \
