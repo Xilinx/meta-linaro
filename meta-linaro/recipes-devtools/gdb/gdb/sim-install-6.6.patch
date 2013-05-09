@@ -12,10 +12,3 @@ Upstream-Status: Inappropriate [embedded specific]
  includedir = @includedir@
  
 
-dir = $(mandir)/man1
-+man1dir = $(DESTDIR)$(mandir)/man1
- infodir = @infodir@
- includedir = @includedir@
- 
- SHELL = /bin/sh
- 
