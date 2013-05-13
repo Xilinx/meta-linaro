@@ -1,5 +1,11 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-#SRC_URI_append = " file://andy1.diff" 
+WITH_ADDITIONAL_VMS = ""
 
-WITH_ADDITIONAL_VMS_aarch64 = ""
+ICEDTEAPATCHES_append_aarch64 = " \
+            file://icedtea-openjdk-aarch64.patch;apply=no \
+  "
+
+DISTRIBUTION_PATCHES_append_aarch64 = " \
+            patches/icedtea-openjdk-aarch64.patch \
+  "
