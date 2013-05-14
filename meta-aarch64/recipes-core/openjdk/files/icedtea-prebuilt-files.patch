@@ -1,0 +1,194 @@
+--- openjdk/jdk/make/java/nio/Makefile
++++ openjdk/jdk/make/java/nio/Makefile
+@@ -256,6 +256,10 @@
+   vpath %.c	$(PLATFORM_SRC)/native/common/deps
+ endif
+ 
++ifdef CROSS_COMPILE_ARCH
++NIO_PLATFORM_CLASSES_ROOT_DIR=$(SHARE_SRC)/openembedded
++endif
++
+ #
+ # Various variables
+ #
+--- /dev/null
++++ openjdk/jdk/src/share/openembedded/sun/nio/ch/SocketOptionRegistry-linux-aarch64.java
+@@ -0,0 +1,83 @@
++/*
++ * Copyright (c) 2008, 2009,  Oracle and/or its affiliates. All rights reserved.
++ *
++ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
++ *
++ * This code is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 only, as
++ * published by the Free Software Foundation.  Oracle designates this
++ * particular file as subject to the "Classpath" exception as provided
++ * by Oracle in the LICENSE file that accompanied this code.
++ *
++ * This code is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++ * version 2 for more details (a copy is included in the LICENSE file that
++ * accompanied this code).
++ *
++ * You should have received a copy of the GNU General Public License version
++ * 2 along with this work; if not, write to the Free Software Foundation,
++ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
++ *
++ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
++ * or visit www.oracle.com if you need additional information or have any
++ * questions.
++ *
++ */
++// AUTOMATICALLY GENERATED FILE - DO NOT EDIT                                  
++package sun.nio.ch;                                                            
++import java.net.SocketOption;                                                  
++import java.net.StandardSocketOptions;                                         
++import java.net.ProtocolFamily;                                                
++import java.net.StandardProtocolFamily;                                        
++import java.util.Map;                                                          
++import java.util.HashMap;                                                      
++class SocketOptionRegistry {                                                   
++    private SocketOptionRegistry() { }                                         
++    private static class RegistryKey {                                         
++        private final SocketOption<?> name;                                    
++        private final ProtocolFamily family;                                   
++        RegistryKey(SocketOption<?> name, ProtocolFamily family) {             
++            this.name = name;                                                  
++            this.family = family;                                              
++        }                                                                      
++        public int hashCode() {                                                
++            return name.hashCode() + family.hashCode();                        
++        }                                                                      
++        public boolean equals(Object ob) {                                     
++            if (ob == null) return false;                                      
++            if (!(ob instanceof RegistryKey)) return false;                    
++            RegistryKey other = (RegistryKey)ob;                               
++            if (this.name != other.name) return false;                         
++            if (this.family != other.family) return false;                     
++            return true;                                                       
++        }                                                                      
++    }                                                                          
++    private static class LazyInitialization {                                  
++        static final Map<RegistryKey,OptionKey> options = options();           
++        private static Map<RegistryKey,OptionKey> options() {                  
++            Map<RegistryKey,OptionKey> map =                                   
++                new HashMap<RegistryKey,OptionKey>();                          
++            map.put(new RegistryKey(StandardSocketOptions.SO_BROADCAST, Net.UNSPEC), new OptionKey(1, 6));
++            map.put(new RegistryKey(StandardSocketOptions.SO_KEEPALIVE, Net.UNSPEC), new OptionKey(1, 9));
++            map.put(new RegistryKey(StandardSocketOptions.SO_LINGER, Net.UNSPEC), new OptionKey(1, 13));
++            map.put(new RegistryKey(StandardSocketOptions.SO_SNDBUF, Net.UNSPEC), new OptionKey(1, 7));
++            map.put(new RegistryKey(StandardSocketOptions.SO_RCVBUF, Net.UNSPEC), new OptionKey(1, 8));
++            map.put(new RegistryKey(StandardSocketOptions.SO_REUSEADDR, Net.UNSPEC), new OptionKey(1, 2));
++            map.put(new RegistryKey(StandardSocketOptions.TCP_NODELAY, Net.UNSPEC), new OptionKey(6, 1));
++            map.put(new RegistryKey(StandardSocketOptions.IP_TOS, StandardProtocolFamily.INET), new OptionKey(0, 1));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_IF, StandardProtocolFamily.INET), new OptionKey(0, 32));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_TTL, StandardProtocolFamily.INET), new OptionKey(0, 33));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_LOOP, StandardProtocolFamily.INET), new OptionKey(0, 34));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_IF, StandardProtocolFamily.INET6), new OptionKey(41, 17));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_TTL, StandardProtocolFamily.INET6), new OptionKey(41, 18));
++            map.put(new RegistryKey(StandardSocketOptions.IP_MULTICAST_LOOP, StandardProtocolFamily.INET6), new OptionKey(41, 19));
++            map.put(new RegistryKey(ExtendedSocketOption.SO_OOBINLINE, Net.UNSPEC), new OptionKey(1, 10));
++            return map;                                                        
++        }                                                                      
++    }                                                                          
++    public static OptionKey findOption(SocketOption<?> name, ProtocolFamily family) { 
++        RegistryKey key = new RegistryKey(name, family);                       
++        return LazyInitialization.options.get(key);                            
++    }                                                                          
++}                                                                              
+--- /dev/null
++++ openjdk/jdk/src/share/openembedded/sun/nio/fs/UnixConstants-linux-aarch64.java
+@@ -0,0 +1,79 @@
++/*
++ * Copyright 2008-2009 Sun Microsystems, Inc.  All Rights Reserved.
++ *
++ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
++ *
++ * This code is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 only, as
++ * published by the Free Software Foundation.  Sun designates this
++ * particular file as subject to the "Classpath" exception as provided
++ * by Sun in the LICENSE file that accompanied this code.
++ *
++ * This code is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++ * version 2 for more details (a copy is included in the LICENSE file that
++ * accompanied this code).
++ *
++ * You should have received a copy of the GNU General Public License version
++ * 2 along with this work; if not, write to the Free Software Foundation,
++ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
++ *
++ * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
++ * CA 95054 USA or visit www.sun.com if you need additional information or
++ * have any questions.
++ *
++ */
++// AUTOMATICALLY GENERATED FILE - DO NOT EDIT                                  
++package sun.nio.fs;                                                            
++class UnixConstants {                                                          
++    private UnixConstants() { }                                                
++    static final int O_RDONLY = 0;
++    static final int O_WRONLY = 1;
++    static final int O_RDWR = 2;
++    static final int O_APPEND = 0x400;
++    static final int O_CREAT = 0x40;
++    static final int O_EXCL = 0x80;
++    static final int O_TRUNC = 0x200;
++    static final int O_SYNC = 0x1000;
++    static final int O_DSYNC = 0x1000;
++    static final int O_NOFOLLOW = 0x20000;
++    static final int S_IAMB = 0x1ff;
++    static final int S_IRUSR = 256;
++    static final int S_IWUSR = 128;
++    static final int S_IXUSR = 64;
++    static final int S_IRGRP = 32;
++    static final int S_IWGRP = 16;
++    static final int S_IXGRP = 8;
++    static final int S_IROTH = 4;
++    static final int S_IWOTH = 2;
++    static final int S_IXOTH = 1;
++    static final int S_IFMT = 0xf000;
++    static final int S_IFREG = 0x8000;
++    static final int S_IFDIR = 0x4000;
++    static final int S_IFLNK = 0xa000;
++    static final int S_IFCHR = 0x2000;
++    static final int S_IFBLK = 0x6000;
++    static final int S_IFIFO = 0x1000;
++    static final int R_OK = 4;
++    static final int W_OK = 2;
++    static final int X_OK = 1;
++    static final int F_OK = 0;
++    static final int ENOENT = 2;
++    static final int EACCES = 13;
++    static final int EEXIST = 17;
++    static final int ENOTDIR = 20;
++    static final int EINVAL = 22;
++    static final int EXDEV = 18;
++    static final int EISDIR = 21;
++    static final int ENOTEMPTY = 39;
++    static final int ENOSPC = 28;
++    static final int EAGAIN = 11;
++    static final int ENOSYS = 38;
++    static final int ELOOP = 40;
++    static final int EROFS = 30;
++    static final int ENODATA = 61;
++    static final int ERANGE = 34;
++    static final int AT_SYMLINK_NOFOLLOW = 0x100;
++    static final int AT_REMOVEDIR = 0x200;
++}                                                                              
+--- openjdk/jdk/make/sun/xawt/Makefile
++++ openjdk/jdk/make/sun/xawt/Makefile
+@@ -275,6 +275,10 @@
+ DOHACK=true
+ endif # Hack
+ 
++ifeq ($(PLATFORM)-$(LIBARCH), linux-aarch64)
++DOHACK=true
++endif
++
+ ifeq ($(DOHACK), true)
+ PREDEFINED_SIZES_TMPL=$(PLATFORM_SRC)/classes/sun/awt/X11/generator/sizes.64-$(PLATFORM)-$(LIBARCH)
+ PREDEFINED_SIZES=$(WRAPPER_GENERATOR_DIR)/sizes.64
