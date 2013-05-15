@@ -1,0 +1,23 @@
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -14,6 +14,11 @@
+       ARCH_PREFIX=${LINUX32}
+       ARCHFLAG="-m32"
+       ;;
++    aarch64*)
++      BUILD_ARCH_DIR=aarch64
++      INSTALL_ARCH_DIR=aarch64
++      JRE_ARCH_DIR=aarch64
++      ;;
+     alpha*)
+       BUILD_ARCH_DIR=alpha
+       INSTALL_ARCH_DIR=alpha
+@@ -703,7 +708,7 @@
+     i386|ppc|s390|sparc)
+       ZERO_BITSPERWORD=32
+       ;;
+-    amd64|ppc64|s390x|sparc64)
++    aarch64|amd64|ppc64|s390x|sparc64)
+       ZERO_BITSPERWORD=64
+       ;;
+     *)

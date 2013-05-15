@@ -1,6 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-WITH_ADDITIONAL_VMS = ""
+WITH_ADDITIONAL_VMS_aarch64 = ""
+
+OEPATCHES_append_aarch64 = " \
+            file://aarch64-configure.patch \
+  "
 
 ICEDTEAPATCHES_append_aarch64 = " \
             file://icedtea-openjdk-aarch64.patch;apply=no \
