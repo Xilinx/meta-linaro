@@ -7,8 +7,8 @@ BINV = "4.8.1"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
-#SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.bz2 "
-SRC_URI = "https://launchpad.net/gcc-linaro/4.6/4.6-${RELEASE}/+download/gcc-${PV}-${RELEASE}.tar.bz2  \
+#SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.bz2
+SRC_URI = "https://releases.linaro.org/13.04/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.bz2  \
 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://0002-uclibc-conf.patch \
 	   file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
