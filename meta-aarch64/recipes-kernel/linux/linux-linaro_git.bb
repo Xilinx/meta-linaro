@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel siteinfo
 
-PV = "3.8+git${SRCPV}"
+PV = "3.10+git${SRCPV}"
 
 SRC_URI = " \
            git://git.linaro.org/kernel/linux-linaro-tracking.git;branch=linux-linaro;name=kernel \
@@ -22,7 +22,7 @@ BW = "${WORKDIR}/bootwrapper"
 COMPATIBLE_HOST = "aarch64"
 KERNEL_IMAGETYPE = "Image"
 
-BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,0x1c0900000 rw"
+BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,0x1c0900000 consolelog=9 rw"
 
 do_configure_prepend() {
     ARCH=arm64 scripts/kconfig/merge_config.sh -m linaro/configs/linaro-base.conf \
@@ -31,17 +31,18 @@ do_configure_prepend() {
 
 do_compile_append() {
     install -m 0644 ${S}/arch/arm64/boot/Image ${BW}/
+    install -m 0644 ${S}/arch/arm64/boot/dts/*.dts* ${BW}/
     cd ${BW}
     make clean
-    oe_runmake DTC=${S}/scripts/dtc/dtc \
-         FDT_SRC=${S}/arch/arm64/boot/dts/foundation-v8.dts \
-         CC="${CC}" LD="${LD}" \
+    make DTC=${S}/scripts/dtc/dtc \
+         FDT_SRC=foundation-v8.dts \
+         CROSS_COMPILE=aarch64-oe-linux- \
          IMAGE=linux-system-foundation.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda"'
     make clean
-    oe_runmake DTC=${S}/scripts/dtc/dtc \
-         FDT_SRC=${S}/arch/arm64/boot/dts/vexpress-v2p-aarch64.dts \
-         CC="${CC}" LD="${LD}" \
+    make DTC=${S}/scripts/dtc/dtc \
+         FDT_SRC=rtsm_ve-aemv8a.dts \
+         CROSS_COMPILE=aarch64-oe-linux- \
          IMAGE=linux-system-ve.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/mmcblk0"'
 }
