@@ -41,6 +41,12 @@ do_compile_append() {
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda"'
     make clean
     make DTC=${S}/scripts/dtc/dtc \
+         FDT_SRC=foundation-v8.dts \
+         CROSS_COMPILE=aarch64-oe-linux- \
+         IMAGE=img-foundation.axf \
+         BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda2"'
+    make clean
+    make DTC=${S}/scripts/dtc/dtc \
          FDT_SRC=rtsm_ve-aemv8a.dts \
          CROSS_COMPILE=aarch64-oe-linux- \
          IMAGE=linux-system-ve.axf \
@@ -51,7 +57,9 @@ do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${BW}/linux-system-ve.axf ${DEPLOYDIR}/linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf
 	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOYDIR}/linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
+	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOYDIR}/img-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
 	cd ${DEPLOYDIR}
 	ln -sf linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-ve.axf
 	ln -sf linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-foundation.axf
+	ln -sf img-foundation-${KERNEL_IMAGE_BASE_NAME}.axf img-foundation.axf
 }
