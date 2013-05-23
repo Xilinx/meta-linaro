@@ -1,14 +1,15 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-RELEASE = "2013.04"
+MMYY = "13.04"
+RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.1"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
 #SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.bz2
-SRC_URI = "https://releases.linaro.org/13.04/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.bz2  \
+SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.bz2 \
 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://0002-uclibc-conf.patch \
 	   file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
