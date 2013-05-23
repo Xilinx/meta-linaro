@@ -30,25 +30,26 @@ do_configure_prepend() {
 }
 
 do_compile_append() {
+    CROSS=`echo $CC|sed -e s/gcc.*//`
     install -m 0644 ${S}/arch/arm64/boot/Image ${BW}/
     install -m 0644 ${S}/arch/arm64/boot/dts/*.dts* ${BW}/
     cd ${BW}
     make clean
     make DTC=${S}/scripts/dtc/dtc \
          FDT_SRC=foundation-v8.dts \
-         CROSS_COMPILE=aarch64-oe-linux- \
+         CROSS_COMPILE=$CROSS \
          IMAGE=linux-system-foundation.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda"'
     make clean
     make DTC=${S}/scripts/dtc/dtc \
          FDT_SRC=foundation-v8.dts \
-         CROSS_COMPILE=aarch64-oe-linux- \
+         CROSS_COMPILE=$CROSS \
          IMAGE=img-foundation.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/vda2"'
     make clean
     make DTC=${S}/scripts/dtc/dtc \
          FDT_SRC=rtsm_ve-aemv8a.dts \
-         CROSS_COMPILE=aarch64-oe-linux- \
+         CROSS_COMPILE=$CROSS \
          IMAGE=linux-system-ve.axf \
          BOOTARGS='"${BOOTARGS_COMMON} root=/dev/mmcblk0"'
 }
