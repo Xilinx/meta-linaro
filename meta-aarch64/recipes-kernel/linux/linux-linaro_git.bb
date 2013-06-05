@@ -26,7 +26,7 @@ BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,
 
 do_configure_prepend() {
     ARCH=arm64 scripts/kconfig/merge_config.sh -m linaro/configs/linaro-base.conf \
-    linaro/configs/vexpress64.conf linaro/configs/ubuntu-minimal.conf
+    linaro/configs/vexpress64.conf linaro/configs/ubuntu-minimal.conf linaro/configs/distribution.conf
 }
 
 do_compile_append() {
@@ -58,7 +58,7 @@ do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${BW}/linux-system-ve.axf ${DEPLOYDIR}/linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf
 	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOYDIR}/linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
-	install -m 0644 ${BW}/linux-system-foundation.axf ${DEPLOYDIR}/img-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
+	install -m 0644 ${BW}/img-foundation.axf ${DEPLOYDIR}/img-foundation-${KERNEL_IMAGE_BASE_NAME}.axf
 	cd ${DEPLOYDIR}
 	ln -sf linux-system-ve-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-ve.axf
 	ln -sf linux-system-foundation-${KERNEL_IMAGE_BASE_NAME}.axf linux-system-foundation.axf
