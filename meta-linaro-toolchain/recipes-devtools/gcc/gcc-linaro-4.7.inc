@@ -16,9 +16,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://use-defaults.h-and-t-oe-in-B.patch \
 	   file://fix-g++-sysroot.patch \
 	  "
-
-SRC_URI[md5sum] = "123666fb25ecfd89912e6922ad10e15b"
-SRC_URI[sha256sum] = "41c0e7e2decf71d5a141e6000fb0790b0dcfaa9b9dccaad02f2d3fb1cf71ec96"
+SRC_URI[md5sum] = "d7c04132de8b81794bea4c526f87899a"
+SRC_URI[sha256sum] = "3095d4cf7b8902078dc70c24b3626aa40159eb11ec6b7ab4313a93942ce5cddb"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
