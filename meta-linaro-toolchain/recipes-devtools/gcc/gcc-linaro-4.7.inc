@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.7.inc
 require gcc-linaro-common-4.7.inc
 
-MMYY = "13.05"
+MMYY = "13.06"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.7.4"
