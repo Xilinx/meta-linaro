@@ -53,7 +53,6 @@ SDK_IMAGE_INSTALL += "\
     tbb \
     zlib \
     sshfs-fuse \
-    qemu \
     "
 
 LAMP_IMAGE_INSTALL += "\
