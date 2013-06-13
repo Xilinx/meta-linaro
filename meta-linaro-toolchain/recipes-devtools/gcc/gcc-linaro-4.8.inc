@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-MMYY = "13.05"
+MMYY = "13.06"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.1"
@@ -49,8 +49,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
        file://use-lib-for-aarch64.patch \
 	   "
 
-SRC_URI[md5sum] = "35572177044ca9eda663011beadda4d6"
-SRC_URI[sha256sum] = "1049f064e197060185b3d1bd396e989e9b6d2e07d95a8f67b5a9a0d821cc169d"
+SRC_URI[md5sum] = "3d95781ac0608639884f8f51e58ccc77"
+SRC_URI[sha256sum] = "82eaa6aab51eb5ba804ef76a274b71cb2654de86a2fda1ba9ead9e00bea9664c"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
