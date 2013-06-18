@@ -13,8 +13,12 @@ IMAGE_INSTALL += " \
 
 IMAGE_INSTALL_append_aarch64 += "perf"
 
+COMMON_SDK_IMAGE_INSTALL += "\
+     ltp \
+    "
+
 SDK_IMAGE_INSTALL += "\
-    ltp \
+    ${COMMON_SDK_IMAGE_INSTALL} \
     bison \
     boost-date-time \
     boost-filesystem \
