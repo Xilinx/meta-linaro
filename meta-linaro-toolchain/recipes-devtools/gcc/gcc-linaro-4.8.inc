@@ -47,6 +47,7 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0035-wcast-qual-PR-55383.patch \
 	   file://gcc-4.8-PR56797.patch \
        file://use-lib-for-aarch64.patch \
+           file://fix-g++-sysroot.patch \
 	   "
 
 SRC_URI[md5sum] = "3d95781ac0608639884f8f51e58ccc77"
