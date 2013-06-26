@@ -86,7 +86,7 @@ def elt_get_kernel_version(d):
 def elt_get_gdb_version(d):
 	try:
 		stdout, stderr = elt_run(d, 'gdb', '-v')
-	except CmdError:
+	except bb.process.CmdError:
 		return 'UNKNOWN'
 	else:
 		first_line = stdout.splitlines()[0]
