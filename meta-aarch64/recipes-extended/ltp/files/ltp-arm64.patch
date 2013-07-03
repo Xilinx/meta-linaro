@@ -17,7 +17,7 @@
  15 files changed, 403 insertions(+), 77 deletions(-)
 
 --- /dev/null
-+++ ltp-20130109/testcases/kernel/include/aarch64.in
++++ b/testcases/kernel/include/aarch64.in
 @@ -0,0 +1,257 @@
 +io_setup 0
 +io_destroy 1
@@ -276,53 +276,41 @@
 +sendmmsg 269
 +cacheflush 0x1002
 +set_tls 0x1005
---- ltp-20130109.orig/testcases/kernel/include/order
-+++ ltp-20130109/testcases/kernel/include/order
-@@ -1,5 +1,6 @@
+--- a/testcases/kernel/include/order
++++ b/testcases/kernel/include/order
+@@ -1,3 +1,4 @@
 +aarch64
  arm
  hppa
  i386
- ia64
- powerpc64
---- ltp-20130109.orig/testcases/kernel/include/regen.sh
-+++ ltp-20130109/testcases/kernel/include/regen.sh
-@@ -25,11 +25,11 @@ cat << EOF > "${output_pid}"
- #include <sys/syscall.h>
- #include "cleanup.c"
+--- a/testcases/kernel/include/regen.sh
++++ b/testcases/kernel/include/regen.sh
+@@ -36,7 +36,7 @@
  
- #define syscall(NR, ...) ({ \\
+ #define ltp_syscall(NR, ...) ({ \\
  	int __ret; \\
 -	if (NR == 0) { \\
 +	if (NR == __LTP__NR_INVALID_SYSCALL) { \\
  		errno = ENOSYS; \\
  		__ret = -1; \\
  	} else { \\
- 		__ret = syscall(NR, ##__VA_ARGS__); \\
- 	} \\
-@@ -69,15 +69,16 @@ for arch in $(cat "${srcdir}/order") ; d
- done
- 
- echo -n "Generating stub list ... "
- echo "" >> "${output_pid}"
- echo "/* Common stubs */" >> "${output_pid}"
-+echo "#define __LTP__NR_INVALID_SYSCALL -1" >> "${output_pid}"
+@@ -90,11 +90,12 @@
+ (
+ echo
+ echo "/* Common stubs */"
++echo "#define __LTP__NR_INVALID_SYSCALL -1" 
  for nr in $(awk '{print $1}' "${srcdir}/"*.in | sort -u) ; do
- 	nr="__NR_$nr"
- 	cat <<-EOF >> "${output_pid}"
- 	# ifndef $nr
--	#  define $nr 0
-+	#  define $nr __LTP__NR_INVALID_SYSCALL
+ 	nr="__NR_${nr}"
+ 	cat <<-EOF
+ 	# ifndef ${nr}
+-	#  define ${nr} 0
++	#  define ${nr} __LTP__NR_INVALID_SYSCALL
  	# endif
  	EOF
  done
- echo "#endif" >> "${output_pid}"
- 
---- ltp-20130109.orig/testcases/kernel/mem/shmt/shmt09.c
-+++ ltp-20130109/testcases/kernel/mem/shmt/shmt09.c
-@@ -59,11 +59,11 @@ int TST_TOTAL = 4;		/* Total number of t
- 
- #ifdef __ia64__
+--- a/testcases/kernel/mem/shmt/shmt09.c
++++ b/testcases/kernel/mem/shmt/shmt09.c
+@@ -61,7 +61,7 @@
  #define INCREMENT 		8388608	/* 8Mb */
  #elif defined (__mips__)  ||  defined (__hppa__) || defined (__sparc__)
  #define INCREMENT		262144	/* 256Kb */
@@ -331,11 +319,7 @@
  #define INCREMENT 		16384	/* 16kb */
  #else
  #define INCREMENT 		SHMLBA
- #endif
- 
-@@ -160,11 +160,11 @@ int main()
- 	}
- 
+@@ -162,7 +162,7 @@
  	tst_resm(TPASS, "sbrk, shmat");
  
  /*--------------------------------------------------------*/
@@ -344,384 +328,9 @@
  	while ((vp = sbrk(INCREMENT)) != (void *)-1) ;
  	if (errno != ENOMEM) {
  		tst_resm(TFAIL, "Error: sbrk failed, errno = %d\n", errno);
- 		rm_shm(shmid);
- 		tst_exit();
---- ltp-20130109.orig/testcases/kernel/syscalls/cacheflush/cacheflush01.c
-+++ ltp-20130109/testcases/kernel/syscalls/cacheflush/cacheflush01.c
-@@ -42,29 +42,38 @@
- #include <unistd.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <errno.h>
- 
--/* Harness Specific Include Files. */
--#include "test.h"
--#include "usctest.h"
--#include "linux_syscall_numbers.h"
-+/* cacheflush man page states that cacheflush() is only applicable to
-+ * MIPS architecture -- regardless, it's a good negative test.. */
- 
--#if defined __NR_cacheflush && __NR_cacheflush > 0
--#include <asm/cachectl.h>
--#else
--/* Fake linux_syscall_numbers.h */
--#define __NR_cacheflush		0
- #ifndef   ICACHE
- #define   ICACHE   (1<<0)	/* flush instruction cache        */
- #endif
- #ifndef   DCACHE
- #define   DCACHE   (1<<1)	/* writeback and flush data cache */
- #endif
- #ifndef   BCACHE
- #define   BCACHE   (ICACHE|DCACHE)	/* flush both caches              */
- #endif
-+
-+/* Harness Specific Incnude Files. */
-+#include "test.h"
-+#include "usctest.h"
-+#include "linux_syscall_numbers.h"
-+
-+/* cacheflush man page states that cacheflush() is only applicable to
-+ * MIPS architecture -- regardless, it's a good negative test.. */
-+#if defined __mips__
-+#include <asm/cachectl.h>
-+#ifndef __NR_cacheflush
-+#define __NR_cacheflush		0
-+#endif
-+#else
-+/* Fake linux_syscall_numbers.h */
-+#define __NR_cacheflush		0
- #endif
- 
- /* Extern Global Variables */
- 
- /* Global Variables */
---- ltp-20130109.orig/testcases/kernel/syscalls/getdents/getdents.h
-+++ ltp-20130109/testcases/kernel/syscalls/getdents/getdents.h
-@@ -21,64 +21,27 @@
-  * getdents.h - common definitions for the getdents() tests.
-  */
- 
- #ifndef __GETDENTS_H
- #define __GETDENTS_H	1
--
--#include <dirent.h>
--#include <stdio.h>
--#include <string.h>
--#include <unistd.h>
- #include <sys/syscall.h>
- 
--/*
-- * The dirent struct that the C library exports is not the same
-- * as the kernel ABI, so we can't include dirent.h and use the
-- * dirent struct from there.  Further, since the Linux headers
-- * don't export their vision of the struct either, we have to
-- * declare our own here.  Wheeeeee.
-- */
--
--struct linux_dirent {
--	unsigned long   d_ino;
--	unsigned long   d_off;
--	unsigned short  d_reclen;
--	char            d_name[];
--};
--
--static inline int
--getdents(unsigned int fd, struct dirent *dirp, unsigned int count)
--{
--	union {
--		struct linux_dirent *dirp;
--		char *buf;
--	} ptrs;
--	char buf[count];
--	long ret;
--	unsigned int i;
--
--	ptrs.buf = buf;
--	ret = syscall(SYS_getdents, fd, buf, count);
--	if (ret < 0)
--		return ret;
--
--#define kdircpy(field) memcpy(&dirp[i].field, &ptrs.dirp->field, sizeof(dirp[i].field))
--
--	i = 0;
--	while (i < count && i < ret) {
--		unsigned long reclen;
--
--		kdircpy(d_ino);
--		kdircpy(d_reclen);
--		reclen = dirp[i].d_reclen;
--		kdircpy(d_off);
--		strcpy(dirp[i].d_name, ptrs.dirp->d_name);
--
--		ptrs.buf += reclen;
--
--		i += reclen;
--	}
--
--	return ret;
--}
-+#ifdef __i386__
-+	#define GETDENTS_ASM() ({ int __rval;				\
-+				__asm__ __volatile__("			\
-+					movl	%4, %%edx \n		\
-+					movl	%3, %%ecx \n		\
-+					movl	%2, %%ebx \n		\
-+					movl	%1, %%eax \n		\
-+					int	$0x80 \n		\
-+					movl	%%eax, %0"		\
-+				: "=a" (__rval)				\
-+				: "a" (cnum), "b" (fd), "c" (dirp), "d" (count)\
-+				: "memory"				\
-+				);					\
-+				__rval;					\
-+		    	})
-+#else
-+	#define GETDENTS_ASM() 0
-+#endif /* __i386__ */
- 
- #endif /* getdents.h */
---- ltp-20130109.orig/testcases/kernel/syscalls/getdents/getdents01.c
-+++ ltp-20130109/testcases/kernel/syscalls/getdents/getdents01.c
-@@ -79,10 +79,25 @@ int main(int ac, char **av)
- 	int count;
- 	size_t size = 0;
- 	char *dir_name = NULL;
- 	struct dirent *dirp;
- 
-+	/*
-+	 * Here's a case where invoking the system call directly
-+	 * doesn't seem to work.  getdents.h has an assembly
-+	 * macro to do the job.
-+	 *
-+	 * equivalent to  - getdents(fd, dirp, count);
-+	 * if we could call getdents that way.
-+	 */
-+
-+#ifdef __NR_getdents
-+#define getdents(arg1, arg2, arg3) syscall(__NR_getdents, arg1, arg2, arg3)
-+#else
-+#define getdents(arg1, arg2, arg3) -ENOSYS
-+#endif
-+
- 	if ((msg = parse_opts(ac, av, NULL, NULL)) != NULL)
- 		tst_brkm(TBROK, NULL, "OPTION PARSING ERROR - %s", msg);
- 
- 	setup();
- 
---- ltp-20130109.orig/testcases/kernel/syscalls/getdents/getdents02.c
-+++ ltp-20130109/testcases/kernel/syscalls/getdents/getdents02.c
-@@ -67,16 +67,25 @@ void setup(void);
- char *TCID = "getdents02";
- int TST_TOTAL = 1;
- 
- int exp_enos[] = { EBADF, 0 };	/* 0 terminated list of expected errnos */
- 
-+#ifndef __i386__
-+int main(void)
-+{
-+	tst_brkm(TCONF, NULL, "this test will only run on i386");
-+	tst_exit();
-+}
-+#else
-+
- int main(int ac, char **av)
- {
- 	int lc;
- 	char *msg;
- 	int rval, fd;
- 	int count;
-+	const int cnum = __NR_getdents;
- 	size_t size = 0;
- 	char *dir_name = NULL;
- 	struct dirent *dirp;
- 
- 	if ((msg = parse_opts(ac, av, NULL, NULL)) != NULL)
-@@ -98,19 +107,29 @@ int main(int ac, char **av)
- 
- 		/* set up a bad file descriptor */
- 
- 		fd = -5;
- 
--		rval = getdents(fd, dirp, count);
-+		/*
-+		 * here's a case where invoking the system call directly
-+		 * doesn't seem to work.  getdents.h has an assembly
-+		 * macro to do the job.
-+		 *
-+		 * equivalent to  - getdents(fd, dirp, count);
-+		 * if we could call getdents that way.
-+		 */
-+
-+		rval = GETDENTS_ASM();
- 
- 		/*
- 		 * Hopefully we get an error due to the bad file descriptor.
- 		 */
- 		if (rval < 0) {
--			TEST_ERROR_LOG(errno);
-+			rval *= -1;
-+			TEST_ERROR_LOG(rval);
- 
--			switch (errno) {
-+			switch (rval) {
- 			case EBADF:
- 				tst_resm(TPASS,
- 					 "failed as expected with EBADF");
- 				break;
- 			default:
-@@ -149,5 +168,7 @@ void cleanup(void)
- 
- 	TEST_CLEANUP;
- 
- 	tst_rmdir();
- }
-+
-+#endif /* __i386__ */
---- ltp-20130109.orig/testcases/kernel/syscalls/getdents/getdents03.c
-+++ ltp-20130109/testcases/kernel/syscalls/getdents/getdents03.c
-@@ -70,16 +70,25 @@ void setup(void);
- char *TCID = "getdents03";
- int TST_TOTAL = 1;
- 
- int exp_enos[] = { EINVAL, 0 };	/* 0 terminated list of expected errnos */
- 
-+#ifndef __i386__
-+int main(void)
-+{
-+	tst_brkm(TCONF, NULL, "this test will only run on i386");
-+	tst_exit();
-+}
-+#else
-+
- int main(int ac, char **av)
- {
- 	int lc;
- 	char *msg;
- 	int rval, fd;
- 	int count;
-+	const int cnum = __NR_getdents;
- 	size_t size = 0;
- 	char *dir_name = NULL;
- 	struct dirent *dirp;
- 
- 	if ((msg = parse_opts(ac, av, NULL, NULL)) != NULL)
-@@ -102,20 +111,30 @@ int main(int ac, char **av)
- 		count = 1;
- 
- 		if ((fd = open(dir_name, O_RDONLY)) == -1)
- 			tst_brkm(TBROK, cleanup, "open of directory failed");
- 
--		rval = getdents(fd, dirp, count);
-+		/*
-+		 * here's a case where invoking the system call directly
-+		 * doesn't seem to work.  getdents.h has an assembly
-+		 * macro to do the job.
-+		 *
-+		 * equivalent to  - getdents(fd, dirp, count)
-+		 * if we could call getdents that way.
-+		 */
-+
-+		rval = GETDENTS_ASM();
- 
- 		/*
- 		 * Hopefully we get an error due to the small buffer.
- 		 */
- 
- 		if (rval < 0) {
--			TEST_ERROR_LOG(errno);
-+			rval *= -1;
-+			TEST_ERROR_LOG(rval);
- 
--			switch (errno) {
-+			switch (rval) {
- 			case EINVAL:
- 				tst_resm(TPASS,
- 					 "getdents failed with EINVAL as expected");
- 				break;
- 			default:
-@@ -159,5 +178,7 @@ void cleanup(void)
- 
- 	TEST_CLEANUP;
- 
- 	tst_rmdir();
- }
-+
-+#endif /* __i386__ */
---- ltp-20130109.orig/testcases/kernel/syscalls/getdents/getdents04.c
-+++ ltp-20130109/testcases/kernel/syscalls/getdents/getdents04.c
-@@ -71,15 +71,24 @@ void setup(void);
- char *TCID = "getdents04";
- int TST_TOTAL = 1;
- 
- int exp_enos[] = { ENOTDIR, 0 };	/* 0 terminated list of expected errnos */
- 
-+#ifndef __i386__
-+int main(void)
-+{
-+	tst_brkm(TCONF, NULL, "this test will only run on i386");
-+	tst_exit();
-+}
-+#else
-+
- int main(int ac, char **av)
- {
- 	int lc;
- 	char *msg;
- 	int count, rval, fd;
-+	const int cnum = 141;
- 	size_t size = 0;
- 	char *dir_name = NULL;
- 	struct dirent *dirp;
- 	struct stat *sbuf;
- 	char *newfile;
-@@ -121,21 +130,30 @@ int main(int ac, char **av)
- 			tst_brkm(TBROK, cleanup, "fstat failed");
- 
- 		if (S_ISDIR(sbuf->st_mode))
- 			tst_brkm(TBROK, cleanup, "fd is a directory");
- 
--		rval = getdents(fd, dirp, count);
-+		/*
-+		 * here's a case where invoking the system call directly
-+		 * doesn't seem to work.  getdents.h has an assembly
-+		 * macro to do the job.
-+		 *
-+		 * equivalent to getdents(fd, dirp, count);
-+		 */
-+
-+		rval = GETDENTS_ASM();
- 
- 		/*
- 		 * Calling with a non directory file descriptor should give
- 		 * an ENOTDIR error.
- 		 */
- 
- 		if (rval < 0) {
--			TEST_ERROR_LOG(errno);
-+			rval *= -1;
-+			TEST_ERROR_LOG(rval);
- 
--			switch (errno) {
-+			switch (rval) {
- 			case ENOTDIR:
- 				tst_resm(TPASS,
- 					 "getdents failed as expected with ENOTDIR");
- 				break;
- 			default:
-@@ -179,5 +197,7 @@ void cleanup(void)
- 
- 	TEST_CLEANUP;
- 
- 	tst_rmdir();
- }
-+
-+#endif /* __i386__ */
---- ltp-20130109.orig/testcases/kernel/syscalls/profil/profil01.c
-+++ ltp-20130109/testcases/kernel/syscalls/profil/profil01.c
-@@ -56,10 +56,12 @@ char *TCID = "profil01";
- 
- #ifndef __UCLIBC__
+--- a/testcases/kernel/syscalls/profil/profil01.c
++++ b/testcases/kernel/syscalls/profil/profil01.c
+@@ -58,6 +58,8 @@
  
  #ifdef __arm__
  #define ADDRESS_OFFSET 0x8000
@@ -730,13 +339,9 @@
  #else
  #define ADDRESS_OFFSET 0
  #endif
- 
- #define FAILED 0
---- ltp-20130109.orig/testcases/kernel/syscalls/sysctl/sysctl01.c
-+++ ltp-20130109/testcases/kernel/syscalls/sysctl/sysctl01.c
-@@ -56,13 +56,17 @@ char *TCID = "sysctl01";
- int TST_TOTAL = 3;
- 
+--- a/testcases/kernel/syscalls/sysctl/sysctl01.c
++++ b/testcases/kernel/syscalls/sysctl/sysctl01.c
+@@ -62,9 +62,13 @@
  static int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
  		  void *newval, size_t newlen)
  {
@@ -750,13 +355,9 @@
  }
  
  #define SIZE(x) sizeof(x)/sizeof(x[0])
- 
- struct utsname buf;
---- ltp-20130109.orig/testcases/kernel/syscalls/sysctl/sysctl03.c
-+++ ltp-20130109/testcases/kernel/syscalls/sysctl/sysctl03.c
-@@ -76,13 +76,17 @@ char *TCID = "sysctl03";
- int TST_TOTAL = 2;
- 
+--- a/testcases/kernel/syscalls/sysctl/sysctl03.c
++++ b/testcases/kernel/syscalls/sysctl/sysctl03.c
+@@ -82,9 +82,13 @@
  int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
  	   void *newval, size_t newlen)
  {
@@ -770,13 +371,9 @@
  }
  
  #define SIZE(x) sizeof(x)/sizeof(x[0])
- #define OSNAMESZ 100
- 
---- ltp-20130109.orig/testcases/kernel/syscalls/sysctl/sysctl04.c
-+++ ltp-20130109/testcases/kernel/syscalls/sysctl/sysctl04.c
-@@ -57,13 +57,17 @@ char *TCID = "sysctl04";
- int TST_TOTAL = 2;
- 
+--- a/testcases/kernel/syscalls/sysctl/sysctl04.c
++++ b/testcases/kernel/syscalls/sysctl/sysctl04.c
+@@ -63,9 +63,13 @@
  int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
  	   void *newval, size_t newlen)
  {
@@ -790,13 +387,9 @@
  }
  
  #define SIZE(x) sizeof(x)/sizeof(x[0])
- #define OSNAMESZ 100
- 
---- ltp-20130109.orig/testcases/kernel/syscalls/sysctl/sysctl05.c
-+++ ltp-20130109/testcases/kernel/syscalls/sysctl/sysctl05.c
-@@ -59,13 +59,17 @@ char *TCID = "sysctl05";
- int TST_TOTAL = 2;
- 
+--- a/testcases/kernel/syscalls/sysctl/sysctl05.c
++++ b/testcases/kernel/syscalls/sysctl/sysctl05.c
+@@ -65,9 +65,13 @@
  int sysctl(int *name, int nlen, void *oldval, size_t * oldlenp,
  	   void *newval, size_t newlen)
  {
@@ -810,5 +403,14 @@
  }
  
  #define SIZE(x) sizeof(x)/sizeof(x[0])
+--- a/testcases/kernel/syscalls/cacheflush/cacheflush01.c
++++ b/testcases/kernel/syscalls/cacheflush/cacheflush01.c
+@@ -48,7 +48,7 @@
+ #include "usctest.h"
+ #include "linux_syscall_numbers.h"
  
- char osname[BUFSIZ];
+-#if defined __NR_cacheflush && __NR_cacheflush > 0
++#if defined(__mips__) &&  defined( __NR_cacheflush) && __NR_cacheflush > 0
+ #include <asm/cachectl.h>
+ #else
+ /* Fake linux_syscall_numbers.h */
