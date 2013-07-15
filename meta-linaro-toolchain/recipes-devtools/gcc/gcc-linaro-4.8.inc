@@ -1,15 +1,15 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-MMYY = "13.06"
+MMYY = "13.07"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.2"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
-#SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.bz2
-SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.bz2 \
+#SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.xz
+SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.xz \
 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://0002-uclibc-conf.patch \
 	   file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -50,8 +50,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
            file://fix-g++-sysroot.patch \
 	   "
 
-SRC_URI[md5sum] = "3d95781ac0608639884f8f51e58ccc77"
-SRC_URI[sha256sum] = "82eaa6aab51eb5ba804ef76a274b71cb2654de86a2fda1ba9ead9e00bea9664c"
+SRC_URI[md5sum] = "a4e424ab2293475242d1242610a2eac5"
+SRC_URI[sha256sum] = "3c2a7330380f654f5f69fcf2fc2ada4ac98f8eeb65eddbc81b3d17b18fd97695"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
