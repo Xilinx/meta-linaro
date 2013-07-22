@@ -2,7 +2,7 @@ require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
 MMYY = "13.07"
-RELEASE = "20${MMYY}"
+RELEASE = "20${MMYY}-1"
 PR = "r${RELEASE}"
 BINV = "4.8.2"
 
@@ -46,13 +46,12 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
 	   file://0035-wcast-qual-PR-55383.patch \
 	   file://gcc-4.8-PR56797.patch \
-	   file://gcc-4.8-PR57909.patch \
 	   file://use-lib-for-aarch64.patch \
 	   file://fix-g++-sysroot.patch \
 	   "
 
-SRC_URI[md5sum] = "a4e424ab2293475242d1242610a2eac5"
-SRC_URI[sha256sum] = "3c2a7330380f654f5f69fcf2fc2ada4ac98f8eeb65eddbc81b3d17b18fd97695"
+SRC_URI[md5sum] = "accb21ee8979a6575f36dc3c71d191d4"
+SRC_URI[sha256sum] = "eadda4c7e0eb752f5407562d40a21f734be727e3f7d4c64b3f4df8f45f233ac2"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
