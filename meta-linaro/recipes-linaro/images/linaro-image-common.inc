@@ -53,6 +53,7 @@ SDK_IMAGE_INSTALL += "\
     onig \
     openldap \
     openssl \
+    python \
     readline \
     tbb \
     zlib \
