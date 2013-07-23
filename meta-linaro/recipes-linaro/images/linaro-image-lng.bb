@@ -3,7 +3,7 @@ require linaro-image-common.inc
 IMAGE_INSTALL += " \
     rt-tests \
     netperf \
-    ${COMMON_SDK_IMAGE_INSTALL}"
+    ltp"
 
 IMAGE_FEATURES += "\
 	dev-pkgs \

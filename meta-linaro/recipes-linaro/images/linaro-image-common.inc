@@ -13,12 +13,7 @@ IMAGE_INSTALL += " \
 
 IMAGE_INSTALL_append_aarch64 += "perf"
 
-COMMON_SDK_IMAGE_INSTALL += "\
-     ltp \
-    "
-
 SDK_IMAGE_INSTALL += "\
-    ${COMMON_SDK_IMAGE_INSTALL} \
     bison \
     boost-date-time \
     boost-filesystem \
@@ -49,6 +44,7 @@ SDK_IMAGE_INSTALL += "\
     libpcre \
     libunwind \
     libxml2 \
+    ltp \
     ncurses \
     onig \
     openldap \
