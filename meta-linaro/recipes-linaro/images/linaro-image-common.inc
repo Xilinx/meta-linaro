@@ -26,6 +26,7 @@ SDK_IMAGE_INSTALL += "\
     boost-thread \
     cmake \
     curl \
+    dmidecode \
     elfutils-dev \
     expat \
     flex \
