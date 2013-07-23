@@ -1,6 +1,6 @@
 PR = "r5"
 
-SRC_URI = "http://releases.linaro.org/13.06/components/toolchain/eglibc-linaro/eglibc-linaro-2.17-2013.06.tar.bz2 \
+SRC_URI = "http://releases.linaro.org/13.07/components/toolchain/eglibc-linaro/eglibc-linaro-2.17-2013.07.tar.bz2 \
            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
            file://IO-acquire-lock-fix.patch \
            file://mips-rld-map-check.patch \
@@ -26,10 +26,10 @@ SRC_URI = "http://releases.linaro.org/13.06/components/toolchain/eglibc-linaro/e
            file://fix-tibetian-locales.patch \
           "
 
-SRC_URI[md5sum] = "5648e1d824c6f022131dbd0a6548e0cd"
-SRC_URI[sha256sum] = "ee7b93acab63031da474fd3cade84ac7af4fab86a798b0b786a894dfe3827e3c"
+SRC_URI[md5sum] = "95209b5f7adf666ecae5142bd85cf568"
+SRC_URI[sha256sum] = "f8c5164e45dfc2fce5eeb98b2416dc797a949a3842649f61e743b6d0e854ae93"
 
-S = "${WORKDIR}/eglibc-linaro-2.17-2013.06"
+S = "${WORKDIR}/eglibc-linaro-2.17-2013.07"
 
 LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
