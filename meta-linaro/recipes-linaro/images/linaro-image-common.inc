@@ -59,11 +59,3 @@ SDK_IMAGE_INSTALL += "\
     sshfs-fuse \
     xserver-xorg-xvfb \
     "
-
-LAMP_IMAGE_INSTALL += "\
-    apache2 \
-    mysql5-server \
-    mysql5-client \
-    php-fpm \
-    php-fpm-apache2 \
-    "

@@ -1,7 +1,11 @@
 require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
-    ${LAMP_IMAGE_INSTALL} \
+    apache2 \
+    mysql5-server \
+    mysql5-client \
+    php-fpm \
+    php-fpm-apache2 \
     ${SDK_IMAGE_INSTALL}"
 
 IMAGE_FEATURES += "\
