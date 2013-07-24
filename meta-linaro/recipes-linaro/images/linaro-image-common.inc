@@ -27,6 +27,7 @@ SDK_IMAGE_INSTALL += "\
     cmake \
     curl \
     dmidecode \
+    efibootmgr \
     elfutils-dev \
     expat \
     flex \
