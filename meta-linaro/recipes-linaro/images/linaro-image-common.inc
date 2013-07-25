@@ -47,6 +47,7 @@ SDK_IMAGE_INSTALL += "\
     libpcre \
     libunwind \
     libxml2 \
+    lshw \
     ltp \
     ncurses \
     onig \
