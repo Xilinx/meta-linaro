@@ -11,7 +11,7 @@ IMAGE_INSTALL += " \
     bash \
     "
 
-IMAGE_INSTALL_append_aarch64 += "perf"
+IMAGE_INSTALL_append_aarch64 += "perf libhugetlbfs"
 
 SDK_IMAGE_INSTALL += "\
     acpica \
