@@ -7,6 +7,7 @@ IMAGE_INSTALL += " \
     powertop \
     sudo \
     stress-dbg \
+    stress \
     nss-myhostname \
     bash \
     "
@@ -14,7 +15,6 @@ IMAGE_INSTALL += " \
 IMAGE_INSTALL_append_aarch64 += "perf libhugetlbfs"
 
 SDK_IMAGE_INSTALL += "\
-    acpica \
     bison \
     boost-date-time \
     boost-filesystem \
