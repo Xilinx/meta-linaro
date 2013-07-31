@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r5"
+INC_PR = "r6"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -29,7 +29,7 @@ DEPENDS = " \
 	   gtk+ glib-2.0 \
 	   cups fontconfig \
 	   libxt libxinerama libxrender libxtst libxi \
-	   freetype alsa-lib libffi \
+	   freetype alsa-lib libffi libxt \
 	  "
 
 # No package should directly depend on this (it should require
