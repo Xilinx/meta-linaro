@@ -13,16 +13,22 @@ DEPENDS="bison \
     flex"
 COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
 
-PR="r1"
+PR="r2"
 
-SRC_URI="https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
+SRC_URI="git://git.linaro.org/people/ahs3/acpica-tools.git \
+    file://fix_ftbfs_debian-kfreebsd.patch \
+    file://debian-big_endian.patch \
+    file://debian-unaligned.patch \
+    file://fix_ftbfs_debian-hurd.patch \
+    file://add-testing.patch \
+    file://name-miscompare.patch \
+    file://aapits-linux.patch \
     file://cross-compile.patch \
     file://no-werror.patch"
 
-SRC_URI[md5sum] = "b7112b3deffef8fe25aac7810cc419a9"
-SRC_URI[sha256sum] = "888dda6227265c396a686624f971c51693c2bba84f24c634536234c8dca7b465"
+SRCREV = "${AUTOREV}"
 
-S="${WORKDIR}/acpica-unix2-${PV}"
+S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE = "'OPT_CFLAGS=-Wall'"
 
