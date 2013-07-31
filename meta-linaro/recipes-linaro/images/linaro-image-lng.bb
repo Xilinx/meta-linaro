@@ -1,6 +1,7 @@
 require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
+    arndale-pre-boot \
     ltp \
     netperf \
     procps \
