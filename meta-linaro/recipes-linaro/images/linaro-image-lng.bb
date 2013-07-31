@@ -1,9 +1,13 @@
 require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
-    rt-tests \
+    ltp \
     netperf \
-    ltp"
+    procps \
+    rt-tests \
+    systemtap \
+    valgrind \
+    "
 
 IMAGE_FEATURES += "\
 	dev-pkgs \
