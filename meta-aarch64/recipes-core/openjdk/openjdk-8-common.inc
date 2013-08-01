@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r7"
+INC_PR = "r8"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -22,7 +22,7 @@ PN = "${JDKPN}-jre"
 PROVIDES += "${JDKPN}"
 
 DEPENDS = " \
-	   icedtea7-native \
+	   openjdk-7-jre icedtea7-native \
 	   zip-native \
 	   zlib \
 	   jpeg libpng giflib \
