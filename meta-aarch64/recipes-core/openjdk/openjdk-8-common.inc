@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r6"
+INC_PR = "r7"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -57,7 +57,7 @@ do_configure() {
 }
 
 do_compile() {
-	make images
+	make LOG=debug images
 }
 
 do_install() {
