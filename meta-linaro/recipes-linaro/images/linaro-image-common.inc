@@ -15,6 +15,7 @@ IMAGE_INSTALL += " \
 IMAGE_INSTALL_append_aarch64 += "libhugetlbfs"
 
 SDK_IMAGE_INSTALL += "\
+    acpica \
     bison \
     boost-date-time \
     boost-filesystem \
