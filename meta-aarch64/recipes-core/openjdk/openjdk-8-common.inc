@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r8"
+INC_PR = "r9"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -53,7 +53,7 @@ S="${WORKDIR}/jdk8"
 
 do_configure() {
 	unset MAKE
-	bash ./configure --with-debug-level=release --with-jvm-variants=client --with-sys-root=${STAGING_DIR_TARGET} --enable-unlimited-crypto --openjdk-target=aarch64-oe-linux --with-cacerts-file=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native/jre/lib/security/cacerts --with-zlib=system --with-stdc++lib=dynamic --with-boot-jdk=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native
+	bash ./configure --with-debug-level=release --with-jvm-variants=client --with-sys-root=${STAGING_DIR_TARGET} --enable-unlimited-crypto --openjdk-target=aarch64-oe-linux --with-cacerts-file=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native/jre/lib/security/cacerts --with-zlib=system --with-stdc++lib=dynamic --with-boot-jdk=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native --disable-ccache
 }
 
 do_compile() {
