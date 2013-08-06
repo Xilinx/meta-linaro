@@ -8,9 +8,9 @@ PR = "r0"
 
 QEMU_TARGETS_aarch64 = ""
 EXTRA_OECONF_aarch64 += "--enable-tcg-interpreter --enable-kvm --enable-fdt --target-list=aarch64-softmmu"
-EXTRA_OECONF_class-native = "--target-list=arm-linux-user"
+EXTRA_OECONF_class-native = "--target-list=arm-linux-user --extra-cflags='${CFLAGS}'" 
 
-SRC_URI = "git://git.linaro.org/people/pmaydell/qemu-aarch64.git;branch=kvm-aarch64-wip"
+SRC_URI = "git://git.linaro.org/git-ro/people/pmaydell/qemu-arm.git;branch=mach-virt;protocol=http"
 S = "${WORKDIR}/git"
 
 SRCREV = "${AUTOREV}"
