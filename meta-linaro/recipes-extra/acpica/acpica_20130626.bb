@@ -24,7 +24,8 @@ SRC_URI="git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://name-miscompare.patch \
     file://aapits-linux.patch \
     file://cross-compile.patch \
-    file://no-werror.patch"
+    file://no-werror.patch \
+    file://fix-parallel-build.patch"
 
 SRCREV = "${AUTOREV}"
 
