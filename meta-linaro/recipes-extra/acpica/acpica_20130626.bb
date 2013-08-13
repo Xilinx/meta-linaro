@@ -1,21 +1,20 @@
+SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
 DESCRIPTION = "The ACPI Component Architecture (ACPICA) project provides an \
 OS-independent reference implementation of the Advanced Configuration and \
 Power Interface Specification (ACPI). ACPICA code contains those portions of \
 ACPI meant to be directly integrated into the host OS as a kernel-resident \
 subsystem, and a small set of tools to assist in developing and debugging \
 ACPI tables."
-SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
 HOMEPAGE = "http://www.acpica.org/"
 SECTION = "console/tools"
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c6280c3aa"
-DEPENDS="bison \
-    flex"
-COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+DEPENDS = "bison flex"
+SRCREV = "780de9ee36e5a7b4acc29a2ccd43d6bdc5dd5219"
+PV = "20130626+git${SRCPV}"
+PR = "r3"
 
-PR="r2"
-
-SRC_URI="git://git.linaro.org/people/ahs3/acpica-tools.git \
+SRC_URI = "git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://fix_ftbfs_debian-kfreebsd.patch \
     file://debian-big_endian.patch \
     file://debian-unaligned.patch \
@@ -26,8 +25,6 @@ SRC_URI="git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://cross-compile.patch \
     file://no-werror.patch \
     file://fix-parallel-build.patch"
-
-SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
@@ -42,3 +39,6 @@ do_install() {
     install -D -p -m0755 generate/unix/bin*/acpisrc ${D}${bindir}/acpisrc
     install -D -p -m0755 generate/unix/bin*/acpixtract ${D}${bindir}/acpixtract
 }
+
+COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+
