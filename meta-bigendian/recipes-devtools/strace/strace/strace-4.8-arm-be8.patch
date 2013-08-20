@@ -3,17 +3,17 @@ Index: strace-4.8/syscall.c
 --- strace-4.8.orig/syscall.c
 +++ strace-4.8/syscall.c
 @@ -1355,6 +1355,14 @@ get_scno(struct tcb *tcp)
-       if (errno)
-           return -1;
+ 		if (errno)
+ 			return -1;
  
 +#if defined(__ARMEB__) && defined(__ARM_ARCH_7A__)
-+      /* We running big endian arm on ARMv7: instructions are
-+       * in little endian form so we need to byteswap it. Note
-+                 * on older ARM like V5 Xscale code is in big endian form
-+                 * byte swap is not needed in this case. I.e be8 vs be32.
-+       */
-+      scno = __builtin_bswap32(scno);
++		/* We running big endian arm on ARMv7: instructions are
++		 * in little endian form so we need to byteswap it. Note
++		 * on older ARM like V5 Xscale code is in big endian form
++		 * byte swap is not needed in this case. I.e be8 vs be32.
++		 */
++		scno = __builtin_bswap32(scno);
 +#endif /*  __ARMEB__ && __ARM_ARCH_7A__ */
-       /* EABI syscall convention? */
-       if (scno == 0xef000000) {
-           scno = arm_regs.ARM_r7; /* yes */
+ 		/* EABI syscall convention? */
+ 		if (scno == 0xef000000) {
+ 			scno = arm_regs.ARM_r7; /* yes */
