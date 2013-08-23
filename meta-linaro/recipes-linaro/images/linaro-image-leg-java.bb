@@ -7,4 +7,5 @@ IMAGE_INSTALL += " \
     openjdk-7-jdk \
     openjdk-8-jre \
     openjdk-8-jdk \
-    xserver-xorg-xvfb"
+    xserver-xorg-xvfb \
+    zip"
