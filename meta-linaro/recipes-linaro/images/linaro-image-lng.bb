@@ -4,6 +4,7 @@ IMAGE_INSTALL += " \
     arndale-pre-boot \
     ltp \
     netperf \
+    openvswitch \
     procps \
     rt-tests \
     systemtap \
