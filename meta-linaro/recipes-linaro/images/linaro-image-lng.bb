@@ -3,6 +3,7 @@ require linaro-image-common.inc
 IMAGE_INSTALL += " \
     arndale-pre-boot \
     calibrator \
+    fping \
     ltp \
     netperf \
     openvswitch \
