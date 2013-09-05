@@ -1,0 +1,28 @@
+From ff3936a916d119d020cc2ab8da22460a34fca612 Mon Sep 17 00:00:00 2001
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Thu, 29 Aug 2013 15:55:47 +0200
+Subject: [PATCH 2/3] realtime parser: remove unused and depricated imports
+
+Upstream-Status: Upstreamed
+
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ testcases/realtime/scripts/parser.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/testcases/realtime/scripts/parser.py b/testcases/realtime/scripts/parser.py
+index b90233c..6b2dc73 100644
+--- a/testcases/realtime/scripts/parser.py
++++ b/testcases/realtime/scripts/parser.py
+@@ -26,7 +26,7 @@
+ ##                                                                            ##
+ ################################################################################
+ 
+-import sys,os,string,re
++import sys
+ 
+ class Log:
+     def __init__(self,filename):
+-- 
+1.8.1.2
+
