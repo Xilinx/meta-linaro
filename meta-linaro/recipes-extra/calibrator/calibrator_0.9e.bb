@@ -11,6 +11,7 @@ PR = "r0"
 
 SRC_URI = "http://homepages.cwi.nl/~manegold/Calibrator/src/calibrator.c \
     file://fix_conflicting_types_for_round.patch"
+SRC_URI[md5sum] = "5355f07ab1103e6d2948e08936d1ff54"
 
 S = "${WORKDIR}"
 
