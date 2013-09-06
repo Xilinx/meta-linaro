@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     rt-tests \
     systemtap \
     valgrind \
+    python-numpy \
     "
 
 IMAGE_FEATURES += "\
