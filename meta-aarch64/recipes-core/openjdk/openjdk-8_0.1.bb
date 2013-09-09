@@ -2,7 +2,7 @@ require openjdk-8-common.inc
 
 PR = "${INC_PR}.0"
 
-OPENJDK_URI = "http://snapshots.linaro.org/openembedded/sources/openjdk8-aarch64-snapshot.tar.bz2"
+OPENJDK_URI = "http://snapshots.linaro.org/openembedded/sources/openjdk8-aarch64-port-snapshot.tar.bz2"
 
 # The tarball is generated nightly and to avoid updating this file
 # each and every day we ignore checksums.
