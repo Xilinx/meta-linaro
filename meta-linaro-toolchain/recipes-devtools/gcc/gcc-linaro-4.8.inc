@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-MMYY = "13.08"
+MMYY = "13.09"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.2"
@@ -50,8 +50,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://fix-g++-sysroot.patch \
 	   "
 
-SRC_URI[md5sum] = "668e0f4250e35aff554b66accc9a3105"
-SRC_URI[sha256sum] = "35362defebc9df25767566aef55d9bbe41b10af1d2394edff3ba491ea0937bdc"
+SRC_URI[md5sum] = "2e2612bc0ad158abdb22c4be1dc0d1c4"
+SRC_URI[sha256sum] = "a507096ab16564353a8ebe3cd270a6f82d3c2e3a4303e2b883723b217f002c0b"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
