@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r11"
+INC_PR = "r12"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -49,7 +49,7 @@ PRIVATE_LIBS = "\
        "
 
 JAVA_HOME[unexport] = "1"
-S="${WORKDIR}/openjdk8-aarch64-snapshot"
+S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
 do_configure() {
 	unset MAKE
