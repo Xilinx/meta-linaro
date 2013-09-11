@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.7.inc
 require gcc-linaro-common-4.7.inc
 
-MMYY = "13.07"
+MMYY = "13.09"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.7.4"
@@ -16,8 +16,8 @@ SRC_URI = "http://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${
 	   file://fix-g++-sysroot.patch \
 	  "
 
-SRC_URI[md5sum] = "ea718ed5d97004227d816bc4553c88d0"
-SRC_URI[sha256sum] = "1387bda47c1d78e924e94c6015d7f0585a1c109832f687c5cc2f19d03fa7d803"
+SRC_URI[md5sum] = "fc4ba1de8fa0c4fdaadf6d414148b3a0"
+SRC_URI[sha256sum] = "46a89d51dc60ecae25f454a6df73c08871500e1e8cbfa9281dcf498524b48013"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
