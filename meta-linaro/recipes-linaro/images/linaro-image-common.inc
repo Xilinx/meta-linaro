@@ -55,6 +55,7 @@ SDK_IMAGE_INSTALL += "\
     openldap \
     openssl \
     python \
+    qemu \
     readline \
     tbb \
     zlib \
