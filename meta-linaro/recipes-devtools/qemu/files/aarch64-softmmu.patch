@@ -1,0 +1,103 @@
+
+m: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Aug 2013 13:19:04 +0000 (+0100)
+Subject: default-configs: Add config for aarch64-softmmu
+X-Git-Url: https://git.linaro.org/gitweb?p=people%2Fpmaydell%2Fqemu-arm.git;a=commitdiff_plain;h=5b60e30712cbdf478b77ada9433c7f0d1b9d07bd
+
+default-configs: Add config for aarch64-softmmu
+
+Add a config for aarch64-softmmu; this enables building of this target.
+The resulting executable doesn't know about any 64 bit CPUs, but all
+the 32 bit CPUs and board models work.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+
+diff --git a/default-configs/aarch64-softmmu.mak b/default-configs/aarch64-softmmu.mak
+new file mode 100644
+index 0000000..175362f
+--- /dev/null
++++ b/default-configs/aarch64-softmmu.mak
+@@ -0,0 +1,82 @@
++# Default configuration for aarch64-softmmu
++
++include pci.mak
++include usb.mak
++CONFIG_GDBSTUB_XML=y
++CONFIG_VGA=y
++CONFIG_ISA_MMIO=y
++CONFIG_NAND=y
++CONFIG_ECC=y
++CONFIG_SERIAL=y
++CONFIG_PTIMER=y
++CONFIG_SD=y
++CONFIG_MAX7310=y
++CONFIG_WM8750=y
++CONFIG_TWL92230=y
++CONFIG_TSC2005=y
++CONFIG_LM832X=y
++CONFIG_TMP105=y
++CONFIG_STELLARIS=y
++CONFIG_STELLARIS_INPUT=y
++CONFIG_STELLARIS_ENET=y
++CONFIG_SSD0303=y
++CONFIG_SSD0323=y
++CONFIG_ADS7846=y
++CONFIG_MAX111X=y
++CONFIG_SSI=y
++CONFIG_SSI_SD=y
++CONFIG_SSI_M25P80=y
++CONFIG_LAN9118=y
++CONFIG_SMC91C111=y
++CONFIG_DS1338=y
++CONFIG_PFLASH_CFI01=y
++CONFIG_PFLASH_CFI02=y
++CONFIG_MICRODRIVE=y
++CONFIG_USB_MUSB=y
++
++CONFIG_ARM11MPCORE=y
++CONFIG_A9MPCORE=y
++CONFIG_A15MPCORE=y
++
++CONFIG_ARM_GIC=y
++CONFIG_ARM_GIC_KVM=$(CONFIG_KVM)
++CONFIG_ARM_TIMER=y
++CONFIG_ARM_MPTIMER=y
++CONFIG_PL011=y
++CONFIG_PL022=y
++CONFIG_PL031=y
++CONFIG_PL041=y
++CONFIG_PL050=y
++CONFIG_PL061=y
++CONFIG_PL080=y
++CONFIG_PL110=y
++CONFIG_PL181=y
++CONFIG_PL190=y
++CONFIG_PL310=y
++CONFIG_PL330=y
++CONFIG_CADENCE=y
++CONFIG_XGMAC=y
++CONFIG_EXYNOS4=y
++CONFIG_PXA2XX=y
++CONFIG_BITBANG_I2C=y
++CONFIG_FRAMEBUFFER=y
++CONFIG_XILINX_SPIPS=y
++
++CONFIG_A9SCU=y
++CONFIG_MARVELL_88W8618=y
++CONFIG_OMAP=y
++CONFIG_TSC210X=y
++CONFIG_BLIZZARD=y
++CONFIG_ONENAND=y
++CONFIG_TUSB6010=y
++CONFIG_IMX=y
++CONFIG_MAINSTONE=y
++CONFIG_NSERIES=y
++CONFIG_REALVIEW=y
++CONFIG_ZAURUS=y
++CONFIG_ZYNQ=y
++
++CONFIG_VERSATILE_PCI=y
++CONFIG_VERSATILE_I2C=y
++
++CONFIG_SDHCI=y
