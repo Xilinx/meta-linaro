@@ -7,7 +7,7 @@ BAD_RECOMMENDATIONS += "busybox-syslog"
 
 export IMAGE_BASENAME = "linaro-image-minimal-initramfs"
 
-IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+IMAGE_FSTYPES = "${INITRAMFS_FSTYPES} ${INITRAMFS_FSTYPES}.u-boot"
 
 # Do not pollute the initrd image with rootfs features
 IMAGE_FEATURES = ""
@@ -36,4 +36,4 @@ IMAGE_LINGUAS = ""
 
 IMAGE_ROOTFS_SIZE = "8192"
 
-inherit core-image
+inherit core-image image_types_uboot
