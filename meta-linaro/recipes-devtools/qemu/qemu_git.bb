@@ -8,12 +8,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
 PV = "1.6.0+git${SRCPV}"
 PR = "r2"
 
-#COMPATIBLE_HOST_append="aarch64 armeb"
-SRC_URI_prepend = "git://git.qemu.org/qemu.git"
-SRC_URI_aarch64_append = "file://aarch64-softmmu.patch"
+SRC_URI = "git://git.qemu.org/qemu.git \
+           file://aarch64-softmmu.patch \
+           file://powerpc_rom.bin "
+
 S = "${WORKDIR}/git"
-EXTRA_OECONF+="--enable-kvm --enable-fdt"
+EXTRA_OECONF+="--enable-kvm --enable-fdt "
 EXTRA_OECONF_aarch64+="--target-list=aarch64-softmmu --enable-tcg-interpreter"
+EXTRA_OECONF_class-native = "--target-list='arm-linux-user armeb-linux-user' --extra-cflags='${CFLAGS}'"
 
 DEFAULT_PREFERENCE_arm = "1"
 DEFAULT_PREFERENCE_aarch64 = "1"
