@@ -23,6 +23,7 @@ IMAGE_INSTALL = "\
   e2fsprogs \
   e2fsprogs-mke2fs \
   gzip \
+  initramfs-boot-linaro \
   net-tools \
   parted \
   tar \
