@@ -28,7 +28,6 @@ IMAGE_INSTALL = "\
   parted \
   tar \
   u-boot-mkimage \
-  udev \
   wget \
   "
 
