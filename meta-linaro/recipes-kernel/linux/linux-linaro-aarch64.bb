@@ -1,4 +1,4 @@
-require linux-linaro.inc
+require linux-linaro-fastmodel.inc
 
 SRC_URI = " \
            git://git.linaro.org/kernel/linux-linaro-tracking.git;branch=linux-linaro;name=kernel \
