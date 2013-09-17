@@ -12,11 +12,17 @@ early_setup() {
 
     ln -s /run /var/run
 
-    mknod /dev/ttyO0 c 253 0
-    mknod /dev/ttyO2 c 253 2
+    # ARM AMBA SoCs
     mknod /dev/ttyAMA0 c 204 64
     mknod /dev/ttyAMA2 c 204 66
+    # Samsung ARM SoCs
     mknod /dev/ttySAC2 c 204 66
+    # TI OMAP SoCs
+    mknod /dev/ttyO0 c 249 0
+    mknod /dev/ttyO2 c 249 2
+
+    chmod 0666 /dev/tty*
+    chown root:tty /dev/tty*
 }
 
 read_args() {
@@ -40,4 +46,4 @@ read_args() {
 early_setup
 read_args
 
-exec setsid sh -l </dev/${port} >/dev/${port} 2>&1
+setsid sh -l </dev/${port} >/dev/${port} 2>&1
