@@ -12,7 +12,7 @@ IMAGE_INSTALL += " \
     bash \
     "
 
-IMAGE_INSTALL_append_aarch64 += "libhugetlbfs"
+IMAGE_INSTALL_append_aarch64 = "libhugetlbfs"
 
 SDK_IMAGE_INSTALL += "\
     acpica \
