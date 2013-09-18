@@ -11,12 +11,13 @@ IMAGE_INSTALL += " \
     rt-tests \
     systemtap \
     valgrind \
-    python-numpy \
     "
 
+IMAGE_INSTALL_append_genericarmv7a = "python-numpy"
+
 IMAGE_FEATURES += "\
-	dev-pkgs \
-	staticdev-pkgs \
-	tools-debug \
-	tools-sdk \
-	"
+    dev-pkgs \
+    staticdev-pkgs \
+    tools-debug \
+    tools-sdk \
+    "
