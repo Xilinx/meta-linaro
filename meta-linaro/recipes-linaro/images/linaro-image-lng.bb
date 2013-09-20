@@ -8,6 +8,7 @@ IMAGE_INSTALL += " \
     netperf \
     openvswitch \
     procps \
+    qemu \
     rt-tests \
     systemtap \
     valgrind \
