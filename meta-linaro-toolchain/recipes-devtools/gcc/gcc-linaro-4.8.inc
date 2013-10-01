@@ -48,6 +48,7 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://gcc-4.8-PR56797.patch \
 	   file://use-lib-for-aarch64.patch \
 	   file://fix-g++-sysroot.patch \
+       file://0046-libatomic-deptracking.patch \
 	   "
 
 SRC_URI[md5sum] = "2e2612bc0ad158abdb22c4be1dc0d1c4"
