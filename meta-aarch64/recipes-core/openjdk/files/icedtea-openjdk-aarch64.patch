@@ -1,24 +1,5 @@
 --- openjdk/hotspot/src/os/linux/vm/os_linux.cpp
 +++ openjdk/hotspot/src/os/linux/vm/os_linux.cpp
-@@ -1893,7 +1893,8 @@
-     {EM_MIPS,        EM_MIPS,    ELFCLASS32, ELFDATA2MSB, (char*)"MIPS"},
-     {EM_PARISC,      EM_PARISC,  ELFCLASS32, ELFDATA2MSB, (char*)"PARISC"},
-     {EM_68K,         EM_68K,     ELFCLASS32, ELFDATA2MSB, (char*)"M68k"},
--    {EM_SH,          EM_SH,      ELFCLASS32, ELFDATA2LSB, (char*)"SH"} /* Support little endian only*/
-+    {EM_SH,          EM_SH,      ELFCLASS32, ELFDATA2LSB, (char*)"SH"}, /* Support little endian only*/
-+    {EM_AARCH64,     EM_AARCH64, ELFCLASS64, ELFDATA2LSB, (char*)"AARCH64"} /* Support little endian only*/
-   };
- 
-   #if  (defined IA32)
-@@ -1926,6 +1927,8 @@
-     static  Elf32_Half running_arch_code=EM_68K;
-   #elif  (defined SH)
-     static  Elf32_Half running_arch_code=EM_SH;
-+  #elif  (defined AARCH64)
-+    static  Elf32_Half running_arch_code=EM_AARCH64;
-   #else
-     #error Method os::dll_load requires that one of following is defined:\
-          IA32, AMD64, IA64, __sparc, __powerpc__, ARM, S390, ALPHA, MIPS, MIPSEL, PARISC, M68K, SH
 @@ -5382,14 +5385,6 @@
  
  extern char** environ;
