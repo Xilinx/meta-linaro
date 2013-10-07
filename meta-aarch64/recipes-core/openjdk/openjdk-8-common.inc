@@ -1,12 +1,12 @@
 DESCRIPTION = "Java runtime based upon the OpenJDK8"
-HOMEPAGE = "http://icedtea.classpath.org"
+HOMEPAGE = "http://openjdk.java.net/projects/jdk8"
 LICENSE  = "GPL-2.0-with-classpath-exception"
 PRIORITY = "optional"
 SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r12"
+INC_PR = "r13"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -22,7 +22,6 @@ PN = "${JDKPN}-jre"
 PROVIDES += "${JDKPN}"
 
 DEPENDS = " \
-	   icedtea7-native \
 	   zip-native \
 	   zlib \
 	   jpeg libpng giflib \
@@ -53,7 +52,7 @@ S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
 do_configure() {
 	unset MAKE
-	bash ./configure --with-debug-level=release --with-jvm-variants=client --with-sys-root=${STAGING_DIR_TARGET} --enable-unlimited-crypto --openjdk-target=aarch64-oe-linux --with-cacerts-file=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native/jre/lib/security/cacerts --with-zlib=system --with-stdc++lib=dynamic --with-boot-jdk=${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native --disable-ccache
+	bash ./configure --with-debug-level=release --with-jvm-variants=client --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=aarch64-oe-linux --with-zlib=system --with-stdc++lib=dynamic --disable-ccache
 }
 
 do_compile() {
@@ -104,9 +103,8 @@ FILES_${PN} = " \
 INSANE_SKIP_${JDKPN}-jdk = "dev-so"
 INSANE_SKIP_${JDKPN}-jre = "dev-so"
 
-RPROVIDES_${JDKPN}-jre = "java2-runtime"
-RPROVIDES_${JDKPN}-jre = "java2-vm"
-
+RPROVIDES_${JDKPN}-jre = "java2-runtime java2-vm"
+RPROVIDES_${JDKPN}-jdk = "java2-runtime java2-vm"
 RDEPENDS_${JDKPN}-demo = "java2-runtime"
 
 inherit update-alternatives
