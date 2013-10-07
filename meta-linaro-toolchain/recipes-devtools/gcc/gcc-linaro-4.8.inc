@@ -45,11 +45,21 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
 	   file://0035-wcast-qual-PR-55383.patch \
-	   file://gcc-4.8-PR56797.patch \
+	   file://0037-gcc-4.8-PR56797.patch \
+	   file://0038-gcc-4.8-build-args.patch \
+	   file://0039-gcc-4.8-PR57717.patch \
+	   file://0040-fix-g++-sysroot.patch \
+	   file://0041-libtool-avoid-libdir.patch \
+	   file://0042-pr57748.patch \
+	   file://0043-cpp.patch \
+	   file://0044-gengtypes.patch \
+	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
+	   file://0046-libatomic-deptracking.patch \
 	   file://use-lib-for-aarch64.patch \
-	   file://fix-g++-sysroot.patch \
-       file://0046-libatomic-deptracking.patch \
 	   "
+
+# Don't apply:
+#	   file://0036-PR-target-56102.patch 
 
 SRC_URI[md5sum] = "2e2612bc0ad158abdb22c4be1dc0d1c4"
 SRC_URI[sha256sum] = "a507096ab16564353a8ebe3cd270a6f82d3c2e3a4303e2b883723b217f002c0b"
