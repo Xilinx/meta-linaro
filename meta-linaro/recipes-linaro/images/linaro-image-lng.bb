@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     fping \
+    lmbench \
     ltp \
     netperf \
     openvswitch \
