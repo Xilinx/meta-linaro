@@ -2,6 +2,7 @@ require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
     arndale-pre-boot \
+    bridge-utils \
     calibrator \
     curl \
     fping \
@@ -12,6 +13,7 @@ IMAGE_INSTALL += " \
     qemu \
     rt-tests \
     systemtap \
+    tunctl \
     valgrind \
     "
 
