@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     fping \
+    latency-test \
     lmbench \
     ltp \
     netperf \
