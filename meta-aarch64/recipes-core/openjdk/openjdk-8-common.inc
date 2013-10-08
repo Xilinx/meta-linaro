@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r13"
+INC_PR = "r14"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -111,18 +111,116 @@ inherit update-alternatives
 
 pkg_postinst_${JDKPN}-jre () {
     update-alternatives --install ${bindir}/java java ${JDK_HOME}/jre/bin/java 75
+    update-alternatives --install ${bindir}/jjs jjs ${JDK_HOME}/jre/bin/jjs 75
+    update-alternatives --install ${bindir}/keytool keytool ${JDK_HOME}/jre/bin/keytool 75
+    update-alternatives --install ${bindir}/orbd orbd ${JDK_HOME}/jre/bin/orbd 75
+    update-alternatives --install ${bindir}/pack200 pack200 ${JDK_HOME}/jre/bin/pack200 75
+    update-alternatives --install ${bindir}/policytool policytool ${JDK_HOME}/jre/bin/policytool 75
+    update-alternatives --install ${bindir}/rmid rmid ${JDK_HOME}/jre/bin/rmid 75
+    update-alternatives --install ${bindir}/rmiregistry rmiregistry ${JDK_HOME}/jre/bin/rmiregistry 75
+    update-alternatives --install ${bindir}/servertool servertool ${JDK_HOME}/jre/bin/servertool 75
+    update-alternatives --install ${bindir}/tnameserv tnameserv ${JDK_HOME}/jre/bin/tnameserv 75
+    update-alternatives --install ${bindir}/unpack200 unpack200 ${JDK_HOME}/jre/bin/unpack200 75
 }
 
 pkg_prerm_${JDKPN}-jre () {
     update-alternatives --remove java ${JDK_HOME}/jre/bin/java
+    update-alternatives --remove jjs ${JDK_HOME}/jre/bin/jjs
+    update-alternatives --remove keytool ${JDK_HOME}/jre/bin/keytool
+    update-alternatives --remove orbd ${JDK_HOME}/jre/bin/orbd
+    update-alternatives --remove pack200 ${JDK_HOME}/jre/bin/pack200
+    update-alternatives --remove policytool ${JDK_HOME}/jre/bin/policytool
+    update-alternatives --remove rmid ${JDK_HOME}/jre/bin/rmid
+    update-alternatives --remove rmiregistry ${JDK_HOME}/jre/bin/rmiregistry
+    update-alternatives --remove servertool ${JDK_HOME}/jre/bin/servertool
+    update-alternatives --remove tnameserv ${JDK_HOME}/jre/bin/tnameserv
+    update-alternatives --remove unpack200 ${JDK_HOME}/jre/bin/unpack200
 }
 
 pkg_postinst_${JDKPN}-jdk () {
-    update-alternatives --install ${bindir}/java javac ${JDK_HOME}/bin/java 100
+    update-alternatives --install ${bindir}/appletviewer appletviewer ${JDK_HOME}/bin/appletviewer 100
+    update-alternatives --install ${bindir}/extcheck extcheck ${JDK_HOME}/bin/extcheck 100
+    update-alternatives --install ${bindir}/idlj idlj ${JDK_HOME}/bin/idlj 100
+    update-alternatives --install ${bindir}/jar jar ${JDK_HOME}/bin/jar 100
+    update-alternatives --install ${bindir}/jarsigner jarsigner ${JDK_HOME}/bin/jarsigner 100
+    update-alternatives --install ${bindir}/java java ${JDK_HOME}/bin/java 100
     update-alternatives --install ${bindir}/javac javac ${JDK_HOME}/bin/javac 100
+    update-alternatives --install ${bindir}/javadoc javadoc ${JDK_HOME}/bin/javadoc 100
+    update-alternatives --install ${bindir}/javah javah ${JDK_HOME}/bin/javah 100
+    update-alternatives --install ${bindir}/javap javap ${JDK_HOME}/bin/javap 100
+    update-alternatives --install ${bindir}/java-rmi.cgi java-rmi.cgi ${JDK_HOME}/bin/java-rmi.cgi 100
+    update-alternatives --install ${bindir}/jcmd jcmd ${JDK_HOME}/bin/jcmd 100
+    update-alternatives --install ${bindir}/jconsole jconsole ${JDK_HOME}/bin/jconsole 100
+    update-alternatives --install ${bindir}/jdb jdb ${JDK_HOME}/bin/jdb 100
+    update-alternatives --install ${bindir}/jdeps jdeps ${JDK_HOME}/bin/jdeps 100
+    update-alternatives --install ${bindir}/jhat jhat ${JDK_HOME}/bin/jhat 100
+    update-alternatives --install ${bindir}/jinfo jinfo ${JDK_HOME}/bin/jinfo 100
+    update-alternatives --install ${bindir}/jjs jjs ${JDK_HOME}/bin/jjs 100
+    update-alternatives --install ${bindir}/jmap jmap ${JDK_HOME}/bin/jmap 100
+    update-alternatives --install ${bindir}/jps jps ${JDK_HOME}/bin/jps 100
+    update-alternatives --install ${bindir}/jrunscript jrunscript ${JDK_HOME}/bin/jrunscript 100
+    update-alternatives --install ${bindir}/jsadebugd jsadebugd ${JDK_HOME}/bin/jsadebugd 100
+    update-alternatives --install ${bindir}/jstack jstack ${JDK_HOME}/bin/jstack 100
+    update-alternatives --install ${bindir}/jstat jstat ${JDK_HOME}/bin/jstat 100
+    update-alternatives --install ${bindir}/jstatd jstatd ${JDK_HOME}/bin/jstatd 100
+    update-alternatives --install ${bindir}/keytool keytool ${JDK_HOME}/bin/keytool 100
+    update-alternatives --install ${bindir}/native2ascii native2ascii ${JDK_HOME}/bin/native2ascii 100
+    update-alternatives --install ${bindir}/orbd orbd ${JDK_HOME}/bin/orbd 100
+    update-alternatives --install ${bindir}/pack200 pack200 ${JDK_HOME}/bin/pack200 100
+    update-alternatives --install ${bindir}/policytool policytool ${JDK_HOME}/bin/policytool 100
+    update-alternatives --install ${bindir}/rmic rmic ${JDK_HOME}/bin/rmic 100
+    update-alternatives --install ${bindir}/rmid rmid ${JDK_HOME}/bin/rmid 100
+    update-alternatives --install ${bindir}/rmiregistry rmiregistry ${JDK_HOME}/bin/rmiregistry 100
+    update-alternatives --install ${bindir}/schemagen schemagen ${JDK_HOME}/bin/schemagen 100
+    update-alternatives --install ${bindir}/serialver serialver ${JDK_HOME}/bin/serialver 100
+    update-alternatives --install ${bindir}/servertool servertool ${JDK_HOME}/bin/servertool 100
+    update-alternatives --install ${bindir}/tnameserv tnameserv ${JDK_HOME}/bin/tnameserv 100
+    update-alternatives --install ${bindir}/unpack200 unpack200 ${JDK_HOME}/bin/unpack200 100
+    update-alternatives --install ${bindir}/wsgen wsgen ${JDK_HOME}/bin/wsgen 100
+    update-alternatives --install ${bindir}/wsimport wsimport ${JDK_HOME}/bin/wsimport 100
+    update-alternatives --install ${bindir}/xjc xjc ${JDK_HOME}/bin/xjc 100
 }
 
 pkg_prerm_${JDKPN}-jdk () {
+    update-alternatives --remove appletviewer ${JDK_HOME}/bin/appletviewer
+    update-alternatives --remove extcheck ${JDK_HOME}/bin/extcheck
+    update-alternatives --remove idlj ${JDK_HOME}/bin/idlj
+    update-alternatives --remove jar ${JDK_HOME}/bin/jar
+    update-alternatives --remove jarsigner ${JDK_HOME}/bin/jarsigner
     update-alternatives --remove java ${JDK_HOME}/bin/java
     update-alternatives --remove javac ${JDK_HOME}/bin/javac
+    update-alternatives --remove javadoc ${JDK_HOME}/bin/javadoc
+    update-alternatives --remove javah ${JDK_HOME}/bin/javah
+    update-alternatives --remove javap ${JDK_HOME}/bin/javap
+    update-alternatives --remove java-rmi.cgi ${JDK_HOME}/bin/java-rmi.cgi
+    update-alternatives --remove jcmd ${JDK_HOME}/bin/jcmd
+    update-alternatives --remove jconsole ${JDK_HOME}/bin/jconsole
+    update-alternatives --remove jdb ${JDK_HOME}/bin/jdb
+    update-alternatives --remove jdeps ${JDK_HOME}/bin/jdeps
+    update-alternatives --remove jhat ${JDK_HOME}/bin/jhat
+    update-alternatives --remove jinfo ${JDK_HOME}/bin/jinfo
+    update-alternatives --remove jjs ${JDK_HOME}/bin/jjs
+    update-alternatives --remove jmap ${JDK_HOME}/bin/jmap
+    update-alternatives --remove jps ${JDK_HOME}/bin/jps
+    update-alternatives --remove jrunscript ${JDK_HOME}/bin/jrunscript
+    update-alternatives --remove jsadebugd ${JDK_HOME}/bin/jsadebugd
+    update-alternatives --remove jstack ${JDK_HOME}/bin/jstack
+    update-alternatives --remove jstat ${JDK_HOME}/bin/jstat
+    update-alternatives --remove jstatd ${JDK_HOME}/bin/jstatd
+    update-alternatives --remove keytool ${JDK_HOME}/bin/keytool
+    update-alternatives --remove native2ascii ${JDK_HOME}/bin/native2ascii
+    update-alternatives --remove orbd ${JDK_HOME}/bin/orbd
+    update-alternatives --remove pack200 ${JDK_HOME}/bin/pack200
+    update-alternatives --remove policytool ${JDK_HOME}/bin/policytool
+    update-alternatives --remove rmic ${JDK_HOME}/bin/rmic
+    update-alternatives --remove rmid ${JDK_HOME}/bin/rmid
+    update-alternatives --remove rmiregistry ${JDK_HOME}/bin/rmiregistry
+    update-alternatives --remove schemagen ${JDK_HOME}/bin/schemagen
+    update-alternatives --remove serialver ${JDK_HOME}/bin/serialver
+    update-alternatives --remove servertool ${JDK_HOME}/bin/servertool
+    update-alternatives --remove tnameserv ${JDK_HOME}/bin/tnameserv
+    update-alternatives --remove unpack200 ${JDK_HOME}/bin/unpack200
+    update-alternatives --remove wsgen ${JDK_HOME}/bin/wsgen
+    update-alternatives --remove wsimport ${JDK_HOME}/bin/wsimport
+    update-alternatives --remove xjc ${JDK_HOME}/bin/xjc
 }
