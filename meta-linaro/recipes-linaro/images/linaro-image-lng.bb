@@ -13,8 +13,11 @@ IMAGE_INSTALL += " \
     procps \
     qemu \
     rt-tests \
-    systemtap \
     tunctl \
+    "
+
+IMAGE_INSTALL_append_armv7a = " \
+    systemtap \
     valgrind \
     "
 
