@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
     procps \
     qemu \
     rt-tests \
+    trinity-example \
     tunctl \
     "
 
