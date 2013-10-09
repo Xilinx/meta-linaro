@@ -10,6 +10,7 @@ SRC_URI = "http://codemonkey.org.uk/projects/trinity/trinity-${PV}.tgz \
            file://0001-scripts-TRINITY_PATH-defaults-to.patch \
            file://0002-scripts-change-mkdir-tmp-to-mktemp.patch \
            file://0003-scripts-arch-dependent-to-get-the-syscall_list.patch \
+           file://0004-add-support-for-the-AArch64-architecture.patch \
           "
 
 SRC_URI[md5sum] = "554dc54e296dcfc32a7c85937ca4e956"
