@@ -1,0 +1,169 @@
+From 3146cc9a97c951669468d10dce1245d74a0b0c17 Mon Sep 17 00:00:00 2001
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Tue, 8 Oct 2013 16:45:08 +0200
+Subject: [PATCH 2/3] scripts: change mkdir tmp to mktemp
+
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ scripts/find.sh                           | 10 ++++------
+ scripts/test-all-syscalls-parallel.sh     |  8 +++-----
+ scripts/test-all-syscalls-sequentially.sh |  9 +++------
+ scripts/test-multi.sh                     | 12 +++++-------
+ scripts/test-vm.sh                        |  8 +++-----
+ 5 files changed, 18 insertions(+), 29 deletions(-)
+
+diff --git a/scripts/find.sh b/scripts/find.sh
+index 5528210..3f10c58 100755
+--- a/scripts/find.sh
++++ b/scripts/find.sh
+@@ -6,6 +6,7 @@
+ #
+ 
+ TRINITY_PATH=${TRINITY_PATH:-.}
++TRINITY_TMP=$(mktemp -d /tmp/trinity.XXXXXX)
+ 
+ check_tainted()
+ {
+@@ -15,11 +16,8 @@ check_tainted()
+     fi
+ }
+ 
+-if [ ! -d tmp ]; then
+-  mkdir tmp
+-fi
+-chmod 755 tmp
+-cd tmp
++chmod 755 $TRINITY_TMP
++cd $TRINITY_TMP
+ 
+ TAINT=$(cat /proc/sys/kernel/tainted)
+ 
+@@ -46,7 +44,7 @@ do
+ 
+   check_tainted
+ 
+-  chmod 755 ../tmp
++  chmod 755 $TRINITY_TMP
+ 
+ done
+ 
+diff --git a/scripts/test-all-syscalls-parallel.sh b/scripts/test-all-syscalls-parallel.sh
+index c713cce..312fd2a 100755
+--- a/scripts/test-all-syscalls-parallel.sh
++++ b/scripts/test-all-syscalls-parallel.sh
+@@ -1,12 +1,10 @@
+ #!/bin/bash
+ 
+ TRINITY_PATH=${TRINITY_PATH:-.}
++TRINITY_TMP=$(mktemp -d /tmp/trinity.XXXXXX)
+ 
+-if [ ! -d tmp ]; then
+-  mkdir tmp
+-fi
+-chmod 755 tmp
+-cd tmp
++chmod 755 $TRINITY_TMP
++cd $TRINITY_TMP
+ 
+ while [ 1 ];
+ do
+diff --git a/scripts/test-all-syscalls-sequentially.sh b/scripts/test-all-syscalls-sequentially.sh
+index 6d79db4..2b726fc 100755
+--- a/scripts/test-all-syscalls-sequentially.sh
++++ b/scripts/test-all-syscalls-sequentially.sh
+@@ -4,6 +4,7 @@
+ # causing trinity to segfault.
+ 
+ TRINITY_PATH=${TRINITY_PATH:-.}
++TRINITY_TMP=$(mktemp -d /tmp/trinity.XXXXXX)
+ 
+ check_tainted()
+ {
+@@ -13,18 +14,14 @@ check_tainted()
+     fi
+ }
+ 
+-if [ ! -d tmp ]; then
+-  mkdir tmp
+-fi
+-
+ TAINT=$(cat /proc/sys/kernel/tainted)
+ 
+ while [ 1 ]
+ do
+ for syscall in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $4 }' | sort -u)
+ do
+-	chmod 755 tmp
+-	pushd tmp
++	chmod 755 $TRINITY_TMP
++	pushd $TRINITY_TMP
+ 
+ 	if [ ! -f $TRINITY_PATH/trinity ]; then
+ 		echo lost!
+diff --git a/scripts/test-multi.sh b/scripts/test-multi.sh
+index 33db834..65214c3 100755
+--- a/scripts/test-multi.sh
++++ b/scripts/test-multi.sh
+@@ -1,6 +1,7 @@
+ #!/bin/bash
+ 
+ TRINITY_PATH=${TRINITY_PATH:-.}
++TRINITY_TMP=$(mktemp -d /tmp/trinity.XXXXXX)
+ 
+ check_tainted()
+ {
+@@ -10,11 +11,8 @@ check_tainted()
+     fi
+ }
+ 
+-if [ ! -d tmp ]; then
+-  mkdir tmp
+-fi
+-chmod 755 tmp
+-cd tmp
++chmod 755 $TRINITY_TMP
++cd $TRINITY_TMP
+ 
+ TAINT=$(cat /proc/sys/kernel/tainted)
+ 
+@@ -27,7 +25,7 @@ do
+ 
+   for i in `seq 1 $NR_PROCESSES`
+   do
+-    chmod 755 ../tmp
++    chmod 755 ../$TRINITY_TMP
+     if [ -d tmp.$i ]; then
+       chmod 755 tmp.$i
+       rm -rf tmp.$i
+@@ -53,7 +51,7 @@ do
+   sleep 1
+   check_tainted
+ 
+-  chmod 755 ../tmp
++  chmod 755 ../$TRINITY_TMP
+ 
+   for i in `seq 1 $NR_PROCESSES`
+   do
+diff --git a/scripts/test-vm.sh b/scripts/test-vm.sh
+index 6b75e8d..6804c0e 100755
+--- a/scripts/test-vm.sh
++++ b/scripts/test-vm.sh
+@@ -1,12 +1,10 @@
+ #!/bin/bash
+ 
+ TRINITY_PATH=${TRINITY_PATH:-.}
++TRINITY_TMP=$(mktemp -d /tmp/trinity.XXXXXX)
+ 
+-if [ ! -d tmp ]; then
+-  mkdir tmp
+-fi
+-chmod 755 tmp
+-cd tmp
++chmod 755 $TRINITY_TMP
++cd $TRINITY_TMP
+ 
+ NR_CPUS=`grep ^processor /proc/cpuinfo | /usr/bin/wc -l`
+ NR_PROCESSES=$(($NR_CPUS * 2))
+-- 
+1.8.1.2
+
