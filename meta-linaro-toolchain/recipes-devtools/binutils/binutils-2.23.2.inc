@@ -1,4 +1,6 @@
-PR = "r7"
+MMYY = "13.10"
+RELEASE = "20${MMYY}-4"
+PR = "r${RELEASE}"
 
 LIC_FILES_CHKSUM="\
     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
@@ -14,7 +16,7 @@ LIC_FILES_CHKSUM="\
     "
 
 SRC_URI = "\
-     http://releases.linaro.org/13.10/components/toolchain/binutils-linaro/binutils-linaro-2.23.2-2013.10-4.tar.bz2 \
+     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${PV}-${RELEASE}.tar.bz2 \
      file://binutils-uclibc-100-uclibc-conf.patch \
      file://binutils-uclibc-300-001_ld_makefile_patch.patch \
      file://binutils-uclibc-300-006_better_file_error.patch \
@@ -49,3 +51,5 @@ BACKPORT = "\
 "
 SRC_URI[md5sum] = "9f0fe607fa0f11b45080481a1591e812"
 SRC_URI[sha256sum] = "18811bb413f693a732e9fd5c0cef68b5f6f45e413dd2ec69e8623774db79aed3"
+
+S = "${WORKDIR}/binutils-linaro-${PV}-${RELEASE}"
