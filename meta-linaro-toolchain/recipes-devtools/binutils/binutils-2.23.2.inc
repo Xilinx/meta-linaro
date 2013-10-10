@@ -33,8 +33,8 @@ SRC_URI = "\
      "
 
 BACKPORT = "\
-     file://backport/0001-doc-binutils.texi-elfedit-Fix-use-of-itemx-in-table.patch \
-     file://backport/0001-ld.texinfo-Replace-with-when-it-is-part-of-the-text.patch \
+     file://backport/0001-doc-binutils.texi-elfedit-Fix-use-of-itemx-in-table.patch;apply=no \
+     file://backport/0001-ld.texinfo-Replace-with-when-it-is-part-of-the-text.patch;apply=no \
      file://backport/binutils-fix-ineffectual-zero-of-cache.patch \
      file://backport/binutils-replace-strncat-with-strcat.patch  \
      file://backport/0001-config-tc-ppc.c-md_assemble-Do-not-generate-APUinfo-.patch  \
