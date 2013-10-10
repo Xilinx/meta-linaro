@@ -39,6 +39,8 @@ BACKPORT = "\
      file://backport/binutils-replace-strncat-with-strcat.patch  \
      file://backport/0001-config-tc-ppc.c-md_assemble-Do-not-generate-APUinfo-.patch  \
      file://backport/binutils-fix-skip-whitespace-pr14887.patch \
+     file://backport/aarch64-crn.patch;apply=no \
+     file://backport/aarch64-movi.patch;apply=no \
      file://backport/0001-config-tc-ppc.c-PPC_VLE_SPLIT16A-Delete-unused-macro.patch \
      file://backport/0002-config-tc-ppc.c-md_apply_fix-Sign-extend-fieldval-un.patch \
      file://backport/0001-emultempl-elf32.em-gld-EMULATION_NAME-_before_alloca.patch \
