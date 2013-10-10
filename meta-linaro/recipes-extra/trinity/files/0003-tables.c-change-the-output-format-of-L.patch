@@ -1,0 +1,95 @@
+From 2bddde3a834bd19a6e72761b98ad2e57956af42e Mon Sep 17 00:00:00 2001
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Thu, 10 Oct 2013 09:46:01 +0200
+Subject: [PATCH 3/4] tables.c: change the output format of -L
+
+So the scripts can works for both biarch and !biarch
+
+Upstream-Status: Backport
+
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ scripts/find.sh                           |  2 +-
+ scripts/test-all-syscalls-parallel.sh     |  2 +-
+ scripts/test-all-syscalls-sequentially.sh |  2 +-
+ tables.c                                  | 10 +++++-----
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/scripts/find.sh b/scripts/find.sh
+index 3f10c58..4c970c1 100755
+--- a/scripts/find.sh
++++ b/scripts/find.sh
+@@ -27,7 +27,7 @@ while [ 1 ];
+ do
+ 
+ 
+-for sc in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $4 }' | sort -u)
++for sc in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $3 }' | sort -u)
+ do
+   mkdir -p tmp.$i
+   pushd tmp.$i
+diff --git a/scripts/test-all-syscalls-parallel.sh b/scripts/test-all-syscalls-parallel.sh
+index 312fd2a..7206364 100755
+--- a/scripts/test-all-syscalls-parallel.sh
++++ b/scripts/test-all-syscalls-parallel.sh
+@@ -8,7 +8,7 @@ cd $TRINITY_TMP
+ 
+ while [ 1 ];
+ do
+-  for syscall in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $4 }' | sort -u)
++  for syscall in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $3 }' | sort -u)
+   do
+ 	MALLOC_CHECK_=2 $TRINITY_PATH/trinity -q -c $syscall -D &
+   done
+diff --git a/scripts/test-all-syscalls-sequentially.sh b/scripts/test-all-syscalls-sequentially.sh
+index 2b726fc..14fb4c3 100755
+--- a/scripts/test-all-syscalls-sequentially.sh
++++ b/scripts/test-all-syscalls-sequentially.sh
+@@ -18,7 +18,7 @@ TAINT=$(cat /proc/sys/kernel/tainted)
+ 
+ while [ 1 ]
+ do
+-for syscall in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $4 }' | sort -u)
++for syscall in $($TRINITY_PATH/trinity -L | grep entrypoint | grep -v AVOID | awk '{ print $3 }' | sort -u)
+ do
+ 	chmod 755 $TRINITY_TMP
+ 	pushd $TRINITY_TMP
+diff --git a/tables.c b/tables.c
+index d12b541..39c49f9 100644
+--- a/tables.c
++++ b/tables.c
+@@ -411,18 +411,18 @@ void dump_syscall_tables(void)
+ 	unsigned int i;
+ 
+ 	if (biarch == TRUE) {
+-		printf("32-bit syscalls: %d\n", max_nr_32bit_syscalls);
+-		printf("64-bit syscalls: %d\n", max_nr_64bit_syscalls);
++		printf("syscalls: %d [32-bit] \n", max_nr_32bit_syscalls);
++		printf("syscalls: %d [64-bit] \n", max_nr_64bit_syscalls);
+ 
+ 		for_each_32bit_syscall(i) {
+-			printf("32-bit entrypoint %d %s : ", syscalls_32bit[i].entry->number, syscalls_32bit[i].entry->name);
++			printf("entrypoint %d %s : [32-bit] ", syscalls_32bit[i].entry->number, syscalls_32bit[i].entry->name);
+ 			show_state(syscalls_32bit[i].entry->flags & ACTIVE);
+ 			if (syscalls_32bit[i].entry->flags & AVOID_SYSCALL)
+ 				printf(" AVOID");
+ 			printf("\n");
+ 		}
+ 		for_each_64bit_syscall(i) {
+-			printf("64-bit entrypoint %d %s : ", syscalls_64bit[i].entry->number, syscalls_64bit[i].entry->name);
++			printf("entrypoint %d %s : [64-bit] ", syscalls_64bit[i].entry->number, syscalls_64bit[i].entry->name);
+ 			show_state(syscalls_64bit[i].entry->flags & ACTIVE);
+ 			if (syscalls_64bit[i].entry->flags & AVOID_SYSCALL)
+ 				printf(" AVOID");
+@@ -431,7 +431,7 @@ void dump_syscall_tables(void)
+ 	} else {
+ 		printf("syscalls: %d\n", max_nr_syscalls);
+ 		for_each_syscall(i) {
+-			printf("%d %s : ", syscalls[i].entry->number, syscalls[i].entry->name);
++			printf("entrypoint %d %s : ", syscalls[i].entry->number, syscalls[i].entry->name);
+ 			show_state(syscalls[i].entry->flags & ACTIVE);
+ 			if (syscalls[i].entry->flags & AVOID_SYSCALL)
+ 				printf(" AVOID");
+-- 
+1.8.1.2
+

@@ -3,6 +3,8 @@ From: Anders Roxell <anders.roxell@linaro.org>
 Date: Tue, 8 Oct 2013 16:45:08 +0200
 Subject: [PATCH 2/3] scripts: change mkdir tmp to mktemp
 
+Upstream-Status: Accepted
+
 Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
 ---
  scripts/find.sh                           | 10 ++++------

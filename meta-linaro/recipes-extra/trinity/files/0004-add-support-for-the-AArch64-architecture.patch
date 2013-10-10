@@ -6,6 +6,8 @@ Subject: [PATCH 4/4] add support for the AArch64 architecture
 This patch wires up support for the AArch64 architecture, which has been
 supported in the mainline kernel (as arm64) since 3.7.
 
+Upstream-Status: Backport
+
 Signed-off-by: Will Deacon <will.deacon@arm.com>
 ---
  include/arch-aarch64.h     |  13 +++
