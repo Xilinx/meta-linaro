@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     netperf \
     openvswitch \
     procps \
+    python-numpy \
     qemu \
     rt-tests \
     trinity-example \
@@ -22,7 +23,7 @@ IMAGE_INSTALL_append_armv7a = " \
     valgrind \
     "
 
-IMAGE_INSTALL_append_genericarmv7a = "python-numpy"
+#IMAGE_INSTALL_append_genericarmv7a = "python-numpy"
 
 IMAGE_FEATURES += "\
     dev-pkgs \
