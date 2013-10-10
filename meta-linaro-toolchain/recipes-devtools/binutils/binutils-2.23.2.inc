@@ -1,4 +1,4 @@
-PR = "r5"
+PR = "r6"
 
 LIC_FILES_CHKSUM="\
     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM="\
     "
 
 SRC_URI = "\
-     http://releases.linaro.org/13.06/components/toolchain/binutils-linaro/binutils-linaro-2.23.2-2013.06.tar.bz2 \
+     http://releases.linaro.org/13.10/components/toolchain/binutils-linaro/binutils-linaro-2.23.2-2013.10-3.tar.bz2 \
      file://binutils-uclibc-100-uclibc-conf.patch \
      file://binutils-uclibc-300-001_ld_makefile_patch.patch \
      file://binutils-uclibc-300-006_better_file_error.patch \
@@ -47,5 +47,5 @@ BACKPORT = "\
      file://backport/0002-emultempl-elf32.em-gld-EMULATION_NAME-_before_alloca.patch \
      file://backport/0003-gold.patch \
 "
-SRC_URI[md5sum] = "73ad2a91f17b7e4fd41d49db5a541d2d"
-SRC_URI[sha256sum] = "ff5dae3404a90b4bd90f054581058c25c2cabc3098895eea4df8d3815e7f6fa2"
+SRC_URI[md5sum] = "0e1f06bfb781d7b457bd16c29ccd246f"
+SRC_URI[sha256sum] = "1e1d890871c16dc928e16d7dc40ce7493ac6b6726a9134dee432b754b4a0aef9"
