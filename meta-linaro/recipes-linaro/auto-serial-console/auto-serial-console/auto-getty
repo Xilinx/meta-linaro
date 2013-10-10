@@ -10,9 +10,10 @@ while true; do
       console=*)
         tty=${arg#console=}
         tty=${tty#/dev/}
+        secure=`echo "${tty}" | cut -f1 -d,`
+        secure=`/bin/egrep "^${secure}$" /etc/securetty`
 
-        case $tty in
-          tty[a-zA-Z]* )
+        if [ -n "$tty" -a -n "${secure}" ]; then
             PORT=${tty%%,*}
 
             tmp=${tty##$PORT,}
@@ -30,7 +31,8 @@ while true; do
 
             GETTY_ARGS="$AUTOGETTY_ARGS $GETTY_ARGS $SPEED $PORT"
             /sbin/getty $GETTY_ARGS
-        esac
+            unset GETTY_ARGS
+        fi
     esac
   done
 done
