@@ -18,11 +18,3 @@ TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
 TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
 
 PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
-
-
-# toolchain bits which were in conf/site.conf
-# These should not be in here, but moved to a DISTRO.conf or local.conf
-
-GCCVERSION       ?= "linaro-4.7"
-SDKGCCVERSION    ?= "linaro-4.7"
-BINUVERSION      ?= "2.23.51%"
