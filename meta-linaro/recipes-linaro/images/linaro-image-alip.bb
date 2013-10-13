@@ -6,4 +6,4 @@ IMAGE_FEATURES += "splash package-management x11-base x11-sato ssh-server-dropbe
 
 LICENSE = "MIT"
 
-IMAGE_INSTALL += "firefox gator"
+IMAGE_INSTALL += "firefox gator openssh-sftp-server"

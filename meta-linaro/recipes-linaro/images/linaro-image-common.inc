@@ -53,6 +53,7 @@ SDK_IMAGE_INSTALL += "\
     ncurses \
     onig \
     openldap \
+    openssh-sftp-server \
     openssl \
     python \
     qemu \
