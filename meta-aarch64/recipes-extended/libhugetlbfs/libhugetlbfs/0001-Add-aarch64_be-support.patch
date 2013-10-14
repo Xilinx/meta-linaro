@@ -1,0 +1,28 @@
+From c7ba67d31ab0b83bafd3da06d3c1da4e28296ad6 Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen.kooi@linaro.org>
+Date: Mon, 14 Oct 2013 11:34:42 +0200
+Subject: [PATCH] Add aarch64_be support
+
+This patch adds support for big endian Aarch64 by reusing the existing Aarch64 rules.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 4aa7147..c2da34a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -57,7 +57,7 @@ TMPLIB32 = lib
+ ELF32 += armelf_linux_eabi
+ CUSTOM_LDSCRIPTS = no
+ else
+-ifeq ($(ARCH),aarch64)
++ifneq (,$(findstring aarch64,$(ARCH)))
+ CC64 = $(CC)
+ ELF64 = aarch64elf_linux
+ TMPLIB64 = lib64
+-- 
+1.8.3.1
+
