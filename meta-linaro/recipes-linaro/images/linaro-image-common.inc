@@ -33,6 +33,7 @@ SDK_IMAGE_INSTALL += "\
     elfutils-dev \
     expat \
     flex \
+    gator \
     gd \
     glog \
     icu \

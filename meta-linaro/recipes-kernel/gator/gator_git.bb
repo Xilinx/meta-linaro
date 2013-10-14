@@ -15,7 +15,8 @@ PR = "r1"
 
 do_compile() {
     cd daemon
-    make CROSS_COMPILE=${TARGET_PREFIX} SYSROOT=${STAGING_DIR_TARGET}
+    # aarch64 makefile will work just fine for any arch
+    make -f Makefile_aarch64 CROSS_COMPILE=${TARGET_PREFIX} SYSROOT=${STAGING_DIR_TARGET}
 }
 
 do_install() {
