@@ -16,7 +16,7 @@ PR = "r1"
 SRC_URI = "git://git.linaro.org/people/stevecapper/libhugetlbfs.git;branch=aarch64-support \
     file://cross-compile.patch \
     file://install64-fix.patch \
-    file://0001-Add-aarch64_be-support.patch"
+"
 
 S = "${WORKDIR}/git"
 
