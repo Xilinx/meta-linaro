@@ -1,7 +1,9 @@
-Index: git/Makefile
-===================================================================
---- git.orig/Makefile
-+++ git/Makefile
+---
+ Makefile |   24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+--- a/Makefile
++++ b/Makefile
 @@ -37,60 +37,60 @@ ARCH = $(shell uname -m | sed -e s/i.86/
  CUSTOM_LDSCRIPTS = yes
  
@@ -30,7 +32,7 @@ Index: git/Makefile
  ELF32 += armelf_linux_eabi
  CUSTOM_LDSCRIPTS = no
  else
- ifeq ($(ARCH),aarch64)
+ ifneq (,$(findstring aarch64,$(ARCH)))
 -CC64 = gcc
 +CC64 = $(CC)
  ELF64 = aarch64elf_linux
