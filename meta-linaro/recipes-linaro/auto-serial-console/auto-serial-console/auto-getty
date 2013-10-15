@@ -11,7 +11,7 @@ while true; do
         tty=${arg#console=}
         tty=${tty#/dev/}
         secure=`echo "${tty}" | cut -f1 -d,`
-        secure=`/bin/egrep "^${secure}$" /etc/securetty`
+        secure=`/bin/egrep "^${secure}$" /etc/securetty || true`
 
         if [ -n "$tty" -a -n "${secure}" ]; then
             PORT=${tty%%,*}
