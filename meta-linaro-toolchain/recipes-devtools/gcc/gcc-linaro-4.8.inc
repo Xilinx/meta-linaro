@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-MMYY = "13.09"
+MMYY = "13.10"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.2"
@@ -24,7 +24,7 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0012-libmudflap-susv3-legacy.patch \
 	   file://0013-libstdc-namespace.patch \
 	   file://0014-sh-pr24836.patch \
-	   file://0015-arm-Use-TARGET_ENDIAN_OPTION-for-determining-MULTILI.patch \
+	   file://0015-arm-Use-TARGET_ENDIAN_OPTION-for-determining-MULTILI.patch;apply=no \
 	   file://0016-gcc-poison-system-directories.patch \
 	   file://0017-gcc-poison-dir-extend.patch \
 	   file://0018-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
@@ -45,6 +45,7 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
 	   file://0035-wcast-qual-PR-55383.patch \
+	   file://0036-PR-target-56102.patch;apply=no \
 	   file://0037-gcc-4.8-PR56797.patch \
 	   file://0038-gcc-4.8-build-args.patch \
 	   file://0039-gcc-4.8-PR57717.patch \
@@ -58,11 +59,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://use-lib-for-aarch64.patch \
 	   "
 
-# Don't apply:
-#	   file://0036-PR-target-56102.patch 
-
-SRC_URI[md5sum] = "2e2612bc0ad158abdb22c4be1dc0d1c4"
-SRC_URI[sha256sum] = "a507096ab16564353a8ebe3cd270a6f82d3c2e3a4303e2b883723b217f002c0b"
+SRC_URI[md5sum] = "8ac49a6ada32a2600821b993c01eb7f9"
+SRC_URI[sha256sum] = "4eb9ff20037a68650fde83251554c7b9173a7ba860d92fa345b19dd1400c6d8f"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
