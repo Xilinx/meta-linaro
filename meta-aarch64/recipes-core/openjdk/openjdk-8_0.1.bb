@@ -14,4 +14,4 @@ BB_STRICT_CHECKSUM = "0"
 
 LIC_FILES_CHKSUM="file://LICENSE;md5=7b4baeedfe2d40cb03536573bc2c89b1"
 
-BUILD_DIR="linux-aarch64-normal-client-release/images"
+BUILD_DIR="linux-aarch64-normal-clientANDserver-release/images"

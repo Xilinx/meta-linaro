@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r14"
+INC_PR = "r15"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -52,7 +52,7 @@ S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
 do_configure() {
 	unset MAKE
-	bash ./configure --with-debug-level=release --with-jvm-variants=client --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=aarch64-oe-linux --with-zlib=system --with-stdc++lib=dynamic --disable-ccache
+	bash ./configure --with-debug-level=release --with-jvm-variants=client,server --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=aarch64-oe-linux --with-zlib=system --with-stdc++lib=dynamic --disable-ccache
 }
 
 do_compile() {
