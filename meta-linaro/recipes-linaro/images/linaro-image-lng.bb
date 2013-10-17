@@ -6,7 +6,6 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     fping \
-    latency-test \
     lmbench \
     ltp \
     netperf \
@@ -20,6 +19,7 @@ IMAGE_INSTALL += " \
     "
 
 IMAGE_INSTALL_append_armv7a = " \
+    latency-test \
     systemtap \
     valgrind \
     "
