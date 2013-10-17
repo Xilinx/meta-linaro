@@ -24,8 +24,6 @@ IMAGE_INSTALL_append_armv7a = " \
     valgrind \
     "
 
-#IMAGE_INSTALL_append_genericarmv7a = "python-numpy"
-
 IMAGE_FEATURES += "\
     dev-pkgs \
     staticdev-pkgs \
