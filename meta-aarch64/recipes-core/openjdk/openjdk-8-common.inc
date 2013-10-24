@@ -6,7 +6,7 @@ SECTION  = "libs"
 INHIBIT_PACKAGE_STRIP = "1"
 #INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-INC_PR = "r15"
+INC_PR = "r16"
 
 SRC_URI = " \
   ${OPENJDK_URI} \
@@ -62,7 +62,7 @@ do_compile() {
 do_install() {
 	install -d ${D}${libdir_jvm}
 	cp -R ${S}/build/${BUILD_DIR}/j2sdk-image ${D}${JDK_HOME}
-	chmod u+rw -R ${D}${JDK_HOME}
+	chmod -R u+rw,go+r ${D}${JDK_HOME}
 }
 
 PACKAGES = " \
