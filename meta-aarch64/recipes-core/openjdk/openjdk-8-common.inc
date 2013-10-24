@@ -107,6 +107,9 @@ RPROVIDES_${JDKPN}-jre = "java2-runtime java2-vm"
 RPROVIDES_${JDKPN}-jdk = "java2-runtime java2-vm"
 RDEPENDS_${JDKPN}-demo = "java2-runtime"
 
+RRECOMMENDS_${JDKPN}-jre = "liberation-fonts"
+RRECOMMENDS_${JDKPN}-jdk = "liberation-fonts"
+
 inherit update-alternatives
 
 pkg_postinst_${JDKPN}-jre () {
