@@ -52,7 +52,7 @@ S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
 do_configure() {
 	unset MAKE
-	bash ./configure --with-debug-level=release --with-jvm-variants=client,server --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=aarch64-oe-linux --with-zlib=system --with-stdc++lib=dynamic --disable-ccache
+	bash ./configure --with-debug-level=release --with-jvm-variants=client,server --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=aarch64-oe-linux --with-zlib=system --with-stdc++lib=dynamic --disable-ccache --disable-zip-debug-info
 }
 
 do_compile() {
