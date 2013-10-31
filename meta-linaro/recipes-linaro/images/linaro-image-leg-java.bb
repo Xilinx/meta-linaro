@@ -10,6 +10,7 @@ IMAGE_INSTALL += " \
     openjdk-8-jdk \
     openjdk-8-jre \
     tmux \
+    vim \
     x11vnc \
     xauth \
     xserver-xorg-xvfb \
