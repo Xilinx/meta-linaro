@@ -14,11 +14,11 @@ http://gcc.gnu.org/bugzilla/show_bug.cgi?id=24836
  gcc/configure.ac |    2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/gcc/configure b/gcc/configure
-index e12a180..135bbf5 100755
---- a/gcc/configure
-+++ b/gcc/configure
-@@ -23378,7 +23378,7 @@ foo:	.long	25
+Index: gcc-linaro-4.8-2013.10/gcc/configure
+===================================================================
+--- gcc-linaro-4.8-2013.10.orig/gcc/configure	2013-11-05 23:39:39.000000000 -0800
++++ gcc-linaro-4.8-2013.10/gcc/configure	2013-11-06 15:22:43.000000000 -0800
+@@ -23394,7 +23394,7 @@
  	tls_first_minor=14
  	tls_as_opt="-m64 -Aesame --fatal-warnings"
  	;;
@@ -27,19 +27,3 @@ index e12a180..135bbf5 100755
      conftest_s='
  	.section ".tdata","awT",@progbits
  foo:	.long	25
-diff --git a/gcc/configure.ac b/gcc/configure.ac
-index eba3577..6363a21 100644
---- a/gcc/configure.ac
-+++ b/gcc/configure.ac
-@@ -3141,7 +3141,7 @@ foo:	.long	25
- 	tls_first_minor=14
- 	tls_as_opt="-m64 -Aesame --fatal-warnings"
- 	;;
--  sh-*-* | sh[34]-*-*)
-+  sh-*-* | sh[34]*-*-*)
-     conftest_s='
- 	.section ".tdata","awT",@progbits
- foo:	.long	25
--- 
-1.7.10.4
-
