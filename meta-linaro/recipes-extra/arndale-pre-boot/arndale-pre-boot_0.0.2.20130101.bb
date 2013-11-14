@@ -5,7 +5,7 @@ SECTION = "bootloader"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://BSD;md5=9c3fd1feed485309afa64b43f98ba22a"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "fddc9ea644ee7d05c439ef7cdecbe20da63cdce3"
 PV = "0.0.2.20130101+git${SRCPV}"
 PR = "r1"
 
