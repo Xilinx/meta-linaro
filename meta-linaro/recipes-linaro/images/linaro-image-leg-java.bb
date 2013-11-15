@@ -7,6 +7,7 @@ IMAGE_INSTALL += " \
     git \
     htop \
     links \
+    openjdk-8-doc \
     openjdk-8-jdk \
     openjdk-8-jre \
     openjdk-8-jtreg \
