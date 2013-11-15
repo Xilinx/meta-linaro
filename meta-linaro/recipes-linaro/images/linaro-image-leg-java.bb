@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     openjdk-8-jdk \
     openjdk-8-jre \
     openjdk-8-jtreg \
+    openjdk-8-source \
     tmux \
     vim \
     x11vnc \
