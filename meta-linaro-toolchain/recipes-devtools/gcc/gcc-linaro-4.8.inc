@@ -1,10 +1,10 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 require gcc-linaro-common-4.8.inc
 
-MMYY = "13.10"
+MMYY = "13.11"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
-BINV = "4.8.2"
+BINV = "4.8.3"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
@@ -59,8 +59,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://use-lib-for-aarch64.patch \
 	   "
 
-SRC_URI[md5sum] = "8ac49a6ada32a2600821b993c01eb7f9"
-SRC_URI[sha256sum] = "4eb9ff20037a68650fde83251554c7b9173a7ba860d92fa345b19dd1400c6d8f"
+SRC_URI[md5sum] = "729f4ac34ad404892ecafb991bea2da5"
+SRC_URI[sha256sum] = "c0b74f020aa1fc1b82e1c4aa2266b5c9b399f28ac217902e35b9ef83f82f6f09"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
