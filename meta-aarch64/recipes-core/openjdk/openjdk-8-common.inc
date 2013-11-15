@@ -61,7 +61,18 @@ do_compile() {
 
 do_install() {
 	install -d ${D}${libdir_jvm}
-	cp -R ${S}/build/${BUILD_DIR}/j2sdk-image ${D}${JDK_HOME}
+	install -d ${D}${JDK_HOME}/jtreg
+	install -d ${D}${JDK_HOME}/jtreg/hotspot
+	install -d ${D}${JDK_HOME}/jtreg/jdk
+	cp -R ${S}/build/${BUILD_DIR}/j2sdk-image/* ${D}${JDK_HOME}
+	cp -R ${S}/hotspot/test ${D}${JDK_HOME}/jtreg/hotspot
+	cp -R ${S}/jdk/test ${D}${JDK_HOME}/jtreg/jdk
+# The upstream Mercurial repo has various incompatible binaries checked in.
+# Remove these otherwise bitbake complains about mismatched architecture, et al.
+	find ${D}${JDK_HOME}/jtreg -name \*.so -print | xargs rm
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-sparc/launcher
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-i586/launcher
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/linux-i586/launcher
 	chmod -R u+rw,go+r ${D}${JDK_HOME}
 }
 
@@ -70,6 +81,7 @@ PACKAGES = " \
 	    ${JDKPN}-doc \
 	    ${JDKPN}-source \
 	    ${JDKPN}-demo \
+	    ${JDKPN}-jtreg \
 	    ${JDKPN}-jre \
 	   "
 
@@ -94,6 +106,10 @@ FILES_${JDKPN}-source = " \
 FILES_${JDKPN}-demo = " \
 		        ${JDK_HOME}/demo \
                         ${JDK_HOME}/sample \
+                      "
+
+FILES_${JDKPN}-jtreg = " \
+                         ${JDK_HOME}/jtreg \
                       "
 
 FILES_${PN} = " \
