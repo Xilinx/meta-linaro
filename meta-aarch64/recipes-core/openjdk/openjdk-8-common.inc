@@ -67,6 +67,9 @@ do_install() {
 	cp -R ${S}/build/${BUILD_DIR}/j2sdk-image/* ${D}${JDK_HOME}
 	cp -R ${S}/hotspot/test ${D}${JDK_HOME}/jtreg/hotspot
 	cp -R ${S}/jdk/test ${D}${JDK_HOME}/jtreg/jdk
+# The OpenJDK build does its own thing with debuginfo files; as we
+# default to a 'release' build we remove these files.
+	find ${D}${JDK_HOME} -name \*.debuginfo -print | xargs rm
 # The upstream Mercurial repo has various incompatible binaries checked in.
 # Remove these otherwise bitbake complains about mismatched architecture, et al.
 	find ${D}${JDK_HOME}/jtreg -name \*.so -print | xargs rm
