@@ -14,7 +14,6 @@ IMAGE_INSTALL += " \
     python-numpy \
     qemu \
     rt-tests \
-    trinity-example \
     tunctl \
     "
 
@@ -22,6 +21,11 @@ IMAGE_INSTALL_append_armv7a = " \
     latency-test \
     systemtap \
     valgrind \
+    trinity-example \
+    "
+
+IMAGE_INSTALL_append_aarch64 = " \
+    trinity-example \
     "
 
 IMAGE_FEATURES += "\
