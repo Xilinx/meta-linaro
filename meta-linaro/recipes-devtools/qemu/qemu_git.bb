@@ -1,5 +1,9 @@
 require recipes-devtools/qemu/qemu.inc
 
+DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl jpeg"
+DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+
 SRCREV = "${AUTOREV}"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
