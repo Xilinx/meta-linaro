@@ -38,4 +38,4 @@ read_args() {
 early_setup
 read_args
 
-setsid sh -l </dev/${port} >/dev/${port} 2>&1
+setsid sh </dev/${port} >/dev/${port} 2>&1
