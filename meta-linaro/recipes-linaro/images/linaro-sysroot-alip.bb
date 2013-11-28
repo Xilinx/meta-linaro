@@ -2,7 +2,6 @@ require linaro-image-alip.bb
 
 IMAGE_FEATURES += "\
     dev-pkgs \
-    staticdev-pkgs \
     "
 
 IMAGE_PREPROCESS_COMMAND += "do_delete_not_needed_dirs; "
