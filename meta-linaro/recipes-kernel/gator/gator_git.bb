@@ -4,7 +4,10 @@ SUMMARY  = "DS-5 Gator daemon"
 LICENSE = "GPL-2"
 LIC_FILES_CHKSUM = "file://driver/LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-SRC_URI = "git://git.linaro.org/arm/ds5/gator.git"
+inherit update-rc.d
+
+SRC_URI = "git://git.linaro.org/arm/ds5/gator.git \
+           file://gator.init "
 
 SRCREV = "${AUTOREV}"
 
@@ -20,5 +23,11 @@ do_compile() {
 }
 
 do_install() {
-    install -D -p -m0755  daemon/gatord ${D}/${sbindir}/gatord
+    install -D -p -m0755 daemon/gatord ${D}/${sbindir}/gatord
+    install -D -p -m0755 ${WORKDIR}/gator.init ${D}/${sysconfdir}/init.d/gator
+
 }
+
+INITSCRIPT_NAME = "gator"
+INITSCRIPT_PARAMS = "defaults 66"
+
