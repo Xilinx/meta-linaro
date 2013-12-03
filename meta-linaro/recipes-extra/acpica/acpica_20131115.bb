@@ -10,9 +10,8 @@ SECTION = "console/tools"
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c6280c3aa"
 DEPENDS = "bison flex"
-SRCREV = "780de9ee36e5a7b4acc29a2ccd43d6bdc5dd5219"
-PV = "20130626+git${SRCPV}"
-PR = "r3"
+SRCREV = "5dac68d8af691cb66191c071771d6cf4abb54277"
+PV = "20131115+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://fix_ftbfs_debian-kfreebsd.patch \
@@ -24,7 +23,7 @@ SRC_URI = "git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://aapits-linux.patch \
     file://cross-compile.patch \
     file://no-werror.patch \
-    file://fix-parallel-build.patch"
+    "
 
 S = "${WORKDIR}/git"
 

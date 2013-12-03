@@ -29,11 +29,11 @@ Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
  source/include/platform/aclinux.h |   7 +-
  12 file modificati, 541 inserzioni(+), 306 rimozioni(-)
 
-diff --git a/source/compiler/aslcodegen.c b/source/compiler/aslcodegen.c
-index 2252ab4..c3c3e06 100644
---- a/source/compiler/aslcodegen.c
-+++ b/source/compiler/aslcodegen.c
-@@ -238,16 +238,12 @@ CgWriteAmlOpcode (
+Index: foo/source/compiler/aslcodegen.c
+===================================================================
+--- foo.orig/source/compiler/aslcodegen.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslcodegen.c	2013-08-26 13:45:58.000000000 -0600
+@@ -238,16 +238,12 @@
      ACPI_PARSE_OBJECT       *Op)
  {
      UINT8                   PkgLenFirstByte;
@@ -120,7 +120,7 @@ index 2252ab4..c3c3e06 100644
          break;
      }
  
-@@ -325,8 +321,8 @@ CgWriteAmlOpcode (
+@@ -325,8 +322,8 @@
          if (Op->Asl.AmlPkgLenBytes == 1)
          {
              /* Simplest case -- no bytes to follow, just write the count */
@@ -131,7 +131,7 @@ index 2252ab4..c3c3e06 100644
          }
          else if (Op->Asl.AmlPkgLenBytes != 0)
          {
-@@ -336,7 +332,7 @@ CgWriteAmlOpcode (
+@@ -336,7 +333,7 @@
               */
              PkgLenFirstByte = (UINT8)
                  (((UINT32) (Op->Asl.AmlPkgLenBytes - 1) << 6) |
@@ -140,7 +140,7 @@ index 2252ab4..c3c3e06 100644
  
              CgLocalWriteAmlData (Op, &PkgLenFirstByte, 1);
  
-@@ -344,37 +340,44 @@ CgWriteAmlOpcode (
+@@ -344,37 +341,44 @@
               * Shift the length over by the 4 bits we just stuffed
               * in the first byte
               */
@@ -198,7 +198,7 @@ index 2252ab4..c3c3e06 100644
          break;
  
      case AML_STRING_OP:
-@@ -408,6 +409,7 @@ CgWriteTableHeader (
+@@ -408,6 +412,7 @@
      ACPI_PARSE_OBJECT       *Op)
  {
      ACPI_PARSE_OBJECT       *Child;
@@ -206,7 +206,7 @@ index 2252ab4..c3c3e06 100644
  
  
      /* AML filename */
-@@ -444,7 +446,7 @@ CgWriteTableHeader (
+@@ -444,7 +449,7 @@
      /* OEM Revision */
  
      Child = Child->Asl.Next;
@@ -215,7 +215,7 @@ index 2252ab4..c3c3e06 100644
  
      /* Compiler ID */
  
-@@ -452,11 +453,12 @@ CgWriteTableHeader (
+@@ -452,11 +457,12 @@
  
      /* Compiler version */
  
@@ -230,7 +230,7 @@ index 2252ab4..c3c3e06 100644
      TableHeader.Checksum = 0;
  
      CgLocalWriteAmlData (Op, &TableHeader, sizeof (ACPI_TABLE_HEADER));
-@@ -520,7 +523,10 @@ CgWriteNode (
+@@ -520,7 +526,10 @@
      ACPI_PARSE_OBJECT       *Op)
  {
      ASL_RESOURCE_NODE       *Rnode;
@@ -242,7 +242,7 @@ index 2252ab4..c3c3e06 100644
  
      /* Always check for DEFAULT_ARG and other "Noop" nodes */
      /* TBD: this may not be the best place for this check */
-@@ -538,13 +544,24 @@ CgWriteNode (
+@@ -538,13 +547,24 @@
      switch (Op->Asl.AmlOpcode)
      {
      case AML_RAW_DATA_BYTE:
@@ -270,11 +270,11 @@ index 2252ab4..c3c3e06 100644
  
      case AML_RAW_DATA_BUFFER:
  
-diff --git a/source/compiler/aslopcodes.c b/source/compiler/aslopcodes.c
-index cddc945..6deddc9 100644
---- a/source/compiler/aslopcodes.c
-+++ b/source/compiler/aslopcodes.c
-@@ -476,6 +475,7 @@ OpcDoUnicode (
+Index: foo/source/compiler/aslopcodes.c
+===================================================================
+--- foo.orig/source/compiler/aslopcodes.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslopcodes.c	2013-08-26 13:45:58.000000000 -0600
+@@ -476,6 +476,7 @@
      UINT32                  i;
      UINT8                   *AsciiString;
      UINT16                  *UnicodeString;
@@ -282,7 +282,7 @@ index cddc945..6deddc9 100644
      ACPI_PARSE_OBJECT       *BufferLengthOp;
  
  
-@@ -502,7 +502,8 @@ OpcDoUnicode (
+@@ -502,7 +503,8 @@
  
      for (i = 0; i < Count; i++)
      {
@@ -292,11 +292,11 @@ index cddc945..6deddc9 100644
      }
  
      /*
-diff --git a/source/compiler/aslrestype1.c b/source/compiler/aslrestype1.c
-index 5b92151..b1fa5f5 100644
---- a/source/compiler/aslrestype1.c
-+++ b/source/compiler/aslrestype1.c
-@@ -152,6 +152,11 @@ RsDoMemory24Descriptor (
+Index: foo/source/compiler/aslrestype1.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype1.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype1.c	2013-08-26 13:45:58.000000000 -0600
+@@ -152,6 +152,11 @@
      ACPI_PARSE_OBJECT       *MaxOp = NULL;
      ACPI_PARSE_OBJECT       *LengthOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
@@ -308,7 +308,7 @@ index 5b92151..b1fa5f5 100644
      UINT32                  i;
  
  
-@@ -160,7 +165,8 @@ RsDoMemory24Descriptor (
+@@ -160,7 +165,8 @@
  
      Descriptor = Rnode->Buffer;
      Descriptor->Memory24.DescriptorType  = ACPI_RESOURCE_NAME_MEMORY24;
@@ -318,7 +318,7 @@ index 5b92151..b1fa5f5 100644
  
      /* Process all child initialization nodes */
  
-@@ -177,7 +183,7 @@ RsDoMemory24Descriptor (
+@@ -177,7 +183,7 @@
  
          case 1: /* Min Address */
  
@@ -327,7 +327,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory24.Minimum));
              MinOp = InitializerOp;
-@@ -185,7 +191,7 @@ RsDoMemory24Descriptor (
+@@ -185,7 +191,7 @@
  
          case 2: /* Max Address */
  
@@ -336,7 +336,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory24.Maximum));
              MaxOp = InitializerOp;
-@@ -193,14 +199,14 @@ RsDoMemory24Descriptor (
+@@ -193,14 +199,14 @@
  
          case 3: /* Alignment */
  
@@ -353,7 +353,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory24.AddressLength));
              LengthOp = InitializerOp;
-@@ -223,12 +229,17 @@ RsDoMemory24Descriptor (
+@@ -223,12 +229,17 @@
      /* Validate the Min/Max/Len/Align values (Alignment==0 means 64K) */
  
      RsSmallAddressCheck (ACPI_RESOURCE_NAME_MEMORY24,
@@ -375,7 +375,7 @@ index 5b92151..b1fa5f5 100644
      return (Rnode);
  }
  
-@@ -259,6 +270,11 @@ RsDoMemory32Descriptor (
+@@ -259,6 +270,11 @@
      ACPI_PARSE_OBJECT       *LengthOp = NULL;
      ACPI_PARSE_OBJECT       *AlignOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
@@ -387,7 +387,7 @@ index 5b92151..b1fa5f5 100644
      UINT32                  i;
  
  
-@@ -267,7 +283,8 @@ RsDoMemory32Descriptor (
+@@ -267,7 +283,8 @@
  
      Descriptor = Rnode->Buffer;
      Descriptor->Memory32.DescriptorType  = ACPI_RESOURCE_NAME_MEMORY32;
@@ -397,7 +397,7 @@ index 5b92151..b1fa5f5 100644
  
      /* Process all child initialization nodes */
  
-@@ -284,7 +301,7 @@ RsDoMemory32Descriptor (
+@@ -284,7 +301,7 @@
  
          case 1:  /* Min Address */
  
@@ -406,7 +406,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory32.Minimum));
              MinOp = InitializerOp;
-@@ -292,7 +309,7 @@ RsDoMemory32Descriptor (
+@@ -292,7 +309,7 @@
  
          case 2: /* Max Address */
  
@@ -415,7 +415,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory32.Maximum));
              MaxOp = InitializerOp;
-@@ -300,7 +317,7 @@ RsDoMemory32Descriptor (
+@@ -300,7 +317,7 @@
  
          case 3: /* Alignment */
  
@@ -424,7 +424,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_ALIGNMENT,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory32.Alignment));
              AlignOp = InitializerOp;
-@@ -308,7 +325,7 @@ RsDoMemory32Descriptor (
+@@ -308,7 +325,7 @@
  
          case 4: /* Length */
  
@@ -433,7 +433,7 @@ index 5b92151..b1fa5f5 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Memory32.AddressLength));
              LengthOp = InitializerOp;
-@@ -331,12 +348,17 @@ RsDoMemory32Descriptor (
+@@ -331,12 +348,17 @@
      /* Validate the Min/Max/Len/Align values */
  
      RsSmallAddressCheck (ACPI_RESOURCE_NAME_MEMORY32,
@@ -455,7 +455,7 @@ index 5b92151..b1fa5f5 100644
      return (Rnode);
  }
  
-@@ -363,6 +385,7 @@ RsDoMemory32FixedDescriptor (
+@@ -363,6 +385,7 @@
      AML_RESOURCE            *Descriptor;
      ACPI_PARSE_OBJECT       *InitializerOp;
      ASL_RESOURCE_NODE       *Rnode;
@@ -463,7 +463,7 @@ index 5b92151..b1fa5f5 100644
      UINT32                  i;
  
  
-@@ -371,7 +394,8 @@ RsDoMemory32FixedDescriptor (
+@@ -371,7 +394,8 @@
  
      Descriptor = Rnode->Buffer;
      Descriptor->FixedMemory32.DescriptorType  = ACPI_RESOURCE_NAME_FIXED_MEMORY32;
@@ -473,7 +473,7 @@ index 5b92151..b1fa5f5 100644
  
      /* Process all child initialization nodes */
  
-@@ -388,14 +412,16 @@ RsDoMemory32FixedDescriptor (
+@@ -388,14 +412,16 @@
  
          case 1: /* Address */
  
@@ -492,11 +492,11 @@ index 5b92151..b1fa5f5 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (FixedMemory32.AddressLength));
              break;
-diff --git a/source/compiler/aslrestype1i.c b/source/compiler/aslrestype1i.c
-index 8335e8f..097eb05 100644
---- a/source/compiler/aslrestype1i.c
-+++ b/source/compiler/aslrestype1i.c
-@@ -202,6 +202,8 @@ RsDoFixedDmaDescriptor (
+Index: foo/source/compiler/aslrestype1i.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype1i.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype1i.c	2013-08-26 13:45:58.000000000 -0600
+@@ -202,6 +202,8 @@
      AML_RESOURCE            *Descriptor;
      ACPI_PARSE_OBJECT       *InitializerOp;
      ASL_RESOURCE_NODE       *Rnode;
@@ -505,7 +505,7 @@ index 8335e8f..097eb05 100644
      UINT32                  i;
  
  
-@@ -220,14 +222,14 @@ RsDoFixedDmaDescriptor (
+@@ -220,14 +222,14 @@
          {
          case 0: /* DMA Request Lines [WORD] (_DMA) */
  
@@ -522,7 +522,7 @@ index 8335e8f..097eb05 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_DMATYPE,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (FixedDma.Channels));
              break;
-@@ -252,6 +253,9 @@ RsDoFixedDmaDescriptor (
+@@ -252,6 +254,9 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -532,7 +532,7 @@ index 8335e8f..097eb05 100644
      return (Rnode);
  }
  
-@@ -279,6 +283,7 @@ RsDoFixedIoDescriptor (
+@@ -279,6 +284,7 @@
      ACPI_PARSE_OBJECT       *InitializerOp;
      ACPI_PARSE_OBJECT       *AddressOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
@@ -540,7 +540,7 @@ index 8335e8f..097eb05 100644
      UINT32                  i;
  
  
-@@ -297,8 +302,7 @@ RsDoFixedIoDescriptor (
+@@ -297,8 +303,7 @@
          {
          case 0: /* Base Address */
  
@@ -550,7 +550,7 @@ index 8335e8f..097eb05 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_BASEADDRESS,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (FixedIo.Address));
              AddressOp = InitializerOp;
-@@ -328,11 +332,13 @@ RsDoFixedIoDescriptor (
+@@ -328,11 +333,13 @@
  
      /* Error checks */
  
@@ -565,7 +565,7 @@ index 8335e8f..097eb05 100644
      return (Rnode);
  }
  
-@@ -363,6 +369,8 @@ RsDoIoDescriptor (
+@@ -363,6 +370,8 @@
      ACPI_PARSE_OBJECT       *LengthOp = NULL;
      ACPI_PARSE_OBJECT       *AlignOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
@@ -574,7 +574,7 @@ index 8335e8f..097eb05 100644
      UINT32                  i;
  
  
-@@ -388,8 +396,7 @@ RsDoIoDescriptor (
+@@ -388,8 +397,7 @@
  
          case 1:  /* Min Address */
  
@@ -584,7 +584,7 @@ index 8335e8f..097eb05 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Io.Minimum));
              MinOp = InitializerOp;
-@@ -397,8 +404,7 @@ RsDoIoDescriptor (
+@@ -397,8 +405,7 @@
  
          case 2: /* Max Address */
  
@@ -594,7 +594,7 @@ index 8335e8f..097eb05 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Io.Maximum));
              MaxOp = InitializerOp;
-@@ -439,12 +445,15 @@ RsDoIoDescriptor (
+@@ -439,12 +446,15 @@
      /* Validate the Min/Max/Len/Align values */
  
      RsSmallAddressCheck (ACPI_RESOURCE_NAME_IO,
@@ -612,7 +612,7 @@ index 8335e8f..097eb05 100644
      return (Rnode);
  }
  
-@@ -565,9 +574,9 @@ RsDoIrqDescriptor (
+@@ -565,9 +575,9 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -624,7 +624,7 @@ index 8335e8f..097eb05 100644
      return (Rnode);
  }
  
-@@ -667,6 +676,6 @@ RsDoIrqNoFlagsDescriptor (
+@@ -667,6 +677,6 @@
  
      /* Now we can set the interrupt mask */
  
@@ -632,11 +632,11 @@ index 8335e8f..097eb05 100644
 +    ACPI_MOVE_16_TO_16(&Descriptor->Irq.IrqMask, &IrqMask);
      return (Rnode);
  }
-diff --git a/source/compiler/aslrestype2.c b/source/compiler/aslrestype2.c
-index f0de854..b6d8d1d 100644
---- a/source/compiler/aslrestype2.c
-+++ b/source/compiler/aslrestype2.c
-@@ -79,6 +79,7 @@ RsDoGeneralRegisterDescriptor (
+Index: foo/source/compiler/aslrestype2.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2.c	2013-08-26 13:45:58.000000000 -0600
+@@ -79,6 +79,7 @@
      AML_RESOURCE            *Descriptor;
      ACPI_PARSE_OBJECT       *InitializerOp;
      ASL_RESOURCE_NODE       *Rnode;
@@ -644,7 +644,7 @@ index f0de854..b6d8d1d 100644
      UINT32                  i;
  
  
-@@ -87,7 +88,9 @@ RsDoGeneralRegisterDescriptor (
+@@ -87,7 +88,9 @@
  
      Descriptor = Rnode->Buffer;
      Descriptor->GenericReg.DescriptorType = ACPI_RESOURCE_NAME_GENERIC_REGISTER;
@@ -655,7 +655,7 @@ index f0de854..b6d8d1d 100644
  
      /* Process all child initialization nodes */
  
-@@ -118,7 +121,8 @@ RsDoGeneralRegisterDescriptor (
+@@ -118,7 +121,8 @@
  
          case 3: /* Register Address */
  
@@ -665,7 +665,7 @@ index f0de854..b6d8d1d 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_ADDRESS,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (GenericReg.Address));
              break;
-@@ -176,6 +180,7 @@ RsDoInterruptDescriptor (
+@@ -176,6 +180,7 @@
      AML_RESOURCE            *Rover = NULL;
      ACPI_PARSE_OBJECT       *InitializerOp;
      ASL_RESOURCE_NODE       *Rnode;
@@ -673,7 +673,7 @@ index f0de854..b6d8d1d 100644
      UINT16                  StringLength = 0;
      UINT32                  OptionIndex = 0;
      UINT32                  i;
-@@ -222,7 +227,7 @@ RsDoInterruptDescriptor (
+@@ -222,7 +227,7 @@
       * Initial descriptor length -- may be enlarged if there are
       * optional fields present
       */
@@ -682,7 +682,7 @@ index f0de854..b6d8d1d 100644
      Descriptor->ExtendedIrq.InterruptCount  = 0;
  
      Rover = ACPI_CAST_PTR (AML_RESOURCE,
-@@ -330,10 +335,11 @@ RsDoInterruptDescriptor (
+@@ -330,10 +335,11 @@
  
              /* Save the integer and move pointer to the next one */
  
@@ -696,7 +696,7 @@ index f0de854..b6d8d1d 100644
  
              /* Case 7: First interrupt number in list */
  
-@@ -369,7 +376,7 @@ RsDoInterruptDescriptor (
+@@ -369,7 +375,7 @@
      {
          Rover->ByteItem = ResSourceIndex;
          Rover = ACPI_ADD_PTR (AML_RESOURCE, &(Rover->ByteItem), 1);
@@ -705,7 +705,7 @@ index f0de854..b6d8d1d 100644
      }
  
      /* Add optional ResSource string if present */
-@@ -381,13 +387,14 @@ RsDoInterruptDescriptor (
+@@ -381,13 +387,14 @@
          Rover = ACPI_ADD_PTR (
                      AML_RESOURCE, &(Rover->ByteItem), StringLength);
  
@@ -722,7 +722,7 @@ index f0de854..b6d8d1d 100644
      return (Rnode);
  }
  
-@@ -438,7 +445,7 @@ RsDoVendorLargeDescriptor (
+@@ -438,7 +445,7 @@
  
      Descriptor = Rnode->Buffer;
      Descriptor->VendorLarge.DescriptorType  = ACPI_RESOURCE_NAME_VENDOR_LARGE;
@@ -731,11 +731,11 @@ index f0de854..b6d8d1d 100644
  
      /* Point to end-of-descriptor for vendor data */
  
-diff --git a/source/compiler/aslrestype2d.c b/source/compiler/aslrestype2d.c
-index 1ca0f2d..5bebd30 100644
---- a/source/compiler/aslrestype2d.c
-+++ b/source/compiler/aslrestype2d.c
-@@ -83,7 +83,13 @@ RsDoDwordIoDescriptor (
+Index: foo/source/compiler/aslrestype2d.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2d.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2d.c	2013-08-26 13:45:58.000000000 -0600
+@@ -83,7 +83,13 @@
      ACPI_PARSE_OBJECT       *GranOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
      UINT16                  StringLength = 0;
@@ -749,7 +749,7 @@ index 1ca0f2d..5bebd30 100644
      UINT8                   *OptionalFields;
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
-@@ -104,8 +110,7 @@ RsDoDwordIoDescriptor (
+@@ -104,8 +110,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS32);
@@ -759,7 +759,7 @@ index 1ca0f2d..5bebd30 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -149,8 +154,7 @@ RsDoDwordIoDescriptor (
+@@ -149,8 +154,7 @@
  
          case 5: /* Address Granularity */
  
@@ -769,7 +769,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Granularity));
              GranOp = InitializerOp;
-@@ -158,8 +162,7 @@ RsDoDwordIoDescriptor (
+@@ -158,8 +162,7 @@
  
          case 6: /* Address Min */
  
@@ -779,7 +779,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Minimum));
              MinOp = InitializerOp;
-@@ -167,8 +170,7 @@ RsDoDwordIoDescriptor (
+@@ -167,8 +170,7 @@
  
          case 7: /* Address Max */
  
@@ -789,7 +789,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Maximum));
              MaxOp = InitializerOp;
-@@ -176,16 +178,14 @@ RsDoDwordIoDescriptor (
+@@ -176,16 +178,14 @@
  
          case 8: /* Translation Offset */
  
@@ -808,7 +808,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.AddressLength));
              LengthOp = InitializerOp;
-@@ -199,7 +199,7 @@ RsDoDwordIoDescriptor (
+@@ -199,7 +199,7 @@
  
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -817,7 +817,7 @@ index 1ca0f2d..5bebd30 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -213,8 +213,7 @@ RsDoDwordIoDescriptor (
+@@ -213,8 +213,7 @@
                  {
                      /* Found a valid ResourceSource */
  
@@ -827,7 +827,7 @@ index 1ca0f2d..5bebd30 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -274,13 +273,20 @@ RsDoDwordIoDescriptor (
+@@ -274,13 +273,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -852,7 +852,7 @@ index 1ca0f2d..5bebd30 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS32) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -315,7 +321,13 @@ RsDoDwordMemoryDescriptor (
+@@ -315,7 +321,13 @@
      ASL_RESOURCE_NODE       *Rnode;
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
@@ -866,7 +866,7 @@ index 1ca0f2d..5bebd30 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -335,11 +347,9 @@ RsDoDwordMemoryDescriptor (
+@@ -335,11 +347,9 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS32);
@@ -879,7 +879,7 @@ index 1ca0f2d..5bebd30 100644
      /* Process all child initialization nodes */
  
      for (i = 0; InitializerOp; i++)
-@@ -388,8 +398,7 @@ RsDoDwordMemoryDescriptor (
+@@ -388,8 +398,7 @@
  
          case 6: /* Address Granularity */
  
@@ -889,7 +889,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Granularity));
              GranOp = InitializerOp;
-@@ -397,8 +406,7 @@ RsDoDwordMemoryDescriptor (
+@@ -397,8 +406,7 @@
  
          case 7: /* Min Address */
  
@@ -899,7 +899,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Minimum));
              MinOp = InitializerOp;
-@@ -406,8 +414,7 @@ RsDoDwordMemoryDescriptor (
+@@ -406,8 +414,7 @@
  
          case 8: /* Max Address */
  
@@ -909,7 +909,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Maximum));
              MaxOp = InitializerOp;
-@@ -415,16 +422,14 @@ RsDoDwordMemoryDescriptor (
+@@ -415,16 +422,14 @@
  
          case 9: /* Translation Offset */
  
@@ -928,7 +928,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.AddressLength));
              LengthOp = InitializerOp;
-@@ -436,7 +441,7 @@ RsDoDwordMemoryDescriptor (
+@@ -436,7 +441,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -937,7 +937,7 @@ index 1ca0f2d..5bebd30 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -448,8 +453,8 @@ RsDoDwordMemoryDescriptor (
+@@ -448,8 +453,8 @@
              {
                  if (StringLength)
                  {
@@ -948,7 +948,7 @@ index 1ca0f2d..5bebd30 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -510,13 +515,20 @@ RsDoDwordMemoryDescriptor (
+@@ -510,13 +515,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -973,7 +973,7 @@ index 1ca0f2d..5bebd30 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS32) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -551,7 +563,13 @@ RsDoDwordSpaceDescriptor (
+@@ -551,7 +563,13 @@
      ASL_RESOURCE_NODE       *Rnode;
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
@@ -987,7 +987,7 @@ index 1ca0f2d..5bebd30 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -570,8 +588,7 @@ RsDoDwordSpaceDescriptor (
+@@ -570,8 +588,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS32);
@@ -997,7 +997,7 @@ index 1ca0f2d..5bebd30 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -620,8 +637,7 @@ RsDoDwordSpaceDescriptor (
+@@ -620,8 +637,7 @@
  
          case 6: /* Address Granularity */
  
@@ -1007,7 +1007,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Granularity));
              GranOp = InitializerOp;
-@@ -629,8 +645,7 @@ RsDoDwordSpaceDescriptor (
+@@ -629,8 +645,7 @@
  
          case 7: /* Min Address */
  
@@ -1017,7 +1017,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Minimum));
              MinOp = InitializerOp;
-@@ -638,8 +651,7 @@ RsDoDwordSpaceDescriptor (
+@@ -638,8 +653,7 @@
  
          case 8: /* Max Address */
  
@@ -1027,7 +1027,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.Maximum));
              MaxOp = InitializerOp;
-@@ -647,16 +661,14 @@ RsDoDwordSpaceDescriptor (
+@@ -647,16 +661,14 @@
  
          case 9: /* Translation Offset */
  
@@ -1046,7 +1046,7 @@ index 1ca0f2d..5bebd30 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address32.AddressLength));
              LengthOp = InitializerOp;
-@@ -668,7 +680,7 @@ RsDoDwordSpaceDescriptor (
+@@ -668,7 +680,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -1055,7 +1055,7 @@ index 1ca0f2d..5bebd30 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -680,8 +692,7 @@ RsDoDwordSpaceDescriptor (
+@@ -680,8 +692,7 @@
              {
                  if (StringLength)
                  {
@@ -1065,7 +1065,7 @@ index 1ca0f2d..5bebd30 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -728,13 +739,20 @@ RsDoDwordSpaceDescriptor (
+@@ -728,13 +739,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1090,11 +1090,11 @@ index 1ca0f2d..5bebd30 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS32) +
                              OptionIndex + StringLength;
      return (Rnode);
-diff --git a/source/compiler/aslrestype2e.c b/source/compiler/aslrestype2e.c
-index e5fff47..d701880 100644
---- a/source/compiler/aslrestype2e.c
-+++ b/source/compiler/aslrestype2e.c
-@@ -82,6 +82,13 @@ RsDoExtendedIoDescriptor (
+Index: foo/source/compiler/aslrestype2e.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2e.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2e.c	2013-08-26 13:45:58.000000000 -0600
+@@ -82,6 +82,13 @@
      ACPI_PARSE_OBJECT       *GranOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
      UINT16                  StringLength = 0;
@@ -1108,7 +1108,7 @@ index e5fff47..d701880 100644
      UINT32                  i;
  
  
-@@ -96,9 +103,10 @@ RsDoExtendedIoDescriptor (
+@@ -96,9 +103,10 @@
      Descriptor->ExtAddress64.ResourceType    = ACPI_ADDRESS_TYPE_IO_RANGE;
      Descriptor->ExtAddress64.RevisionID      = AML_RESOURCE_EXTENDED_ADDRESS_REVISION;
  
@@ -1121,7 +1121,7 @@ index e5fff47..d701880 100644
  
      /* Process all child initialization nodes */
  
-@@ -141,7 +149,7 @@ RsDoExtendedIoDescriptor (
+@@ -141,7 +149,7 @@
  
          case 5: /* Address Granularity */
  
@@ -1130,7 +1130,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Granularity));
              GranOp = InitializerOp;
-@@ -149,7 +157,7 @@ RsDoExtendedIoDescriptor (
+@@ -149,7 +157,7 @@
  
          case 6: /* Address Min */
  
@@ -1139,7 +1139,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Minimum));
              MinOp = InitializerOp;
-@@ -157,7 +165,7 @@ RsDoExtendedIoDescriptor (
+@@ -157,7 +165,7 @@
  
          case 7: /* Address Max */
  
@@ -1148,7 +1148,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Maximum));
              MaxOp = InitializerOp;
-@@ -165,14 +173,14 @@ RsDoExtendedIoDescriptor (
+@@ -165,14 +173,14 @@
  
          case 8: /* Translation Offset */
  
@@ -1165,7 +1165,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.AddressLength));
              LengthOp = InitializerOp;
-@@ -180,7 +188,7 @@ RsDoExtendedIoDescriptor (
+@@ -180,7 +188,7 @@
  
          case 10: /* Type-Specific Attributes */
  
@@ -1174,7 +1174,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_TYPESPECIFICATTRIBUTES,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.TypeSpecific));
              break;
-@@ -216,13 +224,20 @@ RsDoExtendedIoDescriptor (
+@@ -216,13 +224,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1199,7 +1199,7 @@ index e5fff47..d701880 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_EXTENDED_ADDRESS64) + StringLength;
      return (Rnode);
  }
-@@ -255,6 +270,13 @@ RsDoExtendedMemoryDescriptor (
+@@ -255,6 +270,13 @@
      ACPI_PARSE_OBJECT       *GranOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
      UINT16                  StringLength = 0;
@@ -1213,7 +1213,7 @@ index e5fff47..d701880 100644
      UINT32                  i;
  
  
-@@ -269,9 +291,10 @@ RsDoExtendedMemoryDescriptor (
+@@ -269,9 +291,10 @@
      Descriptor->ExtAddress64.ResourceType    = ACPI_ADDRESS_TYPE_MEMORY_RANGE;
      Descriptor->ExtAddress64.RevisionID      = AML_RESOURCE_EXTENDED_ADDRESS_REVISION;
  
@@ -1226,7 +1226,7 @@ index e5fff47..d701880 100644
  
      /* Process all child initialization nodes */
  
-@@ -321,7 +344,7 @@ RsDoExtendedMemoryDescriptor (
+@@ -321,7 +344,7 @@
  
          case 6: /* Address Granularity */
  
@@ -1235,7 +1235,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Granularity));
              GranOp = InitializerOp;
-@@ -329,7 +352,7 @@ RsDoExtendedMemoryDescriptor (
+@@ -329,7 +352,7 @@
  
          case 7: /* Min Address */
  
@@ -1244,7 +1244,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Minimum));
              MinOp = InitializerOp;
-@@ -337,7 +360,7 @@ RsDoExtendedMemoryDescriptor (
+@@ -337,7 +360,7 @@
  
          case 8: /* Max Address */
  
@@ -1253,7 +1253,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Maximum));
              MaxOp = InitializerOp;
-@@ -345,14 +368,14 @@ RsDoExtendedMemoryDescriptor (
+@@ -345,14 +368,14 @@
  
          case 9: /* Translation Offset */
  
@@ -1270,7 +1270,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.AddressLength));
              LengthOp = InitializerOp;
-@@ -360,7 +383,7 @@ RsDoExtendedMemoryDescriptor (
+@@ -360,7 +383,7 @@
  
          case 11: /* Type-Specific Attributes */
  
@@ -1279,7 +1279,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_TYPESPECIFICATTRIBUTES,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.TypeSpecific));
              break;
-@@ -397,13 +420,20 @@ RsDoExtendedMemoryDescriptor (
+@@ -397,13 +420,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1304,7 +1304,7 @@ index e5fff47..d701880 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_EXTENDED_ADDRESS64) + StringLength;
      return (Rnode);
  }
-@@ -436,6 +466,13 @@ RsDoExtendedSpaceDescriptor (
+@@ -436,6 +466,13 @@
      ACPI_PARSE_OBJECT       *GranOp = NULL;
      ASL_RESOURCE_NODE       *Rnode;
      UINT16                  StringLength = 0;
@@ -1318,7 +1318,7 @@ index e5fff47..d701880 100644
      UINT32                  i;
  
  
-@@ -449,9 +486,10 @@ RsDoExtendedSpaceDescriptor (
+@@ -449,9 +486,10 @@
      Descriptor->ExtAddress64.DescriptorType  = ACPI_RESOURCE_NAME_EXTENDED_ADDRESS64;
      Descriptor->ExtAddress64.RevisionID      = AML_RESOURCE_EXTENDED_ADDRESS_REVISION;
  
@@ -1331,7 +1331,7 @@ index e5fff47..d701880 100644
  
      /* Process all child initialization nodes */
  
-@@ -499,7 +537,7 @@ RsDoExtendedSpaceDescriptor (
+@@ -499,7 +537,7 @@
  
          case 6: /* Address Granularity */
  
@@ -1340,7 +1340,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Granularity));
              GranOp = InitializerOp;
-@@ -507,7 +545,7 @@ RsDoExtendedSpaceDescriptor (
+@@ -507,7 +545,7 @@
  
          case 7: /* Min Address */
  
@@ -1349,7 +1349,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Minimum));
              MinOp = InitializerOp;
-@@ -515,7 +553,7 @@ RsDoExtendedSpaceDescriptor (
+@@ -515,7 +553,7 @@
  
          case 8: /* Max Address */
  
@@ -1358,7 +1358,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.Maximum));
              MaxOp = InitializerOp;
-@@ -523,14 +561,14 @@ RsDoExtendedSpaceDescriptor (
+@@ -523,14 +561,14 @@
  
          case 9: /* Translation Offset */
  
@@ -1375,7 +1375,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.AddressLength));
              LengthOp = InitializerOp;
-@@ -538,7 +576,7 @@ RsDoExtendedSpaceDescriptor (
+@@ -538,7 +576,7 @@
  
          case 11: /* Type-Specific Attributes */
  
@@ -1384,7 +1384,7 @@ index e5fff47..d701880 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_TYPESPECIFICATTRIBUTES,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (ExtAddress64.TypeSpecific));
              break;
-@@ -560,13 +598,20 @@ RsDoExtendedSpaceDescriptor (
+@@ -560,13 +598,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1409,11 +1409,11 @@ index e5fff47..d701880 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_EXTENDED_ADDRESS64) + StringLength;
      return (Rnode);
  }
-diff --git a/source/compiler/aslrestype2q.c b/source/compiler/aslrestype2q.c
-index 65c242a..c92d545 100644
---- a/source/compiler/aslrestype2q.c
-+++ b/source/compiler/aslrestype2q.c
-@@ -84,7 +84,13 @@ RsDoQwordIoDescriptor (
+Index: foo/source/compiler/aslrestype2q.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2q.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2q.c	2013-08-26 13:45:58.000000000 -0600
+@@ -84,7 +84,13 @@
      ASL_RESOURCE_NODE       *Rnode;
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
@@ -1427,7 +1427,7 @@ index 65c242a..c92d545 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -104,8 +110,7 @@ RsDoQwordIoDescriptor (
+@@ -104,8 +110,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS64);
@@ -1437,7 +1437,7 @@ index 65c242a..c92d545 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -149,7 +154,7 @@ RsDoQwordIoDescriptor (
+@@ -149,7 +154,7 @@
  
          case 5: /* Address Granularity */
  
@@ -1446,7 +1446,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Granularity));
              GranOp = InitializerOp;
-@@ -157,7 +162,7 @@ RsDoQwordIoDescriptor (
+@@ -157,7 +162,7 @@
  
          case 6: /* Address Min */
  
@@ -1455,7 +1455,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Minimum));
              MinOp = InitializerOp;
-@@ -165,7 +170,7 @@ RsDoQwordIoDescriptor (
+@@ -165,7 +170,7 @@
  
          case 7: /* Address Max */
  
@@ -1464,7 +1464,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Maximum));
              MaxOp = InitializerOp;
-@@ -173,14 +178,14 @@ RsDoQwordIoDescriptor (
+@@ -173,14 +178,14 @@
  
          case 8: /* Translation Offset */
  
@@ -1481,7 +1481,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.AddressLength));
              LengthOp = InitializerOp;
-@@ -192,7 +197,7 @@ RsDoQwordIoDescriptor (
+@@ -192,7 +197,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -1490,7 +1490,7 @@ index 65c242a..c92d545 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -204,8 +209,7 @@ RsDoQwordIoDescriptor (
+@@ -204,8 +209,7 @@
              {
                  if (StringLength)
                  {
@@ -1500,7 +1500,7 @@ index 65c242a..c92d545 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -265,13 +269,20 @@ RsDoQwordIoDescriptor (
+@@ -265,13 +269,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1525,7 +1525,7 @@ index 65c242a..c92d545 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS64) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -306,7 +317,13 @@ RsDoQwordMemoryDescriptor (
+@@ -306,7 +317,13 @@
      ASL_RESOURCE_NODE       *Rnode;
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
@@ -1539,7 +1539,7 @@ index 65c242a..c92d545 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -326,8 +343,7 @@ RsDoQwordMemoryDescriptor (
+@@ -326,8 +343,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS64);
@@ -1549,7 +1549,7 @@ index 65c242a..c92d545 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -378,7 +394,7 @@ RsDoQwordMemoryDescriptor (
+@@ -378,7 +394,7 @@
  
          case 6: /* Address Granularity */
  
@@ -1558,7 +1558,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Granularity));
              GranOp = InitializerOp;
-@@ -386,7 +402,7 @@ RsDoQwordMemoryDescriptor (
+@@ -386,7 +402,7 @@
  
          case 7: /* Min Address */
  
@@ -1567,7 +1567,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Minimum));
              MinOp = InitializerOp;
-@@ -394,7 +410,7 @@ RsDoQwordMemoryDescriptor (
+@@ -394,7 +410,7 @@
  
          case 8: /* Max Address */
  
@@ -1576,7 +1576,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Maximum));
              MaxOp = InitializerOp;
-@@ -402,14 +418,14 @@ RsDoQwordMemoryDescriptor (
+@@ -402,14 +418,14 @@
  
          case 9: /* Translation Offset */
  
@@ -1593,7 +1593,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.AddressLength));
              LengthOp = InitializerOp;
-@@ -421,7 +437,7 @@ RsDoQwordMemoryDescriptor (
+@@ -421,7 +437,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -1602,7 +1602,7 @@ index 65c242a..c92d545 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -433,8 +449,7 @@ RsDoQwordMemoryDescriptor (
+@@ -433,8 +449,7 @@
              {
                  if (StringLength)
                  {
@@ -1612,7 +1612,7 @@ index 65c242a..c92d545 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -495,13 +510,20 @@ RsDoQwordMemoryDescriptor (
+@@ -495,13 +510,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1637,7 +1637,7 @@ index 65c242a..c92d545 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS64) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -536,8 +558,14 @@ RsDoQwordSpaceDescriptor (
+@@ -536,8 +558,14 @@
      ASL_RESOURCE_NODE       *Rnode;
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
@@ -1652,7 +1652,7 @@ index 65c242a..c92d545 100644
      BOOLEAN                 ResSourceIndex = FALSE;
  
  
-@@ -555,8 +583,7 @@ RsDoQwordSpaceDescriptor (
+@@ -555,8 +583,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS64);
@@ -1662,7 +1662,7 @@ index 65c242a..c92d545 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -605,7 +632,7 @@ RsDoQwordSpaceDescriptor (
+@@ -605,7 +632,7 @@
  
          case 6: /* Address Granularity */
  
@@ -1671,7 +1671,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Granularity));
              GranOp = InitializerOp;
-@@ -613,7 +640,7 @@ RsDoQwordSpaceDescriptor (
+@@ -613,7 +640,7 @@
  
          case 7: /* Min Address */
  
@@ -1680,7 +1680,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Minimum));
              MinOp = InitializerOp;
-@@ -621,7 +648,7 @@ RsDoQwordSpaceDescriptor (
+@@ -621,7 +648,7 @@
  
          case 8: /* Max Address */
  
@@ -1689,7 +1689,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.Maximum));
              MaxOp = InitializerOp;
-@@ -629,14 +656,14 @@ RsDoQwordSpaceDescriptor (
+@@ -629,14 +656,14 @@
  
          case 9: /* Translation Offset */
  
@@ -1706,7 +1706,7 @@ index 65c242a..c92d545 100644
              RsCreateQwordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address64.AddressLength));
              LengthOp = InitializerOp;
-@@ -648,7 +675,7 @@ RsDoQwordSpaceDescriptor (
+@@ -648,7 +675,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -1715,7 +1715,7 @@ index 65c242a..c92d545 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -660,8 +687,7 @@ RsDoQwordSpaceDescriptor (
+@@ -660,8 +687,7 @@
              {
                  if (StringLength)
                  {
@@ -1725,7 +1725,7 @@ index 65c242a..c92d545 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -707,13 +733,20 @@ RsDoQwordSpaceDescriptor (
+@@ -707,13 +733,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -1750,11 +1750,11 @@ index 65c242a..c92d545 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS64) +
                              OptionIndex + StringLength;
      return (Rnode);
-diff --git a/source/compiler/aslrestype2s.c b/source/compiler/aslrestype2s.c
-index a9d24cd..4d9c7db 100644
---- a/source/compiler/aslrestype2s.c
-+++ b/source/compiler/aslrestype2s.c
-@@ -293,6 +293,9 @@ RsDoGpioIntDescriptor (
+Index: foo/source/compiler/aslrestype2s.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2s.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2s.c	2013-08-26 13:45:58.000000000 -0600
+@@ -293,6 +293,9 @@
      UINT16                  VendorLength;
      UINT16                  InterruptLength;
      UINT16                  DescriptorSize;
@@ -1764,7 +1764,7 @@ index a9d24cd..4d9c7db 100644
      UINT32                  i;
  
  
-@@ -348,21 +351,21 @@ RsDoGpioIntDescriptor (
+@@ -348,21 +351,21 @@
          {
          case 0: /* Interrupt Mode - edge/level [Flag] (_MOD) */
  
@@ -1789,7 +1789,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateMultiBitField (InitializerOp, ACPI_RESTAG_INTERRUPTSHARE,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Gpio.IntFlags), 3, 2);
              break;
-@@ -376,7 +379,7 @@ RsDoGpioIntDescriptor (
+@@ -376,7 +379,7 @@
  
          case 4: /* Debounce Timeout [WORD] (_DBT) */
  
@@ -1798,7 +1798,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_DEBOUNCETIME,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Gpio.DebounceTimeout));
              break;
-@@ -402,7 +405,7 @@ RsDoGpioIntDescriptor (
+@@ -402,7 +405,7 @@
  
          case 7: /* Resource Usage (consumer/producer) */
  
@@ -1807,7 +1807,7 @@ index a9d24cd..4d9c7db 100644
              break;
  
          case 8: /* Resource Tag (Descriptor Name) */
-@@ -466,6 +469,10 @@ RsDoGpioIntDescriptor (
+@@ -466,6 +469,10 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -1818,7 +1818,7 @@ index a9d24cd..4d9c7db 100644
      return (Rnode);
  }
  
-@@ -499,6 +506,10 @@ RsDoGpioIoDescriptor (
+@@ -499,6 +506,10 @@
      UINT16                  VendorLength;
      UINT16                  InterruptLength;
      UINT16                  DescriptorSize;
@@ -1829,7 +1829,7 @@ index a9d24cd..4d9c7db 100644
      UINT32                  i;
  
  
-@@ -554,7 +565,7 @@ RsDoGpioIoDescriptor (
+@@ -554,7 +565,7 @@
          {
          case 0: /* Share Type [Flags] (_SHR) */
  
@@ -1838,7 +1838,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateBitField (InitializerOp, ACPI_RESTAG_INTERRUPTSHARE,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Gpio.IntFlags), 3);
              break;
-@@ -568,21 +579,21 @@ RsDoGpioIoDescriptor (
+@@ -568,21 +579,21 @@
  
          case 2: /* Debounce Timeout [WORD] (_DBT) */
  
@@ -1863,7 +1863,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateMultiBitField (InitializerOp, ACPI_RESTAG_IORESTRICTION,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Gpio.IntFlags), 0, 2);
              break;
-@@ -608,7 +619,7 @@ RsDoGpioIoDescriptor (
+@@ -608,7 +619,7 @@
  
          case 7: /* Resource Usage (consumer/producer) */
  
@@ -1872,7 +1872,7 @@ index a9d24cd..4d9c7db 100644
              break;
  
          case 8: /* Resource Tag (Descriptor Name) */
-@@ -671,6 +683,11 @@ RsDoGpioIoDescriptor (
+@@ -671,6 +682,11 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -1884,7 +1884,7 @@ index a9d24cd..4d9c7db 100644
      return (Rnode);
  }
  
-@@ -702,6 +719,9 @@ RsDoI2cSerialBusDescriptor (
+@@ -702,6 +718,9 @@
      UINT16                  ResSourceLength;
      UINT16                  VendorLength;
      UINT16                  DescriptorSize;
@@ -1894,7 +1894,7 @@ index a9d24cd..4d9c7db 100644
      UINT32                  i;
  
  
-@@ -749,7 +769,7 @@ RsDoI2cSerialBusDescriptor (
+@@ -749,7 +768,7 @@
          {
          case 0: /* Slave Address [WORD] (_ADR) */
  
@@ -1903,7 +1903,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_ADDRESS,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (I2cSerialBus.SlaveAddress));
              break;
-@@ -763,14 +783,14 @@ RsDoI2cSerialBusDescriptor (
+@@ -763,14 +782,14 @@
  
          case 2: /* Connection Speed [DWORD] (_SPE) */
  
@@ -1920,7 +1920,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateBitField (InitializerOp, ACPI_RESTAG_MODE,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (I2cSerialBus.TypeSpecificFlags), 0);
              break;
-@@ -818,6 +837,9 @@ RsDoI2cSerialBusDescriptor (
+@@ -818,6 +837,9 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -1930,7 +1930,7 @@ index a9d24cd..4d9c7db 100644
      return (Rnode);
  }
  
-@@ -849,6 +871,9 @@ RsDoSpiSerialBusDescriptor (
+@@ -849,6 +871,9 @@
      UINT16                  ResSourceLength;
      UINT16                  VendorLength;
      UINT16                  DescriptorSize;
@@ -1940,7 +1940,7 @@ index a9d24cd..4d9c7db 100644
      UINT32                  i;
  
  
-@@ -896,21 +921,21 @@ RsDoSpiSerialBusDescriptor (
+@@ -896,21 +921,21 @@
          {
          case 0: /* Device Selection [WORD] (_ADR) */
  
@@ -1965,7 +1965,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateBitField (InitializerOp, ACPI_RESTAG_MODE,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (SpiSerialBus.TypeSpecificFlags), 0);
              break;
-@@ -931,7 +956,7 @@ RsDoSpiSerialBusDescriptor (
+@@ -931,7 +956,7 @@
  
          case 5: /* Connection Speed [DWORD] (_SPE) */
  
@@ -1974,7 +1974,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateDwordField (InitializerOp, ACPI_RESTAG_SPEED,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (SpiSerialBus.ConnectionSpeed));
              break;
-@@ -993,6 +1017,10 @@ RsDoSpiSerialBusDescriptor (
+@@ -993,6 +1018,10 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -1985,7 +1985,7 @@ index a9d24cd..4d9c7db 100644
      return (Rnode);
  }
  
-@@ -1024,6 +1052,10 @@ RsDoUartSerialBusDescriptor (
+@@ -1024,6 +1053,10 @@
      UINT16                  ResSourceLength;
      UINT16                  VendorLength;
      UINT16                  DescriptorSize;
@@ -1996,7 +1996,7 @@ index a9d24cd..4d9c7db 100644
      UINT32                  i;
  
  
-@@ -1071,21 +1103,21 @@ RsDoUartSerialBusDescriptor (
+@@ -1071,21 +1104,21 @@
          {
          case 0: /* Connection Speed (Baud Rate) [DWORD] (_SPE) */
  
@@ -2021,7 +2021,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateMultiBitField (InitializerOp, ACPI_RESTAG_STOPBITS,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (UartSerialBus.TypeSpecificFlags), 2, 2);
              break;
-@@ -1099,7 +1131,7 @@ RsDoUartSerialBusDescriptor (
+@@ -1099,7 +1132,7 @@
  
          case 4: /* Endianness [Flag] (_END) */
  
@@ -2030,7 +2030,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateBitField (InitializerOp, ACPI_RESTAG_ENDIANNESS,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (UartSerialBus.TypeSpecificFlags), 7);
              break;
-@@ -1113,21 +1145,21 @@ RsDoUartSerialBusDescriptor (
+@@ -1113,21 +1146,21 @@
  
          case 6: /* Flow Control [Flags] (_FLC) */
  
@@ -2055,7 +2055,7 @@ index a9d24cd..4d9c7db 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_LENGTH_TX,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (UartSerialBus.TxFifoSize));
              break;
-@@ -1185,5 +1216,10 @@ RsDoUartSerialBusDescriptor (
+@@ -1185,5 +1218,10 @@
          InitializerOp = RsCompleteNodeAndGetNext (InitializerOp);
      }
  
@@ -2066,11 +2066,11 @@ index a9d24cd..4d9c7db 100644
 +
      return (Rnode);
  }
-diff --git a/source/compiler/aslrestype2w.c b/source/compiler/aslrestype2w.c
-index 79d7bcc..77acbcc 100644
---- a/source/compiler/aslrestype2w.c
-+++ b/source/compiler/aslrestype2w.c
-@@ -85,6 +85,12 @@ RsDoWordIoDescriptor (
+Index: foo/source/compiler/aslrestype2w.c
+===================================================================
+--- foo.orig/source/compiler/aslrestype2w.c	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/compiler/aslrestype2w.c	2013-08-26 13:45:58.000000000 -0600
+@@ -85,6 +85,12 @@
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
      UINT32                  OptionIndex = 0;
@@ -2083,7 +2083,7 @@ index 79d7bcc..77acbcc 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -104,8 +110,7 @@ RsDoWordIoDescriptor (
+@@ -104,8 +110,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS16);
@@ -2093,7 +2093,7 @@ index 79d7bcc..77acbcc 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -149,7 +154,7 @@ RsDoWordIoDescriptor (
+@@ -149,7 +154,7 @@
  
          case 5: /* Address Granularity */
  
@@ -2102,7 +2102,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Granularity));
              GranOp = InitializerOp;
-@@ -157,7 +162,7 @@ RsDoWordIoDescriptor (
+@@ -157,7 +162,7 @@
  
          case 6: /* Address Min */
  
@@ -2111,7 +2111,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Minimum));
              MinOp = InitializerOp;
-@@ -165,7 +170,7 @@ RsDoWordIoDescriptor (
+@@ -165,7 +170,7 @@
  
          case 7: /* Address Max */
  
@@ -2120,7 +2120,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Maximum));
              MaxOp = InitializerOp;
-@@ -173,14 +178,14 @@ RsDoWordIoDescriptor (
+@@ -173,14 +178,14 @@
  
          case 8: /* Translation Offset */
  
@@ -2137,7 +2137,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_LENGTH,
                   CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.AddressLength));
              LengthOp = InitializerOp;
-@@ -192,7 +197,7 @@ RsDoWordIoDescriptor (
+@@ -192,7 +197,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -2146,7 +2146,7 @@ index 79d7bcc..77acbcc 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -204,8 +209,7 @@ RsDoWordIoDescriptor (
+@@ -204,8 +209,7 @@
              {
                  if (StringLength)
                  {
@@ -2156,7 +2156,7 @@ index 79d7bcc..77acbcc 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -265,13 +269,20 @@ RsDoWordIoDescriptor (
+@@ -265,13 +269,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -2181,7 +2181,7 @@ index 79d7bcc..77acbcc 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS16) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -307,6 +318,12 @@ RsDoWordBusNumberDescriptor (
+@@ -307,6 +318,12 @@
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
      UINT32                  OptionIndex = 0;
@@ -2194,7 +2194,7 @@ index 79d7bcc..77acbcc 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -326,8 +343,7 @@ RsDoWordBusNumberDescriptor (
+@@ -326,8 +343,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS16);
@@ -2204,7 +2204,7 @@ index 79d7bcc..77acbcc 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -364,8 +380,7 @@ RsDoWordBusNumberDescriptor (
+@@ -364,8 +380,7 @@
  
          case 4: /* Address Granularity */
  
@@ -2214,7 +2214,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Granularity));
              GranOp = InitializerOp;
-@@ -373,8 +388,7 @@ RsDoWordBusNumberDescriptor (
+@@ -373,8 +388,7 @@
  
          case 5: /* Min Address */
  
@@ -2224,7 +2224,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Minimum));
              MinOp = InitializerOp;
-@@ -382,8 +396,7 @@ RsDoWordBusNumberDescriptor (
+@@ -382,8 +396,7 @@
  
          case 6: /* Max Address */
  
@@ -2234,7 +2234,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Maximum));
              MaxOp = InitializerOp;
-@@ -391,16 +404,14 @@ RsDoWordBusNumberDescriptor (
+@@ -391,16 +404,14 @@
  
          case 7: /* Translation Offset */
  
@@ -2253,7 +2253,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_LENGTH,
                   CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.AddressLength));
              LengthOp = InitializerOp;
-@@ -412,7 +423,7 @@ RsDoWordBusNumberDescriptor (
+@@ -412,7 +423,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -2262,7 +2262,7 @@ index 79d7bcc..77acbcc 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -424,8 +435,7 @@ RsDoWordBusNumberDescriptor (
+@@ -424,8 +435,7 @@
              {
                  if (StringLength)
                  {
@@ -2272,7 +2272,7 @@ index 79d7bcc..77acbcc 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -471,13 +481,20 @@ RsDoWordBusNumberDescriptor (
+@@ -471,13 +481,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -2297,7 +2297,7 @@ index 79d7bcc..77acbcc 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS16) +
                              OptionIndex + StringLength;
      return (Rnode);
-@@ -513,6 +530,12 @@ RsDoWordSpaceDescriptor (
+@@ -513,6 +530,12 @@
      UINT8                   *OptionalFields;
      UINT16                  StringLength = 0;
      UINT32                  OptionIndex = 0;
@@ -2310,7 +2310,7 @@ index 79d7bcc..77acbcc 100644
      UINT32                  i;
      BOOLEAN                 ResSourceIndex = FALSE;
  
-@@ -531,8 +554,7 @@ RsDoWordSpaceDescriptor (
+@@ -531,8 +554,7 @@
       * optional fields present
       */
      OptionalFields = ((UINT8 *) Descriptor) + sizeof (AML_RESOURCE_ADDRESS16);
@@ -2320,7 +2320,7 @@ index 79d7bcc..77acbcc 100644
           sizeof (AML_RESOURCE_LARGE_HEADER));
  
      /* Process all child initialization nodes */
-@@ -581,8 +603,7 @@ RsDoWordSpaceDescriptor (
+@@ -581,8 +603,7 @@
  
          case 6: /* Address Granularity */
  
@@ -2330,7 +2330,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_GRANULARITY,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Granularity));
              GranOp = InitializerOp;
-@@ -590,8 +611,7 @@ RsDoWordSpaceDescriptor (
+@@ -590,8 +611,7 @@
  
          case 7: /* Min Address */
  
@@ -2340,7 +2340,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MINADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Minimum));
              MinOp = InitializerOp;
-@@ -599,8 +619,7 @@ RsDoWordSpaceDescriptor (
+@@ -599,8 +619,7 @@
  
          case 8: /* Max Address */
  
@@ -2350,7 +2350,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_MAXADDR,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.Maximum));
              MaxOp = InitializerOp;
-@@ -608,16 +627,14 @@ RsDoWordSpaceDescriptor (
+@@ -608,16 +627,14 @@
  
          case 9: /* Translation Offset */
  
@@ -2369,7 +2369,7 @@ index 79d7bcc..77acbcc 100644
              RsCreateWordField (InitializerOp, ACPI_RESTAG_LENGTH,
                  CurrentByteOffset + ASL_RESDESC_OFFSET (Address16.AddressLength));
              LengthOp = InitializerOp;
-@@ -629,7 +646,7 @@ RsDoWordSpaceDescriptor (
+@@ -629,7 +646,7 @@
              {
                  OptionalFields[0] = (UINT8) InitializerOp->Asl.Value.Integer;
                  OptionIndex++;
@@ -2378,7 +2378,7 @@ index 79d7bcc..77acbcc 100644
                  ResSourceIndex = TRUE;
              }
              break;
-@@ -641,8 +658,7 @@ RsDoWordSpaceDescriptor (
+@@ -641,8 +658,7 @@
              {
                  if (StringLength)
                  {
@@ -2388,7 +2388,7 @@ index 79d7bcc..77acbcc 100644
  
                      strcpy ((char *)
                          &OptionalFields[OptionIndex],
-@@ -688,13 +704,20 @@ RsDoWordSpaceDescriptor (
+@@ -688,13 +704,20 @@
      /* Validate the Min/Max/Len/Gran values */
  
      RsLargeAddressCheck (
@@ -2413,10 +2413,10 @@ index 79d7bcc..77acbcc 100644
      Rnode->BufferLength = sizeof (AML_RESOURCE_ADDRESS16) +
                              OptionIndex + StringLength;
      return (Rnode);
-diff --git a/source/include/acmacros.h b/source/include/acmacros.h
-index ee9e745..67fb983 100644
---- a/source/include/acmacros.h
-+++ b/source/include/acmacros.h
+Index: foo/source/include/acmacros.h
+===================================================================
+--- foo.orig/source/include/acmacros.h	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/include/acmacros.h	2013-08-26 13:45:58.000000000 -0600
 @@ -107,7 +107,8 @@
  
  /* 32-bit source, 16/32/64 destination */
@@ -2454,11 +2454,11 @@ index ee9e745..67fb983 100644
  #define ACPI_MOVE_32_TO_32(d, s)        *(UINT32 *)(void *)(d) = *(UINT32 *)(void *)(s)
  #define ACPI_MOVE_32_TO_64(d, s)        *(UINT64 *)(void *)(d) = *(UINT32 *)(void *)(s)
  
-diff --git a/source/include/platform/aclinux.h b/source/include/platform/aclinux.h
-index 3bc85bc..1bace7f 100644
---- a/source/include/platform/aclinux.h
-+++ b/source/include/platform/aclinux.h
-@@ -81,13 +81,14 @@
+Index: foo/source/include/platform/aclinux.h
+===================================================================
+--- foo.orig/source/include/platform/aclinux.h	2013-08-26 13:45:58.000000000 -0600
++++ foo/source/include/platform/aclinux.h	2013-08-26 13:45:58.000000000 -0600
+@@ -83,13 +83,14 @@
  #include <stdlib.h>
  #include <ctype.h>
  #include <unistd.h>
@@ -2467,14 +2467,14 @@ index 3bc85bc..1bace7f 100644
  /* Host-dependent types and defines for user-space ACPICA */
  
  #define ACPI_FLUSH_CPU_CACHE()
- #define ACPI_CAST_PTHREAD_T(pthread) ((ACPI_THREAD_ID) (pthread))
+ #define ACPI_CAST_PTHREAD_T(Pthread) ((ACPI_THREAD_ID) (Pthread))
  
--#if defined(__ia64__) || defined(__x86_64__)
+-#if defined(__ia64__) || defined(__x86_64__) || defined(__aarch64__)
 +#if __SIZEOF_LONG__ == 8
  #define ACPI_MACHINE_WIDTH          64
  #define COMPILER_DEPENDENT_INT64    long
  #define COMPILER_DEPENDENT_UINT64   unsigned long
-@@ -98,6 +99,10 @@
+@@ -100,6 +100,10 @@
  #define ACPI_USE_NATIVE_DIVIDE
  #endif
  
@@ -2485,6 +2485,3 @@ index 3bc85bc..1bace7f 100644
  #ifndef __cdecl
  #define __cdecl
  #endif
--- 
-1.7.12.1
-
