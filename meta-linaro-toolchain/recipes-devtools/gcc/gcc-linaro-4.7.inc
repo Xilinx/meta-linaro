@@ -1,6 +1,5 @@
 require recipes-devtools/gcc/gcc-4.7.inc
-require gcc-linaro-common-4.7.inc
-
+PV = "linaro-${BASEPV}"
 MMYY = "13.11"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"

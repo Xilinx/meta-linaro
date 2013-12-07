@@ -1,2 +1,3 @@
-require gcc-linaro-common-4.7.inc
+BASEPV = "4.7"
+PV = "linaro-${BASEPV}"
 require recipes-devtools/gcc/gcc-cross_${BASEPV}.bb
