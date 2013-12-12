@@ -38,7 +38,7 @@ do_compile() {
 }
 
 do_install() {
-	oe_runmake install DEST=${D}
+	oe_runmake install DESTDIR=${D}
 
 	#copy dpdk files to image
 	install -d ${D}/${libdir}/dpdk
