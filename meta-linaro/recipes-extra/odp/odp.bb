@@ -11,9 +11,9 @@ SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp \
 	   git://git.linaro.org/lng/dpdk.git;destsuffix=git/dpdk;name=dpdk \
 	   git://git.linaro.org/lng/eventmachine-code.git;destsuffix=git/openem;name=openem"
 
-SRCREV_odp = "76517441dff994c3c748130cc3addf63121e3bb7"
+SRCREV_odp = "66cd614e9036084242ce7d3d742a4fa00791b59d"
 SRCREV_dpdk = "0e108af9f3cb50020a50903f8b22447257ebbac1"
-SRCREV_openem = "ce605d57846e9ac0f28fbc033de112174fd4057d"
+SRCREV_openem = "a38131fb2284a006b06be8becd5ccdffe90f17a7"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
