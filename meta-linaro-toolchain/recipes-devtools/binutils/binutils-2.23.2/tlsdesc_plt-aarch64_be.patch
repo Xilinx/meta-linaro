@@ -1,0 +1,51 @@
+Index: binutils-linaro-2.23.2-2013.10-4/bfd/elf64-aarch64.c
+===================================================================
+--- binutils-linaro-2.23.2-2013.10-4.orig/bfd/elf64-aarch64.c
++++ binutils-linaro-2.23.2-2013.10-4/bfd/elf64-aarch64.c
+@@ -6968,38 +6968,34 @@ elf64_aarch64_finish_dynamic_sections (b
+ 	    bfd_vma opcode;
+ 
+ 	    /* adrp x2, DT_TLSDESC_GOT */
+-	    opcode = bfd_get_32 (output_bfd,
+-				 htab->root.splt->contents
++	    opcode = bfd_getl32 (htab->root.splt->contents
+ 				 + htab->tlsdesc_plt + 4);
+ 	    opcode = reencode_adr_imm
+ 	      (opcode, (PG (dt_tlsdesc_got) - PG (adrp1_addr)) >> 12);
+-	    bfd_put_32 (output_bfd, opcode,
++	    bfd_putl32 (opcode,
+ 			htab->root.splt->contents + htab->tlsdesc_plt + 4);
+ 
+ 	    /* adrp x3, 0 */
+-	    opcode = bfd_get_32 (output_bfd,
+-				 htab->root.splt->contents
++	    opcode = bfd_getl32 (htab->root.splt->contents
+ 				 + htab->tlsdesc_plt + 8);
+ 	    opcode = reencode_adr_imm
+ 	      (opcode, (PG (pltgot_addr) - PG (adrp2_addr)) >> 12);
+-	    bfd_put_32 (output_bfd, opcode,
++	    bfd_putl32 (opcode,
+ 			htab->root.splt->contents + htab->tlsdesc_plt + 8);
+ 
+ 	    /* ldr x2, [x2, #0] */
+-	    opcode = bfd_get_32 (output_bfd,
+-				 htab->root.splt->contents
++	    opcode = bfd_getl32 (htab->root.splt->contents
+ 				 + htab->tlsdesc_plt + 12);
+ 	    opcode = reencode_ldst_pos_imm (opcode,
+ 					    PG_OFFSET (dt_tlsdesc_got) >> 3);
+-	    bfd_put_32 (output_bfd, opcode,
++	    bfd_putl32 (opcode,
+ 			htab->root.splt->contents + htab->tlsdesc_plt + 12);
+ 
+ 	    /* add x3, x3, 0 */
+-	    opcode = bfd_get_32 (output_bfd,
+-				 htab->root.splt->contents
++	    opcode = bfd_getl32 (htab->root.splt->contents
+ 				 + htab->tlsdesc_plt + 16);
+ 	    opcode = reencode_add_imm (opcode, PG_OFFSET (pltgot_addr));
+-	    bfd_put_32 (output_bfd, opcode,
++	    bfd_putl32 (opcode,
+ 			htab->root.splt->contents + htab->tlsdesc_plt + 16);
+ 	  }
+ 	}
