@@ -13,8 +13,8 @@ PV = "1.6.0+git${SRCPV}"
 PR = "r2"
 
 SRC_URI = "git://git.qemu.org/qemu.git \
-           file://aarch64-softmmu.patch \
-           file://powerpc_rom.bin "
+           file://powerpc_rom.bin \
+           "
 
 S = "${WORKDIR}/git"
 EXTRA_OECONF+="--enable-kvm --enable-fdt "
