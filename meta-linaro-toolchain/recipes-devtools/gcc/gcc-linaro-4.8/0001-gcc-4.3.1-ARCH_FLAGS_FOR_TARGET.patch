@@ -12,10 +12,10 @@ Upstream-Status: Inappropriate [embedded specific]
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index d809535..1b76c90 100755
+index f16d506..d260ee2 100755
 --- a/configure
 +++ b/configure
-@@ -7439,7 +7439,7 @@ fi
+@@ -7490,7 +7490,7 @@ fi
  # for target_alias and gcc doesn't manage it consistently.
  target_configargs="--cache-file=./config.cache ${target_configargs}"
  
@@ -25,10 +25,10 @@ index d809535..1b76c90 100755
   *" newlib "*)
    case " $target_configargs " in
 diff --git a/configure.ac b/configure.ac
-index 48ec1aa..89d1d3f 100644
+index d5d609b..b5beb30 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2873,7 +2873,7 @@ fi
+@@ -2878,7 +2878,7 @@ fi
  # for target_alias and gcc doesn't manage it consistently.
  target_configargs="--cache-file=./config.cache ${target_configargs}"
  
@@ -37,6 +37,3 @@ index 48ec1aa..89d1d3f 100644
  case " $target_configdirs " in
   *" newlib "*)
    case " $target_configargs " in
--- 
-1.7.10.4
-
