@@ -4,12 +4,12 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl jpeg"
 DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
 DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
 
-SRCREV = "5c5432e7d630592ddcc1876ac8a1505f8f14ef15"
+SRCREV = "f976b09ea249cccc3fd41c98aaf6512908db0bae"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
 
-PV = "1.6.90+git${SRCPV}"
+PV = "1.7.50+git${SRCPV}"
 
 SRC_URI = "git://git.qemu.org/qemu.git \
            file://powerpc_rom.bin \
