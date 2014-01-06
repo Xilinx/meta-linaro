@@ -6,17 +6,16 @@ LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=96094d47cfbd2cc45eb46ce0fc423c04"
 
 COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 
-SRC_URI = "http://codemonkey.org.uk/projects/trinity/trinity-${PV}.tgz \
+# v1.2 tag
+SRCREV = "bdd0bdcaef753e8d340fc25fbc72a11be47639b0"
+SRC_URI = "git://github.com/kernelslacker/trinity.git;protocol=https \
            file://0001-scripts-TRINITY_PATH-defaults-to.patch \
            file://0002-scripts-change-mkdir-tmp-to-mktemp.patch \
            file://0003-tables.c-change-the-output-format-of-L.patch \
            file://0004-add-support-for-the-AArch64-architecture.patch \
           "
 
-SRC_URI[md5sum] = "554dc54e296dcfc32a7c85937ca4e956"
-SRC_URI[sha256sum] = "71132fca0ed016dcb39a3f1d9fa16a68971e2e9eff0b94bbacdf3d7ff101b6d5"
-
-S = "${WORKDIR}/trinity-${PV}"
+S = "${WORKDIR}/git"
 
 inherit useradd
 
