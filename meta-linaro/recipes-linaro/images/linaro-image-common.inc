@@ -10,6 +10,7 @@ IMAGE_INSTALL += " \
     stress \
     nss-myhostname \
     bash \
+    procps \
     "
 
 IMAGE_INSTALL_append_aarch64 = "libhugetlbfs"
