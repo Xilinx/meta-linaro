@@ -15,6 +15,8 @@ IMAGE_INSTALL += " \
     qemu \
     rt-tests \
     tunctl \
+    odp \
+    openem \
     "
 
 IMAGE_INSTALL_append_armv7a = " \
