@@ -5,11 +5,11 @@ SECTION = "console/tools"
 
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=dd8b05a36dd5410381ad0679f9151808"
-PV = "20131227"
+PV = "20140113"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "9dde32f3d5f4201293f279b2ea51ee21f5335093"
+SRCREV_odp = "57a47c48d590b67672ad7eca8567ae07ffb5d9b9"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
