@@ -59,8 +59,6 @@ FILES_${PN}-dpdk-staticdev += "${libdir}/dpdk/*.a"
 FILES_${PN}-dpdk-staticdev += "${includedir}/dpdk"
 
 # OPENEM
-PACKAGES =+ "${PN}-example"
-PACKAGES =+ "${PN}-example-dbg"
-FILES_${PN}-example-dbg += "${libdir}/openem/.debug"
-FILES_${PN}-example += "${libdir}/openem"
+FILES_${PN}-dbg += "${libdir}/openem/.debug"
+FILES_${PN} += "${libdir}/openem"
 
