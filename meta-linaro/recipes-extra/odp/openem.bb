@@ -5,7 +5,7 @@ LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=dd8b05a36dd5410381ad0679f9151808"
 PV = "20131206"
 
-SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp \
+SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp;branch=ratable \
 	   git://git.linaro.org/lng/dpdk.git;destsuffix=git/dpdk;name=dpdk \
 	   git://git.linaro.org/lng/eventmachine-code.git;destsuffix=git/openem;name=openem"
 
