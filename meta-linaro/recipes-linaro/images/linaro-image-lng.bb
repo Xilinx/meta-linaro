@@ -16,7 +16,6 @@ IMAGE_INSTALL += " \
     rt-tests \
     tunctl \
     odp \
-    openem \
     "
 
 IMAGE_INSTALL_append_armv7a = " \
