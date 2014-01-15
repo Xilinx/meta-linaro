@@ -14,3 +14,5 @@ IMAGE_FEATURES += "\
 	tools-debug \
 	tools-sdk \
 	"
+
+IMAGE_INSTALL_append_armv7a = " grub"
