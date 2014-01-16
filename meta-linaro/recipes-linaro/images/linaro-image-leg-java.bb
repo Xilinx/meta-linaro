@@ -3,6 +3,13 @@ require linaro-image-lamp.bb
 DESCRIPTION = "A Lamp-based image for Linaro Enterprise Java validation."
 
 IMAGE_INSTALL += " \
+    alsa-conf \
+    alsa-dev \
+    alsa-lib \
+    alsa-oss \
+    alsa-utils-alsaconf \
+    alsa-utils-alsamixer \
+    cups-dev \
     ganglia \
     git \
     htop \
