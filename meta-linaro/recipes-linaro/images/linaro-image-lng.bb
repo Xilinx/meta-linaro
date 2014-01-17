@@ -15,7 +15,6 @@ IMAGE_INSTALL += " \
     qemu \
     rt-tests \
     tunctl \
-    odp \
     "
 
 IMAGE_INSTALL_append_armv7a = " \
@@ -23,6 +22,7 @@ IMAGE_INSTALL_append_armv7a = " \
     systemtap \
     valgrind \
     trinity-example \
+    odp \
     "
 
 IMAGE_INSTALL_append_aarch64 = " \
