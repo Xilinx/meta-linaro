@@ -87,7 +87,7 @@ index 135bbf5..b65d21d 100755
    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
    lt_status=$lt_dlunknown
    cat > conftest.$ac_ext <<_LT_EOF
--#line 17831 "configure"
+-#line 17830 "configure"
 +#line 17834 "configure"
  #include "confdefs.h"
  
@@ -96,7 +96,7 @@ index 135bbf5..b65d21d 100755
    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
    lt_status=$lt_dlunknown
    cat > conftest.$ac_ext <<_LT_EOF
--#line 17937 "configure"
+-#line 17936 "configure"
 +#line 17940 "configure"
  #include "confdefs.h"
  

@@ -1,15 +1,14 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "13.12"
+MMYY = "14.01"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.3"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
-#SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.xz
-SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.tar.xz \
+SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/${BASEPV}/gcc-${PV}-${RELEASE}.tar.xz \
 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://0002-uclibc-conf.patch \
 	   file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -45,9 +44,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
 	   file://0035-wcast-qual-PR-55383.patch \
-	   file://0036-PR-target-56102.patch;apply=no \
 	   file://0037-gcc-4.8-PR56797.patch \
-	   file://0038-gcc-4.8-build-args.patch \
+	   file://0038-gcc-4.8-build-args.patch;apply=no \
 	   file://0039-gcc-4.8-PR57717.patch \
 	   file://0040-fix-g++-sysroot.patch \
 	   file://0041-libtool-avoid-libdir.patch \
@@ -56,11 +54,12 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/gcc-${PV}-${RELEASE}.ta
 	   file://0044-gengtypes.patch \
 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
 	   file://0046-libatomic-deptracking.patch \
+	   file://0047-repomembug.patch \
 	   file://use-lib-for-aarch64.patch \
 	   "
 
-SRC_URI[md5sum] = "bd7a22ff4d1b6bb4824ef908e07bde66"
-SRC_URI[sha256sum] = "516e3d101cbd43153e1cdf989bc9db88266f83cf661f20f7f2bcab55f91022b7"
+SRC_URI[md5sum] = "b8bc08b05ff079dcdc020336a67ca4e1"
+SRC_URI[sha256sum] = "8e997ff0ec835bfd8d23bf5cee77d7fd6080f2de7029fc0a2128c19c8ebd8460"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
