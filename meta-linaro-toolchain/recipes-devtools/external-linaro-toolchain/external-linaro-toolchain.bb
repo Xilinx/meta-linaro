@@ -31,6 +31,7 @@ PROVIDES += "\
 	libssp-staticdev \
 	libgfortran \
 	libgfortran-dev \
+	libgfortran-staticdev \
 	libmudflap \
 	libmudflap-dev \
 	libgomp \
@@ -131,6 +132,7 @@ PACKAGES =+ "\
 	libssp-staticdev \
 	libgfortran \
 	libgfortran-dev \
+	libgfortran-staticdev \
 	libmudflap \
 	libmudflap-dev \
 	libmudflap-staticdev \
@@ -278,8 +280,9 @@ FILES_libssp-staticdev = " \
 
 FILES_libgfortran = "${base_libdir}/libgfortran.so.*"
 FILES_libgfortran-dev = " \
+  ${base_libdir}/libgfortran.so"
+FILES_libgfortran-staticdev = " \
   ${base_libdir}/libgfortran.a \
-  ${base_libdir}/libgfortran.so \
   ${base_libdir}/libgfortranbegin.a"
 
 FILES_libmudflap = "${base_libdir}/libmudflap*.so.*"
