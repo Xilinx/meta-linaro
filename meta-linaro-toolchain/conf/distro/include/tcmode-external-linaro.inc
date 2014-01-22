@@ -7,7 +7,9 @@ EXTERNAL_TOOLCHAIN ?= "/usr/local/linaro-binary-toolchain/${TARGET_ARCH}"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
-ELT_TARGET_SYS ?= "arm-linux-gnueabihf"
+ELT_TARGET_SYS_arm ?= "arm-linux-gnueabihf"
+ELT_TARGET_SYS_aarch64 ?= "aarch64-linux-gnu"
+ELT_TARGET_SYS = "${TARGET_SYS}"
 TARGET_PREFIX = "${ELT_TARGET_SYS}-"
 
 GCCMULTILIB_forcevariable = "--disable-multilib"
