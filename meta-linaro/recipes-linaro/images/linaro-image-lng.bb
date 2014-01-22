@@ -10,6 +10,7 @@ IMAGE_INSTALL += " \
     ltp \
     netperf \
     openvswitch \
+    packagegroup-core-buildessential \
     procps \
     python-numpy \
     qemu \
