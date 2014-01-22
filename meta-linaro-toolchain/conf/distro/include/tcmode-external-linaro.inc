@@ -46,6 +46,33 @@ DISTRO_FEATURES_LIBC = "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-c
 ENABLE_BINARY_LOCALE_GENERATION = "0"
 GLIBC_INTERNAL_USE_BINARY_LOCALE = "precompiled"
 
+ERROR_QA[type] ?= "list"
+python toolchain_metadata_setup () {
+    import subprocess
+    if not isinstance(e, bb.event.ConfigParsed):
+        return
+
+    d = e.data
+    l = d.createCopy()
+    l.finalize()
+    oe_import(l)
+
+    external_toolchain = l.getVar('EXTERNAL_TOOLCHAIN', True)
+    if not external_toolchain or external_toolchain == 'UNDEFINED':
+        bb.fatal("Error: EXTERNAL_TOOLCHAIN must be set to the path to your linaro toolchain")
+
+    if not os.path.exists(external_toolchain):
+        bb.fatal("Error: EXTERNAL_TOOLCHAIN path '%s' does not exist" % external_toolchain)
+
+    # The external toolchain may not have been built with the oe-core preferred
+    # gnu hash setting, so ensure that the corresponding sanity check is not an error.
+    error_qa = oe.data.typed_value('ERROR_QA', l)
+    if 'ldflags' in error_qa:
+        error_qa.remove('ldflags')
+        d.setVar('ERROR_QA', ' '.join(error_qa))
+}
+addhandler toolchain_metadata_setup
+
 def populate_toolchain_links(d):
     import errno
     import os
