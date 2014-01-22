@@ -10,10 +10,10 @@ SECTION = "console/tools"
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c6280c3aa"
 DEPENDS = "bison flex"
-SRCREV = "5dac68d8af691cb66191c071771d6cf4abb54277"
-PV = "20131115+git${SRCPV}"
+SRCREV = "ecc630773260cb10f5202ab3273e447ffd0d1b13"
+PV = "20131218+git${SRCPV}"
 
-SRC_URI = "git://git.linaro.org/people/ahs3/acpica-tools.git \
+SRC_URI = "git://git.linaro.org/people/al.stone/acpica-tools.git \
     file://fix_ftbfs_debian-kfreebsd.patch \
     file://debian-big_endian.patch \
     file://debian-unaligned.patch \
@@ -21,13 +21,13 @@ SRC_URI = "git://git.linaro.org/people/ahs3/acpica-tools.git \
     file://add-testing.patch \
     file://name-miscompare.patch \
     file://aapits-linux.patch \
-    file://cross-compile.patch \
+    file://examples-makefile.patch \
     file://no-werror.patch \
     "
 
 S = "${WORKDIR}/git"
 
-EXTRA_OEMAKE = "'OPT_CFLAGS=-Wall'"
+EXTRA_OEMAKE = "CC=${TARGET_PREFIX}gcc 'OPT_CFLAGS=-Wall'"
 
 do_install() {
     install -D -p -m0755 generate/unix/bin*/iasl ${D}${bindir}/iasl
