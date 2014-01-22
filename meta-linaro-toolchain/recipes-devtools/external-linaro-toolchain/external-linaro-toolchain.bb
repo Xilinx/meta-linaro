@@ -78,7 +78,8 @@ do_install() {
 	fi
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
-	ln -sf ld-${ELT_VER_LIBC}.so ${D}${base_libdir}/ld-linux.so.3
+	linker_name="${@base_contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", "ld-linux.so.3",d)}"
+	ln -sf ld-${ELT_VER_LIBC}.so ${D}${base_libdir}/${linker_name}
 	ln -sf ../../lib/libnsl.so.1 ${D}${libdir}/libnsl.so
 	ln -sf ../../lib/librt.so.1 ${D}${libdir}/librt.so
 	ln -sf ../../lib/libcrypt.so.1 ${D}${libdir}/libcrypt.so
