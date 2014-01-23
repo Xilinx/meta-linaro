@@ -39,4 +39,5 @@ do_install() {
 
 RDEPENDS_${PN} = "python-resource python-subprocess"
 
+INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
