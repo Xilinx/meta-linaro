@@ -10,8 +10,8 @@ SECTION = "console/tools"
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c6280c3aa"
 DEPENDS = "bison flex"
-SRCREV = "ecc630773260cb10f5202ab3273e447ffd0d1b13"
-PV = "20131218+git${SRCPV}"
+SRCREV = "f0e837ae76fd7e89081f477b447f599218b9599b"
+PV = "20140114+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/people/al.stone/acpica-tools.git \
     file://fix_ftbfs_debian-kfreebsd.patch \
@@ -21,7 +21,7 @@ SRC_URI = "git://git.linaro.org/people/al.stone/acpica-tools.git \
     file://add-testing.patch \
     file://name-miscompare.patch \
     file://aapits-linux.patch \
-    file://examples-makefile.patch \
+    file://aapits-ld.patch \
     file://no-werror.patch \
     "
 
