@@ -4,7 +4,6 @@ IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 
 IMAGE_INSTALL += " \
     linaro-lava-tests \
-    powertop \
     sudo \
     stress-dbg \
     stress \
@@ -38,6 +37,7 @@ SDK_IMAGE_INSTALL += "\
     gd \
     glog \
     icu \
+    idlestat \
     libbz2 \
     libcap \
     libc-client-dev \
@@ -57,6 +57,8 @@ SDK_IMAGE_INSTALL += "\
     openldap \
     openssh-sftp-server \
     openssl \
+    powerdebug \
+    powertop \
     python \
     qemu \
     readline \
