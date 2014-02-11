@@ -14,6 +14,8 @@ SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
 
+PARALLEL_MAKE = ""
+
 do_install() {
 	oe_runmake install DESTDIR=${D}
 }
