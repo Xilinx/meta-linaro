@@ -3,6 +3,7 @@ inherit core-image
 IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 
 IMAGE_INSTALL += " \
+    e2fsprogs-e2fsck \
     linaro-lava-tests \
     sudo \
     stress-dbg \
