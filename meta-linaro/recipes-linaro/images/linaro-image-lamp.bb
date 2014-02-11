@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     mysql5-client \
     php-fpm \
     php-fpm-apache2 \
+    packagegroup-core-buildessential \
     ${SDK_IMAGE_INSTALL}"
 
 IMAGE_FEATURES += "\
