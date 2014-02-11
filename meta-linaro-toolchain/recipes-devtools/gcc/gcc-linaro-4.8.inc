@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.01"
+MMYY = "14.02"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.3"
@@ -46,7 +46,7 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://0035-wcast-qual-PR-55383.patch \
 	   file://0037-gcc-4.8-PR56797.patch \
 	   file://0038-gcc-4.8-build-args.patch;apply=no \
-	   file://0039-gcc-4.8-PR57717.patch \
+	   file://0039-gcc-4.8-PR57717.patch;apply=no \
 	   file://0040-fix-g++-sysroot.patch \
 	   file://0041-libtool-avoid-libdir.patch \
 	   file://0042-pr57748.patch \
@@ -55,11 +55,12 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
 	   file://0046-libatomic-deptracking.patch \
 	   file://0047-repomembug.patch \
+	   file://0048-PR58854_fix_arm_apcs_epilogue.patch;apply=no \
 	   file://use-lib-for-aarch64.patch \
 	   "
 
-SRC_URI[md5sum] = "b8bc08b05ff079dcdc020336a67ca4e1"
-SRC_URI[sha256sum] = "8e997ff0ec835bfd8d23bf5cee77d7fd6080f2de7029fc0a2128c19c8ebd8460"
+SRC_URI[md5sum] = "2b3bbea7806931e2048e0fc5983021c8"
+SRC_URI[sha256sum] = "1a6d55292f46c9f717e1e20944ecaa6d8025dd67b1350b7a357b309ae19810e0"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
