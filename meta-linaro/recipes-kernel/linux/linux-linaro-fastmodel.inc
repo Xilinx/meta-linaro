@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel siteinfo
 
-PV = "3.11+git${SRCPV}"
+PV = "3.13+git${SRCPV}"
 
 SRCREV_bootwrapper = "${AUTOREV}"
 SRCREV_kernel = "${AUTOREV}"
