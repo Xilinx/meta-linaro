@@ -2,6 +2,7 @@ require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
     apache2 \
+    grub \
     mysql5-server \
     mysql5-client \
     php-fpm \
@@ -15,5 +16,3 @@ IMAGE_FEATURES += "\
 	tools-debug \
 	tools-sdk \
 	"
-
-IMAGE_INSTALL_append_armv7a = " grub"
