@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     nss-myhostname \
     bash \
     procps \
+    util-linux-fsck \
     "
 
 IMAGE_INSTALL_append_aarch64 = "libhugetlbfs"
