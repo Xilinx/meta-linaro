@@ -16,6 +16,7 @@ IMAGE_INSTALL += " \
     qemu \
     rt-tests \
     tunctl \
+    usecpu \
     "
 
 IMAGE_INSTALL_append_armv7a = " \
