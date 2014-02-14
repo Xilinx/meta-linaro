@@ -7,6 +7,7 @@ IMAGE_INSTALL += " \
     curl \
     fping \
     lmbench \
+    lng-network-config \
     ltp \
     netperf \
     openvswitch \
