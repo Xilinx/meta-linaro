@@ -1,7 +1,7 @@
 SUMMARY = "Uses the CPU"
 DESCRIPTION = "This program uses the CPU on a System"
-LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;endline=39;md5=c16edc6b3353707bb4789198c72f7e48"
+LICENSE = "GPLv2+"
+LIC_FILES_CHKSUM = "file://use_cpu.c;endline=39;md5=f39117026e553ebdce39f633b7b92f9f"
 SRCREV = "e246c70aa6cac5df0e593ef3416380ff75a70dc0"
 PV = "0.1+git${SRCPV}"
 
