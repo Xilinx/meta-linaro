@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://use_cpu.c;endline=39;md5=f39117026e553ebdce39f633b7b9
 SRCREV = "e246c70aa6cac5df0e593ef3416380ff75a70dc0"
 PV = "0.1+git${SRCPV}"
 
-SRC_URI = "git://git.linaro.org/people/anders.roxell/usecpu.git"
+SRC_URI = "git://git.linaro.org/lng/usecpu.git"
 
 S = "${WORKDIR}/git"
 
