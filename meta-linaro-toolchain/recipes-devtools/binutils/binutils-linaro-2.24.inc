@@ -31,6 +31,8 @@ SRC_URI = "\
      file://mips64-default-ld-emulation.patch \
      file://binutils-xlp-support.patch \
      file://fix-pr15815.patch \
+     file://fix-pr2404.patch \
+     file://fix-pr16476.patch \
      "
 
 SRC_URI[md5sum] = "4f0fe947895a260b8386de63b09feb18"
