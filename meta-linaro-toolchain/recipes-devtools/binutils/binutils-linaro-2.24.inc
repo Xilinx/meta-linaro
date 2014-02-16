@@ -1,3 +1,4 @@
+BPV = "2.24"
 MMYY = "13.12"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
@@ -16,7 +17,7 @@ LIC_FILES_CHKSUM="\
     "
 
 SRC_URI = "\
-     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${PV}-${RELEASE}.tar.xz \
+     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${BPV}-${RELEASE}.tar.xz \
      file://binutils-uclibc-100-uclibc-conf.patch \
      file://binutils-uclibc-300-001_ld_makefile_patch.patch \
      file://binutils-uclibc-300-006_better_file_error.patch \
@@ -35,4 +36,4 @@ SRC_URI = "\
 SRC_URI[md5sum] = "4f0fe947895a260b8386de63b09feb18"
 SRC_URI[sha256sum] = "bc9ab073f85d504e5c4601f878c45a0da791d419b4ebe85ac7d4cd77dcbf8a38"
 
-S = "${WORKDIR}/binutils-linaro-${PV}-${RELEASE}"
+S = "${WORKDIR}/binutils-${PV}-${RELEASE}"

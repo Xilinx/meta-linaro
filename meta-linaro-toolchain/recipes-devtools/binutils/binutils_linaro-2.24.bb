@@ -1,5 +1,5 @@
-require binutils.inc
-require binutils-${PV}.inc
+require recipes-devtools/binutils/binutils.inc
+require recipes-devtools/binutils/binutils-${PV}.inc
 
 DEPENDS += "flex bison zlib"
 
