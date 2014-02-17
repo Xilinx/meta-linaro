@@ -2,6 +2,7 @@ require linaro-image-common.inc
 
 IMAGE_INSTALL += " \
     apache2 \
+    fwts \
     grub \
     mysql5-server \
     mysql5-client \
