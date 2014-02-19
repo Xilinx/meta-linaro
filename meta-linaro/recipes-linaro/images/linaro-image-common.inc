@@ -66,6 +66,7 @@ SDK_IMAGE_INSTALL += "\
     qemu \
     readline \
     tbb \
+    xz \
     zlib \
     sshfs-fuse \
     xserver-xorg-xvfb \
