@@ -1,4 +1,4 @@
-require binutils-cross_${PV}.bb
+require recipes-devtools/binutils/binutils-cross_${PV}.bb
 
 inherit crosssdk
 
