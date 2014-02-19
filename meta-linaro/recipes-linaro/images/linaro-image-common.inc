@@ -37,6 +37,7 @@ SDK_IMAGE_INSTALL += "\
     flex \
     gator \
     gd \
+    git \
     glog \
     icu \
     idlestat \

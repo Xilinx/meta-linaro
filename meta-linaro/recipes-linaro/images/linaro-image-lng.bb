@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     fping \
+    git \
     lmbench \
     lng-network-config \
     ltp \
