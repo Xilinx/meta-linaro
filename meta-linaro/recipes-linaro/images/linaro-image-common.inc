@@ -71,3 +71,10 @@ SDK_IMAGE_INSTALL += "\
     sshfs-fuse \
     xserver-xorg-xvfb \
     "
+
+IMAGE_PREPROCESS_COMMAND += "make_boot_verbose; "
+
+
+fakeroot make_boot_verbose () {
+    sed -i -e 's/VERBOSE=no/VERBOSE=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+}
