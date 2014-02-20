@@ -45,3 +45,12 @@ IMAGE_FSTYPES_lng-rt-x86-64 = "tar.gz cpio.gz"
 
 EXTRA_IMAGE_FEATURES_append_qemux86 = " autoserial"
 PACKAGE_GROUP_autoserial = "auto-serial-console"
+
+IMAGE_PREPROCESS_COMMAND_qemux86 += "qemux86_fixup;"
+
+qemux86_fixup() {
+        sed -i '/getty 115200 ttyS0/d' ${IMAGE_ROOTFS}/etc/inittab
+
+        echo "auto eth0" >> ${IMAGE_ROOTFS}/etc/network/interfaces
+        echo "iface eth0 inet dhcp" >> ${IMAGE_ROOTFS}/etc/network/interfaces
+}
