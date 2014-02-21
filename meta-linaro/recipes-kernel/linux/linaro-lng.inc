@@ -7,6 +7,8 @@ SRCREV = "${AUTOREV}"
 SRCREV_FORMAT = "kernel"
 S = "${WORKDIR}/git"
 
+COMPATIBLE_MACHINE = "(lng-x86-64|lng-rt-x86-64)"
+
 do_configure_prepend_lng-x86-64() {
     scripts/kconfig/merge_config.sh -m arch/x86/configs/x86_64_defconfig \
      linaro/configs/hugepage.conf linaro/configs/ovs.conf \
