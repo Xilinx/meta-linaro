@@ -32,6 +32,7 @@ EXTRA_OEMAKE = "CC=${TARGET_PREFIX}gcc 'OPT_CFLAGS=-Wall'"
 do_install() {
     install -D -p -m0755 generate/unix/bin*/iasl ${D}${bindir}/iasl
     install -D -p -m0755 generate/unix/bin*/acpibin ${D}${bindir}/acpibin
+    install -D -p -m0755 generate/unix/bin*/acpidump ${D}${bindir}/acpidump
     install -D -p -m0755 generate/unix/bin*/acpiexec ${D}${bindir}/acpiexec
     install -D -p -m0755 generate/unix/bin*/acpihelp ${D}${bindir}/acpihelp
     install -D -p -m0755 generate/unix/bin*/acpinames ${D}${bindir}/acpinames
