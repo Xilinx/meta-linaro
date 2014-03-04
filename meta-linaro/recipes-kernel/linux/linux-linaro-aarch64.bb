@@ -1,8 +1,8 @@
 require linux-linaro-fastmodel.inc
 
 SRC_URI = " \
-           git://git.linaro.org/kernel/linux-linaro-tracking.git;branch=linux-linaro;name=kernel \
-           git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;branch=master;name=bootwrapper;destsuffix=bootwrapper \
+           git://git.linaro.org/kernel/linux-linaro-tracking.git;protocol=http;branch=linux-linaro;name=kernel \
+           git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;protocol=http;branch=master;name=bootwrapper;destsuffix=bootwrapper \
 "
 
 do_configure_prepend() {
