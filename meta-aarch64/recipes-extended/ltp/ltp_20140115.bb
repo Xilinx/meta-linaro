@@ -27,6 +27,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
     file://regen-makefile.patch \
     file://ffsb-arm64.patch \
     file://ltp-arm64.patch \
+    file://run-auto-use-default-profile-hrtimer-pro-measurement.patch \
 "
 
 S = "${WORKDIR}/git"
