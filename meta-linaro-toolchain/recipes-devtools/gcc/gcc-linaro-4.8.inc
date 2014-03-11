@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.02"
+MMYY = "14.03"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.3"
@@ -56,11 +56,13 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://0046-libatomic-deptracking.patch \
 	   file://0047-repomembug.patch \
 	   file://0048-PR58854_fix_arm_apcs_epilogue.patch;apply=no \
+	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
+	   file://0050-PR-target-58595.patch \
 	   file://use-lib-for-aarch64.patch \
 	   "
 
-SRC_URI[md5sum] = "2b3bbea7806931e2048e0fc5983021c8"
-SRC_URI[sha256sum] = "1a6d55292f46c9f717e1e20944ecaa6d8025dd67b1350b7a357b309ae19810e0"
+SRC_URI[md5sum] = "c9023cc7e44eaf68572d6c8549297970"
+SRC_URI[sha256sum] = "0d1511a3c248dcf17d4d2ddbe2a7aa6456aa65dc22dcf3447ff4c457072888dd"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
