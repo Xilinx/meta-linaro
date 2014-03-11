@@ -44,7 +44,7 @@ IMAGE_FSTYPES_lng-x86-64 = "tar.gz cpio.gz"
 IMAGE_FSTYPES_lng-rt-x86-64 = "tar.gz cpio.gz"
 
 EXTRA_IMAGE_FEATURES_append_qemux86 = " autoserial"
-PACKAGE_GROUP_autoserial = "auto-serial-console"
+FEATURE_PACKAGES_autoserial = "auto-serial-console"
 
 IMAGE_PREPROCESS_COMMAND_qemux86 += "qemux86_fixup;"
 
