@@ -1,5 +1,5 @@
 BPV = "2.24"
-MMYY = "13.12"
+MMYY = "14.03"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
@@ -30,12 +30,12 @@ SRC_URI = "\
      file://binutils-armv5e.patch \
      file://mips64-default-ld-emulation.patch \
      file://binutils-xlp-support.patch \
-     file://fix-pr15815.patch \
+     file://fix-pr15815.patch;apply=no \
      file://fix-pr2404.patch \
      file://fix-pr16476.patch \
      "
 
-SRC_URI[md5sum] = "4f0fe947895a260b8386de63b09feb18"
-SRC_URI[sha256sum] = "bc9ab073f85d504e5c4601f878c45a0da791d419b4ebe85ac7d4cd77dcbf8a38"
+SRC_URI[md5sum] = "36e455b8c2677787ab12a18bcade5924"
+SRC_URI[sha256sum] = "8c0552fd52c7a5ee29dcc046c781eb2b4d86d008eb37980c4c3cc1f434d5f0b2"
 
 S = "${WORKDIR}/binutils-${PV}-${RELEASE}"
