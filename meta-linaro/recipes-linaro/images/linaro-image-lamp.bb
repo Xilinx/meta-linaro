@@ -6,6 +6,7 @@ IMAGE_INSTALL += " \
     grub \
     mysql5-server \
     mysql5-client \
+    mongodb \
     php-fpm \
     php-fpm-apache2 \
     packagegroup-core-buildessential \
