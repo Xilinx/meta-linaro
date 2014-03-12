@@ -13,7 +13,7 @@ SRCREV = "${AUTOREV}"
 PV = "2.16+git${SRCPV}"
 PR = "r1"
 
-SRC_URI = "git://git.linaro.org/people/stevecapper/libhugetlbfs.git;branch=aarch64-support \
+SRC_URI = "git://git.linaro.org/people/stevecapper/libhugetlbfs.git;protocol=http;branch=aarch64-support \
     file://cross-compile.patch \
     file://install64-fix.patch \
 "
