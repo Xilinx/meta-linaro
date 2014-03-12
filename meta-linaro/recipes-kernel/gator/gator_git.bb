@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://driver/LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 inherit update-rc.d
 
-SRC_URI = "git://git.linaro.org/arm/ds5/gator.git \
+SRC_URI = "git://git.linaro.org/arm/ds5/gator.git;protocol=http \
            file://gator.init "
 
 SRCREV = "${AUTOREV}"
