@@ -33,6 +33,8 @@ SRC_URI = "\
      file://fix-pr15815.patch;apply=no \
      file://fix-pr2404.patch \
      file://fix-pr16476.patch \
+     file://0001-AArch64-Define-LP64-LE-loader-name.patch \
+     file://0001-AArch64-Define-LP64-BE-linker-name.patch \
      "
 
 SRC_URI[md5sum] = "36e455b8c2677787ab12a18bcade5924"

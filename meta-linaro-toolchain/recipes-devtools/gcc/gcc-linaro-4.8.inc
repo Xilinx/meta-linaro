@@ -59,6 +59,8 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
 	   file://0050-PR-target-58595.patch \
 	   file://use-lib-for-aarch64.patch \
+	   file://0001-AArch64-Define-BE-loader-name.patch \
+	   file://AArch64-Define-BE-loader-name-default-be.patch \
 	   "
 
 SRC_URI[md5sum] = "c9023cc7e44eaf68572d6c8549297970"
