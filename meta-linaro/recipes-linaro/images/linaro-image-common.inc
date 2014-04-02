@@ -66,6 +66,7 @@ SDK_IMAGE_INSTALL += "\
     qemu \
     readline \
     tbb \
+    trace-cmd \
     xz \
     zlib \
     sshfs-fuse \

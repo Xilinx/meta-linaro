@@ -17,6 +17,7 @@ IMAGE_INSTALL += " \
     python-numpy \
     qemu \
     rt-tests \
+    trace-cmd \
     tunctl \
     usecpu \
     "
