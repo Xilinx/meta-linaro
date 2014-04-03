@@ -4,12 +4,12 @@ HOMEPAGE = "https://wiki.linaro.org/LNG/Engineering/OpenDataPlane"
 SECTION = "console/tools"
 
 LICENSE = "BSD | GPLv2"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=dd8b05a36dd5410381ad0679f9151808"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=4ccfa994aa96974cfcd39a59faee20a2"
 PV = "20140218+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "9d3e9afc66895a74d3d54a70fc3284bd11c169cd"
+SRCREV_odp = "e1b486c0f579dca0c6ac65fca18ff8fc1141edc7"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
