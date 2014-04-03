@@ -6,13 +6,9 @@ LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=96094d47cfbd2cc45eb46ce0fc423c04"
 
 COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 
-# v1.2 tag
-SRCREV = "bdd0bdcaef753e8d340fc25fbc72a11be47639b0"
+# v1.3 tag
+SRCREV = "7f333fdbb1933e38a67aa136cbf6a1e5df06c775"
 SRC_URI = "git://github.com/kernelslacker/trinity.git;protocol=https \
-           file://0001-scripts-TRINITY_PATH-defaults-to.patch \
-           file://0002-scripts-change-mkdir-tmp-to-mktemp.patch \
-           file://0003-tables.c-change-the-output-format-of-L.patch \
-           file://0004-add-support-for-the-AArch64-architecture.patch \
           "
 
 S = "${WORKDIR}/git"
