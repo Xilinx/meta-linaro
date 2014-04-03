@@ -2,15 +2,26 @@ require openjdk-8-common.inc
 
 PR = "${INC_PR}.0"
 
-OPENJDK_URI = "http://snapshots.linaro.org/openembedded/sources/openjdk8-aarch64-port-snapshot.tar.bz2"
+OPENJDK_URI = "\
+	git://git.linaro.org/leg/openjdk/jdk8.git;destsuffix=git/jdk8;name=jdk8 \
+	git://git.linaro.org/leg/openjdk/corba.git;destsuffix=git/jdk8/corba;name=corba \
+	git://git.linaro.org/leg/openjdk/hotspot.git;destsuffix=git/jdk8/hotspot;name=hotspot \
+	git://git.linaro.org/leg/openjdk/jaxp.git;destsuffix=git/jdk8/jaxp;name=jaxp \
+	git://git.linaro.org/leg/openjdk/jaxws.git;destsuffix=git/jdk8/jaxws;name=jaxws \
+	git://git.linaro.org/leg/openjdk/jdk.git;destsuffix=git/jdk8/jdk;name=jdk \
+	git://git.linaro.org/leg/openjdk/langtools.git;destsuffix=git/jdk8/langtools;name=langtools \
+	git://git.linaro.org/leg/openjdk/nashorn.git;destsuffix=git/jdk8/nashorn;name=nashorn"
 
-# The tarball is generated nightly and to avoid updating this file
-# each and every day we ignore checksums.
+SRCREV_jdk8 = "${AUTOREV}"
+SRCREV_corba = "${AUTOREV}"
+SRCREV_hotspot = "${AUTOREV}"
+SRCREV_jaxp = "${AUTOREV}"
+SRCREV_jaxws = "${AUTOREV}"
+SRCREV_jdk = "${AUTOREV}"
+SRCREV_langtools = "${AUTOREV}"
+SRCREV_nashorn = "${AUTOREV}"
 
-SRC_URI[md5sum] = ""
-SRC_URI[sha256sum] = ""
-
-BB_STRICT_CHECKSUM = "0"
+S = "${WORKDIR}/git/jdk8"
 
 LIC_FILES_CHKSUM="file://LICENSE;md5=7b4baeedfe2d40cb03536573bc2c89b1"
 
