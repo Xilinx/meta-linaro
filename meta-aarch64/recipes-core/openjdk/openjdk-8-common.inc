@@ -73,9 +73,10 @@ do_install() {
 # The upstream Mercurial repo has various incompatible binaries checked in.
 # Remove these otherwise bitbake complains about mismatched architecture, et al.
 	find ${D}${JDK_HOME}/jtreg -name \*.so -print | xargs rm
-	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-sparc/launcher
-	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-i586/launcher
 	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/linux-i586/launcher
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/linux-amd64/launcher
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-sparcv9/launcher
+	rm ${D}${JDK_HOME}/jtreg/jdk/test/sun/management/jmxremote/bootstrap/solaris-amd64/launcher
 	chmod -R u+rw,go+r ${D}${JDK_HOME}
 }
 
