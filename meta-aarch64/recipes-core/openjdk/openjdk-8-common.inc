@@ -56,7 +56,7 @@ do_configure() {
 }
 
 do_compile() {
-	make LOG=debug images
+	make LOG=debug ALT_SDT_H=/openjdk/path/to/a/nonexistent/directory images
 }
 
 do_install() {
