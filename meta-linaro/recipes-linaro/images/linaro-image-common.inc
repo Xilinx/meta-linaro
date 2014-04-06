@@ -60,6 +60,7 @@ SDK_IMAGE_INSTALL += "\
     openldap \
     openssh-sftp-server \
     openssl \
+    pm-qa \
     powerdebug \
     powertop \
     python \
