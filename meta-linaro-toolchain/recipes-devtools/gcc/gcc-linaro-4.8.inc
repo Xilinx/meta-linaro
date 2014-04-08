@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.8.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.03"
+MMYY = "14.04"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.8.3"
@@ -63,8 +63,8 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://AArch64-Define-BE-loader-name-default-be.patch \
 	   "
 
-SRC_URI[md5sum] = "c9023cc7e44eaf68572d6c8549297970"
-SRC_URI[sha256sum] = "0d1511a3c248dcf17d4d2ddbe2a7aa6456aa65dc22dcf3447ff4c457072888dd"
+SRC_URI[md5sum] = "5ba2f3a449b1658ccc09d27cc7ab3c03"
+SRC_URI[sha256sum] = "9a72b00f50265fc6ea92e95383fa0b25450cf15fc685a33a67ad15e10a008808"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
