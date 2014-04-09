@@ -60,7 +60,6 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
 	   file://0050-PR-target-58595.patch \
 	   file://use-lib-for-aarch64.patch \
 	   file://0001-AArch64-Define-BE-loader-name.patch \
-	   file://AArch64-Define-BE-loader-name-default-be.patch \
 	   "
 
 SRC_URI[md5sum] = "5ba2f3a449b1658ccc09d27cc7ab3c03"
