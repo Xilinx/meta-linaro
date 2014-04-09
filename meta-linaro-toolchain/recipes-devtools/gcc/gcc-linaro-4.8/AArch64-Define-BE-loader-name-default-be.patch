@@ -36,15 +36,3 @@ Index: gcc-linaro-4.8-2014.03/gcc/config/aarch64/aarch64-linux.h
  
  #define LINK_SPEC LINUX_TARGET_LINK_SPEC
  
-Index: gcc-linaro-4.8-2014.03/gcc/ChangeLog
-===================================================================
---- gcc-linaro-4.8-2014.03.orig/gcc/ChangeLog
-+++ gcc-linaro-4.8-2014.03/gcc/ChangeLog
-@@ -1,3 +1,7 @@
-+2014-03-20  Victor Kamensky  <victor.kamensky@linaro.org>
-+	* config/aarch64/aarch64-linux.h (GLIBC_DYNAMIC_LINKER): Fix
-+	loader spec in case if big endian configured by default
-+
- 2014-03-19  Victor Kamensky  <victor.kamensky@linaro.org>
- 
- 	Backport from mainline
