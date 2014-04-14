@@ -1,20 +1,16 @@
+SUMMARY = "DS-5 Gator daemon"
 DESCRIPTION = "Target-side daemon gathering data for ARM Streamline Performance Analyzer."
-SUMMARY  = "DS-5 Gator daemon"
-
 LICENSE = "GPL-2"
 LIC_FILES_CHKSUM = "file://driver/LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-
-inherit update-rc.d
+SRCREV = "b7d5d4453493920a30a4a872cefa6daeaa3fb925"
+PV = "5.18+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/arm/ds5/gator.git;protocol=http \
-           file://gator.init "
-
-SRCREV = "${AUTOREV}"
+           file://gator.init"
 
 S = "${WORKDIR}/git"
 
-PV = "5.15+git${SRCPV}"
-PR = "r1"
+inherit update-rc.d
 
 do_compile() {
     cd daemon
@@ -25,9 +21,7 @@ do_compile() {
 do_install() {
     install -D -p -m0755 daemon/gatord ${D}/${sbindir}/gatord
     install -D -p -m0755 ${WORKDIR}/gator.init ${D}/${sysconfdir}/init.d/gator
-
 }
 
 INITSCRIPT_NAME = "gator"
 INITSCRIPT_PARAMS = "defaults 66"
-
