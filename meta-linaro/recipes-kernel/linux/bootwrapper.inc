@@ -1,7 +1,7 @@
 SRC_URI_append= " git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;protocol=http;branch=master;name=bootwrapper;destsuffix=bootwrapper \
 "
 
-SRCREV_bootwrapper = "4266507a84f8c06452109d38e0350d4759740694"
+SRCREV_bootwrapper = "2ff0b45423226d3de898a52a81b8e90b20fecd60"
 BW = "${WORKDIR}/bootwrapper"
 DTBDIR="${S}/arch/arm64/boot/dts/"
 

@@ -11,5 +11,5 @@ SRC_URI = " \
 "
 S = "${WORKDIR}/git"
 
-SRCREV_ubuntu-ci = "cf2ec60533d65de4518b16e24e5a9a4735be1c22"
+SRCREV_ubuntu-ci = "96be0fe881ec11d47eee24357cf74a970288d208"
 SRCREV_FORMAT = "kernel"
