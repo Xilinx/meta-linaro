@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     lng-network-config \
     ltp \
     netperf \
+    openssh-sftp-server \
     openvswitch \
     packagegroup-core-buildessential \
     procps \
