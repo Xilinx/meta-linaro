@@ -2,7 +2,7 @@ require recipes-core/eglibc/eglibc.inc
 
 DEPENDS += "gperf-native kconfig-frontends-native"
 
-MMYY = "14.04"
+MMYY = "14.05"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
@@ -30,8 +30,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/eglibc-${PV}-${RELEASE}
            file://fix-tibetian-locales.patch \
           "
 
-SRC_URI[md5sum] = "4d9a406039cd33e14349a63773daac61"
-SRC_URI[sha256sum] = "2f22d15d4972d739854b0be7e4f16cc344c147d382ae10beed7c180003815e34"
+SRC_URI[md5sum] = "fa60b45f83f4cac6672e0d3640f3813a"
+SRC_URI[sha256sum] = "34c8032d8774229b617ab161f9c6eaf26d84cb7f42a276e6fc5f4f39d5c53d8e"
 
 LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
