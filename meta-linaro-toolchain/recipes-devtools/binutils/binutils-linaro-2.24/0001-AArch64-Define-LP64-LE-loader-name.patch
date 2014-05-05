@@ -8,21 +8,6 @@ Subject: [PATCH] [AArch64] Define LP64 LE loader name.
  ld/emulparams/aarch64linux.sh | 2 ++
  2 files changed, 6 insertions(+)
 
-Index: binutils-linaro-2.24-2014.03/ld/ChangeLog
-===================================================================
---- binutils-linaro-2.24-2014.03.orig/ld/ChangeLog
-+++ binutils-linaro-2.24-2014.03/ld/ChangeLog
-@@ -1,3 +1,10 @@
-+2014-03-19  Victor Kamensky  <victor.kamensky@linaro.org>
-+
-+	Backport from master
-+	2014-01-20  Marcus Shawcroft  <marcus.shawcroft@arm.com>
-+
-+	* emulparams/aarch64linux.sh (ELF_INTERPRETER_NAME): Define.
-+
- 2013-12-10  Roland McGrath  <mcgrathr@google.com>
- 
- 	* Makefile.am (install-exec-local): Prefix libtool invocation with
 Index: binutils-linaro-2.24-2014.03/ld/emulparams/aarch64linux.sh
 ===================================================================
 --- binutils-linaro-2.24-2014.03.orig/ld/emulparams/aarch64linux.sh
