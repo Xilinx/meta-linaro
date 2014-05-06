@@ -14,8 +14,6 @@ IMAGE_INSTALL += " \
     util-linux-fsck \
     "
 
-IMAGE_INSTALL_append_aarch64 = "libhugetlbfs"
-
 SDK_IMAGE_INSTALL += "\
     acpica \
     bison \
@@ -46,6 +44,7 @@ SDK_IMAGE_INSTALL += "\
     libc-client-dev \
     libdwarf-dev \
     libevent-fb \
+    libhugetlbfs \
     libmcrypt \
     libmemcached \
     libmysqlclient-r \
