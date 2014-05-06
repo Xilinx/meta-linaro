@@ -9,7 +9,7 @@ PV = "20140218+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "90ff428f30d770180b08dbd7b91b355ef1ecdaf9"
+SRCREV_odp = "e9464d9e3d4c008198cbf5eb728be54045aa4453"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
