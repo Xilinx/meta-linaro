@@ -13,5 +13,6 @@ IMAGE_INSTALL += "\
   openssh-sftp-server \
   rsync \
   tar \
+  util-linux \
   xz \
   "
