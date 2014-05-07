@@ -63,6 +63,11 @@ SDK_IMAGE_INSTALL += "\
     powerdebug \
     powertop \
     python \
+    python-misc \
+    python-multiprocessing \
+    python-scons \
+    python-shell \
+    python-threading \
     qemu \
     readline \
     sshfs-fuse \

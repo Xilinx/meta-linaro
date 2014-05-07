@@ -19,8 +19,6 @@ IMAGE_INSTALL += " \
     openjdk-8-jre \
     openjdk-8-jtreg \
     openjdk-8-source \
-    python-misc \
-    python-shell \
     sed \
     tmux \
     vim \
