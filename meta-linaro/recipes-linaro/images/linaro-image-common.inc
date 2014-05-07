@@ -3,14 +3,14 @@ inherit core-image
 IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 
 IMAGE_INSTALL += " \
+    bash \
     e2fsprogs-e2fsck \
     linaro-lava-tests \
-    sudo \
-    stress-dbg \
-    stress \
     nss-myhostname \
-    bash \
     procps \
+    stress \
+    stress-dbg \
+    sudo \
     util-linux-fsck \
     "
 
@@ -40,8 +40,8 @@ SDK_IMAGE_INSTALL += "\
     icu \
     idlestat \
     libbz2 \
-    libcap \
     libc-client-dev \
+    libcap \
     libdwarf-dev \
     libevent-fb \
     libhugetlbfs \
@@ -65,12 +65,12 @@ SDK_IMAGE_INSTALL += "\
     python \
     qemu \
     readline \
+    sshfs-fuse \
     tbb \
     trace-cmd \
+    xserver-xorg-xvfb \
     xz \
     zlib \
-    sshfs-fuse \
-    xserver-xorg-xvfb \
     "
 
 IMAGE_PREPROCESS_COMMAND += "make_boot_verbose; "
