@@ -5,6 +5,7 @@ IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 IMAGE_INSTALL += " \
     bash \
     e2fsprogs-e2fsck \
+    kexec-tools \
     linaro-lava-tests \
     nss-myhostname \
     procps \
