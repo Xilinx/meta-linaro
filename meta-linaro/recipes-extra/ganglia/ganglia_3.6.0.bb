@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "89eae02e1a117040d60b3b561fe55f88d7f8cf41b94af1492969ef68e6
 
 EXTRA_OECONF += "--with-gmetad"
 
-inherit autotools pythonnative update-rc.d
+inherit autotools-brokensep pythonnative update-rc.d
 
 # The ganglia autoconf setup doesn't include libmetrics in its
 # AC_OUTPUT list -- it reconfigures libmetrics using its own rules.
@@ -28,8 +28,8 @@ inherit autotools pythonnative update-rc.d
 # fail.  We explicitly force regeneration of that directory.
 
 do_configure_append() {
-       autoreconf -fvi
-       (cd libmetrics; autoreconf -fvi)
+       (cd ${S} ; autoreconf -fvi )
+       (cd ${S}/libmetrics ; autoreconf -fvi)
 }
 
 do_install_append() {
