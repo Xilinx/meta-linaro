@@ -1,41 +1,38 @@
-From 3d285550c826be5932807857b21b22d8296a8b4a Mon Sep 17 00:00:00 2001
-From: Geoff Levand <geoff@infradead.org>
-Date: Fri, 9 May 2014 13:45:10 -0700
+From 98215763db92c85668fd217cfc719322ce54e704 Mon Sep 17 00:00:00 2001
+From: Geoff Levand <geoff.levand@linaro.org>
+Date: Tue, 13 May 2014 10:59:52 -0700
 Subject: [PATCH 1/1] Add arm64 support
 
-Signed-off-by: Geoff Levand <geoff@infradead.org>
+Signed-off-by: Geoff Levand <geoff.levand@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- configure.ac                            |   3 +
- kexec/Makefile                          |   1 +
- kexec/arch/arm64/Makefile               |  31 +++++
- kexec/arch/arm64/include/arch/options.h |  30 +++++
- kexec/arch/arm64/kexec-arm64.c          | 228 ++++++++++++++++++++++++++++++++
- kexec/arch/arm64/kexec-arm64.h          |  28 ++++
- kexec/arch/arm64/kexec-elf-arm64.c      | 147 ++++++++++++++++++++
- kexec/kexec-syscall.h                   |   9 +-
- 8 files changed, 475 insertions(+), 2 deletions(-)
+ configure.ac                            |    3 
+ kexec/Makefile                          |    1 
+ kexec/arch/arm64/Makefile               |   31 +++++
+ kexec/arch/arm64/include/arch/options.h |   30 ++++
+ kexec/arch/arm64/kexec-arm64.c          |  194 ++++++++++++++++++++++++++++++++
+ kexec/arch/arm64/kexec-arm64.h          |   28 ++++
+ kexec/arch/arm64/kexec-elf-arm64.c      |  147 ++++++++++++++++++++++++
+ kexec/kexec-syscall.h                   |    9 +
+ 8 files changed, 441 insertions(+), 2 deletions(-)
  create mode 100644 kexec/arch/arm64/Makefile
  create mode 100644 kexec/arch/arm64/include/arch/options.h
  create mode 100644 kexec/arch/arm64/kexec-arm64.c
  create mode 100644 kexec/arch/arm64/kexec-arm64.h
  create mode 100644 kexec/arch/arm64/kexec-elf-arm64.c
 
-diff --git a/configure.ac b/configure.ac
-index 31d1bbe..c6e8bd6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -35,6 +35,9 @@ case $target_cpu in
  		ARCH="ppc64"
  		SUBARCH="LE"
  		;;
-+	aarch64 )
++	aarch64* )
 +		ARCH="arm64"
 +		;;
  	arm* )
  		ARCH="arm"
  		;;
-diff --git a/kexec/Makefile b/kexec/Makefile
-index 7d3175b..9777ec3 100644
 --- a/kexec/Makefile
 +++ b/kexec/Makefile
 @@ -71,6 +71,7 @@ KEXEC_SRCS			+= $($(ARCH)_FS2DT)
@@ -46,9 +43,6 @@ index 7d3175b..9777ec3 100644
  include $(srcdir)/kexec/arch/i386/Makefile
  include $(srcdir)/kexec/arch/ia64/Makefile
  include $(srcdir)/kexec/arch/m68k/Makefile
-diff --git a/kexec/arch/arm64/Makefile b/kexec/arch/arm64/Makefile
-new file mode 100644
-index 0000000..6c6a8e9
 --- /dev/null
 +++ b/kexec/arch/arm64/Makefile
 @@ -0,0 +1,31 @@
@@ -83,9 +77,6 @@ index 0000000..6c6a8e9
 +arm64_KEXEC_SRCS += $(libfdt_SRCS)
 +
 +endif
-diff --git a/kexec/arch/arm64/include/arch/options.h b/kexec/arch/arm64/include/arch/options.h
-new file mode 100644
-index 0000000..c9a0287
 --- /dev/null
 +++ b/kexec/arch/arm64/include/arch/options.h
 @@ -0,0 +1,30 @@
@@ -119,20 +110,19 @@ index 0000000..c9a0287
 +struct arm64_opts arm64_opts;
 +
 +#endif /* KEXEC_ARCH_ARM64_OPTIONS_H */
-diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-new file mode 100644
-index 0000000..e02c38d
 --- /dev/null
 +++ b/kexec/arch/arm64/kexec-arm64.c
-@@ -0,0 +1,228 @@
+@@ -0,0 +1,194 @@
 +/*
 + * ARM64 kexec support.
 + */
 +
 +#define _GNU_SOURCE
 +
++#include <dirent.h>
 +#include <errno.h>
 +#include <getopt.h>
++#include <stdio.h>
 +#include <stddef.h>
 +
 +//#include <linux/kexec.h>
@@ -210,26 +200,20 @@ index 0000000..e02c38d
 +	return 0;
 +}
 +
-+int is_crashkernel_mem_reserved(void)
-+{
-+	return 0; /* TODO: kdump not implemented yet. */
-+}
-+
 +void arch_reuse_initrd(void)
 +{
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
 +	reuse_initrd = 1;
 +}
 +
-+void arch_update_purgatory(struct kexec_info *UNUSED(info))
++unsigned long virt_to_phys(unsigned long v)
 +{
-+	fprintf(stderr, "%s:%d: do\n", __func__, __LINE__);
-+}
-+
-+unsigned long virt_to_phys(unsigned long addr)
-+{
-+	fprintf(stderr, "%s:%d: %016lx -> %016lx\n", __func__, __LINE__, addr,
-+		addr + 0x080000000UL);
-+	return addr + 0x080000000UL;
++	const unsigned long memstart_addr = 0x080000000UL;  // FIXME: get from memory_range/DT
++	const unsigned long page_offset = 0xffffffc000000000UL; // FIXME: from where???
++	unsigned long p = (v & ~page_offset) + memstart_addr;
++	
++	fprintf(stderr, "%s:%d: %016lx -> %016lx\n", __func__, __LINE__, v, p);
++	return p;
 +}
 +
 +void add_segment(struct kexec_info *info, const void *buf, size_t bufsz,
@@ -240,9 +224,10 @@ index 0000000..e02c38d
 +	fprintf(stderr, "%s:%d: <-\n", __func__, __LINE__);
 +}
 +
-+static int get_memory_ranges_1(struct memory_range **range, int *ranges,
++int get_memory_ranges(struct memory_range **range, int *ranges,
 +			unsigned long kexec_flags)
 +{
++	/* FIXME: Should get this info from device tree. */
 +	static struct memory_range memory_range[KEXEC_SEGMENT_MAX];
 +	const char *iomem;
 +	int range_count = 0;
@@ -253,8 +238,7 @@ index 0000000..e02c38d
 +	fp = fopen(iomem, "r");
 +
 +	if (!fp) {
-+		fprintf(stderr, "Cannot open %s: %s\n",
-+			iomem, strerror(errno));
++		fprintf(stderr, "Cannot open %s: %s\n", iomem, strerror(errno));
 +		return -1;
 +	}
 +
@@ -295,33 +279,6 @@ index 0000000..e02c38d
 +	return 0;
 +}
 +
-+static int get_memory_ranges_2(struct memory_range **range, int *ranges,
-+		      unsigned long UNUSED(kexec_flags))
-+{
-+	static struct memory_range memory_range[2];
-+
-+	memory_range[0].start = 0x080000000;
-+	memory_range[0].end   = 0x100000000;
-+	memory_range[0].type = RANGE_RAM;
-+
-+	memory_range[1].start = 0x900000000;
-+	memory_range[1].end   = 0x880000000;
-+	memory_range[1].type = RANGE_RAM;
-+
-+	*range = memory_range;
-+	*ranges = sizeof(memory_range) / sizeof(memory_range[0]);
-+
-+	return 0;
-+}
-+
-+int get_memory_ranges(struct memory_range **range, int *ranges,
-+			unsigned long kexec_flags)
-+{
-+	/* FIXME: Should get this info from device tree. */
-+	
-+	return get_memory_ranges_1(range, ranges, kexec_flags);
-+}
-+
 +struct file_type file_type[] = {
 +	{ "elf-arm64", elf_arm64_probe, elf_arm64_load, elf_arm64_usage },
 +};
@@ -330,32 +287,26 @@ index 0000000..e02c38d
 +
 +int arch_compat_trampoline(struct kexec_info *info)
 +{
-+	fprintf(stderr, "%s:%d: do\n", __func__, __LINE__);
 +	return 0;
 +}
-+
-+
 +int machine_verify_elf_rel(struct mem_ehdr *ehdr)
 +{
-+	(void)ehdr;
-+
-+	fprintf(stderr, "%s:%d: do\n", __func__, __LINE__);
 +	return 0;
 +}
 +
 +void machine_apply_elf_rel(struct mem_ehdr *ehdr, unsigned long r_type,
 +	void *location, unsigned long address, unsigned long value)
 +{
-+	(void)ehdr;
-+	(void)r_type;
-+	(void)location;
-+	(void)address;
-+	(void)value;
-+	fprintf(stderr, "%s:%d: do\n", __func__, __LINE__);
 +}
-diff --git a/kexec/arch/arm64/kexec-arm64.h b/kexec/arch/arm64/kexec-arm64.h
-new file mode 100644
-index 0000000..673d525
++
++void arch_update_purgatory(struct kexec_info *UNUSED(info))
++{
++}
++
++int is_crashkernel_mem_reserved(void)
++{
++	return 0;
++}
 --- /dev/null
 +++ b/kexec/arch/arm64/kexec-arm64.h
 @@ -0,0 +1,28 @@
@@ -387,9 +338,6 @@ index 0000000..673d525
 +off_t initrd_size;
 +
 +#endif
-diff --git a/kexec/arch/arm64/kexec-elf-arm64.c b/kexec/arch/arm64/kexec-elf-arm64.c
-new file mode 100644
-index 0000000..b267a15
 --- /dev/null
 +++ b/kexec/arch/arm64/kexec-elf-arm64.c
 @@ -0,0 +1,147 @@
@@ -540,8 +488,6 @@ index 0000000..b267a15
 +{
 +	fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 +}
-diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
-index 6238044..ccca19c 100644
 --- a/kexec/kexec-syscall.h
 +++ b/kexec/kexec-syscall.h
 @@ -39,8 +39,8 @@
@@ -555,7 +501,7 @@ index 6238044..ccca19c 100644
  #endif
  #if defined(__mips__)
  #define __NR_kexec_load                4311
-@@ -76,6 +76,8 @@ static inline long kexec_load(void *entry, unsigned long nr_segments,
+@@ -76,6 +76,8 @@ static inline long kexec_load(void *entr
  #define KEXEC_ARCH_PPC64   (21 << 16)
  #define KEXEC_ARCH_IA_64   (50 << 16)
  #define KEXEC_ARCH_ARM     (40 << 16)
@@ -564,7 +510,7 @@ index 6238044..ccca19c 100644
  #define KEXEC_ARCH_S390    (22 << 16)
  #define KEXEC_ARCH_SH      (42 << 16)
  #define KEXEC_ARCH_MIPS_LE (10 << 16)
-@@ -121,5 +123,8 @@ static inline long kexec_load(void *entry, unsigned long nr_segments,
+@@ -121,5 +123,8 @@ static inline long kexec_load(void *entr
  #ifdef __m68k__
  #define KEXEC_ARCH_NATIVE	KEXEC_ARCH_68K
  #endif
@@ -573,6 +519,3 @@ index 6238044..ccca19c 100644
 +#endif
  
  #endif /* KEXEC_SYSCALL_H */
--- 
-1.9.3
-
