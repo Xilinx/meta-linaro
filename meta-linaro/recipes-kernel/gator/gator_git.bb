@@ -12,10 +12,11 @@ S = "${WORKDIR}/git"
 
 inherit update-rc.d
 
+EXTRA_OEMAKE = "'CFLAGS=${CFLAGS} ${TARGET_CC_ARCH} -DETCDIR=\"${sysconfdir}\"' \
+    'LDFLAGS=${LDFLAGS} ${TARGET_CC_ARCH}' 'CROSS_COMPILE=${TARGET_PREFIX}'"
+
 do_compile() {
-    cd daemon
-    # aarch64 makefile will work just fine for any arch
-    make -f Makefile_aarch64 CROSS_COMPILE=${TARGET_PREFIX} SYSROOT=${STAGING_DIR_TARGET}
+    oe_runmake -C daemon
 }
 
 do_install() {
