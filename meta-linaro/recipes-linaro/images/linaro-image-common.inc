@@ -45,7 +45,7 @@ SDK_IMAGE_INSTALL += "\
     libcap \
     libdwarf-dev \
     libevent-fb \
-    libhugetlbfs \
+    libhugetlbfs-tests \
     libmcrypt \
     libmemcached \
     libmysqlclient-r \
