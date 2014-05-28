@@ -35,6 +35,10 @@ IMAGE_INSTALL_append_aarch64 = " \
     trinity-example \
     "
 
+IMAGE_INSTALL_append_qemux86 = " \
+    odp \
+    "
+
 IMAGE_FEATURES += "\
     dev-pkgs \
     staticdev-pkgs \
