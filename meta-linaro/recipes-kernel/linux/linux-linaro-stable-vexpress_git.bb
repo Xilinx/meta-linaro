@@ -1,7 +1,7 @@
 DESCRIPTION = "Linaro Stable Kernel For Vexpress/KVM"
 
 PV = "3.10+git${SRCPV}"
-SRCREV_kernel="70830c6164e73518b82719e1e73746cfc984c4dd"
+SRCREV_kernel="ab92a02edbb43489df67e945e35c82d723a28e2b"
 SRC_URI_append = " git://git.linaro.org/git/kernel/linux-linaro-stable.git;protocol=http;branch=linux-linaro-lsk;name=kernel "
 require linaro-kernel.inc
 
