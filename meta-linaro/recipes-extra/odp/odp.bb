@@ -5,7 +5,7 @@ SECTION = "console/tools"
 
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4ccfa994aa96974cfcd39a59faee20a2"
-PV = "20140218+git${SRCPV}"
+PV = "20140605+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
