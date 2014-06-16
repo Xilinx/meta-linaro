@@ -17,7 +17,10 @@ SRC_URI = "\
 SRC_URI[md5sum] = "05926bb18c22af508a3718a90b2e9a2c"
 SRC_URI[sha256sum] = "89eae02e1a117040d60b3b561fe55f88d7f8cf41b94af1492969ef68e6797886"
 
-EXTRA_OECONF += "--with-gmetad"
+EXTRA_OECONF += " \
+                 --with-gmetad \
+                 --disable-python \
+                "
 
 inherit autotools-brokensep pythonnative update-rc.d
 
