@@ -50,6 +50,10 @@ PRIVATE_LIBS = "\
 JAVA_HOME[unexport] = "1"
 S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
+# The compiler tests in do_configure seem to drop TARGET_CC_ARCH from $CC, so add it into CFLAGS.
+CFLAGS =+ "${TARGET_CC_ARCH}"
+CXXFLAGS =+ "${TARGET_CC_ARCH}"
+
 do_configure() {
 	unset MAKE
 	bash ./configure --with-debug-level=release --with-jvm-variants=client,server --with-sys-root=${STAGING_DIR_TARGET} --openjdk-target=${TARGET_SYS} --with-zlib=system --with-stdc++lib=dynamic --disable-ccache --disable-zip-debug-info
