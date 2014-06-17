@@ -9,13 +9,13 @@ PV = "20140616+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "7a4d8abacd7535c4caa8913a5f4a6d295973b2b8"
+SRCREV_odp = "eacddcf867f53cc7ebc2ede1faf83ec40f4ea9f7"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""
-EXTRA_OEMAKE = "CC='${CC}'"
+EXTRA_OEMAKE = "CC='${CC}' ODP_RELOC=yes "
 
 do_install() {
 	oe_runmake tests_install DESTDIR=${D}${prefix}
