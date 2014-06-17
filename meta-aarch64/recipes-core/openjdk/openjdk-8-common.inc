@@ -47,6 +47,7 @@ PRIVATE_LIBS = "\
 	libwaiters.so libhprof.so \
        "
 
+COMPATIBLE_HOST = "(aarch64).*-linux"
 JAVA_HOME[unexport] = "1"
 S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
