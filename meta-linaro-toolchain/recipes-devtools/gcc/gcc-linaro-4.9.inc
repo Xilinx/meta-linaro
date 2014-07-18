@@ -1,8 +1,8 @@
 require recipes-devtools/gcc/gcc-4.9.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.06"
-RELEASE = "20${MMYY}-1"
+MMYY = "14.07"
+RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.9.1"
 
@@ -52,12 +52,14 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
            file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
            file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
            file://0051-eabispe.patch \
+           file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch;apply=no \
+           file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
            file://AArch64-Define-BE-loader-name-default-be.patch \
            file://use-lib-for-aarch64.patch \
           "
 
-SRC_URI[md5sum] = "d2a0e0a7ed23edba0c506899d2e26e29"
-SRC_URI[sha256sum] = "eacd202da0fcdef391479ef8a4e5961e803b07369ae9ce59202f045719341492"
+SRC_URI[md5sum] = "95fbe1f1933aa157ec9e083419b8dd88"
+SRC_URI[sha256sum] = "d5d11b7356fd351532396c81e1d7a390842806b31ef288a6ac13c53a45a0c62d"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
