@@ -5,6 +5,7 @@ IMAGE_INSTALL += " \
     bridge-utils \
     calibrator \
     curl \
+    cronie \
     fping \
     git \
     lmbench \
