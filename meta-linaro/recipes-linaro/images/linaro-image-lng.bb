@@ -7,6 +7,7 @@ IMAGE_INSTALL += " \
     curl \
     fping \
     git \
+    libhugetlbfs-tests \
     lmbench \
     lng-network-config \
     ltp \
