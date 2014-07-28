@@ -4,7 +4,7 @@ DESCRIPTION = "A Lamp-based image for Linaro Enterprise Java validation."
 
 IMAGE_INSTALL += " \
     alsa-conf \
-    alsa-dev \
+    alsa-lib-dev \
     alsa-lib \
     alsa-oss \
     alsa-utils-alsaconf \
