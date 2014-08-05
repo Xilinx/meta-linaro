@@ -5,10 +5,25 @@ SRCREV_bootwrapper = "2ff0b45423226d3de898a52a81b8e90b20fecd60"
 BW = "${WORKDIR}/bootwrapper"
 DTBDIR="${S}/arch/arm64/boot/dts/"
 
+# Bootwrapper needs libgcc_s.so
+DEPENDS =+ "libgcc"
+
+export WRAPCFLAGS = "${CFLAGS}"
+export WRAPCPPFLAGS = "${CPPFLAGS}"
+export WRAPCXXFLAGS = "${CXXFLAGS}"
+export WRAPLDFLAGS = "${LDFLAGS}"
+
 do_compile_append() {
     cd ${S}
     oe_runmake dtbs
     cd ${BW}
+
+    # Ensure the compile can find libgcc.a and other userspace friends
+    export CFLAGS="${WRAPCFLAGS}"
+    export CPPFLAGS="${WRAPCPPFLAGS}"
+    export CXXFLAGS="${WRAPCXXFLAGS}"
+    export LDFLAGS="${WRAPLDFLAGS}"
+
     autoreconf -vfi
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${S}" \
