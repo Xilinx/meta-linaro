@@ -2,7 +2,7 @@ require recipes-core/eglibc/eglibc.inc
 
 DEPENDS += "gperf-native kconfig-frontends-native"
 
-MMYY = "14.07"
+MMYY = "14.08"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
@@ -34,8 +34,8 @@ SRC_URI = "http://cbuild.validation.linaro.org/snapshots/eglibc-${PV}-${RELEASE}
            file://timezone-re-written-tzselect-as-posix-sh.patch \
           "
 
-SRC_URI[md5sum] = "c42d9c78fcdab4c7fea861674e480583"
-SRC_URI[sha256sum] = "5dbe31c1abf1eb4305a39d4be468a8c38d0bf5232abfff8ab0afbb24b542b8f5"
+SRC_URI[md5sum] = "f4f66db3745273367d9f2901d449e3f4"
+SRC_URI[sha256sum] = "d792b859c356d99a49b94042cb7aa71758b840173d85286d5e66d994ce036384"
 
 LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
