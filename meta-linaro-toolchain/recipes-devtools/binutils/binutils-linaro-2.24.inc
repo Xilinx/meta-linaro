@@ -1,6 +1,6 @@
 BPV = "2.24.0"
-MMYY = "14.07"
-RELEASE = "20${MMYY}-1"
+MMYY = "14.08"
+RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
 LIC_FILES_CHKSUM="\
@@ -37,7 +37,7 @@ SRC_URI = "\
      file://0001-AArch64-Define-LP64-BE-linker-name.patch \
      "
 
-SRC_URI[md5sum] = "6cc269df999c1f95b019a223f28651d5"
-SRC_URI[sha256sum] = "18b4315e5a92ad25c2ea8224bbfa3f605345e238adf3801d1b93c82c55005f42"
+SRC_URI[md5sum] = "56419b23e337bbfc3dce6d977ccb07c7"
+SRC_URI[sha256sum] = "59c01b16557a47ad79e45422ada85baa53477ec6d2618ed4790a56622343bc02"
 
 S = "${WORKDIR}/binutils-linaro-${BPV}-${RELEASE}"
