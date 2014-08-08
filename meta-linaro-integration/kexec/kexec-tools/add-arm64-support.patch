@@ -1,0 +1,521 @@
+From 98215763db92c85668fd217cfc719322ce54e704 Mon Sep 17 00:00:00 2001
+From: Geoff Levand <geoff.levand@linaro.org>
+Date: Tue, 13 May 2014 10:59:52 -0700
+Subject: [PATCH 1/1] Add arm64 support
+
+Signed-off-by: Geoff Levand <geoff.levand@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ configure.ac                            |    3 
+ kexec/Makefile                          |    1 
+ kexec/arch/arm64/Makefile               |   31 +++++
+ kexec/arch/arm64/include/arch/options.h |   30 ++++
+ kexec/arch/arm64/kexec-arm64.c          |  194 ++++++++++++++++++++++++++++++++
+ kexec/arch/arm64/kexec-arm64.h          |   28 ++++
+ kexec/arch/arm64/kexec-elf-arm64.c      |  147 ++++++++++++++++++++++++
+ kexec/kexec-syscall.h                   |    9 +
+ 8 files changed, 441 insertions(+), 2 deletions(-)
+ create mode 100644 kexec/arch/arm64/Makefile
+ create mode 100644 kexec/arch/arm64/include/arch/options.h
+ create mode 100644 kexec/arch/arm64/kexec-arm64.c
+ create mode 100644 kexec/arch/arm64/kexec-arm64.h
+ create mode 100644 kexec/arch/arm64/kexec-elf-arm64.c
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -35,6 +35,9 @@ case $target_cpu in
+ 		ARCH="ppc64"
+ 		SUBARCH="LE"
+ 		;;
++	aarch64* )
++		ARCH="arm64"
++		;;
+ 	arm* )
+ 		ARCH="arm"
+ 		;;
+--- a/kexec/Makefile
++++ b/kexec/Makefile
+@@ -71,6 +71,7 @@ KEXEC_SRCS			+= $($(ARCH)_FS2DT)
+ 
+ include $(srcdir)/kexec/arch/alpha/Makefile
+ include $(srcdir)/kexec/arch/arm/Makefile
++include $(srcdir)/kexec/arch/arm64/Makefile
+ include $(srcdir)/kexec/arch/i386/Makefile
+ include $(srcdir)/kexec/arch/ia64/Makefile
+ include $(srcdir)/kexec/arch/m68k/Makefile
+--- /dev/null
++++ b/kexec/arch/arm64/Makefile
+@@ -0,0 +1,31 @@
++
++arm64_FS2DT += kexec/fs2dt.c
++arm64_FS2DT_INCLUDE += -include $(srcdir)/kexec/arch/arm64/kexec-arm64.h
++
++arm64_KEXEC_SRCS += \
++	kexec/arch/arm64/kexec-arm64.c \
++	kexec/arch/arm64/kexec-elf-arm64.c
++
++arm64_ARCH_REUSE_INITRD =
++arm64_ADD_SEGMENT =
++arm64_VIRT_TO_PHYS =
++
++dist += $(arm64_KEXEC_SRCS) \
++	kexec/arch/arm64/Makefile \
++	kexec/arch/arm64/kexec-arm64.h
++
++ifdef HAVE_LIBFDT
++
++LIBS += -lfdt
++
++else
++
++include $(srcdir)/kexec/libfdt/Makefile.libfdt
++
++libfdt_SRCS += $(LIBFDT_SRCS:%=kexec/libfdt/%)
++
++arm64_CPPFLAGS = -I$(srcdir)/kexec/libfdt
++
++arm64_KEXEC_SRCS += $(libfdt_SRCS)
++
++endif
+--- /dev/null
++++ b/kexec/arch/arm64/include/arch/options.h
+@@ -0,0 +1,30 @@
++#ifndef KEXEC_ARCH_ARM64_OPTIONS_H
++#define KEXEC_ARCH_ARM64_OPTIONS_H
++
++#define OPT_APPEND	((OPT_MAX)+0)
++#define OPT_RAMDISK	((OPT_MAX)+1)
++#define OPT_DTB		((OPT_MAX)+2)
++#define OPT_ARCH_MAX	((OPT_MAX)+3)
++
++#define KEXEC_ARCH_OPTIONS \
++	KEXEC_OPTIONS \
++	{ "append",       1, NULL, OPT_APPEND }, \
++	{ "command-line", 1, NULL, OPT_APPEND }, \
++	{ "dtb",          1, NULL, OPT_DTB }, \
++	{ "initrd",       1, NULL, OPT_RAMDISK }, \
++	{ "ramdisk",      1, NULL, OPT_RAMDISK }, \
++
++#define KEXEC_ARCH_OPT_STR KEXEC_OPT_STR /* Only accept long arch options. */
++
++#define KEXEC_ALL_OPTIONS KEXEC_ARCH_OPTIONS
++#define KEXEC_ALL_OPT_STR KEXEC_ARCH_OPT_STR
++
++struct arm64_opts {
++	const char *command_line;
++	const char *ramdisk;
++	const char *dtb;
++};
++
++struct arm64_opts arm64_opts;
++
++#endif /* KEXEC_ARCH_ARM64_OPTIONS_H */
+--- /dev/null
++++ b/kexec/arch/arm64/kexec-arm64.c
+@@ -0,0 +1,194 @@
++/*
++ * ARM64 kexec support.
++ */
++
++#define _GNU_SOURCE
++
++#include <dirent.h>
++#include <errno.h>
++#include <getopt.h>
++#include <stdio.h>
++#include <stddef.h>
++
++//#include <linux/kexec.h>
++
++#include "../../kexec.h"
++#include "../../kexec-syscall.h"
++#include "kexec-arm64.h"
++#include "arch/options.h"
++
++/* Global varables the core kexec routines expect. */
++
++unsigned char reuse_initrd;
++off_t initrd_base = 0;
++off_t initrd_size = 0;
++
++struct memory_ranges usablemem_rgns = {
++};
++
++const struct arch_map_entry arches[] = {
++	{ "aarch64", KEXEC_ARCH_ARM64 },
++	{ NULL, 0 },
++};
++
++/* arm64 global varables. */
++
++struct arm64_opts arm64_opts;
++
++void arch_usage(void)
++{
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
++
++	printf(
++"     --append=STRING       Set the kernel command line to STRING.\n"
++"     --command-line=STRING Set the kernel command line to STRING.\n"
++"     --dtb=FILE            Use FILE as the device tree blob.\n"
++"     --initrd=FILE         Use FILE as the kernel initial ramdisk.\n"
++"     --ramdisk=FILE        Use FILE as the kernel initial ramdisk.\n");
++
++	fprintf(stderr, "%s:%d: <-\n", __func__, __LINE__);
++}
++
++int arch_process_options(int argc, char **argv)
++{
++	static const char short_options[] = KEXEC_OPT_STR "";
++	static const struct option options[] = {
++		KEXEC_ARCH_OPTIONS
++		{ 0 }
++	};
++	int opt;
++
++	for (opt = 0; opt != -1; ) {
++		opt = getopt_long(argc, argv, short_options, options, 0);
++
++		switch (opt) {
++		case OPT_APPEND:
++			arm64_opts.command_line = optarg;
++			break;
++		case OPT_RAMDISK:
++			arm64_opts.ramdisk = optarg;
++			break;
++		case OPT_DTB:
++			arm64_opts.dtb = optarg;
++			break;
++		default:
++			break; /* Ignore core and unknown options */
++		}
++	}
++
++	dbgprintf("%s:%d: command_line: %s\n", __func__, __LINE__,
++		arm64_opts.command_line);
++	dbgprintf("%s:%d: ramdisk: %s\n", __func__, __LINE__,
++		arm64_opts.ramdisk);
++	dbgprintf("%s:%d: dtb: %s\n", __func__, __LINE__, arm64_opts.dtb);
++
++	return 0;
++}
++
++void arch_reuse_initrd(void)
++{
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
++	reuse_initrd = 1;
++}
++
++unsigned long virt_to_phys(unsigned long v)
++{
++	const unsigned long memstart_addr = 0x080000000UL;  // FIXME: get from memory_range/DT
++	const unsigned long page_offset = 0xffffffc000000000UL; // FIXME: from where???
++	unsigned long p = (v & ~page_offset) + memstart_addr;
++	
++	fprintf(stderr, "%s:%d: %016lx -> %016lx\n", __func__, __LINE__, v, p);
++	return p;
++}
++
++void add_segment(struct kexec_info *info, const void *buf, size_t bufsz,
++	unsigned long base, size_t memsz)
++{
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
++	add_segment_phys_virt(info, buf, bufsz, base, memsz, 1);
++	fprintf(stderr, "%s:%d: <-\n", __func__, __LINE__);
++}
++
++int get_memory_ranges(struct memory_range **range, int *ranges,
++			unsigned long kexec_flags)
++{
++	/* FIXME: Should get this info from device tree. */
++	static struct memory_range memory_range[KEXEC_SEGMENT_MAX];
++	const char *iomem;
++	int range_count = 0;
++	char line[MAX_LINE];
++	FILE *fp;
++
++	iomem = proc_iomem();
++	fp = fopen(iomem, "r");
++
++	if (!fp) {
++		fprintf(stderr, "Cannot open %s: %s\n", iomem, strerror(errno));
++		return -1;
++	}
++
++	dbgprintf("memory ranges:\n");
++
++	while(fgets(line, sizeof(line), fp) != 0) {
++		struct memory_range r;
++		char *str;
++		int consumed;
++
++		if (range_count >= KEXEC_SEGMENT_MAX)
++			break;
++
++		if (sscanf(line, "%Lx-%Lx : %n", &r.start, &r.end, &consumed)
++			!= 2)
++			continue;
++
++		str = line + consumed;
++		r.end++;
++
++		if (memcmp(str, "System RAM\n", 11)) {
++			dbgprintf(" Skip: %016Lx - %016Lx : %s", r.start, r.end,
++				str);
++			continue;
++		}
++
++		r.type = RANGE_RAM;
++		memory_range[range_count] = r;
++		range_count++;
++
++		dbgprintf(" Add:  %016Lx - %016Lx : %s", r.start, r.end, str);
++	}
++
++	fclose(fp);
++	*range = memory_range;
++	*ranges = range_count;
++
++	return 0;
++}
++
++struct file_type file_type[] = {
++	{ "elf-arm64", elf_arm64_probe, elf_arm64_load, elf_arm64_usage },
++};
++
++int file_types = sizeof(file_type) / sizeof(file_type[0]);
++
++int arch_compat_trampoline(struct kexec_info *info)
++{
++	return 0;
++}
++int machine_verify_elf_rel(struct mem_ehdr *ehdr)
++{
++	return 0;
++}
++
++void machine_apply_elf_rel(struct mem_ehdr *ehdr, unsigned long r_type,
++	void *location, unsigned long address, unsigned long value)
++{
++}
++
++void arch_update_purgatory(struct kexec_info *UNUSED(info))
++{
++}
++
++int is_crashkernel_mem_reserved(void)
++{
++	return 0;
++}
+--- /dev/null
++++ b/kexec/arch/arm64/kexec-arm64.h
+@@ -0,0 +1,28 @@
++/*
++ * ARM64 kexec support.
++ */
++
++#if !defined(KEXEC_ARM64_H)
++#define KEXEC_ARM64_H
++
++/* #include <linux/kexec.h> FIXME: this is broken */
++#include <sys/types.h>
++
++#include "../../kexec.h"
++
++#define KEXEC_SEGMENT_MAX 16 /* FIXME: this should come from <linux/kexec.h> */
++
++#define BOOT_BLOCK_VERSION 17
++#define BOOT_BLOCK_LAST_COMP_VERSION 16
++#define COMMAND_LINE_SIZE 512
++
++int elf_arm64_probe(const char *buf, off_t len);
++int elf_arm64_load(int argc, char **argv, const char *buf, off_t len,
++	struct kexec_info *info);
++void elf_arm64_usage(void);
++
++struct memory_ranges usablemem_rgns;
++off_t initrd_base;
++off_t initrd_size;
++
++#endif
+--- /dev/null
++++ b/kexec/arch/arm64/kexec-elf-arm64.c
+@@ -0,0 +1,147 @@
++/*
++ * ARM64 kexec support.
++ */
++
++#define _GNU_SOURCE
++
++#include <elf.h>
++#include <getopt.h>
++#include <libfdt.h>
++
++#include "kexec-arm64.h"
++
++#include "../../kexec-syscall.h"
++#include "../../fs2dt.h"
++
++#include "arch/options.h"
++
++#if !defined(EM_AARCH64)
++# define EM_AARCH64 183
++#endif
++
++int elf_arm64_probe(const char *buf, off_t len)
++{
++	int result;
++	struct mem_ehdr ehdr;
++
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
++	
++	result = build_elf_exec_info(buf, len, &ehdr, 0);
++
++	if (result < 0) {
++		dbgprintf("Not an ELF executable\n");
++		goto out;
++	}
++
++	if (ehdr.e_machine != EM_AARCH64) {
++		dbgprintf("Not an AARCH64 executable\n");
++		result = -1;
++		goto out;
++	}
++
++	result = 0;
++
++out:
++	free_elf_info(&ehdr);
++	fprintf(stderr, "%s:%d: <-\n", __func__, __LINE__);
++	return result;
++}
++
++static off_t round_up(off_t v)
++{
++	return _ALIGN_DOWN(v + getpagesize(), getpagesize());
++}
++
++int elf_arm64_load(int argc, char **argv, const char *buf, off_t len,
++			struct kexec_info *info)
++{
++	char *dtb_buf;
++	off_t dtb_base;
++	off_t dtb_size;
++	struct mem_ehdr ehdr;
++	int result;
++	//unsigned int command_line_len = strlen(arm64_opts.command_line) + 1;
++
++	fprintf(stderr, "%s:%d: ->\n", __func__, __LINE__);
++
++	if (info->kexec_flags & KEXEC_ON_CRASH) {
++		fprintf(stderr, "kexec: kdump not yet supported on arm64\n");
++		return -1;
++	}
++
++	result = build_elf_exec_info(buf, len, &ehdr, 0);
++
++	if (result < 0) {
++		free_elf_info(&ehdr);
++		fprintf(stderr, "%s:%d: build_elf_exec_info failed\n", __func__,
++			__LINE__);
++		return result;
++	}
++
++	elf_exec_build_load(info, &ehdr, buf, len, 0);
++
++	info->entry = (void*)0x80080000UL;  // FIXME
++
++	initrd_base = 0;
++	initrd_size = 0;
++
++	if (arm64_opts.ramdisk) {
++		char *buf;
++
++		buf = slurp_file(arm64_opts.ramdisk, &initrd_size);
++		
++		if (!buf)
++			fprintf(stderr, "kexec: empty ramdisk file\n");
++		else {
++			initrd_base = locate_hole(info, initrd_size, 0, 0, -1, -1);
++
++			add_segment_phys_virt(info, buf, initrd_size, initrd_base,
++				initrd_size, 0);
++		}
++	}
++
++	fprintf(stderr, "%s:%d: initrd_base: %lx, initrd_size: %lx\n", __func__,
++		__LINE__, (unsigned long)initrd_base, (unsigned long)initrd_size);
++
++	if (arm64_opts.dtb)
++		dtb_buf = slurp_file(arm64_opts.dtb, &dtb_size);
++	else
++		create_flatten_tree(&dtb_buf, &dtb_size,
++			arm64_opts.command_line);
++
++	fprintf(stderr, "%s:%d: dt magic: %x : %x\n", __func__, __LINE__,
++		fdt32_to_cpu(*(uint32_t*)dtb_buf), *(uint32_t*)dtb_buf);
++
++	result = fdt_check_header(dtb_buf);
++	
++	if (result) {
++		fprintf(stderr, "Invalid FDT.\n");
++		return -1;
++	}
++
++	if (arm64_opts.command_line) {
++		// FIXME: need to handle command line...
++		fprintf(stderr, "%s:%d: command line support TODO\n", __func__, __LINE__);
++	}
++
++if (1) {
++	dtb_base = (unsigned long)info->entry + round_up(0xA43FA0); // computed kernel mem size.
++
++	fprintf(stderr, "%s:%d: dtb_base: %lx, dtb_size: %lx\n", __func__,
++		__LINE__, (unsigned long)dtb_base, (unsigned long)dtb_size);
++} else {
++	dtb_base = locate_hole(info, dtb_size, 0, 0, -1, -1);
++
++	fprintf(stderr, "%s:%d: dtb_base: %lx, dtb_size: %lx\n", __func__,
++		__LINE__, (unsigned long)dtb_base, (unsigned long)dtb_size);
++}
++	add_segment_phys_virt(info, dtb_buf, dtb_size, dtb_base, dtb_size, 0);
++
++	fprintf(stderr, "%s:%d: <-\n", __func__, __LINE__);
++	return 0;
++}
++
++void elf_arm64_usage(void)
++{
++	fprintf(stderr, "%s:%d\n", __func__, __LINE__);
++}
+--- a/kexec/kexec-syscall.h
++++ b/kexec/kexec-syscall.h
+@@ -39,8 +39,8 @@
+ #ifdef __s390__
+ #define __NR_kexec_load		277
+ #endif
+-#ifdef __arm__
+-#define __NR_kexec_load		__NR_SYSCALL_BASE + 347  
++#if defined(__arm__) || defined(__arm64__)
++#define __NR_kexec_load		__NR_SYSCALL_BASE + 347
+ #endif
+ #if defined(__mips__)
+ #define __NR_kexec_load                4311
+@@ -76,6 +76,8 @@ static inline long kexec_load(void *entr
+ #define KEXEC_ARCH_PPC64   (21 << 16)
+ #define KEXEC_ARCH_IA_64   (50 << 16)
+ #define KEXEC_ARCH_ARM     (40 << 16)
++#define KEXEC_ARCH_ARM64   (183 << 16)
++/* #define KEXEC_ARCH_AARCH64 (183 << 16) */
+ #define KEXEC_ARCH_S390    (22 << 16)
+ #define KEXEC_ARCH_SH      (42 << 16)
+ #define KEXEC_ARCH_MIPS_LE (10 << 16)
+@@ -121,5 +123,8 @@ static inline long kexec_load(void *entr
+ #ifdef __m68k__
+ #define KEXEC_ARCH_NATIVE	KEXEC_ARCH_68K
+ #endif
++#if defined(__arm64__)
++#define KEXEC_ARCH_NATIVE	KEXEC_ARCH_ARM64
++#endif
+ 
+ #endif /* KEXEC_SYSCALL_H */
