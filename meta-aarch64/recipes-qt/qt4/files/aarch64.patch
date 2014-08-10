@@ -1,12 +1,18 @@
+From d780ac54b5dd1cf45eb59103f014f811c407d38c Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 10 Aug 2014 10:35:33 +0200
+Subject: [PATCH] JavaScriptCore: add Aarch64 support
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h |    8 +++++++-
+ src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
---- qt-everywhere-opensource-src-4.8.4.orig/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
-+++ qt-everywhere-opensource-src-4.8.4/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
-@@ -367,10 +367,15 @@
- 
- #if CPU(ARM) || CPU(MIPS) || CPU(SH4)
+diff --git a/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h b/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+index e8b03be..01a839f 100644
+--- a/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
++++ b/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+@@ -373,6 +373,11 @@
  #define WTF_CPU_NEEDS_ALIGNED_ACCESS 1
  #endif
  
@@ -18,19 +24,16 @@
  /* ==== OS() - underlying operating system; only to be used for mandated low-level services like 
     virtual memory, not to choose a GUI toolkit ==== */
  
- /* OS(ANDROID) - Android */
- #ifdef ANDROID
-@@ -996,11 +1001,12 @@
- #if (CPU(X86_64) && (OS(UNIX) || OS(WINDOWS))) \
-     || (CPU(IA64) && !CPU(IA64_32)) \
-     || CPU(ALPHA) \
+@@ -1003,7 +1008,8 @@
      || CPU(SPARC64) \
      || CPU(S390X) \
--    || CPU(PPC64)
-+    || CPU(PPC64) \
+     || CPU(PPC64) \
+-    || CPU(MIPS64)
++    || CPU(MIPS64) \
 +    || CPU(AARCH64)
  #define WTF_USE_JSVALUE64 1
  #else
  #define WTF_USE_JSVALUE32_64 1
- #endif
- #endif /* !defined(WTF_USE_JSVALUE64) && !defined(WTF_USE_JSVALUE32_64) */
+-- 
+1.9.0
+
