@@ -1,10 +1,10 @@
 require recipes-devtools/gcc/gcc-4.9.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.07"
+MMYY = "14.08"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
-BINV = "4.9.1"
+BINV = "4.9.2"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
@@ -58,8 +58,8 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
            file://use-lib-for-aarch64.patch \
           "
 
-SRC_URI[md5sum] = "95fbe1f1933aa157ec9e083419b8dd88"
-SRC_URI[sha256sum] = "d5d11b7356fd351532396c81e1d7a390842806b31ef288a6ac13c53a45a0c62d"
+SRC_URI[md5sum] = "01fd181cfa3015fa38573340033e3a9f"
+SRC_URI[sha256sum] = "b88c237356e0440d0b338cfb4b8967b5780a303f67c6158b6f14d54d57fbaf5c"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
