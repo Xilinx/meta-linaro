@@ -6,12 +6,14 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     cronie \
+    daq-odp \
     fping \
     git \
     lmbench \
     lng-network-config \
     ltp \
     netperf \
+    odp \
     openssh-sftp-server \
     openvswitch \
     packagegroup-core-buildessential \
@@ -19,6 +21,7 @@ IMAGE_INSTALL += " \
     python-numpy \
     qemu \
     rt-tests \
+    snort \
     trace-cmd \
     tunctl \
     usecpu \
@@ -29,7 +32,6 @@ IMAGE_INSTALL_append_armv7a = " \
     systemtap \
     valgrind \
     trinity-example \
-    odp \
     "
 
 IMAGE_INSTALL_append_aarch64 = " \
@@ -37,7 +39,6 @@ IMAGE_INSTALL_append_aarch64 = " \
     "
 
 IMAGE_INSTALL_append_qemux86 = " \
-    odp \
     "
 
 IMAGE_FEATURES += "\
