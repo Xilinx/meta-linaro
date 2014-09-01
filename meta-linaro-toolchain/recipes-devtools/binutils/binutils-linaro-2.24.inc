@@ -1,10 +1,9 @@
 BPV = "2.24.0"
-MMYY = "14.08"
+MMYY = "14.09"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
 LIC_FILES_CHKSUM="\
-    file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552\
     file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674\
     file://COPYING3;md5=d32239bcb673463ab874e80d47fae504\
@@ -17,7 +16,7 @@ LIC_FILES_CHKSUM="\
     "
 
 SRC_URI = "\
-     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${BPV}-${RELEASE}.tar.bz2 \
+     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${BPV}-${RELEASE}.tar.xz \
      file://binutils-uclibc-100-uclibc-conf.patch \
      file://binutils-uclibc-300-001_ld_makefile_patch.patch \
      file://binutils-uclibc-300-006_better_file_error.patch \
@@ -33,11 +32,15 @@ SRC_URI = "\
      file://fix-pr15815.patch;apply=no \
      file://fix-pr2404.patch \
      file://fix-pr16476.patch \
+     file://fix-pr16428.patch \
+     file://replace_macros_with_static_inline.patch;apply=no \
+     file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch;apply=no \
+     file://binutils-uninitialised-warning.patch \
      file://0001-AArch64-Define-LP64-LE-loader-name.patch \
      file://0001-AArch64-Define-LP64-BE-linker-name.patch \
      "
 
-SRC_URI[md5sum] = "56419b23e337bbfc3dce6d977ccb07c7"
-SRC_URI[sha256sum] = "59c01b16557a47ad79e45422ada85baa53477ec6d2618ed4790a56622343bc02"
+SRC_URI[md5sum] = "8f9b2b2e049d59b1b86ce9657802a353"
+SRC_URI[sha256sum] = "e8bdf80bd6a5f3fc7df53245dfc0a678803d4f19c1c7ba2af3f98c8249e612b0"
 
 S = "${WORKDIR}/binutils-linaro-${BPV}-${RELEASE}"
