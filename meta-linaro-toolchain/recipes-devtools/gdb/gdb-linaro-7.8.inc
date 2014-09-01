@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
 
 
-MMYY = "14.08"
+MMYY = "14.09"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "7.8"
@@ -14,6 +14,7 @@ S = "${WORKDIR}/${BPN}-${PV}-${RELEASE}"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gdb-${BINV}' ], d)}"
 
-SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gdb-linaro/gdb-${PV}-${RELEASE}.tar.bz2"
-SRC_URI[md5sum] = "c6cbbc260667bb3115858a9ba4d75339"
-SRC_URI[sha256sum] = "dc3802d250fccff9092f615c2e215df9e986f4f350d73fcc3c4bb9650b218f4d"
+SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gdb-linaro/gdb-${PV}-${RELEASE}.tar.xz"
+
+SRC_URI[md5sum] = "954e47e397de0b635ecdb5bb5d0f145f"
+SRC_URI[sha256sum] = "fbbe96b8d0debf7c2d8c9a4a6c7ca0ba87d536e43289f81c4af56f95e5f7b5ea"
