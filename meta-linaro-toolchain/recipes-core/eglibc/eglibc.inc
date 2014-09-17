@@ -75,7 +75,7 @@ PARALLEL_MAKE = ""
 # ensure make uses /bin/bash
 EXTRA_OEMAKE += "SHELL=/bin/bash"
 
-OE_FEATURES = "${@features_to_eglibc_settings(d)}"
+OE_FEATURES = "${@features_to_glibc_settings(d)}"
 do_configure_prepend() {
 	sed -e "s#@BASH@#/bin/sh#" -i ${S}/elf/ldd.bash.in
 	echo '${OE_FEATURES}' > ${B}/option-groups.config

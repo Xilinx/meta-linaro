@@ -141,9 +141,9 @@ do_evacuate_scripts () {
 
 addtask evacuate_scripts after do_install before do_populate_sysroot do_package
 
-PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
+PACKAGE_PREPROCESS_FUNCS += "glibc_package_preprocess"
 
-eglibc_package_preprocess () {
+glibc_package_preprocess () {
 	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
 	rm -rf ${PKGD}/${includedir}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}
 	for i in ${bashscripts}; do
