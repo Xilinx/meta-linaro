@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.eglibc.org/home"
 SECTION = "libs"
 LICENSE = "LGPL-2.1"
 
-LIC_DIR = "${WORKDIR}/eglibc-${PV}/libc"
+LIC_DIR = "${WORKDIR}/eglibc-2.19/libc"
 LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
       file://${LIC_DIR}/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
       file://${LIC_DIR}/posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
@@ -15,26 +15,26 @@ inherit autotools
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/${P}:"
 
-SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25243.tar.bz2 \
+SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-2.19-svnr25243.tar.bz2 \
 	   file://fix_for_centos_5.8.patch;patchdir=.. \
 	  "
 SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
 SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
 
-S = "${WORKDIR}/eglibc-${PV}/localedef"
+S = "${WORKDIR}/eglibc-2.19/localedef"
 
 do_unpack_append() {
     bb.build.exec_func('do_move_ports', d)
 }
 
 do_move_ports() {
-        if test -d ${WORKDIR}/eglibc-${PV}/ports ; then
+        if test -d ${WORKDIR}/eglibc-2.19/ports ; then
 	    rm -rf ${WORKDIR}/libc/ports
-	    mv ${WORKDIR}/eglibc-${PV}/ports ${WORKDIR}/libc/
+	    mv ${WORKDIR}/eglibc-2.19/ports ${WORKDIR}/libc/
 	fi
 }
 
-EXTRA_OECONF = "--with-glibc=${WORKDIR}/eglibc-${PV}/libc"
+EXTRA_OECONF = "--with-glibc=${WORKDIR}/eglibc-2.19/libc"
 CFLAGS += "-DNOT_IN_libc=1"
 
 do_configure () {
