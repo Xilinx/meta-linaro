@@ -9,7 +9,6 @@ IMAGE_INSTALL += " \
     daq-odp \
     fping \
     git \
-    libhugetlbfs-tests \
     lmbench \
     lng-network-config \
     ltp \

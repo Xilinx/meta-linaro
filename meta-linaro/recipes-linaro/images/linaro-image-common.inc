@@ -2,6 +2,10 @@ inherit core-image
 
 IMAGE_FEATURES += "ssh-server-openssh nfs-server package-management"
 
+HUGETLB_armv7a = "libhugetlbfs-tests"
+HUGETLB_aarch64 = "libhugetlbfs-tests"
+HUGETLB ?= ""
+
 IMAGE_INSTALL += " \
     bash \
     e2fsprogs-e2fsck \
@@ -45,7 +49,6 @@ SDK_IMAGE_INSTALL += "\
     libcap \
     libdwarf-dev \
     libevent-fb \
-    libhugetlbfs-tests \
     libmcrypt \
     libmemcached \
     libmysqlclient-r \
@@ -77,6 +80,7 @@ SDK_IMAGE_INSTALL += "\
     xserver-xorg-xvfb \
     xz \
     zlib \
+    ${HUGETLB} \
     "
 
 IMAGE_PREPROCESS_COMMAND += "make_boot_verbose; "
