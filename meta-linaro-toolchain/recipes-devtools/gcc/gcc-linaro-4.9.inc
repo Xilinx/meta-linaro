@@ -1,7 +1,7 @@
 require recipes-devtools/gcc/gcc-4.9.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.08"
+MMYY = "14.09"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "4.9.2"
@@ -54,12 +54,14 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
            file://0051-eabispe.patch \
            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch;apply=no \
            file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+           file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+           file://0055-PR-rtl-optimization-61801.patch;apply=no \
            file://AArch64-Define-BE-loader-name-default-be.patch \
            file://use-lib-for-aarch64.patch \
           "
 
-SRC_URI[md5sum] = "01fd181cfa3015fa38573340033e3a9f"
-SRC_URI[sha256sum] = "b88c237356e0440d0b338cfb4b8967b5780a303f67c6158b6f14d54d57fbaf5c"
+SRC_URI[md5sum] = "ac920b5800623ff99137d3cf23ad09ca"
+SRC_URI[sha256sum] = "c708c486f62f0d283f8615d7bc05d9830d50e15c52cfe213ec3992f6c190c222"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
