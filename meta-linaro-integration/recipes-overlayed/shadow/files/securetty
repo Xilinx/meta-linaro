@@ -41,6 +41,9 @@ ttyO1
 ttyO2
 ttyO3
 
+# SBSA compatible UART
+ttySBSA0
+
 # USB dongles
 ttyUSB0
 ttyUSB1
