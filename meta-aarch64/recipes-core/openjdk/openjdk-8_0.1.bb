@@ -3,14 +3,15 @@ require openjdk-8-common.inc
 PR = "${INC_PR}.0"
 
 OPENJDK_URI = "\
-	git://git.linaro.org/leg/openjdk/jdk8.git;destsuffix=git/jdk8;name=jdk8 \
-	git://git.linaro.org/leg/openjdk/corba.git;destsuffix=git/jdk8/corba;name=corba \
-	git://git.linaro.org/leg/openjdk/hotspot.git;destsuffix=git/jdk8/hotspot;name=hotspot \
-	git://git.linaro.org/leg/openjdk/jaxp.git;destsuffix=git/jdk8/jaxp;name=jaxp \
-	git://git.linaro.org/leg/openjdk/jaxws.git;destsuffix=git/jdk8/jaxws;name=jaxws \
-	git://git.linaro.org/leg/openjdk/jdk.git;destsuffix=git/jdk8/jdk;name=jdk \
-	git://git.linaro.org/leg/openjdk/langtools.git;destsuffix=git/jdk8/langtools;name=langtools \
-	git://git.linaro.org/leg/openjdk/nashorn.git;destsuffix=git/jdk8/nashorn;name=nashorn"
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/jdk8;name=jdk8;module=jdk8 \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/corba;name=corba;module=jdk8/corba \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/hotspot;name=hotspot;module=jdk8/hotspot \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/jaxp;name=jaxp;module=jdk8/jaxp \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/jaxws;name=jaxws;module=jdk8/jaxws \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/jdk;name=jdk;module=jdk8/jdk \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/langtools;name=langtools;module=jdk8/langtools \
+        hg://hg.openjdk.java.net/aarch64-port;protocol=http;destsuffix=hg/nashorn;name=nashorn;module=jdk8/nashorn \
+       "
 
 SRCREV_jdk8 = "${AUTOREV}"
 SRCREV_corba = "${AUTOREV}"
@@ -21,7 +22,7 @@ SRCREV_jdk = "${AUTOREV}"
 SRCREV_langtools = "${AUTOREV}"
 SRCREV_nashorn = "${AUTOREV}"
 
-S = "${WORKDIR}/git/jdk8"
+S = "${WORKDIR}/jdk8"
 
 LIC_FILES_CHKSUM="file://LICENSE;md5=7b4baeedfe2d40cb03536573bc2c89b1"
 
