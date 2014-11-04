@@ -21,7 +21,7 @@ EXTRA_OEMAKE = "'CFLAGS=${CFLAGS} ${TARGET_CC_ARCH} -DETCDIR=\"${sysconfdir}\"' 
 do_compile() {
     # The regular makefile tries to be 'smart' by hardcoding ABI assumptions, let's use the clean makefile for everything.
     cp ${S}/daemon/Makefile_aarch64 ${S}/daemon/Makefile	
-    oe_runmake -C daemon
+    oe_runmake -C daemon CC='${CC}' CXX='${CXX}'
 }
 
 do_install() {
