@@ -1,4 +1,4 @@
-require recipes-core/eglibc/eglibc-package.inc
+require recipes-core/glibc/glibc-package.inc
 
 INHIBIT_DEFAULT_DEPS = "1"
 INHIBIT_PACKAGE_STRIP = "1"
@@ -23,7 +23,7 @@ PROVIDES += "\
 	virtual/libintl \
 	virtual/libiconv \
 	glibc-thread-db \
-	eglibc \
+	glibc \
 	libgcc \
 	libg2c \
 	libg2c-dev \
@@ -152,17 +152,17 @@ INSANE_SKIP_libstdc++ += "ldflags"
 INSANE_SKIP_libgcc += "ldflags"
 INSANE_SKIP_gdbserver += "ldflags"
 
-PKG_${PN} = "eglibc"
-PKG_${PN}-dev = "eglibc-dev"
-PKG_${PN}-doc = "eglibc-doc"
-PKG_${PN}-dbg = "eglibc-dbg"
-PKG_${PN}-pic = "eglibc-pic"
-PKG_${PN}-utils = "eglibc-utils"
-PKG_${PN}-gconv = "eglibc-gconv"
-PKG_${PN}-extra-nss = "eglibc-extra-nss"
-PKG_${PN}-thread-db = "eglibc-thread-db"
-PKG_${PN}-pcprofile = "eglibc-pcprofile"
-PKG_${PN}-staticdev = "eglibc-staticdev"
+PKG_${PN} = "glibc"
+PKG_${PN}-dev = "glibc-dev"
+PKG_${PN}-doc = "glibc-doc"
+PKG_${PN}-dbg = "glibc-dbg"
+PKG_${PN}-pic = "glibc-pic"
+PKG_${PN}-utils = "glibc-utils"
+PKG_${PN}-gconv = "glibc-gconv"
+PKG_${PN}-extra-nss = "glibc-extra-nss"
+PKG_${PN}-thread-db = "glibc-thread-db"
+PKG_${PN}-pcprofile = "glibc-pcprofile"
+PKG_${PN}-staticdev = "glibc-staticdev"
 
 PKGV_${PN} = "${ELT_VER_LIBC}"
 PKGV_${PN}-dev = "${ELT_VER_LIBC}"
