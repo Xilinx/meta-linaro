@@ -52,8 +52,8 @@ JAVA_HOME[unexport] = "1"
 S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 
 # The compiler tests in do_configure seem to drop TARGET_CC_ARCH from $CC, so add it into CFLAGS.
-CFLAGS =+ "${TARGET_CC_ARCH}"
-CXXFLAGS =+ "${TARGET_CC_ARCH}"
+CFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+CXXFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
 
 do_configure() {
 	unset MAKE
