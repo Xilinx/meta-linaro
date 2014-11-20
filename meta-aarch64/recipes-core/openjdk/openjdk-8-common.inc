@@ -54,6 +54,7 @@ S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 # The compiler tests in do_configure seem to drop TARGET_CC_ARCH from $CC, so add it into CFLAGS.
 CFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
 CXXFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+export EXTRA_CFLAGS = "${TOOLCHAIN_OPTIONS}"
 
 do_configure() {
 	unset MAKE
@@ -61,7 +62,11 @@ do_configure() {
 }
 
 do_compile() {
-	make LOG=debug ALT_SDT_H=/openjdk/path/to/a/nonexistent/directory images
+	make \
+		LOG=debug \
+		ALT_SDT_H=/openjdk/path/to/a/nonexistent/directory \
+		EXTRA_CFLAGS='${EXTRA_CFLAGS}' \
+		images
 }
 
 do_install() {
