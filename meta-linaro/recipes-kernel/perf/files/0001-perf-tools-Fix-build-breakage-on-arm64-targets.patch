@@ -1,0 +1,45 @@
+From 660d13296bbbe79635d1d9d700080b88061faffb Mon Sep 17 00:00:00 2001
+From: Will Deacon <will.deacon@arm.com>
+Date: Tue, 30 Sep 2014 12:27:12 +0100
+Subject: [PATCH] perf tools: Fix build breakage on arm64 targets
+
+Attempting to build the perf tool for an arm64 target results in the
+following failure:
+
+  arch/arm64/util/unwind-libunwind.c: In function 'libunwind__arch_reg_id':
+  arch/arm64/util/unwind-libunwind.c:77:3: error: implicit declaration of function 'pr_err'
+     pr_err("unwind: invalid reg id %d\n", regnum);
+     ^
+  arch/arm64/util/unwind-libunwind.c:77:3: error: nested extern declaration of 'pr_err'
+
+This is due to commit 84f5d36f4866 ("perf tools: Move pr_* debug macros
+into debug object") moving the pr_* macros into a new header file, but
+failing to update architectures other than x86.
+
+This patch adds the missing include, and fixes the build again.
+
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Cc: Jean Pihet <jean.pihet@linaro.org>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Link: http://lkml.kernel.org/r/1412076432-22045-1-git-send-email-will.deacon@arm.com
+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+---
+ tools/perf/arch/arm64/util/unwind-libunwind.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/perf/arch/arm64/util/unwind-libunwind.c b/tools/perf/arch/arm64/util/unwind-libunwind.c
+index 436ee43..a87afa9 100644
+--- a/tools/perf/arch/arm64/util/unwind-libunwind.c
++++ b/tools/perf/arch/arm64/util/unwind-libunwind.c
+@@ -3,6 +3,7 @@
+ #include <libunwind.h>
+ #include "perf_regs.h"
+ #include "../../util/unwind.h"
++#include "../../util/debug.h"
+ 
+ int libunwind__arch_reg_id(int regnum)
+ {
+-- 
+2.1.3
+

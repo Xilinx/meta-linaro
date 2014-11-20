@@ -63,6 +63,7 @@ SDK_IMAGE_INSTALL += "\
     openldap \
     openssh-sftp-server \
     openssl \
+    perf \
     pm-qa \
     powerdebug \
     powertop \
