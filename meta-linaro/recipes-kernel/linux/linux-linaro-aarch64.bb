@@ -1,9 +1,13 @@
 DESCRIPTION = "Linaro recipe for Aarch64 fast model kernels"
 
-SRCREV_kernel="e72caa28875ec600a6d1bb3e11813fd21c4adb16"
-PV = "3.15+git${SRCPV}"
+SRCREV_kernel="7123b02be92f8bfeffbf31f44252c24eb838a84d"
+PV = "3.17+git${SRCPV}"
 
 SRC_URI_append = " git://git.linaro.org/git/kernel/linux-linaro-tracking.git;protocol=http;name=kernel;nobranch=1 "
+DEPENDS_append_aarch64 = " libgcc"
+KERNEL_CC_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
+KERNEL_LD_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
+
 
 include linaro-kernel.inc
 include bootwrapper.inc
