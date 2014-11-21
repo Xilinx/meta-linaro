@@ -55,6 +55,7 @@ S="${WORKDIR}/openjdk8-aarch64-port-snapshot"
 CFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
 CXXFLAGS =+ "${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
 export EXTRA_CFLAGS = "${TOOLCHAIN_OPTIONS}"
+ASNEEDED = ""
 
 do_configure() {
 	unset MAKE
@@ -66,7 +67,14 @@ do_compile() {
 		LOG=debug \
 		ALT_SDT_H=/openjdk/path/to/a/nonexistent/directory \
 		EXTRA_CFLAGS='${EXTRA_CFLAGS}' \
+		CC='${CC}' \
+		CXX='${CXX}' \
+		LD='${CC} ${LDFLAGS}' \
+		LDCXX='${CXX} ${LDFLAGS}' \
+		LDEXE='${CC} ${LDFLAGS}' \
+		LDEXECXX='${CXX} ${LDFLAGS}' \
 		images
+
 }
 
 do_install() {
