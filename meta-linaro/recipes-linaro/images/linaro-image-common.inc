@@ -70,6 +70,7 @@ SDK_IMAGE_INSTALL += "\
     python \
     python-misc \
     python-multiprocessing \
+    python-numpy \
     python-scons \
     python-shell \
     python-threading \
