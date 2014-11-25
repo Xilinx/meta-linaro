@@ -10,6 +10,7 @@ SRC_URI = "https://acpica.org/sites/acpica/files/acpitests-unix-${PV}.tar.gz;nam
            https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz;name=acpica \
            file://aapits-linux.patch \
            file://aapits-makefile.patch \
+           file://0001-aaptisrun-alter-to-allow-destination-directory-as-ar.patch \
     "
 SRC_URI[acpitests.md5sum] = "db9d6fdaa8e3eb101d700ee5ba4938ed"
 SRC_URI[acpitests.sha256sum] = "e576c74bf1bf1c9f7348bf9419e05c8acfece7105abcdc052e66670c7af2cf00"
@@ -30,6 +31,7 @@ do_compile() {
 do_install() {
     install -d ${D}${bindir}
     install -m0755 tests/aapits/bin/aapits ${D}${bindir}
+    install -m0755 tests/aapits/bin/aapitsrun ${D}${bindir}
 }
 
 COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
