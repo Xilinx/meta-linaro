@@ -1,10 +1,10 @@
 require recipes-devtools/gcc/gcc-4.9.inc
 PV = "linaro-${BASEPV}"
 
-MMYY = "14.10"
+MMYY = "14.11"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
-BINV = "4.9.2"
+BINV = "4.9.3"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
@@ -56,12 +56,15 @@ SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gcc-linaro/$
            file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
            file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
            file://0055-PR-rtl-optimization-61801.patch;apply=no \
+           file://0056-top-level-reorder_gcc-bug-61144.patch \
+           file://0058-gcc-r212171.patch \
+           file://0059-gcc-PR-rtl-optimization-63348.patch \
            file://AArch64-Define-BE-loader-name-default-be.patch \
            file://use-lib-for-aarch64.patch \
           "
 
-SRC_URI[md5sum] = "230da25b1e7661a8659eb770c5c88442"
-SRC_URI[sha256sum] = "424bdd8c6132dfcbf17a1162d2d119b577c2ac777287427391fb82dfda7334f2"
+SRC_URI[md5sum] = "a0fda0cc4408f935086bb156aeef5ff9"
+SRC_URI[sha256sum] = "7e176614b4a39259bfe4dad08d89651f511f3e52c2201210037b48cce90cc32a"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
