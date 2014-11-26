@@ -1,0 +1,67 @@
+From ff40052c103ed67677b9c4a17cdcee62ca8f6aed Mon Sep 17 00:00:00 2001
+From: Fu Wei <fu.wei@linaro.org>
+Date: Tue, 25 Nov 2014 17:12:24 +0800
+Subject: [PATCH 2/3] ACPI: add the hardware reduced mode check function in
+ src/lib/src/fwts_acpi_tables.c.
+
+It is a prerequisite for ignoring a missing FACS table in hardware-reduced mode.
+
+Upstream-status: Pending
+Signed-off-by: Fu Wei <fu.wei@linaro.org>
+---
+ src/lib/include/fwts_acpi.h        |  1 +
+ src/lib/include/fwts_acpi_tables.h |  2 ++
+ src/lib/src/fwts_acpi_tables.c     | 14 ++++++++++++++
+ 3 files changed, 17 insertions(+)
+
+diff --git a/src/lib/include/fwts_acpi.h b/src/lib/include/fwts_acpi.h
+index 24ebc84..73a3461 100644
+--- a/src/lib/include/fwts_acpi.h
++++ b/src/lib/include/fwts_acpi.h
+@@ -46,6 +46,7 @@ extern const char *fwts_acpi_fadt_preferred_pm_profile[];
+ 
+ #define FWTS_ACPI_FADT_PREFERRED_PM_PROFILE(x)		\
+ 	((x) > 8) ? "Reserved" : fwts_acpi_fadt_preferred_pm_profile[x]
++#define FWTS_ACPI_FADT_FLAGS_HW_REDUCED_ACPI (1<<20)
+ 
+ /* 5.2.3.1 Generic Address Structure */
+ typedef struct {
+diff --git a/src/lib/include/fwts_acpi_tables.h b/src/lib/include/fwts_acpi_tables.h
+index 6977e87..798dfc5 100644
+--- a/src/lib/include/fwts_acpi_tables.h
++++ b/src/lib/include/fwts_acpi_tables.h
+@@ -45,4 +45,6 @@ int fwts_acpi_find_table_by_addr(fwts_framework *fw, const uint64_t addr, fwts_a
+ int fwts_acpi_get_table(fwts_framework *fw, const int index, fwts_acpi_table_info **info);
+ uint8_t fwts_acpi_checksum(const uint8_t *data, const int length);
+ 
++fwts_bool fwts_acpi_is_reduced_hardware(const fwts_acpi_table_fadt *fadt);
++
+ #endif
+diff --git a/src/lib/src/fwts_acpi_tables.c b/src/lib/src/fwts_acpi_tables.c
+index 96a117e..7f73a10 100644
+--- a/src/lib/src/fwts_acpi_tables.c
++++ b/src/lib/src/fwts_acpi_tables.c
+@@ -275,6 +275,20 @@ int fwts_acpi_free_tables(void)
+ }
+ 
+ /*
++ *  fwts_acpi_is_reduced_hardware()
++ *	Check the ACPI tables for HW_REDUCED_ACPI bit in flag field.
++ */
++fwts_bool fwts_acpi_is_reduced_hardware(const fwts_acpi_table_fadt *fadt)
++{
++	if ((fadt->header.revision >= 5) &&
++			(fadt->header.length >= 116)&&
++			(fadt->flags && FWTS_ACPI_FADT_FLAGS_HW_REDUCED_ACPI)) {
++		return FWTS_TRUE;
++	}
++	return FWTS_FALSE;
++}
++
++/*
+  *  fwts_acpi_handle_fadt_tables()
+  *	depending on whether 32 or 64 bit address is usable, get the table
+  *	address and load it. This handles the DSDT and FACS as pointed to
+-- 
+2.1.1
+

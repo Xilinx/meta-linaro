@@ -8,7 +8,11 @@ LIC_FILES_CHKSUM = "file://src/main.c;beginline=1;endline=16;md5=deb8af5388e838d
 PV = "14.09.00"
 
 SRCREV = "cf14f3b4bab716dea95de772ad52786c1cbe862a"
-SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git"
+SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
+           file://0001-ACPI-improve-the-return-values-and-the-log-info-in-t.patch \
+           file://0002-ACPI-add-the-hardware-reduced-mode-check-function-in.patch \
+           file://0003-ACPI-a-missing-FACS-table-can-be-ignored-under-some.patch \
+          "
 
 S = "${WORKDIR}/git"
 

@@ -1,0 +1,85 @@
+From 778310b83da2358a4e25444fcf9101e16f0a8b5b Mon Sep 17 00:00:00 2001
+From: Fu Wei <fu.wei@linaro.org>
+Date: Tue, 25 Nov 2014 17:24:20 +0800
+Subject: [PATCH 3/3] ACPI: a missing FACS table can be ignored under some
+ circumstances
+
+Both of the FADT fields FIRMWARE_CTRL and X_FIRMWARE_CTRL are
+allowed to be null, if and only if ACPI is operating in hardware-
+reduced mode.  If the ACPI tables are from before ACPI 5.0, or if
+ACPI is not operating in hardware-reduced mode, at least one of the
+FIRMWARE_CTRL or X_FIRMWARE_CTRL fields _must_ be non-null.
+
+This patch corrects the logic to ensure that a missing FACS is only
+allowed under the proper circumstances.
+
+Upstream-status: Pending
+Signed-off-by: Fu Wei <fu.wei@linaro.org>
+---
+ src/acpi/acpitables/acpitables.c |  5 +++--
+ src/lib/src/fwts_acpi_tables.c   | 24 +++++++++++++++++-------
+ 2 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/src/acpi/acpitables/acpitables.c b/src/acpi/acpitables/acpitables.c
+index 255261c..3d261cb 100644
+--- a/src/acpi/acpitables/acpitables.c
++++ b/src/acpi/acpitables/acpitables.c
+@@ -75,10 +75,11 @@ static void acpi_table_check_fadt(fwts_framework *fw, fwts_acpi_table_info *tabl
+ 
+ 	if (fadt->firmware_control == 0) {
+ 		if (table->length >= 140) {
+-			if (fadt->x_firmware_ctrl == 0) {
++			if ((fadt->x_firmware_ctrl == 0) && !(fwts_acpi_is_reduced_hardware(fadt))) {
+ 				fwts_failed(fw, LOG_LEVEL_CRITICAL, "FADTFACSZero", "FADT 32 bit FIRMWARE_CONTROL and 64 bit X_FIRMWARE_CONTROL (FACS address) are null.");
+ 				fwts_advice(fw, "The 32 bit FIRMWARE_CTRL or 64 bit X_FIRMWARE_CTRL should point to a valid "
+-						"Firmware ACPI Control Structure (FACS). This is a firmware bug and needs to be fixed.");
++						"Firmware ACPI Control Structure (FACS) when ACPI hardware reduced mode is not set. "
++						"This is a firmware bug and needs to be fixed.");
+ 			}
+ 		} else {
+ 			fwts_failed(fw, LOG_LEVEL_MEDIUM, "FADT32BitFACSNull", "FADT 32 bit FIRMWARE_CONTROL is null.");
+diff --git a/src/lib/src/fwts_acpi_tables.c b/src/lib/src/fwts_acpi_tables.c
+index 7f73a10..a8285f1 100644
+--- a/src/lib/src/fwts_acpi_tables.c
++++ b/src/lib/src/fwts_acpi_tables.c
+@@ -373,6 +373,7 @@ static int fwts_acpi_handle_fadt(
+ 	const fwts_acpi_table_provenance provenance)
+ {
+ 	static uint64_t	facs_last_phys_addr;	/* default to zero */
++	int result = FWTS_ERROR;
+ 
+ 	/*
+ 	 *  The FADT handling may occur twice if it appears
+@@ -384,13 +385,22 @@ static int fwts_acpi_handle_fadt(
+ 
+ 	facs_last_phys_addr = phys_addr;
+ 
+-	/* Determine FACS addr and load it */
+-	if (fwts_acpi_handle_fadt_tables(fw, fadt,
+-	    "FACS", "FIRMWARE_CTRL", "X_FIRMWARE_CTRL",
+-	     &fadt->firmware_control, &fadt->x_firmware_ctrl,
+-	     provenance) != FWTS_OK) {
+-		fwts_log_error(fw, "Failed to load FACS!");
+-		return FWTS_ERROR;
++	/* Determine FACS addr and load it.
++	 * Will ignore the missing FACS in the hardware-reduced mode.
++	 */
++	result = fwts_acpi_handle_fadt_tables(fw, fadt,
++			"FACS", "FIRMWARE_CTRL", "X_FIRMWARE_CTRL",
++			&fadt->firmware_control, &fadt->x_firmware_ctrl,
++			provenance);
++	if ( result != FWTS_OK) {
++		if ((result == FWTS_NULL_POINTER) &&
++				fwts_acpi_is_reduced_hardware(fadt)) {
++			fwts_log_info(fw, "Ignore the missing FACS. "
++					"It is optional in hardware-reduced mode");
++		} else {
++			fwts_log_error(fw, "Failed to load FACS!");
++			return FWTS_ERROR;
++		}
+ 	}
+ 	/* Determine DSDT addr and load it */
+ 	if (fwts_acpi_handle_fadt_tables(fw, fadt,
+-- 
+2.1.1
+

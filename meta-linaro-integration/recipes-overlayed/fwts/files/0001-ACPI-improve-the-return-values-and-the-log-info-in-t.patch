@@ -1,0 +1,73 @@
+From e5a46ebd6dfeda4dbcec135d6482dfca7832999b Mon Sep 17 00:00:00 2001
+From: Fu Wei <fu.wei@linaro.org>
+Date: Tue, 25 Nov 2014 16:53:51 +0800
+Subject: [PATCH 1/3] ACPI: improve the return values and the log info in the
+ fwts_acpi_handle_fadt_tables function.
+
+If the 32-bit or/and 64-bit point is/are null, reture FWTS_NULL_POINTER instead of FWTS_ERROR.
+Add the error log message for loading FACS/DSDT fail.
+
+It is a prerequisite for ignoring a missing FACS table in hardware-reduced mode.
+
+Upstream-status: Pending
+Signed-off-by: Fu Wei <fu.wei@linaro.org>
+
+---
+ src/lib/src/fwts_acpi_tables.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/src/lib/src/fwts_acpi_tables.c b/src/lib/src/fwts_acpi_tables.c
+index 56498e0..96a117e 100644
+--- a/src/lib/src/fwts_acpi_tables.c
++++ b/src/lib/src/fwts_acpi_tables.c
+@@ -311,19 +311,19 @@ static int fwts_acpi_handle_fadt_tables(
+ 		}
+ 		/* Is it sane? */
+ 		if (addr == 0) {
+-			fwts_log_error(fw, "Failed to load %s: Cannot determine "
++			fwts_log_warning(fw, "Failed to load %s: Cannot determine "
+ 				"address of %s from FADT, fields %s and %s are zero.",
+ 				name, name, name_addr32, name_addr64);
+-			return FWTS_ERROR;
++			return FWTS_NULL_POINTER;
+ 		}
+ 	} else if ((addr32 != NULL) && (fadt->header.length >= 44)) {
+ 		addr = (off_t)*addr32;
+ 		/* Is it sane? */
+ 		if (addr == 0)  {
+-			fwts_log_error(fw, "Failed to load %s: Cannot determine "
++			fwts_log_warning(fw, "Failed to load %s: Cannot determine "
+ 				"address of %s from FADT, field %s is zero.",
+ 				name, name, name_addr32);
+-			return FWTS_ERROR;
++			return FWTS_NULL_POINTER;
+ 		}
+ 	} else if (fadt->header.length < 44) {
+ 		fwts_log_error(fw, "Failed to load %s: FADT is too small and "
+@@ -333,7 +333,7 @@ static int fwts_acpi_handle_fadt_tables(
+ 	} else {
+ 		/* This should not happen, addr64 or addr32 are NULL */
+ 		fwts_log_error(fw, "Failed to load %s: fwts error with FADT.", name);
+-		return FWTS_ERROR;
++		return FWTS_NULL_POINTER;
+ 	}
+ 
+ 	/* Sane address found, load and add the table */
+@@ -375,12 +375,14 @@ static int fwts_acpi_handle_fadt(
+ 	    "FACS", "FIRMWARE_CTRL", "X_FIRMWARE_CTRL",
+ 	     &fadt->firmware_control, &fadt->x_firmware_ctrl,
+ 	     provenance) != FWTS_OK) {
++		fwts_log_error(fw, "Failed to load FACS!");
+ 		return FWTS_ERROR;
+ 	}
+ 	/* Determine DSDT addr and load it */
+ 	if (fwts_acpi_handle_fadt_tables(fw, fadt,
+ 	    "DSDT", "DSTD", "X_DSDT",
+ 	    &fadt->dsdt, &fadt->x_dsdt, provenance) != FWTS_OK) {
++		fwts_log_error(fw, "Failed to load DSDT!");
+ 		return FWTS_ERROR;
+ 	}
+ 	return FWTS_OK;
+-- 
+2.1.1
+
