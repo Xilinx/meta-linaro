@@ -26,7 +26,10 @@ def elt_get_version(d):
 def elt_get_main_version(d):
 	version = elt_get_version(d)
 	if version != 'UNKNOWN':
-		return version.split()[6].split('-')[3]
+		if version.split()[5] != '(crosstool-NG':
+			return version.split()[7].split(')')[0]
+		else:
+			return version.split()[6].split('-')[3]
 	else:
 		return version
 
