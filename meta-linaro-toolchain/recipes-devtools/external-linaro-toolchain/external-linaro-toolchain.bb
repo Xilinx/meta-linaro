@@ -42,6 +42,7 @@ PROVIDES += "\
 	libitm-dev \
 	libitm-staticdev \
 	virtual/linux-libc-headers \
+	libgcov-dev \
 "
 
 PV = "${ELT_VER_MAIN}"
@@ -121,6 +122,7 @@ do_install() {
 }
 
 PACKAGES =+ "\
+	libgcov-dev \
 	libgcc \
 	libgcc-dev \
 	libstdc++ \
@@ -187,6 +189,8 @@ PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
+
+FILES_libgcov-dev = "${libdir}/${TARGET_SYS}/${BINV}/libgcov.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
