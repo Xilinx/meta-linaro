@@ -192,6 +192,11 @@ PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
 
 FILES_libgcov-dev = "${libdir}/${TARGET_SYS}/${BINV}/libgcov.a"
 
+FILES_libsegfault = "${base_libdir}/libSegFault*"
+
+FILES_catchsegv = "${bindir}/catchsegv"
+RDEPENDS_catchsegv = "libsegfault"
+
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
 FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
