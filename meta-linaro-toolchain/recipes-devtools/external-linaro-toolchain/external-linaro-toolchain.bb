@@ -128,6 +128,9 @@ PACKAGES =+ "\
 	libstdc++ \
 	libstdc++-dev \
 	libstdc++-staticdev \
+	libatomic \
+	libatomic-dev \
+	libatomic-staticdev \
 	linux-libc-headers \
 	linux-libc-headers-dev \
 	libssp \
@@ -195,6 +198,9 @@ PKGV_libgcc-dev = "${ELT_VER_GCC}"
 PKGV_libstdc++ = "${ELT_VER_GCC}"
 PKGV_libstdc++-dev = "${ELT_VER_GCC}"
 PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
+PKGV_libatomic = "${ELT_VER_GCC}"
+PKGV_libatomic = "${ELT_VER_GCC}"
+PKGV_libatomic = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
@@ -205,6 +211,13 @@ FILES_libsegfault = "${base_libdir}/libSegFault*"
 
 FILES_catchsegv = "${bindir}/catchsegv"
 RDEPENDS_catchsegv = "libsegfault"
+
+FILES_libatomic = "${base_libdir}/libatomic.so.*"
+FILES_libatomic-dev = "\
+    ${base_libdir}/libatomic.so \
+    ${base_libdir}/libatomic.la \
+"
+FILES_libatomic-staticdev = "${base_libdir}/libatomic.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
