@@ -153,6 +153,15 @@ INSANE_SKIP_libstdc++ += "ldflags"
 INSANE_SKIP_libgcc += "ldflags"
 INSANE_SKIP_gdbserver += "ldflags"
 
+# OE-core has literally listed 'glibc' in LIBC_DEPENDENCIES :/
+RPROVIDES_${PN} = "glibc"
+# Add runtime provides for the other libc* packages as well
+RPROVIDES_${PN}-dev = "glibc-dev"
+RPROVIDES_${PN}-doc = "glibc-doc"
+RPROVIDES_${PN}-dbg = "glibc-dbg"
+RPROVIDES_${PN}-pic = "glibc-pic"
+RPROVIDES_${PN}-utils = "glibc-utils"
+
 PKG_${PN} = "glibc"
 PKG_${PN}-dev = "glibc-dev"
 PKG_${PN}-doc = "glibc-doc"
