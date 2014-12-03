@@ -45,7 +45,6 @@ PROVIDES += "\
 "
 
 PV = "${ELT_VER_MAIN}"
-PR = "r3"
 
 # https://launchpad.net/linaro-toolchain-binaries
 SRC_URI = "file://SUPPORTED"
