@@ -131,6 +131,9 @@ PACKAGES =+ "\
 	libatomic \
 	libatomic-dev \
 	libatomic-staticdev \
+	libasan \
+	libasan-dev \
+	libasan-staticdev \
 	linux-libc-headers \
 	linux-libc-headers-dev \
 	libssp \
@@ -201,6 +204,9 @@ PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
 PKGV_libatomic = "${ELT_VER_GCC}"
 PKGV_libatomic = "${ELT_VER_GCC}"
 PKGV_libatomic = "${ELT_VER_GCC}"
+PKGV_libasan = "${ELT_VER_GCC}"
+PKGV_libasan-dev = "${ELT_VER_GCC}"
+PKGV_libasan-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
@@ -218,6 +224,13 @@ FILES_libatomic-dev = "\
     ${base_libdir}/libatomic.la \
 "
 FILES_libatomic-staticdev = "${base_libdir}/libatomic.a"
+
+FILES_libasan = "${base_libdir}/libasan.so.*"
+FILES_libasan-dev = "\
+    ${base_libdir}/libasan.so \
+    ${base_libdir}/libasan.la \
+"
+FILES_libasan-staticdev = "${base_libdir}/libasan.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
