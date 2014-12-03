@@ -135,6 +135,9 @@ PACKAGES =+ "\
 	libasan-dev \
 	libasan-staticdev \
 	linux-libc-headers \
+	libubsan \
+	libubsan-dev \
+	libubsan-staticdev \
 	linux-libc-headers-dev \
 	libssp \
 	libssp-dev \
@@ -207,6 +210,9 @@ PKGV_libatomic = "${ELT_VER_GCC}"
 PKGV_libasan = "${ELT_VER_GCC}"
 PKGV_libasan-dev = "${ELT_VER_GCC}"
 PKGV_libasan-staticdev = "${ELT_VER_GCC}"
+PKGV_libubsan = "${ELT_VER_GCC}"
+PKGV_libubsan-dev = "${ELT_VER_GCC}"
+PKGV_libubsan-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
@@ -231,6 +237,13 @@ FILES_libasan-dev = "\
     ${base_libdir}/libasan.la \
 "
 FILES_libasan-staticdev = "${base_libdir}/libasan.a"
+
+FILES_libubsan = "${base_libdir}/libubsan.so.*"
+FILES_libubsan-dev = "\
+    ${base_libdir}/libubsan.so \
+    ${base_libdir}/libubsan.la \
+"
+FILES_libubsan-staticdev = "${base_libdir}/libubsan.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
