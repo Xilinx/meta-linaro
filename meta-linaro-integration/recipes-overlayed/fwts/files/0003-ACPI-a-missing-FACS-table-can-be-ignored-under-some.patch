@@ -13,7 +13,7 @@ FIRMWARE_CTRL or X_FIRMWARE_CTRL fields _must_ be non-null.
 This patch corrects the logic to ensure that a missing FACS is only
 allowed under the proper circumstances.
 
-Upstream-status: Pending
+Upstream-status: Accepted [14.12.00]
 Signed-off-by: Fu Wei <fu.wei@linaro.org>
 ---
  src/acpi/acpitables/acpitables.c |  5 +++--

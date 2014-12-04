@@ -9,7 +9,7 @@ Add the error log message for loading FACS/DSDT fail.
 
 It is a prerequisite for ignoring a missing FACS table in hardware-reduced mode.
 
-Upstream-status: Pending
+Upstream-status: Accepted [14.12.00]
 Signed-off-by: Fu Wei <fu.wei@linaro.org>
 
 ---
