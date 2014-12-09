@@ -29,6 +29,8 @@ PREFERRED_PROVIDER_virtual/libc = "external-linaro-toolchain"
 PREFERRED_PROVIDER_virtual/libintl = "external-linaro-toolchain"
 PREFERRED_PROVIDER_virtual/libiconv = "external-linaro-toolchain"
 PREFERRED_PROVIDER_glibc-thread-db = "external-linaro-toolchain"
+PREFERRED_PROVIDER_glibc-mtrace = "external-linaro-toolchain"
+PREFERRED_PROVIDER_libc-mtrace = "external-linaro-toolchain"
 PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-linaro-toolchain"
 
 TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/include "
