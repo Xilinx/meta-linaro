@@ -22,8 +22,10 @@ PROVIDES += "\
 	virtual/libc \
 	virtual/libintl \
 	virtual/libiconv \
+        glibc-mtrace \
 	glibc-thread-db \
 	glibc \
+        libc-mtrace \
 	libgcc \
 	libg2c \
 	libg2c-dev \
@@ -122,6 +124,7 @@ do_install() {
 }
 
 PACKAGES =+ "\
+        ${PN}-mtrace \
 	libgcov-dev \
 	libgcc \
 	libgcc-dev \
@@ -170,6 +173,7 @@ RPROVIDES_${PN}-doc = "glibc-doc"
 RPROVIDES_${PN}-dbg = "glibc-dbg"
 RPROVIDES_${PN}-pic = "glibc-pic"
 RPROVIDES_${PN}-utils = "glibc-utils"
+RPROVIDES_${PN}-mtrace = "glibc-mtrace libc-mtrace"
 
 PKG_${PN} = "glibc"
 PKG_${PN}-dev = "glibc-dev"
@@ -177,6 +181,7 @@ PKG_${PN}-doc = "glibc-doc"
 PKG_${PN}-dbg = "glibc-dbg"
 PKG_${PN}-pic = "glibc-pic"
 PKG_${PN}-utils = "glibc-utils"
+PKG_${PN}-mtrace = "glibc-mtrace"
 PKG_${PN}-gconv = "glibc-gconv"
 PKG_${PN}-extra-nss = "glibc-extra-nss"
 PKG_${PN}-thread-db = "glibc-thread-db"
@@ -189,6 +194,7 @@ PKGV_${PN}-doc = "${ELT_VER_LIBC}"
 PKGV_${PN}-dbg = "${ELT_VER_LIBC}"
 PKGV_${PN}-pic = "${ELT_VER_LIBC}"
 PKGV_${PN}-utils = "${ELT_VER_LIBC}"
+PKGV_${PN}-mtrace = "${ELT_VER_LIBC}"
 PKGV_${PN}-gconv = "${ELT_VER_LIBC}"
 PKGV_${PN}-extra-nss = "${ELT_VER_LIBC}"
 PKGV_${PN}-thread-db = "${ELT_VER_LIBC}"
@@ -216,6 +222,9 @@ PKGV_libubsan-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
+
+ALLOW_EMPTY_${PN}-mtrace = "1"
+FILES_${PN}-mtrace = "${bindir}/mtrace"
 
 FILES_libgcov-dev = "${libdir}/${TARGET_SYS}/${BINV}/libgcov.a"
 
