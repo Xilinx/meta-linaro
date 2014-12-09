@@ -26,6 +26,7 @@ SRC_URI = "http://releases.linaro.org/${MMYY}/components/toolchain/glibc-linaro/
            file://grok_gold.patch \
            file://fix_am_rootsbindir.patch \
            ${EGLIBCPATCHES} \
+           ${ILP32PATCHES} \
           "
 EGLIBCPATCHES = "\
            file://timezone-re-written-tzselect-as-posix-sh.patch \
@@ -38,7 +39,39 @@ EGLIBCPATCHES = "\
            file://eglibc-sh4-fpscr_values.patch \
            file://eglibc-use-option-groups.patch \
           "
-
+ILP32PATCHES = " \
+           file://0002-Fix-utmp-struct-for-compatibility-reasons.patch \
+           file://0003-Allow-sigset-be-an-array-of-a-different-type.patch \
+           file://0004-Add-ability-for-the-IPC-structures-msqid_ds-semid_ds.patch \
+           file://0005-Allow-rusage-work-on-a-big-endian-32bit-on-64bit-tar.patch \
+           file://0006-Allow-fd_mask-type-not-be-an-array-of-long.patch \
+           file://0007-Allow-some-fields-of-siginfo-to-be-different-from-th.patch \
+           file://0008-Allow-generic-stat-and-statfs-not-have-padding-for-3.patch \
+           file://0009-Add-header-guards-to-sysdep.h-headers.patch \
+           file://0010-Add-dynamic-ILP32-AARCH64-relocations-to-elf.h.patch \
+           file://0011-Add-PTR_REG-PTR_LOG_SIZE-and-PTR_SIZE.-Use-it-in-LDS.patch \
+           file://0012-Use-PTR_REG-in-crti.S.patch \
+           file://0013-Use-PTR_REG-PTR_SIZE-PTR_SIZE_LOG-in-dl-tlsesc.S.patch \
+           file://0014-Use-PTR_-macros-in-dl-trampoline.S.patch \
+           file://0015-Use-PTR_-in-start.S.patch \
+           file://0016-Use-PTR_REG-in-getcontext.S.patch \
+           file://0017-Detect-ILP32-in-configure-scripts.patch \
+           file://0018-Syscalls-for-ILP32-are-passed-always-via-64bit-value.patch \
+           file://0019-Reformat-inline-asm-in-elf_machine_load_address.patch \
+           file://0020-Add-ILP32-support-to-elf_machine_load_address.patch \
+           file://0021-Set-up-wordsize-for-ILP32.patch \
+           file://0022-Add-ILP32-to-makefiles.patch \
+           file://0023-Add-support-to-ldconfig-for-ILP32-and-libilp32.patch \
+           file://0024-Add-ILP32-ld.so-to-the-known-interpreter-names.patch \
+           file://0025-Add-ldd-rewrite.sed-so-that-ilp32-ld.so-can-be-found.patch \
+           file://0026-Add-kernel_sigaction.h-for-AARCH64-ILP32.patch \
+           file://0027-Add-sigstack.h-header-for-ILP32-reasons.patch \
+           file://0028-Fix-up-ucontext-for-ILP32.patch \
+           file://0029-Add-typesizes.h-for-ILP32.patch \
+           file://0030-Make-lp64-and-ilp32-directories.patch \
+           file://0031-sysdeps-unix-sysv-linux-aarch64-sysdep.h-Fix-crash-i.patch \
+           file://0032-sysdeps-unix-sysv-linux-aarch64-configure-Reduce-ker.patch \
+          "
 SRC_URI[md5sum] = "ca2035b47d86856ffdd201ce2a12e60e"
 SRC_URI[sha256sum] = "2db756f9f9281f78443cd04fc544fc2d8bce38037d5f75c8284bd8b0ccf9c9ed"
 
