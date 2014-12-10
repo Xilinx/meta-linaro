@@ -68,3 +68,5 @@ SRC_URI[sha256sum] = "7e176614b4a39259bfe4dad08d89651f511f3e52c2201210037b48cce9
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
+
+EXTRA_OECONF_append_aarchilp32 = " --with-abi=ilp32"
