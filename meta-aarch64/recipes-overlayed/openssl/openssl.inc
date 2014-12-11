@@ -84,6 +84,9 @@ do_configure () {
 	linux-aarch64*)
 		target=linux-generic64
 		;;
+	linux-gnuilp32-aarch64*)
+		target=linux-generic32
+		;;
 	linux-sh3)
 		target=debian-sh3
 		;;
