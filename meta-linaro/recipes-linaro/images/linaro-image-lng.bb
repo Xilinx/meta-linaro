@@ -62,3 +62,9 @@ qemux86_fixup() {
         echo "auto eth0" >> ${IMAGE_ROOTFS}/etc/network/interfaces
         echo "iface eth0 inet dhcp" >> ${IMAGE_ROOTFS}/etc/network/interfaces
 }
+
+IMAGE_PREPROCESS_COMMAND += "do_mangle_hostname;" 
+
+do_mangle_hostname() {
+    echo 'lng-test-target' > ${IMAGE_ROOTFS}${sysconfdir}/hostname
+}
