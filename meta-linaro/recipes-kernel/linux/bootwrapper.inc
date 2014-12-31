@@ -3,7 +3,7 @@ SRC_URI_append= " git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wr
 
 SRCREV_bootwrapper = "2ff0b45423226d3de898a52a81b8e90b20fecd60"
 BW = "${WORKDIR}/bootwrapper"
-DTBDIR="${S}/arch/arm64/boot/dts/"
+DTBDIR="${B}/arch/arm64/boot/dts/"
 
 # Bootwrapper needs libgcc_s.so
 DEPENDS =+ "libgcc"
@@ -14,7 +14,6 @@ export WRAPCXXFLAGS = "${CXXFLAGS}"
 export WRAPLDFLAGS = "${LDFLAGS}"
 
 do_compile_append() {
-    cd ${S}
     oe_runmake dtbs
     cd ${BW}
 
@@ -26,24 +25,24 @@ do_compile_append() {
 
     autoreconf -vfi
     ./configure --host=aarch64-linux-gnu \
-                --with-kernel-dir="${S}" \
+                --with-kernel-dir="${B}" \
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda"
     make IMAGE=linux-system-foundation.axf clean
-    make DTC=${S}/scripts/dtc/dtc \
+    make DTC=${B}/scripts/dtc/dtc \
          KERNEL_DTB="${DTBDIR}/foundation-v8.dtb" \
          IMAGE=linux-system-foundation.axf
     make IMAGE=img-foundation.axf clean
     ./configure --host=aarch64-linux-gnu \
-                --with-kernel-dir="${S}" \
+                --with-kernel-dir="${B}" \
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda2"
-    make DTC=${S}/scripts/dtc/dtc \
+    make DTC=${B}/scripts/dtc/dtc \
          KERNEL_DTB="${DTBDIR}/foundation-v8.dtb" \
          IMAGE=img-foundation.axf
     make IMAGE=img.axf clean
     ./configure --host=aarch64-linux-gnu \
-                --with-kernel-dir="${S}" \
+                --with-kernel-dir="${B}" \
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/mmcblk0p2"
-    make DTC=${S}/scripts/dtc/dtc \
+    make DTC=${B}/scripts/dtc/dtc \
          KERNEL_DTB="${DTBDIR}/rtsm_ve-aemv8a.dtb" \
          IMAGE=img.axf
 }
