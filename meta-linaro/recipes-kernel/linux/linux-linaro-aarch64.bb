@@ -18,5 +18,7 @@ BOOTARGS_COMMON = "console=ttyAMA0 mem=2048M devtmpfs.mount=1 earlyprintk=pl011,
 
 do_configure_prepend() {
     . ../ubuntu-ci/configs/vexpress64.cfg
+    cd ${S}
     ARCH=arm64 scripts/kconfig/merge_config.sh -m $linaro_base_config_frags $ubuntu_config_frag $board_config_frags
+    cd ${B}
 }
