@@ -19,3 +19,10 @@ do_compile_prepend() {
     mkdir -p ${S}/include/generated
     echo "#define UTS_RELEASE \"${PV}\"" > ${S}/include/generated/utsrelease.h
 }
+
+# Ensure the above tarball gets fetched, unpackaged and patched
+python () {
+	d.delVarFlag("do_fetch", "noexec")
+	d.delVarFlag("do_unpack", "noexec")
+	d.delVarFlag("do_patch", "noexec")
+}
