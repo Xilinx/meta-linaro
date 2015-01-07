@@ -21,6 +21,7 @@ IMAGE_INSTALL += " \
 
 SDK_IMAGE_INSTALL += "\
     acpica \
+    bc \
     bison \
     boost-date-time \
     boost-filesystem \
