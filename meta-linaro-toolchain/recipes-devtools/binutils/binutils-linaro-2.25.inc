@@ -1,5 +1,5 @@
-BPV = "2.24.0"
-MMYY = "14.11"
+BPV = "2.25.0"
+MMYY = "15.01"
 RELEASE = "20${MMYY}-2"
 PR = "r${RELEASE}"
 
@@ -22,25 +22,16 @@ SRC_URI = "\
      file://binutils-uclibc-300-006_better_file_error.patch \
      file://binutils-uclibc-300-012_check_ldrunpath_length.patch \
      file://binutils-uclibc-gas-needs-libm.patch \
-     file://libtool-2.4-update.patch \
      file://libiberty_path_fix.patch \
      file://binutils-poison.patch \
      file://libtool-rpath-fix.patch \
      file://binutils-armv5e.patch \
-     file://mips64-default-ld-emulation.patch \
-     file://binutils-xlp-support.patch \
-     file://fix-pr15815.patch;apply=no \
-     file://fix-pr2404.patch \
-     file://fix-pr16476.patch \
-     file://fix-pr16428.patch \
      file://replace_macros_with_static_inline.patch;apply=no \
      file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch;apply=no \
-     file://binutils-uninitialised-warning.patch \
-     file://0001-AArch64-Define-LP64-LE-loader-name.patch \
      file://0001-AArch64-Define-LP64-BE-linker-name.patch \
      "
 
-SRC_URI[md5sum] = "05c1d4bc718ec05f6d53785eea10763f"
-SRC_URI[sha256sum] = "9196bb6f53c6f113681f06fc396f615101e5f367a4ea48dbcbe45616d5eb1d06"
+SRC_URI[md5sum] = "5c4b97c60f8bf624a34e2acef3138eec"
+SRC_URI[sha256sum] = "aed2aef13926911923b47a71ee88dc0943d544718d91f8caee5fc48fd20ef3a7"
 
 S = "${WORKDIR}/binutils-linaro-${BPV}-${RELEASE}"
