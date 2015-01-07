@@ -4,8 +4,8 @@ DESCRIPTION = "Target-side daemon gathering data for ARM Streamline Performance 
 LICENSE = "GPL-2"
 LIC_FILES_CHKSUM = "file://driver/LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-SRCREV = "bc8a84cf0b138a2951679581453da7bd93003db6"
-PV = "5.19+git${SRCPV}"
+SRCREV = "4a5a2cb5a666a3b31e77394e69e98ed8ea666f6e"
+PV = "5.20+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/arm/ds5/gator.git;protocol=http;branch=linaro \
            file://gator.init"
