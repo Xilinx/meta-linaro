@@ -20,8 +20,8 @@ def siteinfo_data(d):
         "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
         "aarch64": "endian-little arm-common", # bitinfo specified in targetinfo
         "aarch64_be": "endian-big arm-common", # bitinfo specified in targetinfo
-        "arm": "endian-little bit-32 arm-common",
-        "armeb": "endian-big bit-32 arm-common",
+        "arm": "endian-little bit-32 arm-common arm-32",
+        "armeb": "endian-big bit-32 arm-common arm-32",
         "avr32": "endian-big bit-32 avr32-common",
         "bfin": "endian-little bit-32 bfin-common",
         "i386": "endian-little bit-32 ix86-common",
@@ -67,12 +67,12 @@ def siteinfo_data(d):
         "mingw32": "common-mingw",
     }
     targetinfo = {
-        "aarch64-linux": "bit-64",
-        "aarch64_be-linux": "bit-64",
-        "aarch64-linux-gnuilp32": "bit-32 aarch64_be-linux",
-        "aarch64_be-linux-gnuilp32": "bit-32 aarch64_be-linux",
-        "aarch64-linux-gnu": "bit-64 aarch64-linux",
-        "aarch64_be-linux-gnu": "bit-64 aarch64_be-linux",
+        "aarch64-linux": "bit-64 arm64",
+        "aarch64_be-linux": "bit-64 arm64",
+        "aarch64-linux-gnuilp32": "bit-32 aarch64_be-linux arm-32",
+        "aarch64_be-linux-gnuilp32": "bit-32 aarch64_be-linux arm-32",
+        "aarch64-linux-gnu": "bit-64 aarch64-linux arm-64",
+        "aarch64_be-linux-gnu": "bit-64 aarch64_be-linux arm-64",
         "arm-linux-gnueabi": "arm-linux",
         "arm-linux-musleabi": "arm-linux",
         "arm-linux-uclibceabi": "arm-linux-uclibc",
