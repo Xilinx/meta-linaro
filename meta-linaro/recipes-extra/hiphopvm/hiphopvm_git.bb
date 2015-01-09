@@ -11,7 +11,7 @@ gd \
 glog \
 icu \
 libcap \
-libc-client \
+uw-imap \
 libdwarf \
 libevent-fb \
 libmcrypt \

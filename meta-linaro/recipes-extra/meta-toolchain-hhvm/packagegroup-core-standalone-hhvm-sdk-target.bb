@@ -24,8 +24,8 @@ RDEPENDS_${PN} = "\
     icu-dev \
     libcap-dev \
     libcap-staticdev \
-    libc-client-dev \
-    libc-client-staticdev \
+    uw-imap-dev \
+    uw-imap-staticdev \
     libdwarf-dev \
     libdwarf-staticdev \
     libevent-fb-dev \

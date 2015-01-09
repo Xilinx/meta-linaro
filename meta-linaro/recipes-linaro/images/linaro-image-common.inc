@@ -46,7 +46,7 @@ SDK_IMAGE_INSTALL += "\
     icu \
     idlestat \
     libbz2 \
-    libc-client-dev \
+    uw-imap-dev \
     libcap \
     libdwarf-dev \
     libevent-fb \
