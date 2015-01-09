@@ -66,5 +66,5 @@ qemux86_fixup() {
 IMAGE_PREPROCESS_COMMAND += "do_mangle_hostname;" 
 
 do_mangle_hostname() {
-    echo 'lng-test-target' > ${IMAGE_ROOTFS}${sysconfdir}/hostname
+    echo 'linaro' > ${IMAGE_ROOTFS}${sysconfdir}/hostname
 }
