@@ -8,8 +8,9 @@ SRC_URI = "git://git.linaro.org/kernel/linux-linaro-lng.git;branch=linux-linaro-
 do_configure_prepend() {
     cd ${S}
     scripts/kconfig/merge_config.sh -m arch/x86/configs/x86_64_defconfig \
-     linaro/configs/hugepage.conf linaro/configs/ovs.conf \
-     linaro/configs/kvm-host.conf linaro/configs/no_hz_full.conf
+     linaro/configs/ovs.conf \
+     linaro/configs/kvm-host.conf \
+     linaro/configs/no_hz_full.conf
     scripts/config -e CONFIG_DEVTMPFS
     scripts/config -e CONFIG_DEVTMPFS_MOUNT
     scripts/config -e CONFIG_E1000E
