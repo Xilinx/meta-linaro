@@ -29,21 +29,21 @@ do_compile_append() {
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda"
     make IMAGE=linux-system-foundation.axf clean
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB="${DTBDIR}/foundation-v8.dtb" \
+         KERNEL_DTB=`find ${DTBDIR} -type f -name "foundation-v8.dtb"` \
          IMAGE=linux-system-foundation.axf
     make IMAGE=img-foundation.axf clean
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${B}" \
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda2"
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB="${DTBDIR}/foundation-v8.dtb" \
+         KERNEL_DTB=`find ${DTBDIR} -type f -name "foundation-v8.dtb"` \
          IMAGE=img-foundation.axf
     make IMAGE=img.axf clean
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${B}" \
                 --with-cmdline="${BOOTARGS_COMMON} root=/dev/mmcblk0p2"
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB="${DTBDIR}/rtsm_ve-aemv8a.dtb" \
+         KERNEL_DTB=`find ${DTBDIR} -type f -name "rtsm_ve-aemv8a.dtb"` \
          IMAGE=img.axf
 }
 
