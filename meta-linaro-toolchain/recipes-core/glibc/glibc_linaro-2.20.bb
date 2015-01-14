@@ -196,7 +196,9 @@ do_compile () {
 # be fine.
 #
 do_install_append_aarch64-be() {
-    ln -sf ld-linux-aarch64_be.so.1 ${D}${base_libdir}/ld-linux-aarch64.so.1
+    if [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ] ; then
+        ln -sf ld-linux-aarch64_be.so.1 ${D}${base_libdir}/ld-linux-aarch64.so.1
+    fi
 }
 
 require recipes-core/glibc/glibc-package.inc
