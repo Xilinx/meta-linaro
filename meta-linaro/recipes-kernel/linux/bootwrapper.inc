@@ -1,7 +1,7 @@
 SRC_URI_append= " git://git.kernel.org/pub/scm/linux/kernel/git/cmarinas/boot-wrapper-aarch64.git;protocol=http;branch=master;name=bootwrapper;destsuffix=bootwrapper \
 "
 
-SRCREV_bootwrapper = "2ff0b45423226d3de898a52a81b8e90b20fecd60"
+SRCREV_bootwrapper = "26a17ad59544f026878efdb0524ce66b7a314784"
 BW = "${WORKDIR}/bootwrapper"
 DTBDIR="${B}/arch/arm64/boot/dts/"
 
@@ -24,26 +24,31 @@ do_compile_append() {
     export LDFLAGS="${WRAPLDFLAGS}"
 
     autoreconf -vfi
+    dtb=`find ${DTBDIR} -type f -name "foundation-v8.dtb"`
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${B}" \
-                --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda"
+                --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda" \
+                --with-dtb="${dtb}"
     make IMAGE=linux-system-foundation.axf clean
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB=`find ${DTBDIR} -type f -name "foundation-v8.dtb"` \
+         KERNEL_DTB="${dtb}" \
          IMAGE=linux-system-foundation.axf
     make IMAGE=img-foundation.axf clean
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${B}" \
-                --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda2"
+                --with-cmdline="${BOOTARGS_COMMON} root=/dev/vda2" \
+                --with-dtb="${dtb}"
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB=`find ${DTBDIR} -type f -name "foundation-v8.dtb"` \
+         KERNEL_DTB="${dtb}" \
          IMAGE=img-foundation.axf
     make IMAGE=img.axf clean
+    dtb=`find ${DTBDIR} -type f -name "rtsm_ve-aemv8a.dtb"`
     ./configure --host=aarch64-linux-gnu \
                 --with-kernel-dir="${B}" \
-                --with-cmdline="${BOOTARGS_COMMON} root=/dev/mmcblk0p2"
+                --with-cmdline="${BOOTARGS_COMMON} root=/dev/mmcblk0p2" \
+                --with-dtb="${dtb}"
     make DTC=${B}/scripts/dtc/dtc \
-         KERNEL_DTB=`find ${DTBDIR} -type f -name "rtsm_ve-aemv8a.dtb"` \
+         KERNEL_DTB="${dtb}" \
          IMAGE=img.axf
 }
 
