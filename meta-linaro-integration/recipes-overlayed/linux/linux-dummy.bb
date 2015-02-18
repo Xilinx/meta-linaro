@@ -18,6 +18,9 @@ FILES_kernel-modules = ""
 ALLOW_EMPTY_kernel-modules = "1"
 DESCRIPTION_kernel-modules = "Kernel modules meta package"
 
+# Set a fake kernel version to make various checks happy
+KERNEL_VERSION = "3.18"
+
 #COMPATIBLE_MACHINE = "your_machine"
 
 PR = "r1"
@@ -38,7 +41,10 @@ do_shared_workdir () {
 }
 
 do_install() {
-	:
+	# Stash fake data to get around the check in rootfs.py
+	install -d ${D}${datadir}/kernel-depmod/
+	echo "${KERNEL_VERSION}" > ${D}${datadir}/kernel-depmod/kernel-abiversion
+	touch ${D}${datadir}/kernel-depmod/System.map-${KERNEL_VERSION}
 }
 
 do_bundle_initramfs() {
@@ -49,6 +55,20 @@ do_deploy() {
 	:
 }
 
+# Only stage the files we need for depmod, not the modules/firmware
+sysroot_stage_all () {
+	sysroot_stage_dir ${D}${datadir}/kernel-depmod ${SYSROOT_DESTDIR}${datadir}/kernel-depmod
+}
+
+emit_depmod_pkgdata() {
+	# Stash data for depmod
+	install -d ${PKGDESTWORK}/kernel-depmod/
+	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
+	touch ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
+}
+
+PACKAGEFUNCS += "emit_depmod_pkgdata"
+ 
 addtask bundle_initramfs after do_install before do_deploy
 addtask deploy after do_install
 addtask shared_workdir after do_compile before do_install
