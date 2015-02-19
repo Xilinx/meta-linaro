@@ -141,7 +141,13 @@ PACKAGES =+ "\
 	libubsan \
 	libubsan-dev \
 	libubsan-staticdev \
+	liblsan \
+	liblsan-dev \
+	liblsan-staticdev \
 	linux-libc-headers-dev \
+	libtsan \
+	libtsan-dev \
+	libtsan-staticdev \
 	libssp \
 	libssp-dev \
 	libssp-staticdev \
@@ -219,6 +225,12 @@ PKGV_libasan-staticdev = "${ELT_VER_GCC}"
 PKGV_libubsan = "${ELT_VER_GCC}"
 PKGV_libubsan-dev = "${ELT_VER_GCC}"
 PKGV_libubsan-staticdev = "${ELT_VER_GCC}"
+PKGV_liblsan = "${ELT_VER_GCC}"
+PKGV_liblsan-dev = "${ELT_VER_GCC}"
+PKGV_liblsan-staticdev = "${ELT_VER_GCC}"
+PKGV_libtsan = "${ELT_VER_GCC}"
+PKGV_libtsan-dev = "${ELT_VER_GCC}"
+PKGV_libtsan-staticdev = "${ELT_VER_GCC}"
 PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
@@ -253,6 +265,20 @@ FILES_libubsan-dev = "\
     ${base_libdir}/libubsan.la \
 "
 FILES_libubsan-staticdev = "${base_libdir}/libubsan.a"
+
+FILES_liblsan = "${base_libdir}/liblsan.so.*"
+FILES_liblsan-dev = "\
+    ${base_libdir}/liblsan.so \
+    ${base_libdir}/liblsan.la \
+"
+FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
+
+FILES_libtsan = "${base_libdir}/libtsan.so.*"
+FILES_libtsan-dev = "\
+    ${base_libdir}/libtsan.so \
+    ${base_libdir}/libtsan.la \
+"
+FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
@@ -383,3 +409,9 @@ ELT_VER_MAIN ??= ""
 python () {
     if not d.getVar("ELT_VER_MAIN"):
 	raise bb.parse.SkipPackage("External Linaro toolchain not configured (ELT_VER_MAIN not set).")
+    import re
+    if d.getVar("TCLIBC", True) != "glibc":
+        raise bb.parse.SkipPackage("incompatible with target %s" %
+                                   d.getVar('TARGET_OS', True))
+}
+
