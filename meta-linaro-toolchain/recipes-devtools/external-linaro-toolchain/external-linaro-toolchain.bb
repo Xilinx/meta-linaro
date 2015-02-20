@@ -410,7 +410,8 @@ python () {
     if not d.getVar("ELT_VER_MAIN"):
 	raise bb.parse.SkipPackage("External Linaro toolchain not configured (ELT_VER_MAIN not set).")
     import re
-    if d.getVar("TCLIBC", True) != "glibc":
+    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) and (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
+    if notglibc:
         raise bb.parse.SkipPackage("incompatible with target %s" %
                                    d.getVar('TARGET_OS', True))
 }
