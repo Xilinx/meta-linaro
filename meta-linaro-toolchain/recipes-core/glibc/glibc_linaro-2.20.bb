@@ -104,7 +104,7 @@ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/glibc-${PV}', '${FILE_DIRN
 
 python __anonymous () {
     import re
-    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) and (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
+    notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) or (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
     if notglibc:
         raise bb.parse.SkipPackage("incompatible with target %s" %
                                    d.getVar('TARGET_OS', True))
