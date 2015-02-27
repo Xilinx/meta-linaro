@@ -29,6 +29,7 @@ SRC_URI = "\
      file://replace_macros_with_static_inline.patch;apply=no \
      file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch;apply=no \
      file://0001-AArch64-Define-LP64-BE-linker-name.patch \
+     file://0001-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
      "
 
 SRC_URI[md5sum] = "5c4b97c60f8bf624a34e2acef3138eec"
