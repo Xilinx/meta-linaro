@@ -4,6 +4,7 @@ IMAGE_INSTALL += " \
     apache2 \
     fwts \
     acpitests \
+    grub \
     mysql5-server \
     mysql5-client \
     php-fpm \
