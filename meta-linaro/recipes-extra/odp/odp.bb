@@ -9,9 +9,11 @@ PV = "20140820+git${SRCPV}"
 
 DEPENDS = "openssl"
 
-SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
+SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp \
+    file://0001-Replace-deprecated-_BSD_SOURCE-with-_DEFAULT_SOURCE.patch \
+"
 
-SRCREV_odp = "26238333b5b0896366c844aeb7253e60abd99f5a"
+SRCREV_odp = "49bc9ee8fdd47c6193108a90c94ca3b3de66ba46"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
@@ -19,6 +21,12 @@ S = "${WORKDIR}/git"
 inherit autotools
 
 RDEPENDS_${PN} = "libcrypto"
+
+#PACKAGECONFIG ?= ""
+#PACKAGECONFIG[vald] = "--enable-test-vald,,,"
+#PACKAGECONFIG[perf] = "--enable-test-perf,,,"
+#PACKAGECONFIG[cunit] = "--enable-cunit,,cunit,cunit"
+#PACKAGECONFIG[cunit] = "--with-cunit-path=DIR,,cunit,"
 
 # ODP primary shipped as static library plus some API test and samples/
 FILES_${PN}-staticdev += "${datadir}/opendataplane/*.la"
