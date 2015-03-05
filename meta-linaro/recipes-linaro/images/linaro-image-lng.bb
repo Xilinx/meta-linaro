@@ -56,14 +56,16 @@ FEATURE_PACKAGES_autoserial = "auto-serial-console"
 IMAGE_PREPROCESS_COMMAND_qemux86 += "qemux86_fixup;"
 
 qemux86_fixup() {
-        sed -i '/getty 115200 ttyS0/d' ${IMAGE_ROOTFS}/etc/inittab
+        # Since we use autoserial, remove serial consoles
+        # See sysvinit-inittab recipe
+        sed -i '/2345:respawn:\/sbin\/getty/d' ${IMAGE_ROOTFS}/etc/inittab
 
+        # Add a default network interface
         echo "auto eth0" >> ${IMAGE_ROOTFS}/etc/network/interfaces
         echo "iface eth0 inet dhcp" >> ${IMAGE_ROOTFS}/etc/network/interfaces
-}
 
-IMAGE_PREPROCESS_COMMAND += "do_mangle_hostname;" 
-
-do_mangle_hostname() {
-    echo 'linaro' > ${IMAGE_ROOTFS}${sysconfdir}/hostname
+        # The hostname can be changed by using
+        # hostname_pn-base-files = "linaro"
+        # See base-files recipe
+        echo "linaro" > ${IMAGE_ROOTFS}${sysconfdir}/hostname
 }
