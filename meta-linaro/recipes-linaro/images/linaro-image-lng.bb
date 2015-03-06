@@ -6,7 +6,6 @@ IMAGE_INSTALL += " \
     calibrator \
     curl \
     cronie \
-    daq-odp \
     fping \
     git \
     lmbench \
