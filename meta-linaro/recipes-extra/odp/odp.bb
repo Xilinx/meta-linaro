@@ -20,13 +20,13 @@ S = "${WORKDIR}/git"
 
 inherit autotools
 
-RDEPENDS_${PN} = "libcrypto"
+RDEPENDS_${PN} = "bash libcrypto"
 
-#PACKAGECONFIG ?= ""
-#PACKAGECONFIG[vald] = "--enable-test-vald,,,"
-#PACKAGECONFIG[perf] = "--enable-test-perf,,,"
-#PACKAGECONFIG[cunit] = "--enable-cunit,,cunit,cunit"
-#PACKAGECONFIG[cunit] = "--with-cunit-path=DIR,,cunit,"
+#PACKAGECONFIG ?= "perf"
+#PACKAGECONFIG ?= "perf vald" NOTE: add 'vald' to above list and uncomment
+#the PACKAGECONFIG[vald] line below to enable cunit tests when available
+PACKAGECONFIG[perf] = "--enable-test-perf,,,"
+#PACKAGECONFIG[vald] = "--enable-test-vald,,cunit,cunit"
 
 # ODP primary shipped as static library plus some API test and samples/
 FILES_${PN}-staticdev += "${datadir}/opendataplane/*.la"
