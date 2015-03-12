@@ -38,7 +38,7 @@ EXTRA_DEPENDS_aarch64 = ""
 # 64-bit platforms only
 COMPATIBLE_HOST = '(x86_64.*|aarch64.*)-linux'
 
-LICENSE = "PHP Zend"
+LICENSE = "PHP & Zend"
 
 LIC_FILES_CHKSUM = " \
 		file://LICENSE.PHP;md5=cb564efdf78cce8ea6e4b5a4f7c05d97 \
