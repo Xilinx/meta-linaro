@@ -8,6 +8,7 @@ IMAGE_INSTALL += " \
     php-fpm \
     php-fpm-apache2 \
     packagegroup-core-buildessential \
+    wget \
     ${SDK_IMAGE_INSTALL}"
 
 IMAGE_FEATURES += "\
