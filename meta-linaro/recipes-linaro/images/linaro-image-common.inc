@@ -21,6 +21,7 @@ IMAGE_INSTALL += " \
 
 SDK_IMAGE_INSTALL += "\
     acpica \
+    acpitests \
     bc \
     bison \
     boost-date-time \
@@ -39,6 +40,7 @@ SDK_IMAGE_INSTALL += "\
     elfutils-dev \
     expat \
     flex \
+    fwts \
     gator \
     gd \
     git \
@@ -77,6 +79,7 @@ SDK_IMAGE_INSTALL += "\
     python-threading \
     qemu \
     readline \
+    rt-tests \
     sshfs-fuse \
     tbb \
     trace-cmd \
