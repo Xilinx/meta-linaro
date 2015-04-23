@@ -3,7 +3,7 @@ DESCRIPTION = "OpenDataPlane (ODP) provides a data plane application programming
 HOMEPAGE = "http://www.opendataplane.org"
 SECTION = "console/network"
 
-LICENSE = "BSD | GPLv2"
+LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4ccfa994aa96974cfcd39a59faee20a2"
 
 DEPENDS = "openssl"
