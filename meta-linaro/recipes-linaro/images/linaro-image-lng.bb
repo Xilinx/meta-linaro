@@ -4,6 +4,7 @@ IMAGE_INSTALL += " \
     arndale-pre-boot \
     bridge-utils \
     calibrator \
+    cunit \
     curl \
     cronie \
     fping \
