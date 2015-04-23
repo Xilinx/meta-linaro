@@ -26,6 +26,11 @@ IMAGE_INSTALL += " \
     usecpu \
     "
 
+# install the odp-ptest package if ptest is enabled in the
+# DISTRO_FEATURES (configured in local.conf)
+IMAGE_INSTALL += "${@bb.utils.contains( \
+                  'DISTRO_FEATURES', 'ptest', 'odp-ptest', '', d)}"
+
 IMAGE_INSTALL_append_armv7a = " \
     latency-test \
     systemtap \
