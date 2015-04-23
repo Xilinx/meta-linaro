@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Run all of the ODP test applications and report status in a format
+# that matches the automake "make check" output.
+#
+res=0
+
+if [ "$1" != "-v" ]; then
+	verbose=0
+	mkdir -p logs
+else
+	verbose=1
+fi
+
+TESTS=$(find test/* -type f -executable | grep -v .debug | sort)
+
+if [ "$TESTS" = "" ]; then
+	echo "Failed to find any test executables"
+	exit 1
+fi
+
+for tc in $TESTS; do
+	tcname=$(basename $tc)
+
+	if [ "$verbose" = "0" ]; then
+		logfile=logs/${tcname}.log
+		touch $logfile || logfile=/dev/null
+		$tc > $logfile 2>&1
+	else
+		$tc
+	fi
+
+	tres=$?
+	case $tres in
+	0)  echo "PASS: $tcname" ;;
+	77) echo "SKIP: $tcname" ;;
+	*)  echo "FAIL: $tcname"; res=1 ;;
+	esac
+done
+
+exit $res
