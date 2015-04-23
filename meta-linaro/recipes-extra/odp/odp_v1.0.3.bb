@@ -5,15 +5,12 @@ SECTION = "console/network"
 
 LICENSE = "BSD | GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4ccfa994aa96974cfcd39a59faee20a2"
-PV = "20140820+git${SRCPV}"
 
 DEPENDS = "openssl"
 
-SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp \
-    file://0001-Replace-deprecated-_BSD_SOURCE-with-_DEFAULT_SOURCE.patch \
-"
+SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "49bc9ee8fdd47c6193108a90c94ca3b3de66ba46"
+SRCREV_odp = "1bc6f09703cfa1cb0cb6632af2106ed4238784b0"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
