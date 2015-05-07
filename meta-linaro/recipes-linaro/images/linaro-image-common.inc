@@ -47,6 +47,7 @@ SDK_IMAGE_INSTALL += "\
     glog \
     icu \
     idlestat \
+    iozone3 \
     libbz2 \
     uw-imap-dev \
     libcap \
