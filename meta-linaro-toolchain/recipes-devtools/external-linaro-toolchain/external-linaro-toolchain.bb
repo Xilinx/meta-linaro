@@ -65,7 +65,11 @@ do_install() {
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/${ELT_TARGET_SYS} ]; then
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/${ELT_TARGET_SYS}/*  ${D}${base_libdir}
 	else
-		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/*  ${D}${base_libdir}
+        if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib ]; then
+		    cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/*  ${D}${base_libdir}
+        else
+		    cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*  ${D}${base_libdir}
+        fi
 	fi
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/${ELT_TARGET_SYS} ]; then
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/${ELT_TARGET_SYS}/*  ${D}${libdir}
