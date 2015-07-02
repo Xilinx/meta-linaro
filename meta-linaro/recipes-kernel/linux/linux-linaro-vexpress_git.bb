@@ -1,7 +1,7 @@
 DESCRIPTION = "Linaro Kernel For Vexpress/KVM"
 
-SRCREV_kernel="d6886a38b6fa1a9869c227d1a9eecd48c3ae0ad2"
-PV = "4.0+git${SRCPV}"
+SRCREV_kernel="5253e6c8070c639c823394d490016bacf87c47c2"
+PV = "4.1+git${SRCPV}"
 SRC_URI_append = " git://git.linaro.org/git/kernel/linux-linaro-tracking.git;protocol=http;branch=linux-linaro;name=kernel "
 require linaro-kernel.inc
 
