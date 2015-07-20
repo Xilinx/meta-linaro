@@ -10,7 +10,6 @@ KERNEL_LD_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
 
 
 include linaro-kernel.inc
-include bootwrapper.inc
 
 COMPATIBLE_HOST = "aarch64"
 KERNEL_IMAGETYPE = "Image"
