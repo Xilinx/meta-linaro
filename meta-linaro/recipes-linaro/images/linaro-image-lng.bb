@@ -60,6 +60,7 @@ EXTRA_IMAGE_FEATURES_append_qemux86 = " autoserial"
 FEATURE_PACKAGES_autoserial = "auto-serial-console"
 
 IMAGE_PREPROCESS_COMMAND_qemux86 += "qemux86_fixup;"
+IMAGE_PREPROCESS_COMMAND_qemux86-64 += "qemux86_fixup;"
 
 qemux86_fixup() {
         # Since we use autoserial, remove serial consoles
