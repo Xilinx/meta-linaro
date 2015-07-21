@@ -11,6 +11,7 @@ do_configure_prepend() {
      linaro/configs/preempt-rt.conf \
      linaro/configs/ovs.conf \
      linaro/configs/kvm-host.conf \
+     linaro/configs/kvm-guest.conf \
      linaro/configs/no_hz_full.conf
     scripts/config -e CONFIG_DEVTMPFS
     scripts/config -e CONFIG_DEVTMPFS_MOUNT
