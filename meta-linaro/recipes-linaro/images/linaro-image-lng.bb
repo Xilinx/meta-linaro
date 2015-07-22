@@ -9,6 +9,9 @@ IMAGE_INSTALL += " \
     cronie \
     fping \
     git \
+    libvirt \
+    libvirt-libvirtd \
+    libvirt-virsh \
     lmbench \
     lng-network-config \
     ltp \
