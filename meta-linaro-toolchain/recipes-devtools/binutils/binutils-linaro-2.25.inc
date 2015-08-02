@@ -24,6 +24,7 @@ SRC_URI = "\
      file://binutils-uclibc-gas-needs-libm.patch \
      file://libiberty_path_fix.patch \
      file://binutils-poison.patch \
+     file://libtool-2.4-update.patch \
      file://libtool-rpath-fix.patch \
      file://binutils-armv5e.patch \
      file://replace_macros_with_static_inline.patch;apply=no \
