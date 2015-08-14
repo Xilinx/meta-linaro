@@ -59,6 +59,20 @@ def elt_get_libc_version(d):
 		for file in os.listdir(libpath):
 			if file.find('libc-') == 0:
 				return file[5:-3]
+
+	libpath = syspath + '/libc/usr/lib/' + bb.data.expand('${ELT_TARGET_SYS}/', d)
+
+	if os.path.exists(libpath):
+		for file in os.listdir(libpath):
+			if file.find('libc-') == 0:
+				return file[5:-3]
+
+	libpath = syspath + '/libc/usr/lib/'
+
+	if os.path.exists(libpath):
+		for file in os.listdir(libpath):
+			if file.find('libc-') == 0:
+				return file[5:-3]
 	return 'UNKNOWN'
 
 def elt_get_kernel_version(d):
