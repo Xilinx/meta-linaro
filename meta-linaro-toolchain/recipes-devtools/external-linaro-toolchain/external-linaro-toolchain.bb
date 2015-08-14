@@ -65,16 +65,19 @@ do_install() {
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/${ELT_TARGET_SYS} ]; then
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/${ELT_TARGET_SYS}/*  ${D}${base_libdir}
 	else
-        if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib ]; then
-		    cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/*  ${D}${base_libdir}
-        else
-		    cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*  ${D}${base_libdir}
-        fi
+		if [ -f ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/ld-${ELT_VER_LIBC}.so ]; then
+			cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/*  ${D}${base_libdir}
+		else
+			cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*.so*  ${D}${base_libdir}
+		fi
 	fi
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/${ELT_TARGET_SYS} ]; then
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/${ELT_TARGET_SYS}/*  ${D}${libdir}
 	else
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/lib/*  ${D}${libdir}
+		if [ ! -f ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/lib/ld-${ELT_VER_LIBC}.so ]; then
+			rm -rf ${D}${libdir}/*.so*
+		fi
 	fi
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/share/*  ${D}${datadir}
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/*  ${D}${includedir}
@@ -100,10 +103,53 @@ do_install() {
 	ln -sf ../../lib/libcidn.so.1 ${D}${libdir}/libcidn.so
 	ln -sf ../../lib/libBrokenLocale.so.1 ${D}${libdir}/libBrokenLocale.so
 	ln -sf ../../lib/libthread_db.so.1 ${D}${libdir}/libthread_db.so
+	ln -sf ../../lib/libthread_db.so.1 ${D}${libdir}/libthread_db-1.0.so
 	ln -sf ../../lib/libanl.so.1 ${D}${libdir}/libanl.so
 	ln -sf ../../lib/libdl.so.2 ${D}${libdir}/libdl.so
 	ln -sf ../../lib/libnss_nisplus.so.2 ${D}${libdir}/libnss_nisplus.so
+	ln -sf ../../lib/libnss_db.so.2 ${D}${libdir}/libnss_db.so
 	ln -sf ../../lib/libm.so.6 ${D}${libdir}/libm.so
+	ln -sf ../../lib/libasan.so.1 ${D}${libdir}/libasan.so
+	ln -sf ../../lib/libatomic.so.1 ${D}${libdir}/libatomic.so
+	ln -sf ../../lib/libgomp.so.1 ${D}${libdir}/libgomp.so
+	ln -sf ../../lib/libitm.so.1 ${D}${libdir}/libitm.so
+	ln -sf ../../lib/libssp.so.0 ${D}${libdir}/libssp.so
+	ln -sf ../../lib/libstdc++.so.6 ${D}${libdir}/libstdc++.so
+	ln -sf ../../lib/libgfortran.so.6 ${D}${libdir}/libgfortran.so
+	ln -sf ../../lib/libubsan.so.0 ${D}${libdir}/libubsan.so
+
+	# remove potential .so duplicates from base_libdir
+	# for all symlinks created above in libdir
+	rm -f ${D}${base_libdir}/libnsl.so
+	rm -f ${D}${base_libdir}/librt.so
+	rm -f ${D}${base_libdir}/libcrypt.so
+	rm -f ${D}${base_libdir}/libnss_nis.so
+	rm -f ${D}${base_libdir}/libresolv.so
+	rm -f ${D}${base_libdir}/libnss_dns.so
+	rm -f ${D}${base_libdir}/libnss_hesiod.so
+	rm -f ${D}${base_libdir}/libutil.so
+	rm -f ${D}${base_libdir}/libnss_files.so
+	rm -f ${D}${base_libdir}/libnss_compat.so
+	rm -f ${D}${base_libdir}/libcidn.so
+	rm -f ${D}${base_libdir}/libBrokenLocale.so
+	rm -f ${D}${base_libdir}/libthread_db.so
+	rm -f ${D}${base_libdir}/libthread_db-1.0.so
+	rm -f ${D}${base_libdir}/libanl.so
+	rm -f ${D}${base_libdir}/libdl.so
+	rm -f ${D}${base_libdir}/libnss_nisplus.so
+	rm -f ${D}${base_libdir}/libnss_db.so
+	rm -f ${D}${base_libdir}/libm.so
+	rm -f ${D}${base_libdir}/libasan.so
+	rm -f ${D}${base_libdir}/libatomic.so
+	rm -f ${D}${base_libdir}/libgomp.so
+	rm -f ${D}${base_libdir}/libitm.so
+	rm -f ${D}${base_libdir}/libssp.so
+	rm -f ${D}${base_libdir}/libstdc++.so
+	rm -f ${D}${base_libdir}/libgfortran.so
+	rm -f ${D}${base_libdir}/libubsan.so
+
+	# Besides ld-${ELT_VER_LIBC}.so, other libs can have duplicates like lib*-${ELT_VER_LIBC}.so
+	rm -rf ${D}${base_libdir}/lib*-${ELT_VER_LIBC}.so
 
 	if [ -d ${D}${base_libdir}/arm-linux-gnueabi ]; then
 	   rm -rf ${D}${base_libdir}/arm-linux-gnueabi
@@ -117,13 +163,19 @@ do_install() {
 		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" -e "s# /lib/ld-linux# ../../lib/ld-linux#g" ${D}${libdir}/libc.so
 	fi
 	if [ -f ${D}${base_libdir}/libc.so ];then
-		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" -e "s# /lib/ld-linux# ../../lib/ld-linux#g" ${D}${base_libdir}/libc.so
+		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" ${D}${base_libdir}/libc.so
+		if [ -f ${D}${base_libdir}/libc.so.6 ]; then
+			sed -i -e "s# /usr/lib/libc.so.6# /lib/libc.so.6#g" ${D}${base_libdir}/libc.so
+		fi
 	fi
 	if [ -f ${D}${libdir}/libpthread.so ];then
 		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" ${D}${libdir}/libpthread.so
 	fi
 	if [ -f ${D}${base_libdir}/libpthread.so ];then
 		sed -i -e "s# /lib/${ELT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib/${ELT_TARGET_SYS}# .#g" ${D}${base_libdir}/libpthread.so
+		if [ -f ${D}${base_libdir}/libpthread.so.0 ]; then
+			sed -i -e "s# /usr/lib/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so
+		fi
 	fi
 }
 
@@ -172,7 +224,14 @@ PACKAGES =+ "\
 INSANE_SKIP_${PN}-dbg = "staticdev"
 INSANE_SKIP_${PN}-utils += "ldflags"
 INSANE_SKIP_libstdc++ += "ldflags"
+INSANE_SKIP_libgfortran += "ldflags"
 INSANE_SKIP_libgcc += "ldflags"
+INSANE_SKIP_libatomic += "ldflags"
+INSANE_SKIP_libasan += "ldflags"
+INSANE_SKIP_libubsan += "ldflags"
+INSANE_SKIP_libssp += "ldflags"
+INSANE_SKIP_libgomp += "ldflags"
+INSANE_SKIP_libitm += "ldflags"
 INSANE_SKIP_gdbserver += "ldflags"
 
 # OE-core has literally listed 'glibc' in LIBC_DEPENDENCIES :/
@@ -286,14 +345,7 @@ FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
 
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
-FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
-FILES_libstdc++-dev = "\
-	${includedir}/c++/${PV} \
-	${base_libdir}/libstdc++.so"
-FILES_libstdc++-staticdev = "\
-	${base_libdir}/libstdc++.a \
-	${base_libdir}/libsupc++.a \
-"
+
 FILES_linux-libc-headers = "\
 	${includedir}/asm* \
 	${includedir}/linux \
@@ -419,4 +471,3 @@ python () {
         raise bb.parse.SkipPackage("incompatible with target %s" %
                                    d.getVar('TARGET_OS', True))
 }
-
