@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=96094d47cfbd2cc45eb46ce0fc423c04"
 
 COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 
-PV = "1.4+1.5pre"
-SRCREV = "985a08744aeb8bccb0b50145375092e2a466a6da"
-SRC_URI = "git://github.com/kernelslacker/trinity.git;protocol=https \
+PV = "1.5"
+SRCREV = "edc2e693e298e0372010a361354c4a79a3cd93f3"
+SRC_URI = "git://github.com/kernelslacker/trinity.git;protocol=https;nobranch=1 \
           "
 
 S = "${WORKDIR}/git"
