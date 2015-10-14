@@ -11,7 +11,7 @@ DEPENDS = "openssl cunit"
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp \
 	   file://run-ptest"
 
-SRCREV_odp = "3afd410eaa2e55f47b42508ac0b86390a7b4c711"
+SRCREV_odp = "1bc6f09703cfa1cb0cb6632af2106ed4238784b0"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
