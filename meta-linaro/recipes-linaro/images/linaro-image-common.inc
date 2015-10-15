@@ -11,7 +11,6 @@ IMAGE_INSTALL += " \
     e2fsprogs-e2fsck \
     kexec-tools \
     linaro-lava-tests \
-    nss-myhostname \
     procps \
     stress \
     stress-dbg \
