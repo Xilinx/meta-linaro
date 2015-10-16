@@ -3,6 +3,8 @@ PV = "3.14+git${SRCPV}"
 
 require linaro-lng.inc
 
+SRCREV = "9af7f850aca5436eed9c4c1bb8aab56a362180ca"
+
 SRC_URI = "git://git.linaro.org/kernel/linux-linaro-lng.git;branch=linux-linaro-lng-v3.14-rt"
 
 do_configure_prepend() {
