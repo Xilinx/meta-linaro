@@ -89,9 +89,24 @@ SDK_IMAGE_INSTALL += "\
     ${HUGETLB} \
     "
 
-IMAGE_PREPROCESS_COMMAND += "make_boot_verbose; "
+IMAGE_PREPROCESS_COMMAND += "do_systemd_network ; "
 
+do_systemd_network () {
+        install -d ${IMAGE_ROOTFS}${sysconfdir}/systemd/network
+        cat << EOF > ${IMAGE_ROOTFS}${sysconfdir}/systemd/network/10-en.network
+[Match]
+Name=en*
 
-fakeroot make_boot_verbose () {
-    sed -i -e 's/VERBOSE=no/VERBOSE=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+[Network]
+DHCP=yes
+EOF
+
+        cat << EOF > ${IMAGE_ROOTFS}${sysconfdir}/systemd/network/11-eth.network
+[Match]
+Name=eth*
+
+[Network]
+DHCP=yes
+EOF
 }
+
