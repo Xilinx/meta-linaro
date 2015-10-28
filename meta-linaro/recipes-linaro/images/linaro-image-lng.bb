@@ -68,14 +68,6 @@ IMAGE_PREPROCESS_COMMAND_qemux86 += "qemux86_fixup;"
 IMAGE_PREPROCESS_COMMAND_qemux86-64 += "qemux86_fixup;"
 
 qemux86_fixup() {
-        # Since we use autoserial, remove serial consoles
-        # See sysvinit-inittab recipe
-        sed -i '/2345:respawn:\/sbin\/getty/d' ${IMAGE_ROOTFS}/etc/inittab
-
-        # Add a default network interface
-        echo "auto eth0" >> ${IMAGE_ROOTFS}/etc/network/interfaces
-        echo "iface eth0 inet dhcp" >> ${IMAGE_ROOTFS}/etc/network/interfaces
-
         # The hostname can be changed by using
         # hostname_pn-base-files = "linaro"
         # See base-files recipe
