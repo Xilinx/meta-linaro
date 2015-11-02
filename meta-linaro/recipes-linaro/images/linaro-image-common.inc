@@ -89,7 +89,7 @@ SDK_IMAGE_INSTALL += "\
     ${HUGETLB} \
     "
 
-IMAGE_PREPROCESS_COMMAND += "do_systemd_network ; do_hacknfs"
+ROOTFS_POSTPROCESS_COMMAND += "do_systemd_network ; do_hacknfs ;"
 
 # The boot will fail if you have (k)NFSD disabled or no nfs modules installed
 do_hacknfs () {
