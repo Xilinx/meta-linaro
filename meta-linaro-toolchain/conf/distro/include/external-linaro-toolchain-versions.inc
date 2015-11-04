@@ -23,16 +23,25 @@ def elt_get_version(d):
 		last_line = stderr.splitlines()[-1]
 		return last_line
 
+# Extract the YYYY.MM version
 def elt_get_main_version(d):
 	version = elt_get_version(d)
+	bb.note('Trying for parse version info from: %s' % version)
 	if version != 'UNKNOWN':
-		if version.split()[5] != '(crosstool-NG':
+		if version.split()[4] == '(Linaro':
+			# gcc version 5.1.1 20150608 (Linaro GCC 5.1-2015.08)
+			return version.split()[6].split('-')[1].split(')')[0]
+		if version.split()[5] == '(Linaro':
+			# gcc version 4.9.3 20141031 (prerelease) (Linaro GCC 2014.11)
 			return version.split()[7].split(')')[0]
-		else:
+		if version.split()[5] == '(crosstool-NG':
+			# gcc version 4.9.1 20140529 (prerelease) (crosstool-NG linaro-1.13.1-4.9-2014.08 - Linaro GCC 4.9-2014.08)
 			return version.split()[6].split('-')[3]
+		bb.error('Failed to parse external Linaro toolchain version from: %s' % version)
 	else:
 		return version
 
+# Extract the x.y.z version from 'gcc version 4.9.1'
 def elt_get_gcc_version(d):
 	version = elt_get_version(d)
 	if version != 'UNKNOWN':
