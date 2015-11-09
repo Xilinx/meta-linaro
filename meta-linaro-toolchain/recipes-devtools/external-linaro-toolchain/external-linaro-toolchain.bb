@@ -53,6 +53,12 @@ PV = "${ELT_VER_MAIN}"
 SRC_URI = "file://SUPPORTED"
 
 do_install() {
+	# Add stubs for files OE-core expects
+	install -d ${S}/nscd/
+	touch  ${S}/nscd/nscd.init
+	touch  ${S}/nscd/nscd.conf
+	touch  ${S}/nscd/nscd.service
+
 	install -d ${D}${base_libdir}
 	install -d ${D}${bindir}
 	install -d ${D}${sbindir}
