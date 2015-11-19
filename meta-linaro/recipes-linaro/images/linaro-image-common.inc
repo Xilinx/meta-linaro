@@ -51,7 +51,7 @@ SDK_IMAGE_INSTALL += "\
     uw-imap-dev \
     libcap \
     libdwarf-dev \
-    libevent-fb \
+    libevent \
     libmcrypt \
     libmemcached \
     libmysqlclient-r \

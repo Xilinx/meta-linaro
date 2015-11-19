@@ -28,8 +28,8 @@ RDEPENDS_${PN} = "\
     uw-imap-staticdev \
     libdwarf-dev \
     libdwarf-staticdev \
-    libevent-fb-dev \
-    libevent-fb-staticdev \
+    libevent-dev \
+    libevent-staticdev \
     libglade-dev \
     libmcrypt-dev \
     libmemcached-dev \

@@ -13,7 +13,7 @@ icu \
 libcap \
 uw-imap \
 libdwarf \
-libevent-fb \
+libevent \
 libmcrypt \
 libmemcached \
 libunwind \
