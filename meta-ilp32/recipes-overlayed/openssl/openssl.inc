@@ -8,7 +8,7 @@ SECTION = "libs/network"
 LICENSE = "openssl"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
 
-DEPENDS = "perl-native-runtime"
+DEPENDS = "hostperl-runtime-native"
 DEPENDS_append_class-target = " openssl-native"
 
 SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
@@ -18,10 +18,12 @@ S = "${WORKDIR}/openssl-${PV}"
 PACKAGECONFIG[perl] = ",,,"
 
 AR_append = " r"
+TERMIO_libc-musl = "-DTERMIOS"
+TERMIO ?= "-DTERMIO"
 # Avoid binaries being marked as requiring an executable stack since it 
 # doesn't(which causes and this causes issues with SELinux
 CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
-	-DTERMIO ${CFLAGS} -Wall -Wa,--noexecstack"
+	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
 
 # -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
 CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
@@ -118,10 +120,10 @@ do_configure () {
 	linux-mipsel)
 		target=debian-mipsel
 		;;
-        linux-*-mips64)
+        linux-*-mips64 | linux-mips64)
                target=linux-mips
                 ;;
-	linux-microblaze*)
+	linux-microblaze*|linux-nios2*)
 		target=linux-generic32
 		;;
 	linux-powerpc)
@@ -194,19 +196,25 @@ do_install () {
 }
 
 do_install_ptest () {
-	cp -r Makefile test ${D}${PTEST_PATH}
+	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
+	cp Configure config e_os.h ${D}${PTEST_PATH}
+	cp -r -L include ${D}${PTEST_PATH}
+	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
+	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
+	mkdir -p ${D}${PTEST_PATH}/crypto
+	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
 	cp -r certs ${D}${PTEST_PATH}
 	mkdir -p ${D}${PTEST_PATH}/apps
-	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
-	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
+	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
 	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
 	mkdir -p ${D}${PTEST_PATH}/util
 	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
 	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
 }
 
-do_install_append_virtclass-native() {
+do_install_append_class-native() {
 	create_wrapper ${D}${bindir}/openssl \
 	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
 	    SSL_CERT_DIR=${libdir}/ssl/certs \
