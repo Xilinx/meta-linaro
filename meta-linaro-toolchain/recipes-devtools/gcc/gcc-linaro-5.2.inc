@@ -58,7 +58,7 @@ EXTRA_OECONF_PATHS = "\
 
 PV = "linaro-${BASEPV}"
 
-MMYY = "15.11"
+MMYY = "15.11-2"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "5.2.1"
@@ -113,8 +113,8 @@ SRC_URI = "https://releases.linaro.org/components/toolchain/gcc-linaro/${BASEPV}
 #           file://AArch64-Define-BE-loader-name-default-be.patch 
 #           file://use-lib-for-aarch64.patch
 
-SRC_URI[md5sum] = "c65acd1d0fa4c6931a09c9c52c4cfa28"
-SRC_URI[sha256sum] = "7b5587078453c1685c1bebdcc7a336ebaea5a4872b4287e6afc05d433f20ac8a"
+SRC_URI[md5sum] = "46665e2ed131d6808917b18134ef3095"
+SRC_URI[sha256sum] = "9c113b59ca6b07175615f3ef3c20b4a4f19ab22f3ae309da39010b33a0363850"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
