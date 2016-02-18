@@ -469,7 +469,7 @@ FILES_libgomp-staticdev = "\
 ELT_VER_MAIN ??= ""
 
 python () {
-    if not d.getVar("ELT_VER_MAIN"):
+    if not d.getVar("ELT_VER_MAIN", False):
 	raise bb.parse.SkipPackage("External Linaro toolchain not configured (ELT_VER_MAIN not set).")
     import re
     notglibc = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None) or (re.match('.*musl$', d.getVar('TARGET_OS', True)) != None)
