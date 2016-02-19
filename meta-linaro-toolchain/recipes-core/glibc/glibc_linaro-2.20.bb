@@ -25,6 +25,7 @@ SRC_URI = "http://releases.linaro.org/${MMYY}/components/toolchain/glibc-linaro/
            file://ppce6500-32b_slow_ieee754_sqrt.patch \
            file://grok_gold.patch \
            file://fix_am_rootsbindir.patch \
+           file://CVE-2015-7547.patch \
            ${EGLIBCPATCHES} \
            ${ILP32PATCHES} \
           "
