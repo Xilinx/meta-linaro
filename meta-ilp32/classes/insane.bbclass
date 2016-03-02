@@ -795,9 +795,8 @@ def package_qa_walk(warnfuncs, errorfuncs, skip, package, d):
             elf = oe.qa.ELFFile(path)
             try:
                 elf.open()
-            except (IOError, ValueError):
+            except (IOError, oe.qa.NotELFFileError):
                 # IOError can happen if the packaging control files disappear,
-                # ValueError means the file isn't an ELF.
                 elf = None
             for func in warnfuncs:
                 func(path, package, d, elf, warnings)
@@ -848,7 +847,10 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
                                 break
                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
                         continue
-                    error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
+                    if rdep_data and 'PN' in rdep_data:
+                        error_msg = "%s rdepends on %s, but it isn't a build dependency, missing %s in DEPENDS or PACKAGECONFIG?" % (pkg, rdepend, rdep_data['PN'])
+                    else:
+                        error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
                     package_qa_handle_error("build-deps", error_msg, d)
 
         if "file-rdeps" not in skip:
@@ -914,8 +916,8 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
                         break
             if filerdepends:
                 for key in filerdepends:
-                    error_msg = "%s contained in package %s requires %s, but no providers found in its RDEPENDS" % \
-                            (filerdepends[key],pkg, key)
+                    error_msg = "%s contained in package %s requires %s, but no providers found in RDEPENDS_%s?" % \
+                            (filerdepends[key].replace("_%s" % pkg, "").replace("@underscore@", "_"), pkg, key, pkg)
                 package_qa_handle_error("file-rdeps", error_msg, d)
 
 def package_qa_check_deps(pkg, pkgdest, skip, d):
@@ -1151,19 +1153,21 @@ python do_qa_configure() {
 
     configs = []
     workdir = d.getVar('WORKDIR', True)
-    bb.note("Checking autotools environment for common misconfiguration")
-    for root, dirs, files in os.walk(workdir):
-        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % \
-                    os.path.join(root,"config.log")
-        if "config.log" in files:
-            if subprocess.call(statement, shell=True) == 0:
-                bb.fatal("""This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
+
+    if bb.data.inherits_class('autotools', d):
+        bb.note("Checking autotools environment for common misconfiguration")
+        for root, dirs, files in os.walk(workdir):
+            statement = "grep -q -F -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s" % \
+                        os.path.join(root,"config.log")
+            if "config.log" in files:
+                if subprocess.call(statement, shell=True) == 0:
+                    bb.fatal("""This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
 Rerun configure task after fixing this.""")
 
-        if "configure.ac" in files:
-            configs.append(os.path.join(root,"configure.ac"))
-        if "configure.in" in files:
-            configs.append(os.path.join(root, "configure.in"))
+            if "configure.ac" in files:
+                configs.append(os.path.join(root,"configure.ac"))
+            if "configure.in" in files:
+                configs.append(os.path.join(root, "configure.in"))
 
     ###########################################################################
     # Check gettext configuration and dependencies are correct
