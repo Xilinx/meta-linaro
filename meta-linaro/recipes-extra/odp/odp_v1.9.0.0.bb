@@ -10,7 +10,7 @@ DEPENDS = "openssl cunit libpcap"
 
 SRC_URI = "git://git.linaro.org/lng/odp.git;name=odp"
 
-SRCREV_odp = "bbd5ac81d9e606415f2ad2ecb999c2ff8c3716c9"
+SRCREV_odp = "ec964bb3d07b13c4c325a73bfaecf6c159d973e2"
 SRCREV_FORMAT = "odp"
 
 S = "${WORKDIR}/git"
