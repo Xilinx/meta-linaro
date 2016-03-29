@@ -26,6 +26,9 @@ do_compile_class-native() {
     oe_runmake -C src makeguids
 }
 
+# parallel install breaks with missing .pc files
+PARALLEL_MAKEINST = "-j1"
+
 do_install() {
     oe_runmake install DESTDIR=${D}
 }
