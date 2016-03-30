@@ -10,13 +10,14 @@ DEPENDS_class-target = "popt efivar-native"
 SRCREV = "01abee43d6d6e755f56a4135ab5aa0bfad609ce2"
 SRC_URI = "git://github.com/rhinstaller/efivar.git"
 SRC_URI_append_class-target = " file://0001-efivar-fix-for-cross-compile.patch \
-                                file://0002-disable-static-build.patch \
                               "
 
 S = "${WORKDIR}/git"
 
 # Setting CROSS_COMPILE breaks pkgconfig, so just set AR
 EXTRA_OEMAKE = "AR=${TARGET_PREFIX}gcc-ar"
+
+PARALLEL_MAKE = ""
 
 do_compile_prepend() {
     sed -i -e s:-Werror::g ${S}/gcc.specs
