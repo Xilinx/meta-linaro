@@ -89,7 +89,6 @@ do_install() {
 	cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/*  ${D}${includedir}
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/${ELT_TARGET_SYS} ]; then
 		cp -a ${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/libc/usr/include/${ELT_TARGET_SYS}/*  ${D}${includedir}
-
 		rm -r ${D}${includedir}/${ELT_TARGET_SYS}
 	fi
 
@@ -115,14 +114,22 @@ do_install() {
 	ln -sf ../../lib/libnss_nisplus.so.2 ${D}${libdir}/libnss_nisplus.so
 	ln -sf ../../lib/libnss_db.so.2 ${D}${libdir}/libnss_db.so
 	ln -sf ../../lib/libm.so.6 ${D}${libdir}/libm.so
-	ln -sf ../../lib/libasan.so.1 ${D}${libdir}/libasan.so
 	ln -sf ../../lib/libatomic.so.1 ${D}${libdir}/libatomic.so
 	ln -sf ../../lib/libgomp.so.1 ${D}${libdir}/libgomp.so
 	ln -sf ../../lib/libitm.so.1 ${D}${libdir}/libitm.so
 	ln -sf ../../lib/libssp.so.0 ${D}${libdir}/libssp.so
 	ln -sf ../../lib/libstdc++.so.6 ${D}${libdir}/libstdc++.so
-	ln -sf ../../lib/libgfortran.so.6 ${D}${libdir}/libgfortran.so
 	ln -sf ../../lib/libubsan.so.0 ${D}${libdir}/libubsan.so
+	if [ -f ${D}${base_libdir}/libasan.so.2 ]; then
+		ln -sf ../../lib/libasan.so.2 ${D}${libdir}/libasan.so
+	else
+		ln -sf ../../lib/libasan.so.1 ${D}${libdir}/libasan.so
+	fi
+	if [ -f ${D}${base_libdir}/libgfortran.so.6 ]; then
+		ln -sf ../../lib/libgfortran.so.6 ${D}${libdir}/libgfortran.so
+	else
+		ln -sf ../../lib/libgfortran.so.3 ${D}${libdir}/libgfortran.so
+	fi
 
 	# remove potential .so duplicates from base_libdir
 	# for all symlinks created above in libdir
@@ -139,7 +146,6 @@ do_install() {
 	rm -f ${D}${base_libdir}/libcidn.so
 	rm -f ${D}${base_libdir}/libBrokenLocale.so
 	rm -f ${D}${base_libdir}/libthread_db.so
-	rm -f ${D}${base_libdir}/libthread_db-1.0.so
 	rm -f ${D}${base_libdir}/libanl.so
 	rm -f ${D}${base_libdir}/libdl.so
 	rm -f ${D}${base_libdir}/libnss_nisplus.so
@@ -155,7 +161,24 @@ do_install() {
 	rm -f ${D}${base_libdir}/libubsan.so
 
 	# Besides ld-${ELT_VER_LIBC}.so, other libs can have duplicates like lib*-${ELT_VER_LIBC}.so
-	rm -rf ${D}${base_libdir}/lib*-${ELT_VER_LIBC}.so
+	# Only remove them if both are regular files and are identical
+	for i in ${D}${base_libdir}/lib*-${ELT_VER_LIBC}.so; do
+		f=$(echo $i | sed 's/-${ELT_VER_LIBC}//')
+		l=$(ls $f.*)
+		if [ $(readlink -f $i ) = $l ]; then
+			echo "$i is a symlink of $l, keep it"
+		elif [ $(readlink -f $l ) = $i ]; then
+			echo "$l is a symlink of $i, keep it"
+		else
+			cmp -s $i $l
+			if [ $? -eq 0 ]; then
+				echo "$i is a duplicate of $l, remove it"
+				rm $i
+			else
+				echo "$i and $l are different files, keep them both"
+			fi
+		fi
+	done
 
 	if [ -d ${D}${base_libdir}/arm-linux-gnueabi ]; then
 	   rm -rf ${D}${base_libdir}/arm-linux-gnueabi
