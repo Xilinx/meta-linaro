@@ -26,7 +26,7 @@ def elt_get_version(d):
 # Extract the YYYY.MM version
 def elt_get_main_version(d):
 	version = elt_get_version(d)
-	bb.note('Trying for parse version info from: %s' % version)
+	bb.debug(2, 'Trying for parse version info from: %s' % version)
 	if version != 'UNKNOWN':
 		if version.split()[4] == '(Linaro':
 			# gcc version 5.1.1 20150608 (Linaro GCC 5.1-2015.08)
