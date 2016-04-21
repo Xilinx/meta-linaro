@@ -39,7 +39,6 @@ IMAGE_INSTALL += "${@bb.utils.contains( \
 IMAGE_INSTALL_append_armv7a = " \
     latency-test \
     systemtap \
-    valgrind \
     trinity-example \
     "
 
