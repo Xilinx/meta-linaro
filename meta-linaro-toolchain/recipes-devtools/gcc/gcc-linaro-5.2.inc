@@ -108,6 +108,7 @@ SRC_URI = "https://releases.linaro.org/components/toolchain/gcc-linaro/${BASEPV}
            file://0041-handle-target-sysroot-multilib.patch \
            file://0042-cxxflags-for-build.patch \
            file://PR67954.patch \
+           file://0060-remove-prototypes-cfns.patch \
  	   "
 
 #           file://0038-fix-g++-sysroot.patch 
