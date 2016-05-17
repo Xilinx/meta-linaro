@@ -2,6 +2,8 @@ require linaro-image-common.inc
 
 inherit ${@bb.utils.contains_any("MACHINE", [ "qemux86", "qemux86-64" ], "image-vm", "base", d)}
 
+ROOTFS_POSTPROCESS_COMMAND_remove = "do_systemd_network ;"
+
 IMAGE_INSTALL += " \
     arndale-pre-boot \
     bridge-utils \
