@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
     cronie \
     fping \
     git \
+    libhugetlbfs \
     libvirt \
     libvirt-libvirtd \
     libvirt-virsh \
