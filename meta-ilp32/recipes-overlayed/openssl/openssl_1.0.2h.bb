@@ -13,6 +13,7 @@ export OE_LDFLAGS="${LDFLAGS}"
 
 SRC_URI += "file://find.pl;subdir=${BP}/util/ \
             file://run-ptest \
+            file://openssl-c_rehash.sh \
             file://configure-targets.patch \
             file://shared-libs.patch \
             file://oe-ldflags.patch \
@@ -27,21 +28,20 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
             file://debian/no-rpath.patch \
             file://debian/no-symbolic.patch \
             file://debian/pic.patch \
-            file://debian/version-script.patch \
+            file://debian1.0.2/version-script.patch \
             file://openssl_fix_for_x32.patch \
             file://fix-cipher-des-ede3-cfb1.patch \
             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
             file://openssl-fix-des.pod-error.patch \
             file://Makefiles-ptest.patch \
             file://ptest-deps.patch \
-            file://crypto_use_bigint_in_x86-64_perl.patch \
             file://openssl-1.0.2a-x32-asm.patch \
             file://ptest_makefile_deps.patch  \
             file://configure-musl-target.patch \
+            file://parallel.patch \
            "
-
-SRC_URI[md5sum] = "b3bf73f507172be9292ea2a8c28b659d"
-SRC_URI[sha256sum] = "932b4ee4def2b434f85435d9e3e19ca8ba99ce9a065a61524b429a9d5e9b2e9c"
+SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
+SRC_URI[sha256sum] = "1d4007e53aad94a5b2002fe045ee7bb0b3d98f1a47f8b2bc851dcd1c74332919"
 
 PACKAGES =+ "${PN}-engines"
 FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
