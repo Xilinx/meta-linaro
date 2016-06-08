@@ -93,7 +93,7 @@ do_install() {
 	fi
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
-	linker_name="${@bb.utils.contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", base_contains("TUNE_FEATURES", "callconvention-hard", "ld-linux-armhf.so.3", "ld-linux.so.3",d), d)}"
+	linker_name="${@bb.utils.contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "ld-linux-armhf.so.3", "ld-linux.so.3",d), d)}"
 	ln -sf ld-${ELT_VER_LIBC}.so ${D}${base_libdir}/${linker_name}
 	ln -sf ../../lib/libnsl.so.1 ${D}${libdir}/libnsl.so
 	ln -sf ../../lib/librt.so.1 ${D}${libdir}/librt.so
