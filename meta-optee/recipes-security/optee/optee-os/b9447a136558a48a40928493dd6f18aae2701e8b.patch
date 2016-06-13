@@ -1,0 +1,39 @@
+From b9447a136558a48a40928493dd6f18aae2701e8b Mon Sep 17 00:00:00 2001
+From: Jerome Forissier <jerome.forissier@linaro.org>
+Date: Mon, 13 Jun 2016 08:54:56 +0200
+Subject: [PATCH] tui: Add __maybe_unused
+
+Parameter 'msg' is not used when CFG_TEE_TA_LOG_LEVEL=0, so add
+__maybe_unused.
+
+Fixes https://github.com/OP-TEE/optee_os/issues/848.
+
+Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
+Reviewed-by: Joakim Bech <joakim.bech@linaro.org>
+Tested-by: Joakim Bech <joakim.bech@linaro.org> (QEMU, HiKey 32/64)
+Reviewed-by: Jens Wiklander <jens.wiklander@linaro.org>
+---
+ lib/libutee/tui/image_png.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lib/libutee/tui/image_png.c b/lib/libutee/tui/image_png.c
+index 7399c98..950cfed 100644
+--- a/lib/libutee/tui/image_png.c
++++ b/lib/libutee/tui/image_png.c
+@@ -25,6 +25,7 @@
+  * POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#include <compiler.h>
+ #include <stdlib.h>
+ #include <png.h>
+ #include <tee_api.h>
+@@ -39,7 +40,7 @@ struct image_work {
+ 	const uint8_t *end_data;
+ };
+ 
+-static void error_cb(png_structp png_ptr, png_const_charp msg)
++static void error_cb(png_structp png_ptr, png_const_charp msg __maybe_unused)
+ {
+ 	struct image_work *w;
+ 
