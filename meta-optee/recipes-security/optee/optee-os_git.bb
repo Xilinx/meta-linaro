@@ -10,10 +10,9 @@ DEPENDS = "python-wand-native python-pycrypto-native"
 
 inherit deploy pythonnative
 
-SRCREV = "3f19eae1f645530820ade9e421df95cf16e38f85"
+SRCREV = "8f46b8d05b22d1511a7d93dd9adafddf9251ab6a"
 SRC_URI = "git://github.com/OP-TEE/optee_os.git \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
-           file://b9447a136558a48a40928493dd6f18aae2701e8b.patch \
           "
 
 

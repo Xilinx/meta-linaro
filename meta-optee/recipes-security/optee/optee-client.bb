@@ -11,7 +11,7 @@ inherit pythonnative
 SRC_URI = "git://github.com/OP-TEE/optee_client.git"
 S = "${WORKDIR}/git"
 
-SRCREV = "fcd1014947e784ca8d618035bcb999f9151096b0"
+SRCREV = "17d1addc465a667f375837cdbe4fa7ebac08539b"
 
 do_compile() {
     install -d ${D}${prefix}
