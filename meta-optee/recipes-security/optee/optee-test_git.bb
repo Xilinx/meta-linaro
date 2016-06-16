@@ -24,14 +24,10 @@ EXTRA_OEMAKE = " TA_DEV_KIT_DIR=${TA_DEV_KIT_DIR} \
                  TEEC_EXPORT=${TEEC_EXPORT} \
                  CROSS_COMPILE_HOST=${TARGET_PREFIX} \
                  CROSS_COMPILE_TA=${TARGET_PREFIX} \
-                 NOWERROR=1 \ 
                  V=1 \
                "
 
 do_compile() {
-    # *sigh* don't enable -Werror if your code is dodgy and triggers a ton of gcc warnings.
-    sed -i -e 's:-Werror : :g' ${S}/host/xtest/Makefile
-
     # Top level makefile doesn't seem to handle parallel make gracefully
     oe_runmake xtest
     oe_runmake ta
