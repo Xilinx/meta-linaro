@@ -58,9 +58,8 @@ do_deploy() {
     long_srvrev=${SRCREV}
     short_srvrev=$(echo $long_srvrev | awk  '{ string=substr($0, 1, 8); print string; }' )
     OPTEE_CORE_SUFFIX="${MACHINE}-$short_srvrev"
-    install -d ${DEPLOYDIR}/optee
-    if [ "${is_armv7}" = "1" ];
-    then
+    if [ "${is_armv7}" = "1" ]; then
+        install -d ${DEPLOYDIR}/optee
         for f in ${D}/lib/firmware/*; do
             filename=$(basename "$f")
             extension="${filename##*.}"
