@@ -65,10 +65,10 @@ BINV = "5.3.1"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-${PV}' ], d)}"
 
-# https://releases.linaro.org/components/toolchain/gcc-linaro/${BASEPV}-${RELEASE}/gcc-${PV}-${RELEASE}.tar.xz
-# https://snapshots.linaro.org/components/toolchain/gcc-linaro/${BASEPV}-${RELEASE}/gcc-${PV}-${RELEASE}.tar.xz 
+# 2016.05 tag
+SRCREV = "48e82f071db4f1a7cf7b3abb0cb4f9866e07bb97"
 
-SRC_URI = "https://releases.linaro.org/components/toolchain/gcc-linaro/${BASEPV}-${RELEASE}/gcc-${PV}-${RELEASE}.tar.xz \
+SRC_URI = "git://git.linaro.org/toolchain/gcc.git;protocol=https;branch=linaro-local/releases/linaro-5.3-2016.05 \
            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
            file://0002-uclibc-conf.patch \
            file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -115,10 +115,7 @@ SRC_URI = "https://releases.linaro.org/components/toolchain/gcc-linaro/${BASEPV}
 #           file://AArch64-Define-BE-loader-name-default-be.patch 
 #           file://use-lib-for-aarch64.patch
 
-SRC_URI[md5sum] = "2728459b1a8687acb728765c407b3056"
-SRC_URI[sha256sum] = "1a27cc2140809e02a10c1b8b53171e0991a7763704999d5c9b6bf029e0c6f0f3"
-
-S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}-${RELEASE}"
+S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
 B = "${WORKDIR}/gcc-${PV}-${RELEASE}/build.${HOST_SYS}.${TARGET_SYS}"
 
 EXTRA_OECONF_append_aarchilp32 = " --with-abi=ilp32"
