@@ -6,12 +6,15 @@ LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
 
 PV = "2.0.0+git${SRCPV}"
 
-inherit pythonnative
+inherit pythonnative systemd
 
-SRC_URI = "git://github.com/OP-TEE/optee_client.git"
+SRC_URI = "git://github.com/OP-TEE/optee_client.git \
+           file://tee-supplicant.service"
 S = "${WORKDIR}/git"
 
 SRCREV = "17d1addc465a667f375837cdbe4fa7ebac08539b"
+
+SYSTEMD_SERVICE_${PN} = "tee-supplicant.service"
 
 do_compile() {
     install -d ${D}${prefix}
@@ -27,5 +30,11 @@ do_install() {
       ln -s libteec.so.1.0 libteec.so.1
       ln -s libteec.so.1.0 libteec.so
     )
+
+    sed -i -e s:/etc:${sysconfdir}:g \
+           -e s:/usr/bin:${bindir}:g \
+              ${WORKDIR}/tee-supplicant.service
+
+    install -D -p -m0644 ${WORKDIR}/tee-supplicant.service ${D}${systemd_system_unitdir}/tee-supplicant.service
 }
 
