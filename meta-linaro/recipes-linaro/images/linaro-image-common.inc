@@ -16,7 +16,8 @@ IMAGE_INSTALL += " \
     stress-dbg \
     sudo \
     util-linux-fsck \
-    "
+    ${@bb.utils.contains("MACHINE_FEATURES", "optee", "optee-test optee-client", "", d)} \
+   "
 
 SDK_IMAGE_INSTALL += "\
     acpica \
