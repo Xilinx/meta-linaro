@@ -1,0 +1,40 @@
+From 8fa49bb41b6192d6c7de177569760968c4bc0680 Mon Sep 17 00:00:00 2001
+From: Colin Ian King <colin.king@canonical.com>
+Date: Wed, 31 Aug 2016 10:17:32 +0100
+Subject: [PATCH 5/5] Use %zu format specifier for size_t types
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ tracefile_idlestat.c | 2 +-
+ tracefile_tracecmd.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tracefile_idlestat.c b/tracefile_idlestat.c
+index 3430693..01b1b26 100644
+--- a/tracefile_idlestat.c
++++ b/tracefile_idlestat.c
+@@ -166,7 +166,7 @@ void load_text_data_lines(FILE *f, char *buffer, struct cpuidle_datas *datas)
+ 		}
+ 	} while (fgets(buffer, BUFSIZE, f));
+ 
+-	fprintf(stderr, "Log is %lf secs long with %zd events\n",
++	fprintf(stderr, "Log is %lf secs long with %zu events\n",
+ 		end - begin, count);
+ }
+ 
+diff --git a/tracefile_tracecmd.c b/tracefile_tracecmd.c
+index 586d3c5..eda7b6b 100644
+--- a/tracefile_tracecmd.c
++++ b/tracefile_tracecmd.c
+@@ -50,7 +50,7 @@ void tracecmd_load_text_data_lines(FILE *f, char *buffer, struct cpuidle_datas *
+ 		}
+ 	} while (fgets(buffer, BUFSIZE, f));
+ 
+-	fprintf(stderr, "Log is %lf secs long with %zd events\n",
++	fprintf(stderr, "Log is %lf secs long with %zu events\n",
+ 		end - begin, count);
+ }
+ 
+-- 
+2.9.3
+

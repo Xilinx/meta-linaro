@@ -1,0 +1,35 @@
+From 1b466c0757da1ba8eb62ebd1ade558d144f96956 Mon Sep 17 00:00:00 2001
+From: Colin Ian King <colin.king@canonical.com>
+Date: Wed, 31 Aug 2016 09:30:23 +0100
+Subject: [PATCH 4/5] Fix TRACE_IPIIRQ_FORMAT string format width overflow scan
+ issue
+
+cppcheck detected a potential buffer overflow with a %s scanf width format
+specifier being larger than the destination buffer. Reduce the scan size to
+match the expected buffer size.
+
+Fixes error:
+[idlestat.c:974]: (error) Width 32 given in format string (no. 2) is larger
+  than destination buffer 'irqname[17]', use %16s to prevent overflowing it.
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ idlestat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/idlestat.c b/idlestat.c
+index f6a07e5..c956032 100644
+--- a/idlestat.c
++++ b/idlestat.c
+@@ -950,7 +950,7 @@ void output_cstate_info(FILE *f, struct cpu_topology * topo, int nrcpus)
+ }
+ 
+ #define TRACE_IRQ_FORMAT "%*[^[][%d] %*[^=]=%d%*[^=]=%16s"
+-#define TRACE_IPIIRQ_FORMAT "%*[^[][%d] %*[^(](%32s"
++#define TRACE_IPIIRQ_FORMAT "%*[^[][%d] %*[^(](%16s"
+ #define TRACECMD_REPORT_FORMAT "%*[^]]] %lf:%*[^=]=%u%*[^=]=%d"
+ #define TRACE_FORMAT "%*[^]]] %*s %lf:%*[^=]=%u%*[^=]=%d"
+ 
+-- 
+2.9.3
+
