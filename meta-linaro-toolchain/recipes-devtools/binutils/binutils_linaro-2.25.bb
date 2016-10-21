@@ -14,6 +14,13 @@ EXTRA_OECONF_class-native = "--enable-targets=all \
                              --enable-install-libbfd \
                              --enable-install-libiberty"
 
+# Get rid of gdb sub-directory
+do_unpack_extra() {
+	rm -rf ${S}/gdb
+}
+
+addtask unpack_extra after do_unpack before do_patch
+
 do_install_class-native () {
 	autotools_do_install
 

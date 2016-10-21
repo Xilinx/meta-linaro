@@ -1,6 +1,6 @@
-BPV = "2.25.0"
-MMYY = "15.01"
-RELEASE = "20${MMYY}-2"
+BPV = "2.25.1"
+MMYY = "16.10"
+RELEASE = "20${MMYY}"
 PR = "r20${MMYY}"
 
 LIC_FILES_CHKSUM="\
@@ -15,8 +15,9 @@ LIC_FILES_CHKSUM="\
     file://bfd/COPYING;md5=d32239bcb673463ab874e80d47fae504\
     "
 
+SRCREV = "331ccedd381918185634a0f6c864eea4e2d7c960"
 SRC_URI = "\
-     http://releases.linaro.org/${MMYY}/components/toolchain/binutils-linaro/binutils-linaro-${BPV}-${RELEASE}.tar.xz \
+     git://git.linaro.org/toolchain/binutils-gdb.git;protocol=https;branch=linaro_binutils-2_25-branch \
      file://binutils-uclibc-100-uclibc-conf.patch \
      file://binutils-uclibc-300-001_ld_makefile_patch.patch \
      file://binutils-uclibc-300-006_better_file_error.patch \
@@ -33,7 +34,4 @@ SRC_URI = "\
      file://0001-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
      "
 
-SRC_URI[md5sum] = "5c4b97c60f8bf624a34e2acef3138eec"
-SRC_URI[sha256sum] = "aed2aef13926911923b47a71ee88dc0943d544718d91f8caee5fc48fd20ef3a7"
-
-S = "${WORKDIR}/binutils-linaro-${BPV}-${RELEASE}"
+S = "${WORKDIR}/git"
