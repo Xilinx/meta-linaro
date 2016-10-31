@@ -16,7 +16,7 @@ EXTRA_OECONF_class-native = "--enable-targets=all \
 
 # Get rid of gdb sub-directory
 do_unpack_extra() {
-	rm -rf ${S}/gdb
+	rm -rf ${S}/gdb ${S}/libdecnumber ${S}/readline ${S}/sim
 }
 
 addtask unpack_extra after do_unpack before do_patch
