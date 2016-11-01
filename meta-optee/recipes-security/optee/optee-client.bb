@@ -2,7 +2,7 @@ SUMMARY = "OPTEE Client"
 HOMEPAGE = "https://github.com/OP-TEE/optee_client"
 
 LICENSE = "BSD"
-LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
+LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=a6d62e1b5fef18a1854bd538e3160d7c"
 
 PV = "2.2.0+git${SRCPV}"
 
