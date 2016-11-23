@@ -18,14 +18,19 @@ SYSTEMD_SERVICE_${PN} = "tee-supplicant.service"
 
 do_compile() {
     install -d ${D}${prefix}
-    oe_runmake EXPORT_DIR=${D}${prefix}/
+    oe_runmake EXPORT_DIR=${D}${prefix}
 }
 
 do_install() {
-    install -d ${D}${prefix}
+    install -d ${D}${libdir}
+    install -d ${D}${bindir}
+
+    # fix up hardcoded /lib paths
+    sed -i -e 's:EXPORT_DIR}/lib:EXPORT_DIR}${base_libdir}:g' ${S}/Makefile
+
     oe_runmake install EXPORT_DIR=${D}${prefix}
 
-    ( cd ${D}${prefix}/lib
+    ( cd ${D}${libdir}
       rm libteec.so libteec.so.1
       ln -s libteec.so.1.0 libteec.so.1
       ln -s libteec.so.1.0 libteec.so
