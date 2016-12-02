@@ -43,6 +43,9 @@ PROVIDES += "\
 	libitm \
 	libitm-dev \
 	libitm-staticdev \
+	libquadmath \
+	libquadmath-dev \
+	libquadmath-staticdev \
 	virtual/linux-libc-headers \
 	libgcov-dev \
 "
@@ -208,46 +211,67 @@ do_install() {
 	fi
 }
 
+# PACKAGES is split up according to the 'source' recipes/includes in OE-core
+# Stylistic differences are kept to make copy/pasting easier.
+
+# From gcc-runtime.inc
+
+PACKAGES =+ "\
+    libstdc++ \
+    libstdc++-precompile-dev \
+    libstdc++-dev \
+    libstdc++-staticdev \
+    libg2c \
+    libg2c-dev \
+    libssp \
+    libssp-dev \
+    libssp-staticdev \
+    libmudflap \
+    libmudflap-dev \
+    libmudflap-staticdev \
+    libquadmath \
+    libquadmath-dev \
+    libquadmath-staticdev \
+    libgomp \
+    libgomp-dev \
+    libgomp-staticdev \
+    libatomic \
+    libatomic-dev \
+    libatomic-staticdev \
+    libitm \
+    libitm-dev \
+    libitm-staticdev \
+   "
+
+# From gcc-sanitizers.inc
+
+PACKAGES += "libasan libubsan liblsan libtsan"
+PACKAGES += "libasan-dev libubsan-dev liblsan-dev libtsan-dev"
+PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-staticdev"
+
+# From libgfortran.inc:
+
+PACKAGES += "\
+    libgfortran \
+    libgfortran-dev \
+    libgfortran-staticdev \
+   "
+
+# libgcc.inc uses ${PN}, so replace that
+
+PACKAGES += "\
+    libgcc \
+    libgcc-dev \
+    libgcc-dbg \
+"
+
+# ... and the leftovers
+
 PACKAGES =+ "\
         ${PN}-mtrace \
 	libgcov-dev \
-	libgcc \
-	libgcc-dev \
-	libstdc++ \
-	libstdc++-dev \
-	libstdc++-staticdev \
-	libatomic \
-	libatomic-dev \
-	libatomic-staticdev \
-	libasan \
-	libasan-dev \
-	libasan-staticdev \
 	linux-libc-headers \
-	libubsan \
-	libubsan-dev \
-	libubsan-staticdev \
-	liblsan \
-	liblsan-dev \
-	liblsan-staticdev \
 	linux-libc-headers-dev \
-	libtsan \
-	libtsan-dev \
-	libtsan-staticdev \
-	libssp \
-	libssp-dev \
-	libssp-staticdev \
-	libgfortran \
-	libgfortran-dev \
-	libgfortran-staticdev \
-	libmudflap \
-	libmudflap-dev \
-	libmudflap-staticdev \
-	libgomp \
-	libgomp-dev \
-	libgomp-staticdev \
-	libitm \
-	libitm-dev \
-	libitm-staticdev \
 "
 
 INSANE_SKIP_${PN}-dbg = "staticdev"
@@ -336,6 +360,17 @@ FILES_libsegfault = "${base_libdir}/libSegFault*"
 
 FILES_catchsegv = "${bindir}/catchsegv"
 RDEPENDS_catchsegv = "libsegfault"
+
+FILES_libquadmath = "${libdir}/libquadmath*.so.*"
+SUMMARY_libquadmath = "GNU quad-precision math library"
+FILES_libquadmath-dev = "\
+    ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
+    ${base_libdir}/libquadmath*.so \
+    ${base_libdir}/libquadmath.la \
+"
+SUMMARY_libquadmath-dev = "GNU quad-precision math library - development files"
+FILES_libquadmath-staticdev = "${base_libdir}/libquadmath.a"
+SUMMARY_libquadmath-staticdev = "GNU quad-precision math library - static development files"
 
 FILES_libatomic = "${base_libdir}/libatomic.so.*"
 FILES_libatomic-dev = "\
