@@ -9,7 +9,7 @@ DEPENDS = "ncurses"
 MMYY = "14.06"
 RELEASE = "20${MMYY}"
 
-SRC_URI = "http://releases.linaro.org/${MMYY}/components/power-management/powerdebug/linaro-powerdebug-${PV}-${RELEASE}.tar.bz2"
+SRC_URI = "http://releases.linaro.org/archive/${MMYY}/components/power-management/powerdebug/linaro-powerdebug-${PV}-${RELEASE}.tar.bz2"
 
 SRC_URI[md5sum] = "f381946c5ca2f8075ed1bedc5f2a2876"
 SRC_URI[sha256sum] = "bfc4c92d8a8a1c8ee208a12310d3c763f111cf76d283facedb7ef56cafd074a1"

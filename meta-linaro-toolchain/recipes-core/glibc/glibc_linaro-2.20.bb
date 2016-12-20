@@ -6,7 +6,7 @@ MMYY = "14.11"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 
-SRC_URI = "http://releases.linaro.org/${MMYY}/components/toolchain/glibc-linaro/glibc-${PV}-${RELEASE}.tar.xz \
+SRC_URI = "http://releases.linaro.org/archive/${MMYY}/components/toolchain/glibc-linaro/glibc-${PV}-${RELEASE}.tar.xz \
            file://etc/ld.so.conf \
            file://generate-supported.mk \
            file://IO-acquire-lock-fix.patch \
