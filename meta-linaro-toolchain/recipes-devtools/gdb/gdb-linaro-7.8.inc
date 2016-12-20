@@ -14,7 +14,7 @@ S = "${WORKDIR}/${BPN}-${PV}-${RELEASE}"
 
 FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gdb-${BINV}' ], d)}"
 
-SRC_URI = "https://releases.linaro.org/${MMYY}/components/toolchain/gdb-linaro/gdb-${PV}-${RELEASE}.tar.xz"
+SRC_URI = "https://releases.linaro.org/archive/${MMYY}/components/toolchain/gdb-linaro/gdb-${PV}-${RELEASE}.tar.xz"
 
 SRC_URI[md5sum] = "954e47e397de0b635ecdb5bb5d0f145f"
 SRC_URI[sha256sum] = "fbbe96b8d0debf7c2d8c9a4a6c7ca0ba87d536e43289f81c4af56f95e5f7b5ea"
