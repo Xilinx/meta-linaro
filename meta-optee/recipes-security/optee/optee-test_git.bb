@@ -10,7 +10,9 @@ inherit pythonnative
 
 PV = "2.2.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/OP-TEE/optee_test.git"
+SRC_URI = "git://github.com/OP-TEE/optee_test.git \
+           file://fix-build-failure-with-GCC6.patch \
+          "
 S = "${WORKDIR}/git"
 
 SRCREV = "a00eeb15ddfaa5b7d2cb340faeb36748d5aabffb"
