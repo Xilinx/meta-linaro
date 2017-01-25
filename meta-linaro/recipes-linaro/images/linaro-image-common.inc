@@ -6,6 +6,10 @@ HUGETLB_armv7a = "libhugetlbfs-tests"
 HUGETLB_aarch64 = "libhugetlbfs-tests"
 HUGETLB ?= ""
 
+FWTS_armv7a = ""
+FWTS_armv7ab = ""
+FWTS ?= "fwts"
+
 IMAGE_INSTALL += " \
     bash \
     e2fsprogs-e2fsck \
@@ -40,7 +44,7 @@ SDK_IMAGE_INSTALL += "\
     elfutils-dev \
     expat \
     flex \
-    fwts \
+    ${FWTS} \
     gator \
     gd \
     git \
