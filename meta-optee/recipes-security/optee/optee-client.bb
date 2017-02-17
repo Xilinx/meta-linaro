@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/OP-TEE/optee_client"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=a6d62e1b5fef18a1854bd538e3160d7c"
 
-PV = "2.2.0+git${SRCPV}"
+PV = "2.3.0+git${SRCPV}"
 
 inherit pythonnative systemd
 
@@ -12,29 +12,20 @@ SRC_URI = "git://github.com/OP-TEE/optee_client.git \
            file://tee-supplicant.service"
 S = "${WORKDIR}/git"
 
-SRCREV = "658ae538f76a2624b7f9c40539a600d281d872b4"
+SRCREV = "365657667f8968f40237480169fea44fa3fb9949"
 
 SYSTEMD_SERVICE_${PN} = "tee-supplicant.service"
 
-do_compile() {
-    install -d ${D}${prefix}
-    oe_runmake EXPORT_DIR=${D}${prefix}
-}
-
 do_install() {
-    install -d ${D}${libdir}
-    install -d ${D}${bindir}
+    oe_runmake install
 
-    # fix up hardcoded /lib paths
-    sed -i -e 's:EXPORT_DIR}/lib:EXPORT_DIR}${base_libdir}:g' ${S}/Makefile
+    install -D -p -m0755 ${S}/out/export/bin/tee-supplicant ${D}${bindir}/tee-supplicant
 
-    oe_runmake install EXPORT_DIR=${D}${prefix}
+    install -D -p -m0644 ${S}/out/export/lib/libteec.so.1.0 ${D}${libdir}/libteec.so.1.0
+    ln -sf libteec.so.1.0 ${D}${libdir}/libteec.so
+    ln -sf libteec.so.1.0 ${D}${libdir}/libteec.so.1
 
-    ( cd ${D}${libdir}
-      rm libteec.so libteec.so.1
-      ln -s libteec.so.1.0 libteec.so.1
-      ln -s libteec.so.1.0 libteec.so
-    )
+    cp -a ${S}/out/export/include ${D}/usr/
 
     sed -i -e s:/etc:${sysconfdir}:g \
            -e s:/usr/bin:${bindir}:g \
@@ -42,4 +33,3 @@ do_install() {
 
     install -D -p -m0644 ${WORKDIR}/tee-supplicant.service ${D}${systemd_system_unitdir}/tee-supplicant.service
 }
-
