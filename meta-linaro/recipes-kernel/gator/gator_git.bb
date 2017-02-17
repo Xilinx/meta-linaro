@@ -17,7 +17,7 @@ inherit update-rc.d
 # Since this is c++ code we need to both compile and link with CXX
 #| PerfSource.o: In function `PerfSource::~PerfSource()':
 #| /usr/src/debug/gator/5.22+gitAUTOINC+7ca6004c0b-r0/git/daemon/PerfSource.cpp:128: undefined reference to `operator delete(void*, unsigned long)'
-CC = "${CXX}"
+CCLD = "${CXX}"
 
 EXTRA_OEMAKE = "'CFLAGS=${CFLAGS} ${TARGET_CC_ARCH} -D_DEFAULT_SOURCE -DETCDIR=\"${sysconfdir}\"' \
     'LDFLAGS=${LDFLAGS} ${TARGET_CC_ARCH}' 'CROSS_COMPILE=${TARGET_PREFIX}' \
@@ -26,6 +26,8 @@ EXTRA_OEMAKE = "'CFLAGS=${CFLAGS} ${TARGET_CC_ARCH} -D_DEFAULT_SOURCE -DETCDIR=\
 do_compile() {
     # The regular makefile tries to be 'smart' by hardcoding ABI assumptions, let's use the clean makefile for everything.
     cp ${S}/daemon/Makefile_aarch64 ${S}/daemon/Makefile
+    # Allow using a differnt linker than $(CC)
+    sed -i -e 's:$(CC) $(LDFLAGS):$(CCLD) $(LDFLAGS):' ${S}/daemon/common.mk
     oe_runmake -C daemon CC='${CC}' CXX='${CXX}'
 }
 
