@@ -1,14 +1,14 @@
 require recipes-devtools/gcc/gcc-common.inc
 
-BASEPV = "6.2"
+BASEPV = "6.3"
 PV = "linaro-${BASEPV}"
 
-MMYY = "16.11"
+MMYY = "17.02"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
-BINV = "6.2.1"
+BINV = "${BASEPV}.1"
 
-FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.2:${FILE_DIRNAME}/gcc-6.2/backport:"
+FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-${BASEPV}:${FILE_DIRNAME}/gcc-${BASEPV}/backport:"
 
 DEPENDS =+ "mpfr gmp libmpc zlib"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "\
 
 
 #BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-SRCREV = "6d3168e06d5d002250d1c001538d0bf3ac499489"
+SRCREV = "ab7116a6c80d7d461e5ff9c02b69ac828ce525c0"
 BASEURI ?= "git://git.linaro.org/toolchain/gcc.git;protocol=https;branch=linaro-local/releases/linaro-${BASEPV}-${RELEASE}"
 #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
 #BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
