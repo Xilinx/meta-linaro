@@ -209,6 +209,10 @@ do_install() {
 			sed -i -e "s# /usr/lib/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so
 		fi
 	fi
+
+	# Remove if empty
+	rmdir ${D}${bindir} || true
+	rmdir ${D}${sbindir} || true
 }
 
 # PACKAGES is split up according to the 'source' recipes/includes in OE-core
@@ -383,6 +387,7 @@ FILES_libasan = "${base_libdir}/libasan.so.*"
 FILES_libasan-dev = "\
     ${base_libdir}/libasan.so \
     ${base_libdir}/libasan.la \
+    ${base_libdir}/libsanitizer.spec \
 "
 FILES_libasan-staticdev = "${base_libdir}/libasan.a"
 
@@ -470,6 +475,8 @@ FILES_${PN} += "\
 	${base_libdir}/libpcprofile.so \
     "
 
+FILES_${PN}-dbg += "${base_libdir}/debug"
+
 FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
 FILES_libstdc++-dev = "\
   ${includedir}/c++/ \
@@ -493,7 +500,8 @@ FILES_libssp-staticdev = " \
 
 FILES_libgfortran = "${base_libdir}/libgfortran.so.*"
 FILES_libgfortran-dev = " \
-  ${base_libdir}/libgfortran.so"
+  ${base_libdir}/libgfortran.so \
+  ${base_libdir}/libgfortran.spec"
 FILES_libgfortran-staticdev = " \
   ${base_libdir}/libgfortran.a \
   ${base_libdir}/libgfortranbegin.a"
