@@ -15,6 +15,11 @@ TARGET_PREFIX = "${ELT_TARGET_SYS}-"
 GCCMULTILIB_forcevariable = "--disable-multilib"
 IMAGE_LINGUAS_forcevariable = ""
 
+# Blacklist toolchain recipes as a belt-and-suspenders way to use the external toolchain
+PNBLACKLIST[glibc] = "Using external toolchain"
+PNBLACKLIST[libgcc] = "Using external toolchain"
+PNBLACKLIST[gcc-cross] = "Using external toolchain"
+
 PREFERRED_PROVIDER_linux-libc-headers = "external-linaro-toolchain"
 PREFERRED_PROVIDER_linux-libc-headers-dev = "external-linaro-toolchain"
 PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc = "external-linaro-toolchain"
