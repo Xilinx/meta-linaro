@@ -25,7 +25,8 @@ PROVIDES += "\
         glibc-mtrace \
 	glibc-thread-db \
 	glibc \
-        libc-mtrace \
+	libc-mtrace \
+	gcc-runtime \
 	libgcc \
 	libg2c \
 	libg2c-dev \
@@ -223,6 +224,7 @@ do_install() {
 PACKAGES =+ "\
     libstdc++ \
     libstdc++-precompile-dev \
+    libstdc++-dbg \
     libstdc++-dev \
     libstdc++-staticdev \
     libg2c \
@@ -327,32 +329,62 @@ PKGV_${PN}-thread-db = "${ELT_VER_LIBC}"
 PKGV_${PN}-pcprofile = "${ELT_VER_LIBC}"
 PKGV_${PN}-staticdev = "${ELT_VER_LIBC}"
 PKGV_catchsegv = "${ELT_VER_LIBC}"
+PKGV_glibc-extra-nss = "${ELT_VER_LIBC}"
+PKGV_glibc-thread-db = "${ELT_VER_LIBC}"
+PKGV_libcidn = "${ELT_VER_LIBC}"
+PKGV_libmemusage = "${ELT_VER_LIBC}"
 PKGV_libsegfault = "${ELT_VER_LIBC}"
+PKGV_libsotruss = "${ELT_VER_LIBC}"
 PKGV_sln = "${ELT_VER_LIBC}"
 PKGV_nscd = "${ELT_VER_LIBC}"
 PKGV_ldd = "${ELT_VER_LIBC}"
-PKGV_libgcc = "${ELT_VER_GCC}"
-PKGV_libgcc-dev = "${ELT_VER_GCC}"
-PKGV_libstdc++ = "${ELT_VER_GCC}"
-PKGV_libstdc++-dev = "${ELT_VER_GCC}"
-PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
-PKGV_libatomic = "${ELT_VER_GCC}"
-PKGV_libatomic = "${ELT_VER_GCC}"
-PKGV_libatomic = "${ELT_VER_GCC}"
-PKGV_libasan = "${ELT_VER_GCC}"
+
 PKGV_libasan-dev = "${ELT_VER_GCC}"
+PKGV_libasan = "${ELT_VER_GCC}"
 PKGV_libasan-staticdev = "${ELT_VER_GCC}"
-PKGV_libubsan = "${ELT_VER_GCC}"
-PKGV_libubsan-dev = "${ELT_VER_GCC}"
-PKGV_libubsan-staticdev = "${ELT_VER_GCC}"
-PKGV_liblsan = "${ELT_VER_GCC}"
+PKGV_libatomic-dev = "${ELT_VER_GCC}"
+PKGV_libatomic = "${ELT_VER_GCC}"
+PKGV_libatomic-staticdev = "${ELT_VER_GCC}"
+PKGV_libg2c-dev = "${ELT_VER_GCC}"
+PKGV_libg2c = "${ELT_VER_GCC}"
+PKGV_libgcc-dev = "${ELT_VER_GCC}"
+PKGV_libgcc = "${ELT_VER_GCC}"
+PKGV_libgfortran-dev = "${ELT_VER_GCC}"
+PKGV_libgfortran = "${ELT_VER_GCC}"
+PKGV_libgfortran-staticdev = "${ELT_VER_GCC}"
+PKGV_libgomp-dev = "${ELT_VER_GCC}"
+PKGV_libgomp = "${ELT_VER_GCC}"
+PKGV_libgomp-staticdev = "${ELT_VER_GCC}"
+PKGV_libitm-dev = "${ELT_VER_GCC}"
+PKGV_libitm = "${ELT_VER_GCC}"
+PKGV_libitm-staticdev = "${ELT_VER_GCC}"
 PKGV_liblsan-dev = "${ELT_VER_GCC}"
+PKGV_liblsan = "${ELT_VER_GCC}"
 PKGV_liblsan-staticdev = "${ELT_VER_GCC}"
-PKGV_libtsan = "${ELT_VER_GCC}"
+PKGV_libmudflap-dev = "${ELT_VER_GCC}"
+PKGV_libmudflap = "${ELT_VER_GCC}"
+PKGV_libmudflap-staticdev = "${ELT_VER_GCC}"
+PKGV_libquadmath-dev = "${ELT_VER_GCC}"
+PKGV_libquadmath = "${ELT_VER_GCC}"
+PKGV_libquadmath-staticdev = "${ELT_VER_GCC}"
+PKGV_libssp-dev = "${ELT_VER_GCC}"
+PKGV_libssp = "${ELT_VER_GCC}"
+PKGV_libssp-staticdev = "${ELT_VER_GCC}"
+PKGV_libstdc++-dbg = "${ELT_VER_GCC}"
+PKGV_libstdc++-dev = "${ELT_VER_GCC}"
+PKGV_libstdc++ = "${ELT_VER_GCC}"
+PKGV_libstdc++-precompile-dev = "${ELT_VER_GCC}"
+PKGV_libstdc++-staticdev = "${ELT_VER_GCC}"
 PKGV_libtsan-dev = "${ELT_VER_GCC}"
+PKGV_libtsan = "${ELT_VER_GCC}"
 PKGV_libtsan-staticdev = "${ELT_VER_GCC}"
-PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
+PKGV_libubsan-dev = "${ELT_VER_GCC}"
+PKGV_libubsan = "${ELT_VER_GCC}"
+PKGV_libubsan-staticdev = "${ELT_VER_GCC}"
+
 PKGV_linux-libc-headers-dev = "${ELT_VER_KERNEL}"
+PKGV_linux-libc-headers = "${ELT_VER_KERNEL}"
+
 PKGV_gdbserver = "${ELT_VER_GDBSERVER}"
 
 ALLOW_EMPTY_${PN}-mtrace = "1"
@@ -486,6 +518,8 @@ FILES_libstdc++-dev = "\
 FILES_libstdc++-staticdev = "\
   ${base_libdir}/libstdc++.a \
   ${base_libdir}/libsupc++.a"
+FILES_libstdc++-dbg = "\
+  ${base_libdir}/debug/libstdc++.*"
 
 FILES_libstdc++-precompile-dev = "${includedir}/c++/${TARGET_SYS}/bits/*.gch"
 
