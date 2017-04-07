@@ -19,6 +19,7 @@ IMAGE_LINGUAS_forcevariable = ""
 PNBLACKLIST[glibc] = "Using external toolchain"
 PNBLACKLIST[libgcc] = "Using external toolchain"
 PNBLACKLIST[gcc-cross] = "Using external toolchain"
+PNBLACKLIST[gcc-runtime] = "Using external toolchain"
 
 PREFERRED_PROVIDER_linux-libc-headers = "external-linaro-toolchain"
 PREFERRED_PROVIDER_linux-libc-headers-dev = "external-linaro-toolchain"
