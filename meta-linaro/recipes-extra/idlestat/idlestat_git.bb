@@ -4,8 +4,8 @@ enters idle state. This infomation is obtained using traces from trace-cmd \
 or ftrace tools."
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=eb723b61539feef013de476e68b5c50a"
-SRCREV = "8df1b106e426c1f4335838992857fdb956b04234"
-PV = "0.7+git${SRCPV}"
+SRCREV = "2247a8e07d208470b381b90e0540ee3cced3fbcb"
+PV = "0.8+git${SRCPV}"
 
 SRC_URI = "git://git.linaro.org/power/idlestat.git \
            file://Makefile.patch \
