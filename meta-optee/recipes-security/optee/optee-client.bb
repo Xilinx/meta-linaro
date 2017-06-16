@@ -9,6 +9,7 @@ PV = "2.4.0+git${SRCPV}"
 inherit pythonnative systemd
 
 SRC_URI = "git://github.com/OP-TEE/optee_client.git \
+           file://0001-Respect-LDFLAGS-set-from-OE-build.patch \
            file://tee-supplicant.service"
 S = "${WORKDIR}/git"
 
