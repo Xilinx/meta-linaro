@@ -1,0 +1,46 @@
+From 67ed49c2dd1c9c8788b712767f3a2a763d4be541 Mon Sep 17 00:00:00 2001
+From: Vishal Bhoj <vishal.bhoj@linaro.org>
+Date: Mon, 24 Jul 2017 07:08:36 +0100
+Subject: [PATCH] (HACK):ILP32 disable lp64 abi from ilp32 build
+
+workaround from build failure reporting no unistd-64.h
+
+Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
+---
+ sysdeps/unix/sysv/linux/aarch64/Makefile | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sysdeps/unix/sysv/linux/aarch64/Makefile b/sysdeps/unix/sysv/linux/aarch64/Makefile
+index 67619f5b45..b9d2f431b2 100644
+--- a/sysdeps/unix/sysv/linux/aarch64/Makefile
++++ b/sysdeps/unix/sysv/linux/aarch64/Makefile
+@@ -21,8 +21,8 @@ ifeq ($(subdir),stdlib)
+ gen-as-const-headers += ucontext_i.sym
+ endif
+ 
+-abi-variants := lp64
+-abi-variants += lp64_be
++#abi-variants := lp64
++#abi-variants += lp64_be
+ abi-variants += ilp32
+ abi-variants += ilp32_be
+ 
+@@ -30,11 +30,11 @@ ifeq (,$(filter $(default-abi),$(abi-variants)))
+ Unknown ABI, must be one of $(abi-variants)
+ endif
+ 
+-abi-lp64-options := -U__AARCH64EB__ -D__LP64__ -U__ILP32__
+-abi-lp64-condition := __WORDSIZE == 64 && !defined __AARCH64EB__
++#abi-lp64-options := -U__AARCH64EB__ -D__LP64__ -U__ILP32__
++#abi-lp64-condition := __WORDSIZE == 64 && !defined __AARCH64EB__
+ 
+-abi-lp64_be-options := -D__AARCH64EB__ -D__LP64__ -U__ILP32__
+-abi-lp64_be-condition := __WORDSIZE == 64 && defined __AARCH64EB__
++#abi-lp64_be-options := -D__AARCH64EB__ -D__LP64__ -U__ILP32__
++#abi-lp64_be-condition := __WORDSIZE == 64 && defined __AARCH64EB__
+ 
+ abi-ilp32-options := -U__AARCH64EB__ -U__LP64__ -D__ILP32__
+ abi-ilp32-condition := __WORDSIZE == 32 && !defined __AARCH64EB__
+-- 
+2.13.0
+

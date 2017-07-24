@@ -1,0 +1,1136 @@
+From 400c4f85a2734f6f8f64a04d680ad33a752bb82a Mon Sep 17 00:00:00 2001
+From: Steve Ellcey <sellcey@caviumnetworks.com>
+Date: Fri, 24 Feb 2017 15:46:50 -0800
+Subject: [PATCH 2/2] Patch 2 of 2 for ILP32 aarch64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Here is a new version of patch 2.  I added the one line descriptions
+that were missing, fixed the configure.ac problems that Andreas pointed
+out (and ran autoconf to make sure they were tested) and changed the
+default version in shlib-versions to 2.26.
+
+Steve Ellcey
+sellcey@cavium.com
+
+2017-02-24  Andrew Pinski  <andrew.pinski@caviumnetworks.com>
+	    Yury Norov  <ynorov@caviumnetworks.com>
+	    Steve Ellcey  <sellcey@caviumnetworks.com>
+
+	* elf/cache.c (print_entry): Add FLAG_AARCH64_LIB32.
+	* sysdeps/aarch64/configure.ac (HAVE_AARCH64_ILP32): New define.
+	(default-abi): Allow for ilp32 ABI.
+	* sysdeps/aarch64/configure: Regenerate.
+	* sysdeps/aarch64/Implies: Deleted.
+	* sysdeps/aarch64/ilp32/Implies: New file.
+	* sysdeps/aarch64/ilp32/Implies-after: New file.
+	* sysdeps/aarch64/lp64/Implies: New file.
+	* sysdeps/aarch64/lp64/Implies-after: New file.
+	* sysdeps/aarch64/preconfigure (machine): Check for ilp32/lp64.
+	* sysdeps/aarch64/tls-macros.h (TLS_IE): Remove register specification
+	for __result and ifdef for ILP32.
+	* sysdeps/generic/ldconfig.h (FLAG_AARCH64_LIB32): New define.
+	* sysdeps/unix/sysv/linux/aarch64/Implies: Remove generic and
+	wordsize-64 entries.
+	* sysdeps/unix/sysv/linux/aarch64/Makefile (abi-variants): Add
+	new variants for ilp32 and ilp32_be.
+	(abi-lp64-options, abi-lp64_be-options): define __LP64__ and
+	undefine __ILP32__.
+	(abi-lp64-condition, abi-lp64_be-condition): Check for __WORDSIZE
+	equal to 64.
+	(abi-ilp32-options, abi-ilp32-condition, abi-ilp32_be-options,
+	abi-ilp32_be-condition): New.
+	* sysdeps/unix/sysv/linux/aarch64/configure.ac (arch_minimum_kernel):
+	Use different value for ILP32.
+	(LIBC_SLIBDIR_RTLDDIR): Modify for ILP32.
+	* sysdeps/unix/sysv/linux/aarch64/configure: Regenerate.
+	* sysdeps/unix/sysv/linux/aarch64/ilp32/Implies: New file.
+	* sysdeps/unix/sysv/linux/aarch64/ilp32/c++-types.data: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/ilp32/kernel_stat.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/ilp32/shlib-versions: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/bits/stat.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/bits/statfs.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/bits/utmp.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/kernel-features.h: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/Implies: Add unix/sysv/linux/aarch64.
+	* sysdeps/unix/sysv/linux/aarch64/ioctl.S: Move to lp64 directory.
+	* sysdeps/unix/sysv/linux/aarch64/mmap.c: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/shlib-versions: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/c++-types.data: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed: Likewise.
+	* sysdeps/unix/sysv/linux/aarch64/ipc_priv.h (__IPC_64): Check __ILP32
+	when setting.
+	* sysdeps/unix/sysv/linux/arm/readelflib.c (process_elf_file):
+	Check for EM_AARCH64 when processing ELFCLASS32 object.
+	* sysdeps/unix/sysv/linux/bits/fcntl-linux.h (F_GETLK, F_SETLCK,
+	F_SETLKW): Check for __OFF_T_MATCHES_OFF64_T when defining.
+---
+ elf/cache.c                                        |   3 +
+ sysdeps/aarch64/configure.ac                       |  11 +-
+ sysdeps/aarch64/{ => ilp32}/Implies                |   2 +-
+ sysdeps/aarch64/ilp32/Implies-after                |   1 +
+ sysdeps/aarch64/lp64/Implies                       |   6 +
+ sysdeps/aarch64/lp64/Implies-after                 |   1 +
+ sysdeps/aarch64/preconfigure                       |  10 +-
+ sysdeps/aarch64/tls-macros.h                       |  16 +-
+ sysdeps/generic/ldconfig.h                         |   1 +
+ sysdeps/unix/sysv/linux/aarch64/Implies            |   2 -
+ sysdeps/unix/sysv/linux/aarch64/Makefile           |  16 +-
+ sysdeps/unix/sysv/linux/aarch64/bits/stat.h        | 178 +++++++++++++++++++++
+ sysdeps/unix/sysv/linux/aarch64/bits/statfs.h      |  68 ++++++++
+ sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h   |  88 ++++++++++
+ sysdeps/unix/sysv/linux/aarch64/bits/utmp.h        | 125 +++++++++++++++
+ sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h       | 104 ++++++++++++
+ sysdeps/unix/sysv/linux/aarch64/configure.ac       |  10 +-
+ sysdeps/unix/sysv/linux/aarch64/ilp32/Implies      |   4 +
+ .../unix/sysv/linux/aarch64/ilp32/c++-types.data   |  67 ++++++++
+ .../unix/sysv/linux/aarch64/ilp32/kernel_stat.h    |   3 +
+ .../unix/sysv/linux/aarch64/ilp32/shlib-versions   |   7 +
+ sysdeps/unix/sysv/linux/aarch64/ipc_priv.h         |   6 +-
+ sysdeps/unix/sysv/linux/aarch64/kernel-features.h  |  30 ++++
+ sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed    |   1 +
+ sysdeps/unix/sysv/linux/aarch64/lp64/Implies       |   4 +
+ .../sysv/linux/aarch64/{ => lp64}/c++-types.data   |   0
+ sysdeps/unix/sysv/linux/aarch64/{ => lp64}/ioctl.S |   0
+ sysdeps/unix/sysv/linux/aarch64/{ => lp64}/mmap.c  |   0
+ .../sysv/linux/aarch64/{ => lp64}/shlib-versions   |   0
+ sysdeps/unix/sysv/linux/arm/readelflib.c           |   6 +-
+ sysdeps/unix/sysv/linux/bits/fcntl-linux.h         |   2 +-
+ 31 files changed, 755 insertions(+), 17 deletions(-)
+ rename sysdeps/aarch64/{ => ilp32}/Implies (88%)
+ create mode 100644 sysdeps/aarch64/ilp32/Implies-after
+ create mode 100644 sysdeps/aarch64/lp64/Implies
+ create mode 100644 sysdeps/aarch64/lp64/Implies-after
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/bits/stat.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/bits/statfs.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/bits/utmp.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/ilp32/Implies
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/ilp32/c++-types.data
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/ilp32/kernel_stat.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/ilp32/shlib-versions
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/kernel-features.h
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/lp64/Implies
+ rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/c++-types.data (100%)
+ rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/ioctl.S (100%)
+ rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/mmap.c (100%)
+ rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/shlib-versions (100%)
+
+diff --git a/elf/cache.c b/elf/cache.c
+index a76f89281d..765917fe0d 100644
+--- a/elf/cache.c
++++ b/elf/cache.c
+@@ -101,6 +101,9 @@ print_entry (const char *lib, int flag, unsigned int osversion,
+     case FLAG_AARCH64_LIB64:
+       fputs (",AArch64", stdout);
+       break;
++    case FLAG_AARCH64_LIB32:
++      fputs (",ILP32", stdout);
++      break;
+     /* Uses the ARM soft-float ABI.  */
+     case FLAG_ARM_LIBSF:
+       fputs (",soft-float", stdout);
+diff --git a/sysdeps/aarch64/configure.ac b/sysdeps/aarch64/configure.ac
+index 7851dd4dac..90693252a3 100644
+--- a/sysdeps/aarch64/configure.ac
++++ b/sysdeps/aarch64/configure.ac
+@@ -14,9 +14,16 @@ AC_CACHE_CHECK([for big endian],
+                       yes
+                      #endif
+   ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
++
++if test $aarch64_config_abi = ilp32; then
++  AC_DEFINE(HAVE_AARCH64_ILP32)
++fi
++
+ if test $libc_cv_aarch64_be = yes; then
+   AC_DEFINE(HAVE_AARCH64_BE)
+-  LIBC_CONFIG_VAR([default-abi], [lp64_be])
++  libc_aarch64_be=_be
+ else
+-  LIBC_CONFIG_VAR([default-abi], [lp64])
++  libc_aarch64_be=
+ fi
++
++LIBC_CONFIG_VAR([default-abi], [${aarch64_config_abi}${libc_aarch64_be}])
+diff --git a/sysdeps/aarch64/Implies b/sysdeps/aarch64/ilp32/Implies
+similarity index 88%
+rename from sysdeps/aarch64/Implies
+rename to sysdeps/aarch64/ilp32/Implies
+index e5adf4d63c..a9e5910412 100644
+--- a/sysdeps/aarch64/Implies
++++ b/sysdeps/aarch64/ilp32/Implies
+@@ -1,4 +1,4 @@
+-wordsize-64
++aarch64/fpu
+ ieee754/ldbl-128
+ ieee754/dbl-64/wordsize-64
+ ieee754/dbl-64
+diff --git a/sysdeps/aarch64/ilp32/Implies-after b/sysdeps/aarch64/ilp32/Implies-after
+new file mode 100644
+index 0000000000..39a34c5f57
+--- /dev/null
++++ b/sysdeps/aarch64/ilp32/Implies-after
+@@ -0,0 +1 @@
++wordsize-32
+diff --git a/sysdeps/aarch64/lp64/Implies b/sysdeps/aarch64/lp64/Implies
+new file mode 100644
+index 0000000000..a9e5910412
+--- /dev/null
++++ b/sysdeps/aarch64/lp64/Implies
+@@ -0,0 +1,6 @@
++aarch64/fpu
++ieee754/ldbl-128
++ieee754/dbl-64/wordsize-64
++ieee754/dbl-64
++ieee754/flt-32
++aarch64/soft-fp
+diff --git a/sysdeps/aarch64/lp64/Implies-after b/sysdeps/aarch64/lp64/Implies-after
+new file mode 100644
+index 0000000000..a8cae95f9d
+--- /dev/null
++++ b/sysdeps/aarch64/lp64/Implies-after
+@@ -0,0 +1 @@
++wordsize-64
+diff --git a/sysdeps/aarch64/preconfigure b/sysdeps/aarch64/preconfigure
+index d9bd1f8558..b56d0aa1a1 100644
+--- a/sysdeps/aarch64/preconfigure
++++ b/sysdeps/aarch64/preconfigure
+@@ -1,6 +1,14 @@
+ case "$machine" in
+ aarch64*)
++	abiflag=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null`
+ 	base_machine=aarch64
+-	machine=aarch64
++	case "$abiflag" in
++		*"#define __ILP32__ 1"*) aarch64_config_abi=ilp32 ;;
++		*) aarch64_config_abi=lp64 ;;
++	esac
++	case $aarch64_config_abi in
++		ilp32) machine=aarch64/ilp32 ;;
++		lp64) machine=aarch64/lp64 ;;
++	esac
+ 	;;
+ esac
+diff --git a/sysdeps/aarch64/tls-macros.h b/sysdeps/aarch64/tls-macros.h
+index 358ccbc490..fa27dc0f90 100644
+--- a/sysdeps/aarch64/tls-macros.h
++++ b/sysdeps/aarch64/tls-macros.h
+@@ -32,8 +32,9 @@
+ 	    "x30", "memory", "cc");			\
+      (int *) (__result); })
+
+-#define TLS_IE(x)					\
+-  ({ register unsigned long __result asm ("x0");	\
++#ifdef __LP64__
++# define TLS_IE(x)					\
++  ({ register unsigned long __result;			\
+      register unsigned long __t;			\
+      asm ("mrs	%1, tpidr_el0; "			\
+ 	  "adrp	%0, :gottprel:" #x "; "			\
+@@ -41,6 +42,17 @@
+ 	  "add	%0, %0, %1"				\
+ 	  : "=r" (__result), "=r" (__t));		\
+      (int *) (__result); })
++#else
++# define TLS_IE(x)					\
++  ({ register unsigned long __result;			\
++     register unsigned long __t;			\
++     asm ("mrs	%1, tpidr_el0; "			\
++	  "adrp	%0, :gottprel:" #x "; "			\
++	  "ldr	%w0, [%0, #:gottprel_lo12:" #x "]; "	\
++	  "add	%0, %0, %1"				\
++	  : "=r" (__result), "=r" (__t));		\
++     (int *) (__result); })
++#endif
+
+ #define TLS_LE(x)					\
+   ({ register unsigned long __result asm ("x0");	\
+diff --git a/sysdeps/generic/ldconfig.h b/sysdeps/generic/ldconfig.h
+index a61ce5ca15..be6b70c3e7 100644
+--- a/sysdeps/generic/ldconfig.h
++++ b/sysdeps/generic/ldconfig.h
+@@ -42,6 +42,7 @@
+ #define FLAG_MIPS_LIB32_NAN2008		0x0c00
+ #define FLAG_MIPS64_LIBN32_NAN2008	0x0d00
+ #define FLAG_MIPS64_LIBN64_NAN2008	0x0e00
++#define FLAG_AARCH64_LIB32		0x0f00
+
+ /* Name of auxiliary cache.  */
+ #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
+diff --git a/sysdeps/unix/sysv/linux/aarch64/Implies b/sysdeps/unix/sysv/linux/aarch64/Implies
+index 4409e19b92..c508f2e0a6 100644
+--- a/sysdeps/unix/sysv/linux/aarch64/Implies
++++ b/sysdeps/unix/sysv/linux/aarch64/Implies
+@@ -1,3 +1 @@
+ aarch64/nptl
+-unix/sysv/linux/generic
+-unix/sysv/linux/wordsize-64
+diff --git a/sysdeps/unix/sysv/linux/aarch64/Makefile b/sysdeps/unix/sysv/linux/aarch64/Makefile
+index 6b4e620896..67619f5b45 100644
+--- a/sysdeps/unix/sysv/linux/aarch64/Makefile
++++ b/sysdeps/unix/sysv/linux/aarch64/Makefile
+@@ -23,13 +23,21 @@ endif
+
+ abi-variants := lp64
+ abi-variants += lp64_be
++abi-variants += ilp32
++abi-variants += ilp32_be
+
+ ifeq (,$(filter $(default-abi),$(abi-variants)))
+ Unknown ABI, must be one of $(abi-variants)
+ endif
+
+-abi-lp64-options := -U__AARCH64EB__
+-abi-lp64-condition := !defined __AARCH64EB__
++abi-lp64-options := -U__AARCH64EB__ -D__LP64__ -U__ILP32__
++abi-lp64-condition := __WORDSIZE == 64 && !defined __AARCH64EB__
+
+-abi-lp64_be-options := -D__AARCH64EB__
+-abi-lp64_be-condition := defined __AARCH64EB__
++abi-lp64_be-options := -D__AARCH64EB__ -D__LP64__ -U__ILP32__
++abi-lp64_be-condition := __WORDSIZE == 64 && defined __AARCH64EB__
++
++abi-ilp32-options := -U__AARCH64EB__ -U__LP64__ -D__ILP32__
++abi-ilp32-condition := __WORDSIZE == 32 && !defined __AARCH64EB__
++
++abi-ilp32_be-options := -D__AARCH64EB__ -U__LP64__ -D__ILP32__
++abi-ilp32_be-condition := __WORDSIZE == 32 && defined __AARCH64EB__
+diff --git a/sysdeps/unix/sysv/linux/aarch64/bits/stat.h b/sysdeps/unix/sysv/linux/aarch64/bits/stat.h
+new file mode 100644
+index 0000000000..4472fb1af1
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/bits/stat.h
+@@ -0,0 +1,178 @@
++/* Definition of `struct stat' used in the kernel.
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#if !defined _SYS_STAT_H && !defined _FCNTL_H
++# error "Never include <bits/stat.h> directly; use <sys/stat.h> instead."
++#endif
++
++#ifndef _BITS_STAT_H
++#define _BITS_STAT_H	1
++
++#include <bits/wordsize.h>
++
++/* 64-bit libc uses the kernel's 'struct stat', accessed via the
++   stat() syscall; 32-bit libc uses the kernel's 'struct stat64'
++   and accesses it via the stat64() syscall.  All the various
++   APIs offered by libc use the kernel shape for their struct stat
++   structure; the only difference is that 32-bit programs not
++   using __USE_FILE_OFFSET64 only see the low 32 bits of some
++   of the fields (specifically st_ino, st_size, and st_blocks).  */
++#define _STAT_VER_KERNEL	0
++#define _STAT_VER_LINUX		0
++#define _STAT_VER		_STAT_VER_KERNEL
++
++/* Versions of the `xmknod' interface.  */
++#define _MKNOD_VER_LINUX	0
++
++struct stat
++  {
++    __dev_t st_dev;		/* Device.  */
++#ifdef __LP64__
++    __ino_t st_ino;		/* File serial number. */
++#else
++    unsigned int __pad0;
++    unsigned int __st_ino;	/* 32bit file serial number.	*/
++#endif
++    __mode_t st_mode;		/* File mode.  */
++    __nlink_t st_nlink;		/* Link count.  */
++    __uid_t st_uid;		/* User ID of the file's owner.	*/
++    __gid_t st_gid;		/* Group ID of the file's group.*/
++    __dev_t st_rdev;		/* Device number, if device.  */
++    __dev_t __pad1;
++    __off_t st_size;		/* Size of file, in bytes. */
++    __blksize_t st_blksize;	/* Optimal block size for I/O.  */
++#ifdef __LP64__
++    int __pad2;
++#endif
++    __blkcnt_t st_blocks;	/* 512-byte blocks */
++#ifdef __USE_XOPEN2K8
++    /* Nanosecond resolution timestamps are stored in a format
++       equivalent to 'struct timespec'.  This is the type used
++       whenever possible but the Unix namespace rules do not allow the
++       identifier 'timespec' to appear in the <sys/stat.h> header.
++       Therefore we have to handle the use of this header in strictly
++       standard-compliant sources special.  */
++    struct timespec st_atim;		/* Time of last access.  */
++    struct timespec st_mtim;		/* Time of last modification.  */
++    struct timespec st_ctim;		/* Time of last status change.  */
++# define st_atime st_atim.tv_sec	/* Backward compatibility.  */
++# define st_mtime st_mtim.tv_sec
++# define st_ctime st_ctim.tv_sec
++#else
++    __time_t st_atime;			/* Time of last access.  */
++    unsigned long int st_atimensec;	/* Nscecs of last access.  */
++    __time_t st_mtime;			/* Time of last modification.  */
++    unsigned long int st_mtimensec;	/* Nsecs of last modification.  */
++    __time_t st_ctime;			/* Time of last status change.  */
++    unsigned long int st_ctimensec;	/* Nsecs of last status change.  */
++#endif
++#ifdef __LP64__
++    int __glibc_reserved[2];
++#else
++    __ino_t st_ino;			/* File serial number.	*/
++#endif
++  };
++
++#ifdef __USE_LARGEFILE64
++struct stat64
++  {
++    __dev_t st_dev;		/* Device.  */
++# ifdef __LP64__
++    __ino64_t st_ino;		/* File serial number. */
++# else
++    unsigned int __pad0;
++    unsigned int __st_ino;	/* 32bit file serial number.	*/
++# endif
++    __mode_t st_mode;		/* File mode.  */
++    __nlink_t st_nlink;		/* Link count.  */
++    __uid_t st_uid;		/* User ID of the file's owner.	*/
++    __gid_t st_gid;		/* Group ID of the file's group.*/
++    __dev_t st_rdev;		/* Device number, if device.  */
++    __dev_t __pad1;
++    __off64_t st_size;		/* Size of file, in bytes.  */
++    __blksize_t st_blksize;	/* Optimal block size for I/O.  */
++# ifdef __LP64__
++    int __pad2;
++# endif
++    __blkcnt64_t st_blocks;	/* Nr. 512-byte blocks allocated.  */
++# ifdef __USE_XOPEN2K8
++    /* Nanosecond resolution timestamps are stored in a format
++       equivalent to 'struct timespec'.  This is the type used
++       whenever possible but the Unix namespace rules do not allow the
++       identifier 'timespec' to appear in the <sys/stat.h> header.
++       Therefore we have to handle the use of this header in strictly
++       standard-compliant sources special.  */
++    struct timespec st_atim;		/* Time of last access.  */
++    struct timespec st_mtim;		/* Time of last modification.  */
++    struct timespec st_ctim;		/* Time of last status change.  */
++# else
++    __time_t st_atime;			/* Time of last access.  */
++    unsigned long int st_atimensec;	/* Nscecs of last access.  */
++    __time_t st_mtime;			/* Time of last modification.  */
++    unsigned long int st_mtimensec;	/* Nsecs of last modification.  */
++    __time_t st_ctime;			/* Time of last status change.  */
++    unsigned long int st_ctimensec;	/* Nsecs of last status change.  */
++# endif
++# ifdef __LP64__
++    int __glibc_reserved[2];
++# else
++    __ino_t st_ino;			/* File serial number.	*/
++# endif
++  };
++#endif
++
++/* Tell code we have these members.  */
++#define _STATBUF_ST_BLKSIZE
++#define _STATBUF_ST_RDEV
++/* Nanosecond resolution time values are supported.  */
++#define _STATBUF_ST_NSEC
++
++/* Encoding of the file mode.  */
++
++#define __S_IFMT	0170000	/* These bits determine file type.  */
++
++/* File types.  */
++#define __S_IFDIR	0040000	/* Directory.  */
++#define __S_IFCHR	0020000	/* Character device.  */
++#define __S_IFBLK	0060000	/* Block device.  */
++#define __S_IFREG	0100000	/* Regular file.  */
++#define __S_IFIFO	0010000	/* FIFO.  */
++#define __S_IFLNK	0120000	/* Symbolic link.  */
++#define __S_IFSOCK	0140000	/* Socket.  */
++
++/* POSIX.1b objects.  Note that these macros always evaluate to zero.  But
++   they do it by enforcing the correct use of the macros.  */
++#define __S_TYPEISMQ(buf)  ((buf)->st_mode - (buf)->st_mode)
++#define __S_TYPEISSEM(buf) ((buf)->st_mode - (buf)->st_mode)
++#define __S_TYPEISSHM(buf) ((buf)->st_mode - (buf)->st_mode)
++
++/* Protection bits.  */
++
++#define __S_ISUID	04000	/* Set user ID on execution.  */
++#define __S_ISGID	02000	/* Set group ID on execution.  */
++#define __S_ISVTX	01000	/* Save swapped text after use (sticky).  */
++#define __S_IREAD	0400	/* Read by owner.  */
++#define __S_IWRITE	0200	/* Write by owner.  */
++#define __S_IEXEC	0100	/* Execute by owner.  */
++
++#ifdef __USE_ATFILE
++# define UTIME_NOW	((1l << 30) - 1l)
++# define UTIME_OMIT	((1l << 30) - 2l)
++#endif
++
++#endif /* bits/stat.h */
+diff --git a/sysdeps/unix/sysv/linux/aarch64/bits/statfs.h b/sysdeps/unix/sysv/linux/aarch64/bits/statfs.h
+new file mode 100644
+index 0000000000..23953b9e6d
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/bits/statfs.h
+@@ -0,0 +1,68 @@
++/* Definition of `struct statfs', information about a filesystem.
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++   Contributed by Chris Metcalf <cmetcalf@tilera.com>, 2011.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _SYS_STATFS_H
++# error "Never include <bits/statfs.h> directly; use <sys/statfs.h> instead."
++#endif
++
++#include <endian.h>
++#include <bits/types.h>
++#include <bits/wordsize.h>
++
++/* On AArch64 both the 32-bit and 64-bit libc's use the kernels
++   'struct statfs' with 64 bit f_blocks/f_bfree/f_bavail/f_files/f_ffree
++   fields.  This means the statfs and statfs64 structs are identical
++   and the statfs and statfs64 calls can be aliases.  */
++
++struct statfs
++  {
++    __SWORD_TYPE f_type;
++    __SWORD_TYPE f_bsize;
++    __fsblkcnt_t f_blocks;
++    __fsblkcnt_t f_bfree;
++    __fsblkcnt_t f_bavail;
++    __fsfilcnt_t f_files;
++    __fsfilcnt_t f_ffree;
++    __fsid_t f_fsid;
++    __SWORD_TYPE f_namelen;
++    __SWORD_TYPE f_frsize;
++    __SWORD_TYPE f_flags;
++    __SWORD_TYPE f_spare[4];
++  };
++
++struct statfs64
++  {
++    __SWORD_TYPE f_type;
++    __SWORD_TYPE f_bsize;
++    __fsblkcnt64_t f_blocks;
++    __fsblkcnt64_t f_bfree;
++    __fsblkcnt64_t f_bavail;
++    __fsfilcnt64_t f_files;
++    __fsfilcnt64_t f_ffree;
++    __fsid_t f_fsid;
++    __SWORD_TYPE f_namelen;
++    __SWORD_TYPE f_frsize;
++    __SWORD_TYPE f_flags;
++    __SWORD_TYPE f_spare[4];
++  };
++
++/* Tell code we have these members.  */
++#define _STATFS_F_NAMELEN
++#define _STATFS_F_FRSIZE
++#define _STATFS_F_FLAGS
+diff --git a/sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h b/sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h
+new file mode 100644
+index 0000000000..e3975c762c
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/bits/typesizes.h
+@@ -0,0 +1,88 @@
++/* bits/typesizes.h -- underlying types for *_t.  Linux/AArch64 version.
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _BITS_TYPES_H
++# error "Never include <bits/typesizes.h> directly; use <sys/types.h> instead."
++#endif
++
++#ifndef	_BITS_TYPESIZES_H
++#define _BITS_TYPESIZES_H	1
++
++/* See <bits/types.h> for the meaning of these macros.  This file exists so
++   that <bits/types.h> need not vary across different GNU platforms.  */
++
++#define __DEV_T_TYPE		__UQUAD_TYPE
++#define __UID_T_TYPE		__U32_TYPE
++#define __GID_T_TYPE		__U32_TYPE
++#define __INO_T_TYPE		__UQUAD_TYPE
++#define __INO64_T_TYPE		__UQUAD_TYPE
++#define __MODE_T_TYPE		__U32_TYPE
++#define __NLINK_T_TYPE		__U32_TYPE
++#define __OFF_T_TYPE		__SQUAD_TYPE
++#define __OFF64_T_TYPE		__SQUAD_TYPE
++#define __PID_T_TYPE		__S32_TYPE
++#define __RLIM_T_TYPE		__UQUAD_TYPE
++#define __RLIM64_T_TYPE		__UQUAD_TYPE
++#define __BLKCNT_T_TYPE		__SQUAD_TYPE
++#define __BLKCNT64_T_TYPE	__SQUAD_TYPE
++#define __FSBLKCNT_T_TYPE	__UQUAD_TYPE
++#define __FSBLKCNT64_T_TYPE	__UQUAD_TYPE
++#define __FSFILCNT_T_TYPE	__UQUAD_TYPE
++#define __FSFILCNT64_T_TYPE	__UQUAD_TYPE
++#define __FSWORD_T_TYPE		__SWORD_TYPE
++#define __ID_T_TYPE		__U32_TYPE
++#define __CLOCK_T_TYPE		__SLONGWORD_TYPE
++#define __TIME_T_TYPE		__SLONGWORD_TYPE
++#define __USECONDS_T_TYPE	__U32_TYPE
++#define __SUSECONDS_T_TYPE	__SLONGWORD_TYPE
++#define __DADDR_T_TYPE		__S32_TYPE
++#define __KEY_T_TYPE		__S32_TYPE
++#define __CLOCKID_T_TYPE	__S32_TYPE
++#define __TIMER_T_TYPE		void *
++#define __BLKSIZE_T_TYPE	__S32_TYPE
++#define __FSID_T_TYPE		struct { int __val[2]; }
++/* ssize_t is always singed long in both ABIs. */
++#define __SSIZE_T_TYPE		__SLONGWORD_TYPE
++#define __SYSCALL_SLONG_TYPE	__SLONGWORD_TYPE
++#define __SYSCALL_ULONG_TYPE	__ULONGWORD_TYPE
++#define __CPU_MASK_TYPE         __ULONGWORD_TYPE
++
++/* Tell the libc code that off_t and off64_t are actually the same type
++   for all ABI purposes, even if possibly expressed as different base types
++   for C type-checking purposes.  */
++#define __OFF_T_MATCHES_OFF64_T				1
++
++/* Same for ino_t and ino64_t.  */
++#define __INO_T_MATCHES_INO64_T				1
++
++/* And for rlim_t and rlim64_t.  */
++#define __RLIM_T_MATCHES_RLIM64_T			1
++
++/* And for __blkcnt_t and __blkcnt64_t.  */
++#define __BLKCNT_T_TYPE_MATCHES_BLKCNT64_T_TYPE	1
++
++/* And for __fsblkcnt_t and __fsblkcnt64_t.  */
++#define __FSBLKCNT_T_TYPE_MATCHES_FSBLKCNT64_T_TYPE	1
++
++/* And for __fsbilcnt_t and __fsbilcnt64_t.  */
++#define __FSFILCNT_T_TYPE_MATCHES_FSFILCNT64_T_TYPE	1
++
++/* Number of descriptors that can fit in an `fd_set'.  */
++#define __FD_SETSIZE		1024
++
++#endif /* bits/typesizes.h */
+diff --git a/sysdeps/unix/sysv/linux/aarch64/bits/utmp.h b/sysdeps/unix/sysv/linux/aarch64/bits/utmp.h
+new file mode 100644
+index 0000000000..850517573e
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/bits/utmp.h
+@@ -0,0 +1,125 @@
++/* The `struct utmp' type, describing entries in the utmp file.
++   Linux/AArch64 version.
++
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _UTMP_H
++# error "Never include <bits/utmp.h> directly; use <utmp.h> instead."
++#endif
++
++#include <paths.h>
++#include <sys/time.h>
++#include <sys/types.h>
++#include <bits/wordsize.h>
++
++
++#define UT_LINESIZE	32
++#define UT_NAMESIZE	32
++#define UT_HOSTSIZE	256
++
++
++/* The structure describing an entry in the database of
++   previous logins.  */
++struct lastlog
++  {
++#if __WORDSIZE == 32
++    int64_t ll_time;
++#else
++    __time_t ll_time;
++#endif
++    char ll_line[UT_LINESIZE];
++    char ll_host[UT_HOSTSIZE];
++  };
++
++
++/* The structure describing the status of a terminated process.  This
++   type is used in `struct utmp' below.  */
++struct exit_status
++  {
++    short int e_termination;	/* Process termination status.  */
++    short int e_exit;		/* Process exit status.  */
++  };
++
++
++/* The structure describing an entry in the user accounting database.  */
++struct utmp
++{
++  short int ut_type;		/* Type of login.  */
++  pid_t ut_pid;			/* Process ID of login process.  */
++  char ut_line[UT_LINESIZE];	/* Devicename.  */
++  char ut_id[4];		/* Inittab ID.  */
++  char ut_user[UT_NAMESIZE];	/* Username.  */
++  char ut_host[UT_HOSTSIZE];	/* Hostname for remote login.  */
++  struct exit_status ut_exit;	/* Exit status of a process marked
++				   as DEAD_PROCESS.  */
++/* The ut_session and ut_tv fields must be the same size when compiled
++   32- and 64-bit.  This allows data files and shared memory to be
++   shared between 32- and 64-bit applications.  */
++#if __WORDSIZE == 32
++  int64_t ut_session;		/* Session ID, used for windowing.  */
++  struct
++  {
++    int64_t tv_sec;		/* Seconds.  */
++    int64_t tv_usec;		/* Microseconds.  */
++  } ut_tv;			/* Time entry was made.  */
++#else
++  long int ut_session;		/* Session ID, used for windowing.  */
++  struct timeval ut_tv;		/* Time entry was made.  */
++#endif
++
++  int32_t ut_addr_v6[4];	/* Internet address of remote host.  */
++  char __glibc_reserved[20];		/* Reserved for future use.  */
++};
++
++/* Backwards compatibility hacks.  */
++#define ut_name		ut_user
++#ifndef _NO_UT_TIME
++/* We have a problem here: `ut_time' is also used otherwise.  Define
++   _NO_UT_TIME if the compiler complains.  */
++# define ut_time	ut_tv.tv_sec
++#endif
++#define ut_xtime	ut_tv.tv_sec
++#define ut_addr		ut_addr_v6[0]
++
++
++/* Values for the `ut_type' field of a `struct utmp'.  */
++#define EMPTY		0	/* No valid user accounting information.  */
++
++#define RUN_LVL		1	/* The system's runlevel.  */
++#define BOOT_TIME	2	/* Time of system boot.  */
++#define NEW_TIME	3	/* Time after system clock changed.  */
++#define OLD_TIME	4	/* Time when system clock changed.  */
++
++#define INIT_PROCESS	5	/* Process spawned by the init process.  */
++#define LOGIN_PROCESS	6	/* Session leader of a logged in user.  */
++#define USER_PROCESS	7	/* Normal process.  */
++#define DEAD_PROCESS	8	/* Terminated process.  */
++
++#define ACCOUNTING	9
++
++/* Old Linux name for the EMPTY type.  */
++#define UT_UNKNOWN	EMPTY
++
++
++/* Tell the user that we have a modern system with UT_HOST, UT_PID,
++   UT_TYPE, UT_ID and UT_TV fields.  */
++#define _HAVE_UT_TYPE	1
++#define _HAVE_UT_PID	1
++#define _HAVE_UT_ID	1
++#define _HAVE_UT_TV	1
++#define _HAVE_UT_HOST	1
+diff --git a/sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h b/sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h
+new file mode 100644
+index 0000000000..bffd45cb3e
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/bits/utmpx.h
+@@ -0,0 +1,104 @@
++/* Structures and definitions for the user accounting database.
++   Linux/AArch64 version.
++
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _UTMPX_H
++# error "Never include <bits/utmpx.h> directly; use <utmpx.h> instead."
++#endif
++
++#include <bits/types.h>
++#include <sys/time.h>
++#include <bits/wordsize.h>
++
++
++#ifdef __USE_GNU
++# include <paths.h>
++# define _PATH_UTMPX	_PATH_UTMP
++# define _PATH_WTMPX	_PATH_WTMP
++#endif
++
++
++#define __UT_LINESIZE	32
++#define __UT_NAMESIZE	32
++#define __UT_HOSTSIZE	256
++
++
++/* The structure describing the status of a terminated process.  This
++   type is used in `struct utmpx' below.  */
++struct __exit_status
++  {
++#ifdef __USE_GNU
++    short int e_termination;	/* Process termination status.  */
++    short int e_exit;		/* Process exit status.  */
++#else
++    short int __e_termination;	/* Process termination status.  */
++    short int __e_exit;		/* Process exit status.  */
++#endif
++  };
++
++
++/* The structure describing an entry in the user accounting database.  */
++struct utmpx
++{
++  short int ut_type;		/* Type of login.  */
++  __pid_t ut_pid;		/* Process ID of login process.  */
++  char ut_line[__UT_LINESIZE];	/* Devicename.  */
++  char ut_id[4];		/* Inittab ID. */
++  char ut_user[__UT_NAMESIZE];	/* Username.  */
++  char ut_host[__UT_HOSTSIZE];	/* Hostname for remote login.  */
++  struct __exit_status ut_exit;	/* Exit status of a process marked
++				   as DEAD_PROCESS.  */
++
++/* The fields ut_session and ut_tv must be the same size when compiled
++   32- and 64-bit.  This allows files and shared memory to be shared
++   between 32- and 64-bit applications.  */
++#if __WORDSIZE == 32
++  __int64_t ut_session;		/* Session ID, used for windowing.  */
++  struct
++  {
++    __int64_t tv_sec;		/* Seconds.  */
++    __int64_t tv_usec;		/* Microseconds.  */
++  } ut_tv;			/* Time entry was made.  */
++#else
++  long int ut_session;		/* Session ID, used for windowing.  */
++  struct timeval ut_tv;		/* Time entry was made.  */
++#endif
++  __int32_t ut_addr_v6[4];	/* Internet address of remote host.  */
++  char __glibc_reserved[20];		/* Reserved for future use.  */
++};
++
++
++/* Values for the `ut_type' field of a `struct utmpx'.  */
++#define EMPTY		0	/* No valid user accounting information.  */
++
++#ifdef __USE_GNU
++# define RUN_LVL	1	/* The system's runlevel.  */
++#endif
++#define BOOT_TIME	2	/* Time of system boot.  */
++#define NEW_TIME	3	/* Time after system clock changed.  */
++#define OLD_TIME	4	/* Time when system clock changed.  */
++
++#define INIT_PROCESS	5	/* Process spawned by the init process.  */
++#define LOGIN_PROCESS	6	/* Session leader of a logged in user.  */
++#define USER_PROCESS	7	/* Normal process.  */
++#define DEAD_PROCESS	8	/* Terminated process.  */
++
++#ifdef __USE_GNU
++# define ACCOUNTING	9	/* System accounting.  */
++#endif
+diff --git a/sysdeps/unix/sysv/linux/aarch64/configure.ac b/sysdeps/unix/sysv/linux/aarch64/configure.ac
+index 211fa9c317..8cc97efefc 100644
+--- a/sysdeps/unix/sysv/linux/aarch64/configure.ac
++++ b/sysdeps/unix/sysv/linux/aarch64/configure.ac
+@@ -1,6 +1,12 @@
+ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
+ # Local configure fragment for sysdeps/unix/sysv/linux/aarch64.
+
+-arch_minimum_kernel=3.7.0
++if test $aarch64_config_abi = ilp32; then
++  arch_minimum_kernel=4.11.0
++  LIBC_SLIBDIR_RTLDDIR([libilp32], [lib])
++else
++  arch_minimum_kernel=3.7.0
++  LIBC_SLIBDIR_RTLDDIR([lib64], [lib])
++fi
+
+-LIBC_SLIBDIR_RTLDDIR([lib64], [lib])
++ldd_rewrite_script=$dir/ldd-rewrite.sed
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ilp32/Implies b/sysdeps/unix/sysv/linux/aarch64/ilp32/Implies
+new file mode 100644
+index 0000000000..7dd239e5de
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/ilp32/Implies
+@@ -0,0 +1,4 @@
++aarch64/nptl
++unix/sysv/linux/aarch64
++unix/sysv/linux/generic/wordsize-32
++unix/sysv/linux/generic
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ilp32/c++-types.data b/sysdeps/unix/sysv/linux/aarch64/ilp32/c++-types.data
+new file mode 100644
+index 0000000000..3fe2e2be9d
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/ilp32/c++-types.data
+@@ -0,0 +1,67 @@
++blkcnt64_t:x
++blkcnt_t:x
++blksize_t:i
++caddr_t:Pc
++clockid_t:i
++clock_t:l
++daddr_t:i
++dev_t:y
++fd_mask:l
++fsblkcnt64_t:y
++fsblkcnt_t:y
++fsfilcnt64_t:y
++fsfilcnt_t:y
++fsid_t:8__fsid_t
++gid_t:j
++id_t:j
++ino64_t:y
++ino_t:y
++int16_t:s
++int32_t:i
++int64_t:x
++int8_t:a
++intptr_t:i
++key_t:i
++loff_t:x
++mode_t:j
++nlink_t:j
++off64_t:x
++off_t:x
++pid_t:i
++pthread_attr_t:14pthread_attr_t
++pthread_barrier_t:17pthread_barrier_t
++pthread_barrierattr_t:21pthread_barrierattr_t
++pthread_cond_t:14pthread_cond_t
++pthread_condattr_t:18pthread_condattr_t
++pthread_key_t:j
++pthread_mutex_t:15pthread_mutex_t
++pthread_mutexattr_t:19pthread_mutexattr_t
++pthread_once_t:i
++pthread_rwlock_t:16pthread_rwlock_t
++pthread_rwlockattr_t:20pthread_rwlockattr_t
++pthread_spinlock_t:i
++pthread_t:m
++quad_t:x
++register_t:x
++rlim64_t:y
++rlim_t:y
++sigset_t:10__sigset_t
++size_t:m
++socklen_t:j
++ssize_t:l
++suseconds_t:l
++time_t:l
++u_char:h
++uid_t:j
++uint:j
++u_int:j
++u_int16_t:t
++u_int32_t:j
++u_int64_t:y
++u_int8_t:h
++ulong:m
++u_long:m
++u_quad_t:y
++useconds_t:j
++ushort:t
++u_short:t
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ilp32/kernel_stat.h b/sysdeps/unix/sysv/linux/aarch64/ilp32/kernel_stat.h
+new file mode 100644
+index 0000000000..ac50f0e230
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/ilp32/kernel_stat.h
+@@ -0,0 +1,3 @@
++#define XSTAT_IS_XSTAT64	1
++#define STATFS_IS_STATFS64	1
++#define STAT_IS_KERNEL_STAT
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ilp32/shlib-versions b/sysdeps/unix/sysv/linux/aarch64/ilp32/shlib-versions
+new file mode 100644
+index 0000000000..b714a92e3e
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/ilp32/shlib-versions
+@@ -0,0 +1,7 @@
++DEFAULT			GLIBC_2.26
++
++%ifdef HAVE_AARCH64_BE
++ld=ld-linux-aarch64_be_ilp32.so.1
++%else
++ld=ld-linux-aarch64_ilp32.so.1
++%endif
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h b/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h
+index 8d12f31573..40a4d04984 100644
+--- a/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h
++++ b/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h
+@@ -18,4 +18,8 @@
+
+ #include <sys/ipc.h>  /* For __key_t  */
+
+-#define __IPC_64	0x0
++#ifdef __LP64__
++# define __IPC_64	0x0
++#else /* __ILP32  */
++# define __IPC_64	0x100
++#endif
+diff --git a/sysdeps/unix/sysv/linux/aarch64/kernel-features.h b/sysdeps/unix/sysv/linux/aarch64/kernel-features.h
+new file mode 100644
+index 0000000000..37e563abd6
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/kernel-features.h
+@@ -0,0 +1,30 @@
++/* Set flags signalling availability of kernel features based on given
++   kernel version number.
++
++   Copyright (C) 2017 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include_next <kernel-features.h>
++
++#ifdef __ILP32__
++/* ARM fadvise64_64 reorganize the syscall arguments.  */
++# define __ASSUME_FADVISE64_64_6ARG	1
++
++/* Define this if your 32-bit syscall API requires 64-bit register
++   pairs to start with an even-number register.  */
++# define __ASSUME_ALIGNED_REGISTER_PAIRS	1
++#endif /* __ILP32__ */
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed b/sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed
+new file mode 100644
+index 0000000000..2f3bbb9122
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/ldd-rewrite.sed
+@@ -0,0 +1 @@
++s_^\(RTLDLIST=\)\(.*lib/\)\([^/]*\)\(-aarch64\)\(\|\_be\)\(\|\_ilp32\)\(.so\.[0-9.]*\)$_\1"\2\3-aarch64\5\7 \2\3-aarch64\5\_ilp32\7"_
+diff --git a/sysdeps/unix/sysv/linux/aarch64/lp64/Implies b/sysdeps/unix/sysv/linux/aarch64/lp64/Implies
+new file mode 100644
+index 0000000000..6418211f96
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/lp64/Implies
+@@ -0,0 +1,4 @@
++aarch64/nptl
++unix/sysv/linux/aarch64
++unix/sysv/linux/generic
++unix/sysv/linux/wordsize-64
+diff --git a/sysdeps/unix/sysv/linux/aarch64/c++-types.data b/sysdeps/unix/sysv/linux/aarch64/lp64/c++-types.data
+similarity index 100%
+rename from sysdeps/unix/sysv/linux/aarch64/c++-types.data
+rename to sysdeps/unix/sysv/linux/aarch64/lp64/c++-types.data
+diff --git a/sysdeps/unix/sysv/linux/aarch64/ioctl.S b/sysdeps/unix/sysv/linux/aarch64/lp64/ioctl.S
+similarity index 100%
+rename from sysdeps/unix/sysv/linux/aarch64/ioctl.S
+rename to sysdeps/unix/sysv/linux/aarch64/lp64/ioctl.S
+diff --git a/sysdeps/unix/sysv/linux/aarch64/mmap.c b/sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
+similarity index 100%
+rename from sysdeps/unix/sysv/linux/aarch64/mmap.c
+rename to sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
+diff --git a/sysdeps/unix/sysv/linux/aarch64/shlib-versions b/sysdeps/unix/sysv/linux/aarch64/lp64/shlib-versions
+similarity index 100%
+rename from sysdeps/unix/sysv/linux/aarch64/shlib-versions
+rename to sysdeps/unix/sysv/linux/aarch64/lp64/shlib-versions
+diff --git a/sysdeps/unix/sysv/linux/arm/readelflib.c b/sysdeps/unix/sysv/linux/arm/readelflib.c
+index 65273bcf77..dfb8fd48fc 100644
+--- a/sysdeps/unix/sysv/linux/arm/readelflib.c
++++ b/sysdeps/unix/sysv/linux/arm/readelflib.c
+@@ -41,7 +41,11 @@ process_elf_file (const char *file_name, const char *lib, int *flag,
+       ret = process_elf32_file (file_name, lib, flag, osversion, soname,
+ 				file_contents, file_length);
+
+-      if (!ret && EF_ARM_EABI_VERSION (elf32_header->e_flags) == EF_ARM_EABI_VER5)
++      if (!ret && elf_header->e_machine == EM_AARCH64)
++	*flag = FLAG_AARCH64_LIB32|FLAG_ELF_LIBC6;
++      else if (!ret
++	       && EF_ARM_EABI_VERSION (elf32_header->e_flags)
++		  == EF_ARM_EABI_VER5)
+ 	{
+ 	  if (elf32_header->e_flags & EF_ARM_ABI_FLOAT_HARD)
+ 	    *flag = FLAG_ARM_LIBHF|FLAG_ELF_LIBC6;
+diff --git a/sysdeps/unix/sysv/linux/bits/fcntl-linux.h b/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
+index 59d663196a..b14d02cb19 100644
+--- a/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
++++ b/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
+@@ -101,7 +101,7 @@
+ #endif
+
+ #ifndef F_GETLK
+-# ifndef __USE_FILE_OFFSET64
++# if !defined (__USE_FILE_OFFSET64) && !defined (__OFF_T_MATCHES_OFF64_T)
+ #  define F_GETLK	5	/* Get record locking info.  */
+ #  define F_SETLK	6	/* Set record locking info (non-blocking).  */
+ #  define F_SETLKW	7	/* Set record locking info (blocking).	*/
+--
+2.13.0
+
