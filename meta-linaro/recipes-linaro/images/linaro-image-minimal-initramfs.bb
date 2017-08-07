@@ -36,4 +36,4 @@ IMAGE_LINGUAS = ""
 
 IMAGE_ROOTFS_SIZE = "8192"
 
-inherit core-image image_types_uboot
+inherit core-image
