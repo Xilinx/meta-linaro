@@ -44,9 +44,8 @@ python __anonymous () {
 
 inherit kernel-arch pkgconfig multilib_header
 
-SRCREV_default="525ec25101a0ec6bb76260089a369c4961d70072"
-SRC_URI = "git://github.com/norov/linux.git;branch=ilp32-4.11.4"
-
+SRCREV_default="161da3d79f8b410ffdc5b57d8ee0b41db060cced"
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git;branch=staging/ilp32-4.12"
 
 S = "${WORKDIR}/git"
 
