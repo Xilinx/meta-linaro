@@ -56,7 +56,7 @@ UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls --disable-nls --disable-silent-rule
 #           TARGET_OS  TARGET_ARCH   MACHINE, OSABI, ABIVERSION, Little Endian, 32bit?
 def package_qa_get_machine_dict(d):
     machdata = {
-            "darwin9" : { 
+            "darwin9" : {
                         "arm" :       (40,     0,    0,          True,          32),
                       },
             "eabi" : {
@@ -71,7 +71,7 @@ def package_qa_get_machine_dict(d):
                         "mips":       ( 8,     0,    0,          False,         32),
                         "mipsel":     ( 8,     0,    0,          True,          32),
                       },
-            "linux" : { 
+            "linux" : {
                         "aarch64" :   (183,    0,    0,          True,          64),
                         "aarch64_be" :(183,    0,    0,          False,         64),
                         "arm" :       (40,    97,    0,          True,          32),
@@ -103,7 +103,7 @@ def package_qa_get_machine_dict(d):
                         "microblazeeb":(189,   0,    0,          False,         32),
                         "microblazeel":(189,   0,    0,          True,          32),
                       },
-            "linux-uclibc" : { 
+            "linux-uclibc" : {
                         "arm" :       (  40,    97,    0,          True,          32),
                         "armeb":      (  40,    97,    0,          False,         32),
                         "powerpc":    (  20,     0,    0,          False,         32),
@@ -120,7 +120,7 @@ def package_qa_get_machine_dict(d):
                         "sh4":        (42,       0,    0,          True,          32),
 
                       },
-            "linux-musl" : { 
+            "linux-musl" : {
                         "aarch64" :   (183,    0,    0,            True,          64),
                         "aarch64_be" :(183,    0,    0,            False,         64),
                         "arm" :       (  40,    97,    0,          True,          32),
@@ -141,7 +141,7 @@ def package_qa_get_machine_dict(d):
                       },
             "uclinux-uclibc" : {
                         "bfin":       ( 106,     0,    0,          True,         32),
-                      }, 
+                      },
             "linux-gnueabi" : {
                         "arm" :       (40,     0,    0,          True,          32),
                         "armeb" :     (40,     0,    0,          False,         32),
@@ -551,7 +551,7 @@ def package_qa_check_arch(path,name,d, elf, messages):
 
     # Check the architecture and endiannes of the binary
     is_32 = (("virtual/kernel" in provides) or bb.data.inherits_class("module", d)) and \
-            (target_os == "linux-gnux32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE', True)))
+            (target_os == "linux-gnux32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE', True)) or re.match('aarch64.*32', d.getVar('DEFAULTTUNE', True)))
     if not ((machine == elf.machine()) or is_32):
         package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
                  (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
