@@ -3,7 +3,7 @@ require recipes-devtools/gcc/gcc-common.inc
 BASEPV = "7.1"
 PV = "linaro-${BASEPV}"
 
-MMYY = "17.05"
+MMYY = "17.08"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
 BINV = "${BASEPV}.1"
@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "\
 
 
 #BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-SRCREV = "852b5ae68e94c5bce3f8647af7904a7849873aad"
+SRCREV = "5104f2473987407575bfc63ee965394252433bb5"
 BASEURI ?= "git://git.linaro.org/toolchain/gcc.git;protocol=https;branch=linaro-local/releases/linaro-${BASEPV}-${RELEASE}"
 #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
 #BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
