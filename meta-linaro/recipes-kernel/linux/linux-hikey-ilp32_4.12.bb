@@ -11,7 +11,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git;protoco
 
 S = "${WORKDIR}/git"
 
-COMPATIBLE_MACHINE = "genericarmv8-ilp32"
+COMPATIBLE_MACHINE = "hikey-ilp32|genericarmv8-ilp32"
 KERNEL_IMAGETYPE ?= "Image"
 
 # EXTRA_OEMAKE += "V=1 ARCH=arm64 CROSS_COMPILE=aarch64-oe-linux-gnuilp32-"
