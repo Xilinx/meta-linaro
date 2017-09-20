@@ -12,8 +12,6 @@ DEFAULT_PREFERENCE_arm = "1"
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/grub-git:"
 
 PV = "2.00-prebuilt"
-SRC_URI = "file://cfg.emmc \
-"
 
 COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
 
@@ -21,11 +19,11 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
 # files but in ILP32 build we don't have 64bit specific headers which results in build failure.
 # Workaround by using a prebuilt grub efi application.
 do_install() {
-    wget -q http://releases.linaro.org/reference-platform/embedded/hikey/16.12/rpb/grubaa64.efi -O grubaa64.efi
+    wget -q http://releases.linaro.org/reference-platform/embedded/hikey/16.12/rpb/grubaa64.efi -O ${B}/grubaa64.efi
 }
 
 do_deploy() {
     cp -a ${B}/grubaa64.efi ${DEPLOYDIR}
 }
 
-addtask deploy before do_build after do_compile
+addtask deploy before do_build after do_install
