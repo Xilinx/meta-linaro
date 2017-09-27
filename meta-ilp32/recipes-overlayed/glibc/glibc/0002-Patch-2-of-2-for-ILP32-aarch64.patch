@@ -1,7 +1,7 @@
-From 400c4f85a2734f6f8f64a04d680ad33a752bb82a Mon Sep 17 00:00:00 2001
+From e5db3af5b488701798d67edf460e919fd6bea46a Mon Sep 17 00:00:00 2001
 From: Steve Ellcey <sellcey@caviumnetworks.com>
 Date: Fri, 24 Feb 2017 15:46:50 -0800
-Subject: [PATCH 2/2] Patch 2 of 2 for ILP32 aarch64
+Subject: [PATCH 2/3] Patch 2 of 2 for ILP32 aarch64
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -95,11 +95,11 @@ sellcey@cavium.com
  sysdeps/unix/sysv/linux/aarch64/lp64/Implies       |   4 +
  .../sysv/linux/aarch64/{ => lp64}/c++-types.data   |   0
  sysdeps/unix/sysv/linux/aarch64/{ => lp64}/ioctl.S |   0
- sysdeps/unix/sysv/linux/aarch64/{ => lp64}/mmap.c  |   0
+ sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c        |  34 ++++
  .../sysv/linux/aarch64/{ => lp64}/shlib-versions   |   0
  sysdeps/unix/sysv/linux/arm/readelflib.c           |   6 +-
  sysdeps/unix/sysv/linux/bits/fcntl-linux.h         |   2 +-
- 31 files changed, 755 insertions(+), 17 deletions(-)
+ 31 files changed, 789 insertions(+), 17 deletions(-)
  rename sysdeps/aarch64/{ => ilp32}/Implies (88%)
  create mode 100644 sysdeps/aarch64/ilp32/Implies-after
  create mode 100644 sysdeps/aarch64/lp64/Implies
@@ -118,7 +118,7 @@ sellcey@cavium.com
  create mode 100644 sysdeps/unix/sysv/linux/aarch64/lp64/Implies
  rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/c++-types.data (100%)
  rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/ioctl.S (100%)
- rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/mmap.c (100%)
+ create mode 100644 sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
  rename sysdeps/unix/sysv/linux/aarch64/{ => lp64}/shlib-versions (100%)
 
 diff --git a/elf/cache.c b/elf/cache.c
@@ -224,7 +224,7 @@ index 358ccbc490..fa27dc0f90 100644
 @@ -32,8 +32,9 @@
  	    "x30", "memory", "cc");			\
       (int *) (__result); })
-
+ 
 -#define TLS_IE(x)					\
 -  ({ register unsigned long __result asm ("x0");	\
 +#ifdef __LP64__
@@ -248,7 +248,7 @@ index 358ccbc490..fa27dc0f90 100644
 +	  : "=r" (__result), "=r" (__t));		\
 +     (int *) (__result); })
 +#endif
-
+ 
  #define TLS_LE(x)					\
    ({ register unsigned long __result asm ("x0");	\
 diff --git a/sysdeps/generic/ldconfig.h b/sysdeps/generic/ldconfig.h
@@ -260,7 +260,7 @@ index a61ce5ca15..be6b70c3e7 100644
  #define FLAG_MIPS64_LIBN32_NAN2008	0x0d00
  #define FLAG_MIPS64_LIBN64_NAN2008	0x0e00
 +#define FLAG_AARCH64_LIB32		0x0f00
-
+ 
  /* Name of auxiliary cache.  */
  #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
 diff --git a/sysdeps/unix/sysv/linux/aarch64/Implies b/sysdeps/unix/sysv/linux/aarch64/Implies
@@ -276,21 +276,21 @@ index 6b4e620896..67619f5b45 100644
 --- a/sysdeps/unix/sysv/linux/aarch64/Makefile
 +++ b/sysdeps/unix/sysv/linux/aarch64/Makefile
 @@ -23,13 +23,21 @@ endif
-
+ 
  abi-variants := lp64
  abi-variants += lp64_be
 +abi-variants += ilp32
 +abi-variants += ilp32_be
-
+ 
  ifeq (,$(filter $(default-abi),$(abi-variants)))
  Unknown ABI, must be one of $(abi-variants)
  endif
-
+ 
 -abi-lp64-options := -U__AARCH64EB__
 -abi-lp64-condition := !defined __AARCH64EB__
 +abi-lp64-options := -U__AARCH64EB__ -D__LP64__ -U__ILP32__
 +abi-lp64-condition := __WORDSIZE == 64 && !defined __AARCH64EB__
-
+ 
 -abi-lp64_be-options := -D__AARCH64EB__
 -abi-lp64_be-condition := defined __AARCH64EB__
 +abi-lp64_be-options := -D__AARCH64EB__ -D__LP64__ -U__ILP32__
@@ -895,13 +895,13 @@ index 0000000000..bffd45cb3e
 +# define ACCOUNTING	9	/* System accounting.  */
 +#endif
 diff --git a/sysdeps/unix/sysv/linux/aarch64/configure.ac b/sysdeps/unix/sysv/linux/aarch64/configure.ac
-index 211fa9c317..8cc97efefc 100644
+index 211fa9c317..0c01b41f0a 100644
 --- a/sysdeps/unix/sysv/linux/aarch64/configure.ac
 +++ b/sysdeps/unix/sysv/linux/aarch64/configure.ac
 @@ -1,6 +1,12 @@
  GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
  # Local configure fragment for sysdeps/unix/sysv/linux/aarch64.
-
+ 
 -arch_minimum_kernel=3.7.0
 +if test $aarch64_config_abi = ilp32; then
 +  arch_minimum_kernel=4.11.0
@@ -910,7 +910,7 @@ index 211fa9c317..8cc97efefc 100644
 +  arch_minimum_kernel=3.7.0
 +  LIBC_SLIBDIR_RTLDDIR([lib64], [lib])
 +fi
-
+ 
 -LIBC_SLIBDIR_RTLDDIR([lib64], [lib])
 +ldd_rewrite_script=$dir/ldd-rewrite.sed
 diff --git a/sysdeps/unix/sysv/linux/aarch64/ilp32/Implies b/sysdeps/unix/sysv/linux/aarch64/ilp32/Implies
@@ -1023,9 +1023,9 @@ index 8d12f31573..40a4d04984 100644
 --- a/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h
 +++ b/sysdeps/unix/sysv/linux/aarch64/ipc_priv.h
 @@ -18,4 +18,8 @@
-
+ 
  #include <sys/ipc.h>  /* For __key_t  */
-
+ 
 -#define __IPC_64	0x0
 +#ifdef __LP64__
 +# define __IPC_64	0x0
@@ -1093,10 +1093,46 @@ diff --git a/sysdeps/unix/sysv/linux/aarch64/ioctl.S b/sysdeps/unix/sysv/linux/a
 similarity index 100%
 rename from sysdeps/unix/sysv/linux/aarch64/ioctl.S
 rename to sysdeps/unix/sysv/linux/aarch64/lp64/ioctl.S
-diff --git a/sysdeps/unix/sysv/linux/aarch64/mmap.c b/sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
-similarity index 100%
-rename from sysdeps/unix/sysv/linux/aarch64/mmap.c
-rename to sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
+diff --git a/sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c b/sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
+new file mode 100644
+index 0000000000..1dd18f97a2
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/aarch64/lp64/mmap.c
+@@ -0,0 +1,34 @@
++/* Copyright (C) 2009-2017 Free Software Foundation, Inc.
++
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public License as
++   published by the Free Software Foundation; either version 2.1 of the
++   License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <sys/types.h>
++#include <sys/mman.h>
++#include <errno.h>
++#include <sys/syscall.h>
++#include <sysdep.h>
++#include <unistd.h>
++
++__ptr_t
++__mmap (__ptr_t addr, size_t len, int prot, int flags, int fd, off_t offset)
++{
++  return (__ptr_t) INLINE_SYSCALL (mmap, 6, addr, len, prot, flags, fd, offset);
++}
++
++weak_alias (__mmap, mmap)
++weak_alias (__mmap, mmap64)
++weak_alias (__mmap, __mmap64)
 diff --git a/sysdeps/unix/sysv/linux/aarch64/shlib-versions b/sysdeps/unix/sysv/linux/aarch64/lp64/shlib-versions
 similarity index 100%
 rename from sysdeps/unix/sysv/linux/aarch64/shlib-versions
@@ -1108,7 +1144,7 @@ index 65273bcf77..dfb8fd48fc 100644
 @@ -41,7 +41,11 @@ process_elf_file (const char *file_name, const char *lib, int *flag,
        ret = process_elf32_file (file_name, lib, flag, osversion, soname,
  				file_contents, file_length);
-
+ 
 -      if (!ret && EF_ARM_EABI_VERSION (elf32_header->e_flags) == EF_ARM_EABI_VER5)
 +      if (!ret && elf_header->e_machine == EM_AARCH64)
 +	*flag = FLAG_AARCH64_LIB32|FLAG_ELF_LIBC6;
@@ -1119,18 +1155,18 @@ index 65273bcf77..dfb8fd48fc 100644
  	  if (elf32_header->e_flags & EF_ARM_ABI_FLOAT_HARD)
  	    *flag = FLAG_ARM_LIBHF|FLAG_ELF_LIBC6;
 diff --git a/sysdeps/unix/sysv/linux/bits/fcntl-linux.h b/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
-index 59d663196a..b14d02cb19 100644
+index 0cd0a5d731..fd90598b32 100644
 --- a/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
 +++ b/sysdeps/unix/sysv/linux/bits/fcntl-linux.h
 @@ -101,7 +101,7 @@
  #endif
-
+ 
  #ifndef F_GETLK
 -# ifndef __USE_FILE_OFFSET64
 +# if !defined (__USE_FILE_OFFSET64) && !defined (__OFF_T_MATCHES_OFF64_T)
  #  define F_GETLK	5	/* Get record locking info.  */
  #  define F_SETLK	6	/* Set record locking info (non-blocking).  */
- #  define F_SETLKW	7	/* Set record locking info (blocking).	*/
---
+ #  define F_SETLKW	7	/* Set record locking info (blocking).  */
+-- 
 2.13.0
 

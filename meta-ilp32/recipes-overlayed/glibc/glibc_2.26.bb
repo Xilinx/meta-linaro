@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
 
 DEPENDS += "gperf-native"
 
-SRCREV ?= "db0242e3023436757bbc7c488a779e6e3343db04"
+SRCREV ?= "1c9a5c270d8b66f30dcfaf1cb2d6cf39d3e18369"
 
 SRCBRANCH ?= "release/${PV}/master"
 
@@ -26,22 +26,23 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch \
            file://0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
            file://0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch \
-           file://0012-Make-ld-version-output-matching-grok-gold-s-output.patch \
-           file://0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
-           file://0014-Add-unused-attribute.patch \
-           file://0015-yes-within-the-path-sets-wrong-config-variables.patch \
-           file://0016-timezone-re-written-tzselect-as-posix-sh.patch \
-           file://0017-Remove-bash-dependency-for-nscd-init-script.patch \
-           file://0018-eglibc-Cross-building-and-testing-instructions.patch \
-           file://0019-eglibc-Help-bootstrap-cross-toolchain.patch \
-           file://0020-eglibc-cherry-picked-from.patch \
-           file://0021-eglibc-Clear-cache-lines-on-ppc8xx.patch \
-           file://0022-eglibc-Resolve-__fpscr_values-on-SH4.patch \
-           file://0023-eglibc-Install-PIC-archives.patch \
-           file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
-           file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-           file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
-           file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
+           file://0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
+           file://0013-Add-unused-attribute.patch \
+           file://0014-yes-within-the-path-sets-wrong-config-variables.patch \
+           file://0015-timezone-re-written-tzselect-as-posix-sh.patch \
+           file://0016-Remove-bash-dependency-for-nscd-init-script.patch \
+           file://0017-eglibc-Cross-building-and-testing-instructions.patch \
+           file://0018-eglibc-Help-bootstrap-cross-toolchain.patch \
+           file://0019-eglibc-Clear-cache-lines-on-ppc8xx.patch \
+           file://0020-eglibc-Resolve-__fpscr_values-on-SH4.patch \
+           file://0021-eglibc-Install-PIC-archives.patch \
+           file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
+           file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+           file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+           file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
+           file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
+           file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
+           file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
            file://0001-Patch-1-of-2-for-ILP32-aarch64.patch \
            file://0002-Patch-2-of-2-for-ILP32-aarch64.patch \
            file://0003-HACK-ILP32-disable-lp64-abi-from-ilp32-build.patch \
@@ -79,6 +80,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
                 --with-headers=${STAGING_INCDIR} \
                 --without-selinux \
                 --enable-obsolete-rpc \
+                --enable-obsolete-nsl \
                 --enable-tunables \
                 --enable-bind-now \
                 --enable-stack-protector=strong \
