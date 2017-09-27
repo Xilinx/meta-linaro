@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
 
 DEPENDS += "gperf-native"
 
-SRCREV ?= "1c9a5c270d8b66f30dcfaf1cb2d6cf39d3e18369"
+SRCREV ?= "bede104580bbb0be5e547c51bb523c00ee3ff462"
 
-SRCBRANCH ?= "release/${PV}/master"
+SRCBRANCH ?= "arm/ilp32"
 
-GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+GLIBC_GIT_URI ?= "git://git.linaro.org/toolchain/glibc.git;protocol=https"
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
 
 SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
@@ -40,12 +40,9 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
            file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
            file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
-           file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-           file://0001-Patch-1-of-2-for-ILP32-aarch64.patch \
-           file://0002-Patch-2-of-2-for-ILP32-aarch64.patch \
-           file://0003-HACK-ILP32-disable-lp64-abi-from-ilp32-build.patch \
+           file://include-string.h-for-strcmp-call-from-sysdeps-unix-s.patch \
 "
 
 NATIVESDKFIXES ?= ""

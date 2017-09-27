@@ -17,11 +17,11 @@ inherit autotools
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
 
-SRCBRANCH ?= "release/${PV}/master"
-GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+SRCBRANCH ?= "arm/ilp32"
+GLIBC_GIT_URI ?= "git://git.linaro.org/toolchain/glibc.git;protocol=https"
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
 
-SRCREV_glibc ?= "1c9a5c270d8b66f30dcfaf1cb2d6cf39d3e18369"
+SRCREV_glibc ?= "bede104580bbb0be5e547c51bb523c00ee3ff462"
 SRCREV_localedef ?= "dfb4afe551c6c6e94f9cc85417bd1f582168c843"
 
 SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
