@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
 
 DEPENDS += "gperf-native"
 
-SRCREV ?= "bede104580bbb0be5e547c51bb523c00ee3ff462"
+SRCREV ?= "fcbbcf128ec90d0d6ca2d641324fa097a1aaeac6"
 
 SRCBRANCH ?= "arm/ilp32"
 
@@ -42,7 +42,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-           file://include-string.h-for-strcmp-call-from-sysdeps-unix-s.patch \
 "
 
 NATIVESDKFIXES ?= ""

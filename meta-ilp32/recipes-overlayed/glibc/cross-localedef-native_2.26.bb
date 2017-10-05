@@ -21,7 +21,7 @@ SRCBRANCH ?= "arm/ilp32"
 GLIBC_GIT_URI ?= "git://git.linaro.org/toolchain/glibc.git;protocol=https"
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
 
-SRCREV_glibc ?= "bede104580bbb0be5e547c51bb523c00ee3ff462"
+SRCREV_glibc ?= "fcbbcf128ec90d0d6ca2d641324fa097a1aaeac6"
 SRCREV_localedef ?= "dfb4afe551c6c6e94f9cc85417bd1f582168c843"
 
 SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
