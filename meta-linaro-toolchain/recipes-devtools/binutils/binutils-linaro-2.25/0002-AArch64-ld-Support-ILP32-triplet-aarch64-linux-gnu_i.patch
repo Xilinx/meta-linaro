@@ -1,0 +1,54 @@
+From 1fa9dd372fe74048134dd3af5e7ae305b0a7e846 Mon Sep 17 00:00:00 2001
+From: Jiong Wang <jiong.wang@arm.com>
+Date: Mon, 22 May 2017 09:50:29 +0100
+Subject: [PATCH 2/2] [AArch64, ld] Support ILP32 triplet
+ aarch64*-linux-gnu_ilp32
+
+This patch allows AArch64 LD defaulting to ILP32 if it is configured with
+aarch64*-linux-gnu_ilp32.
+
+ld/
+	* configure.tgt: Set "targ_emul" to "aarch64linux32b" for
+	aarch64_be-*-linux-gnu_ilp32.  Set "targ_emul" to "aarch64linux32" for
+	aarch64-*-linux-gnu_ilp32.
+---
+ ld/ChangeLog     | 6 ++++++
+ ld/configure.tgt | 8 ++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/ld/ChangeLog b/ld/ChangeLog
+index ce1699b..62464b6 100644
+--- a/ld/ChangeLog
++++ b/ld/ChangeLog
+@@ -1,3 +1,9 @@
++2017-05-22  Jiong Wang  <jiong.wang@arm.com>
++
++	* configure.tgt: Set "targ_emul" to "aarch64linux32b" for
++	aarch64_be-*-linux-gnu_ilp32.  Set "targ_emul" to "aarch64linux32" for
++	aarch64-*-linux-gnu_ilp32.
++
+ 2015-07-21  Tristan Gingold  <gingold@adacore.com>
+ 
+ 	* configure: Regenerate.
+diff --git a/ld/configure.tgt b/ld/configure.tgt
+index 24e36d1..b827bbc 100644
+--- a/ld/configure.tgt
++++ b/ld/configure.tgt
+@@ -49,6 +49,14 @@ aarch64_be-*-elf)	targ_emul=aarch64elfb
+ 			targ_extra_emuls="aarch64elf aarch64elf32 aarch64elf32b armelfb armelf" ;;
+ aarch64-*-elf)		targ_emul=aarch64elf
+ 			targ_extra_emuls="aarch64elf32 aarch64elf32b aarch64elfb armelf armelfb" ;;
++aarch64_be-*-linux-gnu_ilp32)
++			targ_emul=aarch64linux32b
++			targ_extra_libpath="aarch64linuxb aarch64linux aarch64linux32 armelfb_linux_eabi armelf_linux_eabi"
++			targ_extra_emuls="aarch64elfb aarch64elf aarch64elf32 aarch64elf32b armelfb armelf $targ_extra_libpath" ;;
++aarch64-*-linux-gnu_ilp32)
++			targ_emul=aarch64linux32
++			targ_extra_libpath="aarch64linux aarch64linuxb aarch64linux32b armelfb_linux_eabi armelf_linux_eabi"
++			targ_extra_emuls="aarch64elf aarch64elf32 aarch64elf32b aarch64elfb armelf armelfb $targ_extra_libpath" ;;
+ aarch64_be-*-linux*)	targ_emul=aarch64linuxb
+ 			targ_extra_libpath="aarch64linux aarch64linux32 aarch64linux32b armelfb_linux_eabi armelf_linux_eabi"
+ 			targ_extra_emuls="aarch64elfb aarch64elf aarch64elf32 aarch64elf32b armelfb armelf $targ_extra_libpath" ;;
+-- 
+2.7.4
+
