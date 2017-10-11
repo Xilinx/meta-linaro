@@ -55,7 +55,6 @@ SRC_URI = "\
            file://0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch \
            file://0027-export-CPP.patch \
            file://0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
-           file://0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch \
            file://0030-Ensure-target-gcc-headers-can-be-included.patch \
            file://0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch \
            file://0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch \
@@ -74,6 +73,8 @@ SRC_URI = "\
            file://0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
            file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
            file://0047-sync-gcc-stddef.h-with-musl.patch \
+           file://add-gcc-ilp32-default-support.patch \
+           file://fix-gcc-multilib-for-ilp32-default.patch \
            ${BACKPORTS} \
 "
 BACKPORTS = "\
