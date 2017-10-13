@@ -22,6 +22,7 @@ IMAGE_INSTALL = "\
   dosfstools \
   e2fsprogs \
   e2fsprogs-mke2fs \
+  gptfdisk \
   gzip \
   initramfs-boot-linaro \
   net-tools \
