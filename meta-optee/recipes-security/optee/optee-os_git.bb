@@ -4,14 +4,14 @@ DESCRIPTION = "OPTEE OS"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
 
-PV="2.5.0+git${SRCPV}"
+PV="2.6.0+git${SRCPV}"
 
-DEPENDS = "python-wand-native python-pycrypto-native"
+DEPENDS = "python-pycrypto-native"
 
 inherit deploy pythonnative
 
-SRCREV = "3ff350a12d634bd7c4375ff347254977e9fb5a52"
-SRC_URI = "git://github.com/OP-TEE/optee_os.git \
+SRCREV = "a5edec8d0baa967a389b6f54be3b9bbce32c330c"
+SRC_URI = "git://github.com/OP-TEE/optee_os.git;nobranch=1 \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
           "
 
@@ -28,9 +28,6 @@ EXTRA_OEMAKE = "PLATFORM=${OPTEEMACHINE} CFG_ARM64_core=y \
                 LDFLAGS= \
                 LIBGCC_LOCATE_CFLAGS=--sysroot=${STAGING_DIR_HOST} \
         "
-
-# Needed so that python-wand can find the installed imagemagick install.
-export MAGICK_HOME="${STAGING_DIR_NATIVE}${prefix}"
 
 OPTEE_ARCH_armv7a = "arm32"
 OPTEE_ARCH_aarch64 = "arm64"
