@@ -1,15 +1,14 @@
 #require recipes-bsp/grub/grub2.inc
 LICENSE = "GPLv3"
 
-LIC_FILES_CHKSUM = "file://COPYING;md5=ed1dca40ee0852c630f19c06fdecf6bc \
+SRC_URI = "file://COPYING"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING;md5=ed1dca40ee0852c630f19c06fdecf6bc \
 "
 
 inherit deploy
 
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_arm = "1"
-
-FILESEXTRAPATHS =. "${FILE_DIRNAME}/grub-git:"
 
 PV = "2.00-prebuilt"
 
