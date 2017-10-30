@@ -25,4 +25,6 @@ do_deploy() {
     cp -a ${B}/grubaa64.efi ${DEPLOYDIR}
 }
 
+ALLOW_EMPTY_${PN} = "1"
+
 addtask deploy before do_build after do_install
