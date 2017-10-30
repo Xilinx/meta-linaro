@@ -9,7 +9,7 @@ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64"
 
 TUNEVALID[ilp32] = "Enable instructions for aarch64 32 bit mode"
 #TUNECONFLICTS[ilp32] = "aarch64"
-ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "ilp32", "ilp32", "" ,d)}"
+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "ilp32", "_ilp32", "" ,d)}"
 TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "ilp32", " -mabi=ilp32", "", d)}"
 MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ilp32", ":aarchilp32", "" ,d)}"
 
