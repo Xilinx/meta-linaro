@@ -1,0 +1,58 @@
+From dbcf674ff19e3ecf48fd5d195613d1a1ec1207c1 Mon Sep 17 00:00:00 2001
+From: Martin Roth <martinroth@chromium.org>
+Date: Wed, 13 Jul 2016 12:33:03 -0600
+Subject: [PATCH] include/common/asm_macros: update to build with GAS 2.26
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+GNU Binutils v2.26 no longer builds arm-trusted-firmware.  It fails
+with the error "Error: non-constant expression in ".if" statement"
+
+The issue is described here:
+https://www.mail-archive.com/linaro-toolchain%40lists.linaro.org/msg05689.html
+
+Because the 2nd value in the align directive is the padding byte, by
+changing '.align 11, 0' and '.align 7,0' to just 'align 11' and
+'align 7', all that gets changed is the padding. Using GAS 2.26
+and looking in the manuals back to GAS 2.15, the padding changes
+from 0x00000000 to the value for nop (0xd403201f), which seems
+appropriate anyway.
+
+https://sourceware.org/binutils/docs-2.26/as/Align.html#Align
+
+This issue is affecting the coreboot toolchain, which has been updated
+to binutils 2.26, and cannot be reverted to 2.25 as other platforms
+require the updated version.
+
+Signed-off-by: Martin Roth <martinroth@chromium.org>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ include/common/aarch64/asm_macros.S | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/common/aarch64/asm_macros.S b/include/common/aarch64/asm_macros.S
+index 6d6989c..fc3384e 100644
+--- a/atf/include/common/aarch64/asm_macros.S
++++ b/atf/include/common/aarch64/asm_macros.S
+@@ -53,7 +53,7 @@
+ 	 */
+ 	.macro vector_base  label
+ 	.section .vectors, "ax"
+-	.align 11, 0
++	.align 11
+ 	\label:
+ 	.endm
+ 
+@@ -67,7 +67,7 @@
+ 	.macro vector_entry  label
+ 	.cfi_sections .debug_frame
+ 	.section .vectors, "ax"
+-	.align 7, 0
++	.align 7
+ 	.type \label, %function
+ 	.func \label
+ 	.cfi_startproc
+-- 
+2.7.4
+

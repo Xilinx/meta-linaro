@@ -1,18 +1,23 @@
-From ea77365555ff752735a1507570e737367f235064 Mon Sep 17 00:00:00 2001
-From: Vishal Bhoj <vishal.bhoj@linaro.org>
-Date: Fri, 15 Sep 2017 12:05:09 +0100
-Subject: [PATCH] atf:set flag to build in lp64 mode for ilp32 toolchain
+From 6fe0265f848e873b0475cb179cd587226d1a01f6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+Date: Wed, 1 Nov 2017 13:39:55 -0600
+Subject: [PATCH] Build with LP64 mode for AArch64.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
+The effect of this is that LP64 will be used even when
+targetting ILP32.
+
 Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
 ---
  Makefile | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/atf/Makefile b/atf/Makefile
-index 6fb10b76..24016366 100644
---- a/atf/Makefile
-+++ b/atf/Makefile
+diff --git a/Makefile b/Makefile
+index e6bef47..cca4438 100644
+--- a/atf-fastboot/Makefile
++++ b/atf-fastboot/Makefile
 @@ -204,11 +204,11 @@ $(eval $(call assert_boolean,USE_COHERENT_MEM))
  $(eval $(call add_define,USE_COHERENT_MEM))
  
