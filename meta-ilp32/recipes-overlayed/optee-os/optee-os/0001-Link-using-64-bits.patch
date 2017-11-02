@@ -1,0 +1,31 @@
+From 796a2f431e0e6ed1ade1ee746ddd7007459864df Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+Date: Wed, 1 Nov 2017 17:50:15 -0600
+Subject: [PATCH] Link using 64-bits.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [platform specific]
+
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ mk/gcc.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mk/gcc.mk b/mk/gcc.mk
+index 1f2c599..e4a08de 100644
+--- a/mk/gcc.mk
++++ b/mk/gcc.mk
+@@ -1,7 +1,7 @@
+ 
+ CC$(sm)		:= $(CROSS_COMPILE_$(sm))gcc
+ CPP$(sm)	:= $(CROSS_COMPILE_$(sm))cpp
+-LD$(sm)		:= $(CROSS_COMPILE_$(sm))ld.bfd
++LD$(sm)		:= $(CROSS_COMPILE_$(sm))ld.bfd -m aarch64elf
+ AR$(sm)		:= $(CROSS_COMPILE_$(sm))ar
+ NM$(sm)		:= $(CROSS_COMPILE_$(sm))nm
+ OBJCOPY$(sm)	:= $(CROSS_COMPILE_$(sm))objcopy
+-- 
+2.7.4
+
