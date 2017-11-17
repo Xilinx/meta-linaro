@@ -59,7 +59,6 @@ do_deploy() {
     long_srvrev=${SRCREV}
     short_srvrev=$(echo $long_srvrev | awk  '{ string=substr($0, 1, 8); print string; }' )
     OPTEE_CORE_SUFFIX="${MACHINE}-$short_srvrev"
-    if [ "${is_armv7}" = "1" ]; then
         install -d ${DEPLOYDIR}/optee
         for f in ${D}/lib/firmware/*; do
             filename=$(basename "$f")
@@ -68,7 +67,6 @@ do_deploy() {
             bbnote "Deploy $sfilename-${OPTEE_CORE_SUFFIX}.$extension"
             install -m 644 $f ${DEPLOYDIR}/optee/$sfilename-${OPTEE_CORE_SUFFIX}.$extension
         done
-    fi
 }
 
 addtask deploy before do_build after do_install
