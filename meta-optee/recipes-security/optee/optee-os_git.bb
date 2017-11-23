@@ -56,17 +56,10 @@ do_install() {
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_deploy() {
-    long_srvrev=${SRCREV}
-    short_srvrev=$(echo $long_srvrev | awk  '{ string=substr($0, 1, 8); print string; }' )
-    OPTEE_CORE_SUFFIX="${MACHINE}-$short_srvrev"
-        install -d ${DEPLOYDIR}/optee
-        for f in ${D}/lib/firmware/*; do
-            filename=$(basename "$f")
-            extension="${filename##*.}"
-            sfilename="${filename%.*}"
-            bbnote "Deploy $sfilename-${OPTEE_CORE_SUFFIX}.$extension"
-            install -m 644 $f ${DEPLOYDIR}/optee/$sfilename-${OPTEE_CORE_SUFFIX}.$extension
-        done
+    install -d ${DEPLOYDIR}/optee
+    for f in ${D}/lib/firmware/*; do
+        install -m 644 $f ${DEPLOYDIR}/optee/
+    done
 }
 
 addtask deploy before do_build after do_install
