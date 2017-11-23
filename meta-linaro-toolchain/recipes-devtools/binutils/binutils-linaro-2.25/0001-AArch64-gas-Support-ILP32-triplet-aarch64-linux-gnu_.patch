@@ -1,0 +1,176 @@
+From 08ca7f251e6ee66270b25e5aa3acc4a837d931a6 Mon Sep 17 00:00:00 2001
+From: Jiong Wang <jiong.wang@arm.com>
+Date: Mon, 22 May 2017 09:50:19 +0100
+Subject: [PATCH 1/2] [AArch64, gas] Support ILP32 triplet
+ aarch64*-linux-gnu_ilp32
+
+This patch allows AArch64 GAS defaulting to ILP32 if it is configured with
+aarch64*-linux-gnu_ilp32.
+
+"md_after_parse_args" is implemented to update ABI into ILP32 if DEFAULT_ARCH is
+"aarch64:32".
+
+gas/
+	* configure.tgt: Set "arch" to "aarch64" if ${cpu} equals "aarch64".
+	Recognize the new triplet name aarch64*-linux-gnu_ilp32.
+	* configure.ac: Output DEFAULT_ARCH macro for AArch64.
+	* configure: Regenerate.
+	* config/tc-aarch64.h (aarch64_after_parse_args): New declaration.
+	(md_after_parse_args): New define.
+	* config/tc-aarch64.c (aarch64_abi_type): New enumeration
+	AARCH64_ABI_NONE.
+	(DEFAULT_ARCH): New define.
+	(aarch64_abi): Set default value to AARCH64_ABI_NONE.
+	(aarch64_after_parse_args): New function.
+---
+ gas/ChangeLog           | 14 ++++++++++++++
+ gas/config/tc-aarch64.c | 30 +++++++++++++++++++++++++++---
+ gas/config/tc-aarch64.h |  3 +++
+ gas/configure           |  2 +-
+ gas/configure.ac        |  2 +-
+ gas/configure.tgt       |  9 ++++++---
+ 6 files changed, 52 insertions(+), 8 deletions(-)
+
+diff --git a/gas/ChangeLog b/gas/ChangeLog
+index 7ebbd8b..e5c4b38 100644
+--- a/gas/ChangeLog
++++ b/gas/ChangeLog
+@@ -1,3 +1,17 @@
++2017-05-22  Jiong Wang <jiong.wang@arm.com>
++
++	* configure.tgt: Set "arch" to "aarch64" if ${cpu} equals "aarch64".
++	Recognize the new triplet name aarch64*-linux-gnu_ilp32.
++	* configure.ac: Output DEFAULT_ARCH macro for AArch64.
++	* configure: Regenerate.
++	* config/tc-aarch64.h (aarch64_after_parse_args): New declaration.
++	(md_after_parse_args): New define.
++	* config/tc-aarch64.c (aarch64_abi_type): New enumeration
++	AARCH64_ABI_NONE.
++	(DEFAULT_ARCH): New define.
++	(aarch64_abi): Set default value to AARCH64_ABI_NONE.
++	(aarch64_after_parse_args): New function.
++
+ 2016-06-29  Maciej W. Rozycki  <macro@imgtec.com>
+ 
+ 	Backport from master
+diff --git a/gas/config/tc-aarch64.c b/gas/config/tc-aarch64.c
+index 4c785a6..da347cc 100644
+--- a/gas/config/tc-aarch64.c
++++ b/gas/config/tc-aarch64.c
+@@ -65,12 +65,20 @@ static symbolS *GOT_symbol;
+ /* Which ABI to use.  */
+ enum aarch64_abi_type
+ {
+-  AARCH64_ABI_LP64 = 0,
+-  AARCH64_ABI_ILP32 = 1
++  AARCH64_ABI_NONE = 0,
++  AARCH64_ABI_LP64 = 1,
++  AARCH64_ABI_ILP32 = 2
+ };
+ 
++#ifndef DEFAULT_ARCH
++#define DEFAULT_ARCH "aarch64"
++#endif
++
++/* DEFAULT_ARCH is initialized in gas/configure.tgt.  */
++static const char *default_arch = DEFAULT_ARCH;
++
+ /* AArch64 ABI for the output file.  */
+-static enum aarch64_abi_type aarch64_abi = AARCH64_ABI_LP64;
++static enum aarch64_abi_type aarch64_abi = AARCH64_ABI_NONE;
+ 
+ /* When non-zero, program to a 32-bit model, in which the C data types
+    int, long and all pointer types are 32-bit objects (ILP32); or to a
+@@ -6894,6 +6902,22 @@ aarch64_force_relocation (struct fix *fixp)
+ 
+ #ifdef OBJ_ELF
+ 
++/* Implement md_after_parse_args.  This is the earliest time we need to decide
++   ABI.  If no -mabi specified, the ABI will be decided by target triplet.  */
++
++void
++aarch64_after_parse_args (void)
++{
++  if (aarch64_abi != AARCH64_ABI_NONE)
++    return;
++
++  /* DEFAULT_ARCH will have ":32" extension if it's configured for ILP32.  */
++  if (strlen (default_arch) > 7 && strcmp (default_arch + 7, ":32") == 0)
++    aarch64_abi = AARCH64_ABI_ILP32;
++  else
++    aarch64_abi = AARCH64_ABI_LP64;
++}
++
+ const char *
+ elf64_aarch64_target_format (void)
+ {
+diff --git a/gas/config/tc-aarch64.h b/gas/config/tc-aarch64.h
+index 1fad6ce..47b3b1f 100644
+--- a/gas/config/tc-aarch64.h
++++ b/gas/config/tc-aarch64.h
+@@ -191,6 +191,9 @@ struct aarch64_segment_info_type
+ #define tc_regname_to_dw2regnum            tc_aarch64_regname_to_dw2regnum
+ #define tc_cfi_frame_initial_instructions  tc_aarch64_frame_initial_instructions
+ 
++extern void aarch64_after_parse_args (void);
++#define md_after_parse_args() aarch64_after_parse_args ()
++
+ #else /* Not OBJ_ELF.  */
+ #define GLOBAL_OFFSET_TABLE_NAME "__GLOBAL_OFFSET_TABLE_"
+ #endif
+diff --git a/gas/configure b/gas/configure
+index b11b6c0..74bc60d 100755
+--- a/gas/configure
++++ b/gas/configure
+@@ -12400,7 +12400,7 @@ $as_echo "#define NDS32_DEFAULT_AUDIO_EXT 1" >>confdefs.h
+ $as_echo "$enable_audio_ext" >&6; }
+ 	;;
+ 
+-      i386 | s390 | sparc)
++      aarch64 | i386 | s390 | sparc)
+ 	if test $this_target = $target ; then
+ 
+ cat >>confdefs.h <<_ACEOF
+diff --git a/gas/configure.ac b/gas/configure.ac
+index 371f7b3..f83edb7 100644
+--- a/gas/configure.ac
++++ b/gas/configure.ac
+@@ -453,7 +453,7 @@ changequote([,])dnl
+ 	AC_MSG_RESULT($enable_audio_ext)
+ 	;;
+ 
+-      i386 | s390 | sparc)
++      aarch64 | i386 | s390 | sparc)
+ 	if test $this_target = $target ; then
+ 	  AC_DEFINE_UNQUOTED(DEFAULT_ARCH, "${arch}", [Default architecture.])
+ 	fi
+diff --git a/gas/configure.tgt b/gas/configure.tgt
+index 9abc768..5104c97 100644
+--- a/gas/configure.tgt
++++ b/gas/configure.tgt
+@@ -46,8 +46,8 @@ eval `echo $targ | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/cpu=\1 vendor=\2 os=\3/'`
+ # endian and arch.
+ # Note: This table is alpha-sorted, please try to keep it that way.
+ case ${cpu} in
+-  aarch64)		cpu_type=aarch64 endian=little ;;
+-  aarch64_be)		cpu_type=aarch64 endian=big ;;
++  aarch64)		cpu_type=aarch64 endian=little arch=aarch64;;
++  aarch64_be)		cpu_type=aarch64 endian=big arch=aarch64;;
+   alpha*)		cpu_type=alpha ;;
+   am33_2.0)		cpu_type=mn10300 endian=little ;;
+   arm*be|arm*b)		cpu_type=arm endian=big ;;
+@@ -119,7 +119,10 @@ generic_target=${cpu_type}-$vendor-$os
+ # Note: This table is alpha-sorted, please try to keep it that way.
+ case ${generic_target} in
+   aarch64*-*-elf)			fmt=elf;;
+-  aarch64*-*-linux*)			fmt=elf em=linux ;;
++  aarch64*-*-linux*)			fmt=elf em=linux
++    case ${cpu}-${os} in
++      aarch64*-linux-gnu_ilp32)		arch=aarch64:32 ;;
++    esac ;;
+ 
+   alpha-*-*vms*)			fmt=evax ;;
+   alpha-*-osf*)				fmt=ecoff ;;
+-- 
+2.7.4
+

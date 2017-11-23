@@ -34,6 +34,8 @@ SRC_URI = "\
      file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch;apply=no \
      file://0001-AArch64-Define-LP64-BE-linker-name.patch \
      file://0001-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
+     file://0001-AArch64-gas-Support-ILP32-triplet-aarch64-linux-gnu_.patch \
+     file://0002-AArch64-ld-Support-ILP32-triplet-aarch64-linux-gnu_i.patch \
      "
 
 S = "${WORKDIR}/git"
