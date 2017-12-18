@@ -5,8 +5,6 @@ do_systemd_network () {
     echo "Do nothing"
 }
 
-inherit ${@bb.utils.contains_any("MACHINE", [ "qemux86", "qemux86-64" ], "image-vm", "base", d)}
-
 IMAGE_INSTALL += " \
     arndale-pre-boot \
     bridge-utils \
