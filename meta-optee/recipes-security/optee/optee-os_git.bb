@@ -39,9 +39,9 @@ do_compile() {
 
 do_install() {
     #install core on boot directory
-    install -d ${D}/lib/firmware/
+    install -d ${D}${nonarch_base_libdir}/firmware/
 
-    install -m 644 ${B}/out/arm-plat-${OPTEEOUTPUTMACHINE}/core/*.bin ${D}/lib/firmware/
+    install -m 644 ${B}/out/arm-plat-${OPTEEOUTPUTMACHINE}/core/*.bin ${D}${nonarch_base_libdir}/firmware/
     #install TA devkit
     install -d ${D}/usr/include/optee/export-user_ta/
 
@@ -54,14 +54,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_deploy() {
     install -d ${DEPLOYDIR}/optee
-    for f in ${D}/lib/firmware/*; do
+    for f in ${D}${nonarch_base_libdir}/firmware/*; do
         install -m 644 $f ${DEPLOYDIR}/optee/
     done
 }
 
 addtask deploy before do_build after do_install
 
-FILES_${PN} = "/lib/firmware/"
+FILES_${PN} = "${nonarch_base_libdir}/firmware/"
 FILES_${PN}-dev = "/usr/include/optee"
 
 INSANE_SKIP_${PN}-dev = "staticdev"
