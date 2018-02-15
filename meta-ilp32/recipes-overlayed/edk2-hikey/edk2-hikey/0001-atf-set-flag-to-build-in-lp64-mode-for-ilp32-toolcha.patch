@@ -2,6 +2,9 @@ From ea77365555ff752735a1507570e737367f235064 Mon Sep 17 00:00:00 2001
 From: Vishal Bhoj <vishal.bhoj@linaro.org>
 Date: Fri, 15 Sep 2017 12:05:09 +0100
 Subject: [PATCH] atf:set flag to build in lp64 mode for ilp32 toolchain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
 Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
@@ -10,17 +13,17 @@ Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/atf/Makefile b/atf/Makefile
-index 6fb10b76..24016366 100644
+index ee22752..5a2fb5e 100644
 --- a/atf/Makefile
 +++ b/atf/Makefile
-@@ -137,13 +137,13 @@ TF_CFLAGS_aarch32	=	-march=armv8-a
+@@ -152,13 +152,13 @@ TF_CFLAGS_aarch32	=	$(march32-directive)
  TF_CFLAGS_aarch64	=	-march=armv8-a
  endif
  
 -TF_CFLAGS_aarch64	+=	-mgeneral-regs-only -mstrict-align
 +TF_CFLAGS_aarch64	+=	-mgeneral-regs-only -mstrict-align -Wno-error -mabi=lp64
  
- ASFLAGS_aarch32		=	-march=armv8-a
+ ASFLAGS_aarch32		=	$(march32-directive)
 -ASFLAGS_aarch64		=	-march=armv8-a
 +ASFLAGS_aarch64		=	-march=armv8-a -mabi=lp64
  
@@ -30,14 +33,14 @@ index 6fb10b76..24016366 100644
  ASFLAGS			+=	$(CPPFLAGS) $(ASFLAGS_$(ARCH))			\
  				-D__ASSEMBLY__ -ffreestanding 			\
  				-Wa,--fatal-warnings
-@@ -153,6 +153,7 @@ TF_CFLAGS		+=	$(CPPFLAGS) $(TF_CFLAGS_$(ARCH))		\
+@@ -175,6 +175,7 @@ endif
  
  TF_LDFLAGS		+=	--fatal-warnings -O1
  TF_LDFLAGS		+=	--gc-sections
 +TF_LDFLAGS		+=	-m aarch64elf
  TF_LDFLAGS		+=	$(TF_LDFLAGS_$(ARCH))
  
- ################################################################################
+ DTC_FLAGS		+=	-I dts -O dtb
 -- 
 2.7.4
 

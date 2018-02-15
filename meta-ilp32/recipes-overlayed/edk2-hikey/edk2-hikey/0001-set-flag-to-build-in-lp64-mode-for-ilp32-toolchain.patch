@@ -2,6 +2,9 @@ From 385b3e2f88d94b07471af68a66a838f727e76307 Mon Sep 17 00:00:00 2001
 From: Vishal Bhoj <vishal.bhoj@linaro.org>
 Date: Fri, 15 Sep 2017 12:04:13 +0100
 Subject: [PATCH] set flag to build in lp64 mode for ilp32 toolchain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
 Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
@@ -10,15 +13,15 @@ Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.template
-index 1e05d0c959..b0360f12d5 100644
+index 497f6d8..9046c0b 100755
 --- a/BaseTools/Conf/tools_def.template
 +++ b/BaseTools/Conf/tools_def.template
 @@ -4341,7 +4341,7 @@ DEFINE GCC_X64_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -mno-red-zone -Wno-ad
  DEFINE GCC_IPF_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -minline-int-divide-min-latency
  DEFINE GCC_ARM_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -mabi=aapcs -fno-short-enums -funsigned-char -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-builtin -Wno-address -mthumb -mfloat-abi=soft
  DEFINE GCC_ARM_CC_XIPFLAGS         = -mno-unaligned-access
--DEFINE GCC_AARCH64_CC_FLAGS        = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char  -ffunction-sections -fdata-sections -fno-builtin -Wno-address -fno-asynchronous-unwind-tables
-+DEFINE GCC_AARCH64_CC_FLAGS        = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char  -ffunction-sections -fdata-sections -fno-builtin -Wno-address -fno-asynchronous-unwind-tables -mabi=lp64 -Wno-error
+-DEFINE GCC_AARCH64_CC_FLAGS        = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char  -ffunction-sections -fdata-sections -fno-builtin -Wno-address -fno-asynchronous-unwind-tables  -fno-pic -fno-pie -ffixed-x18
++DEFINE GCC_AARCH64_CC_FLAGS        = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char  -ffunction-sections -fdata-sections -fno-builtin -Wno-address -fno-asynchronous-unwind-tables  -fno-pic -fno-pie -ffixed-x18 -mabi=lp64 -Wno-error
  DEFINE GCC_AARCH64_CC_XIPFLAGS     = -mstrict-align
  DEFINE GCC_DLINK_FLAGS_COMMON      = -nostdlib --pie
  DEFINE GCC_DLINK2_FLAGS_COMMON     = -Wl,--script=$(EDK_TOOLS_PATH)/Scripts/GccBase.lds
