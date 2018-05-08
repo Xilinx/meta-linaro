@@ -102,9 +102,9 @@ def elt_get_kernel_version(d):
 	for s in l:
 		if s.find('LINUX_VERSION_CODE') > 0:
 			ver = int(s.split()[2])
-			maj = ver / 65536
+			maj = int(ver / 65536)
 			ver = ver % 65536
-			min = ver / 256
+			min = int(ver / 256)
 			ver = ver % 256
 			return str(maj)+'.'+str(min)+'.'+str(ver)
 	return 'UNKNOWN'
