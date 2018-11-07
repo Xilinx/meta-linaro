@@ -4,14 +4,14 @@ DESCRIPTION = "OPTEE OS"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
 
-PV="2.6.0+git${SRCPV}"
+PV="3.3.0+git${SRCPV}"
 
 DEPENDS = "python-pycrypto-native"
 
 inherit deploy pythonnative
 
-SRCREV = "6d57389f9eec0c213da917e35861a8eca4b205b3"
-SRC_URI = "git://github.com/OP-TEE/optee_os.git;nobranch=1 \
+SRCREV = "ee595e950f5be1ace3e831261c22a0e99f959046"
+SRC_URI = "git://github.com/OP-TEE/optee_os.git \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
           "
 
