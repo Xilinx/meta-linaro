@@ -7,10 +7,10 @@ EXTERNAL_TOOLCHAIN ?= "/usr/local/arm-binary-toolchain/${TARGET_ARCH}"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
-ELT_TARGET_SYS_arm ?= "arm-linux-gnueabihf"
-ELT_TARGET_SYS_aarch64 ?= "aarch64-linux-gnu"
-ELT_TARGET_SYS = "${TARGET_SYS}"
-TARGET_PREFIX = "${ELT_TARGET_SYS}-"
+EAT_TARGET_SYS_arm ?= "arm-linux-gnueabihf"
+EAT_TARGET_SYS_aarch64 ?= "aarch64-linux-gnu"
+EAT_TARGET_SYS = "${TARGET_SYS}"
+TARGET_PREFIX = "${EAT_TARGET_SYS}-"
 
 GCCMULTILIB_forcevariable = "--disable-multilib"
 IMAGE_LINGUAS_forcevariable = ""
@@ -40,8 +40,8 @@ PREFERRED_PROVIDER_glibc-mtrace = "external-arm-toolchain"
 PREFERRED_PROVIDER_libc-mtrace = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-arm-toolchain"
 
-TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/include "
-TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${ELT_TARGET_SYS}/lib "
+TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include "
+TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/lib "
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
 
