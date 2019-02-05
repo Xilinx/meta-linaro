@@ -137,6 +137,13 @@ do_install() {
 	ln -sf ../../lib/libasan.so.5 ${D}${libdir}/libasan.so
 	ln -sf ../../lib/libgfortran.so.5 ${D}${libdir}/libgfortran.so
 
+	# lib?san is duplicated *and* the files are all hardlinks
+	for lib in lsan tsan ; do
+		rm -f ${D}${libdir}/lib${lib}.so.0 ${D}${libdir}/lib${lib}.so ${D}${base_libdir}/lib${lib}*
+		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}.so.0 
+		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}t.so 
+	done
+
 	# remove potential .so duplicates from base_libdir
 	# for all symlinks created above in libdir
 	rm -f ${D}${base_libdir}/librt.so
@@ -155,14 +162,21 @@ do_install() {
 	rm -f ${D}${base_libdir}/libnss_nisplus.so
 	rm -f ${D}${base_libdir}/libnss_db.so
 	rm -f ${D}${base_libdir}/libm.so
-	rm -f ${D}${base_libdir}/libasan.so
-	rm -f ${D}${base_libdir}/libatomic.so
-	rm -f ${D}${base_libdir}/libgomp.so
-	rm -f ${D}${base_libdir}/libitm.so
 	rm -f ${D}${base_libdir}/libssp.so
-	rm -f ${D}${base_libdir}/libstdc++.so
-	rm -f ${D}${base_libdir}/libgfortran.so
-	rm -f ${D}${base_libdir}/libubsan.so
+
+	# Move these completely to ${libdir}
+	for lib in asan atomic gfortran gomp itm sanitizer stdc++ ubsan; do
+		if [ -e ${D}${base_libdir}/lib${lib}.spec ] ; then
+			mv ${D}${base_libdir}/lib${lib}.spec ${D}${libdir}
+		fi
+		if [ -e ${D}${base_libdir}/lib${lib}.a ] ; then
+			mv ${D}${base_libdir}/lib${lib}.a ${D}${libdir}
+		fi
+		rm -f ${D}${base_libdir}/lib${lib}*
+	done
+
+	# Clean up duplicate libs that are both in base_libdir and libdir
+	rm -f ${D}${libdir}/libgcc*
 
 	# Besides ld-${EAT_VER_LIBC}.so, other libs can have duplicates like lib*-${EAT_VER_LIBC}.so
 	# Only remove them if both are regular files and are identical
@@ -218,7 +232,9 @@ do_install() {
 	rmdir ${D}${sbindir} || true
 }
 
-PACKAGES_DYNAMIC = "^locale-base-.*"
+PACKAGES_DYNAMIC = "^locale-base-.* \
+                    ^glibc-gconv-.* ^glibc-charmap-.* ^glibc-localedata-.* ^glibc-binary-localedata-.* \
+                    ^${MLPREFIX}glibc-gconv$"
 
 # PACKAGES is split up according to the 'source' recipes/includes in OE-core
 # Stylistic differences are kept to make copy/pasting easier.
@@ -228,7 +244,6 @@ PACKAGES_DYNAMIC = "^locale-base-.*"
 PACKAGES =+ "\
     libstdc++ \
     libstdc++-precompile-dev \
-    libstdc++-dbg \
     libstdc++-dev \
     libstdc++-staticdev \
     libg2c \
@@ -255,6 +270,7 @@ PACKAGES =+ "\
 
 # From gcc-sanitizers.inc
 
+PACKAGES += "gcc-sanitizers gcc-sanitizers-dev"
 PACKAGES += "libasan libubsan liblsan libtsan"
 PACKAGES += "libasan-dev libubsan-dev liblsan-dev libtsan-dev"
 PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-staticdev"
@@ -403,58 +419,69 @@ FILES_libsegfault = "${base_libdir}/libSegFault*"
 FILES_catchsegv = "${bindir}/catchsegv"
 RDEPENDS_catchsegv = "libsegfault"
 
-FILES_libquadmath = "${libdir}/libquadmath*.so.*"
-SUMMARY_libquadmath = "GNU quad-precision math library"
-FILES_libquadmath-dev = "\
-    ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
-    ${base_libdir}/libquadmath*.so \
-    ${base_libdir}/libquadmath.la \
-"
-SUMMARY_libquadmath-dev = "GNU quad-precision math library - development files"
-FILES_libquadmath-staticdev = "${base_libdir}/libquadmath.a"
-SUMMARY_libquadmath-staticdev = "GNU quad-precision math library - static development files"
+# From libgfortran.inc:
 
-FILES_libatomic = "${base_libdir}/libatomic.so.*"
-FILES_libatomic-dev = "\
-    ${base_libdir}/libatomic.so \
-    ${base_libdir}/libatomic.la \
+FILES_libgfortran = "${libdir}/libgfortran.so.*"
+FILES_libgfortran-dev = "\
+    ${libdir}/libgfortran*.so \
+    ${libdir}/libgfortran.spec \
+    ${libdir}/libgfortran.la \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single* \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude/ \
 "
-FILES_libatomic-staticdev = "${base_libdir}/libatomic.a"
+FILES_libgfortran-staticdev = "${libdir}/libgfortran.a"
 
-FILES_libasan = "${base_libdir}/libasan.so.*"
-FILES_libasan-dev = "\
-    ${base_libdir}/libasan.so \
-    ${base_libdir}/libasan.la \
-    ${base_libdir}/libsanitizer.spec \
+
+# From gcc-sanitizers.inc:
+
+FILES_gcc-sanitizers = "${libdir}/libsanitizer.so.*"
+FILES_gcc-sanitizers-dev = "${libdir}/libsanitizer.spec"
+
+FILES_libasan += "${libdir}/libasan.so.*"
+FILES_libasan-dev += "\
+    ${libdir}/libasan_preinit.o \
+    ${libdir}/libasan.so \
+    ${libdir}/libasan.la \
 "
-FILES_libasan-staticdev = "${base_libdir}/libasan.a"
+FILES_libasan-staticdev += "${libdir}/libasan.a"
 
-FILES_libubsan = "${base_libdir}/libubsan.so.*"
-FILES_libubsan-dev = "\
-    ${base_libdir}/libubsan.so \
-    ${base_libdir}/libubsan.la \
+FILES_libubsan += "${libdir}/libubsan.so.*"
+FILES_libubsan-dev += "\
+    ${libdir}/libubsan.so \
+    ${libdir}/libubsan.la \
 "
-FILES_libubsan-staticdev = "${base_libdir}/libubsan.a"
+FILES_libubsan-staticdev += "${libdir}/libubsan.a"
 
-FILES_liblsan = "${base_libdir}/liblsan.so.*"
-FILES_liblsan-dev = "\
-    ${base_libdir}/liblsan.so \
-    ${base_libdir}/liblsan.la \
+FILES_liblsan += "${libdir}/liblsan.so.*"
+FILES_liblsan-dev += "\
+    ${libdir}/liblsan.so \
+    ${libdir}/liblsan.la \
+    ${libdir}/liblsan_preinit.o \
 "
-FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
+FILES_liblsan-staticdev += "${libdir}/liblsan.a"
 
-FILES_libtsan = "${base_libdir}/libtsan.so.*"
-FILES_libtsan-dev = "\
-    ${base_libdir}/libtsan.so \
-    ${base_libdir}/libtsan.la \
+FILES_libtsan += "${libdir}/libtsan.so.*"
+FILES_libtsan-dev += "\
+    ${libdir}/libtsan.so \
+    ${libdir}/libtsan.la \
+    ${libdir}/libtsan_*.o \
 "
-FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
+FILES_libtsan-staticdev += "${libdir}/libtsan.a"
 
-FILES_libgcc = " \
+# From libgcc.inc:
+
+FILES_libgcc = "\
     ${base_libdir}/libgcc_s.so.1 \
     ${base_libdir}/libgcc_s.so \
 "
-FILES_libgcc-dev = "${libdir}/libgcc_s.so"
+
+FILES_libgcc-dev = "\
+    ${base_libdir}/libgcc*.so \
+    ${@oe.utils.conditional('BASETARGET_SYS', '${TARGET_SYS}', '', '${libdir}/${BASETARGET_SYS}', d)} \
+    ${libdir}/${TARGET_SYS}/${BINV}* \
+    ${libdir}/${TARGET_ARCH}${TARGET_VENDOR}* \
+"
 
 FILES_linux-libc-headers = ""
 FILES_linux-libc-headers-dev = "\
@@ -516,64 +543,104 @@ FILES_${PN} += "\
 
 FILES_${PN}-dbg += "${base_libdir}/debug"
 
-FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
+# From gcc-runtime.inc
+
+FILES_libg2c = "${target_libdir}/libg2c.so.*"
+SUMMARY_libg2c = "Companion runtime library for g77"
+FILES_libg2c-dev = "\
+    ${libdir}/libg2c.so \
+    ${libdir}/libg2c.a \
+    ${libdir}/libfrtbegin.a \
+"
+SUMMARY_libg2c-dev = "Companion runtime library for g77 - development files"
+
+FILES_libstdc++ = "${libdir}/libstdc++.so.*"
+SUMMARY_libstdc++ = "GNU standard C++ library"
 FILES_libstdc++-dev = "\
-  /include/c++ \
-  ${includedir}/c++/ \
-  ${base_libdir}/libstdc++.so \
-  ${base_libdir}/libstdc++.la \
-  ${base_libdir}/libsupc++.la"
+    /include/c++ \
+    ${includedir}/c++/ \
+    ${libdir}/libstdc++.so \
+    ${libdir}/libstdc++*.la \
+    ${libdir}/libsupc++.la \
+"
+SUMMARY_libstdc++-dev = "GNU standard C++ library - development files"
+
 FILES_libstdc++-staticdev = "\
-  ${base_libdir}/libstdc++.a \
-  ${base_libdir}/libsupc++.a"
-FILES_libstdc++-dbg = "\
-  ${base_libdir}/debug/libstdc++.*"
+    ${libdir}/libstdc++*.a \
+    ${libdir}/libsupc++.a \
+"
+SUMMARY_libstdc++-staticdev = "GNU standard C++ library - static development files"
 
 FILES_libstdc++-precompile-dev = "${includedir}/c++/${TARGET_SYS}/bits/*.gch"
+SUMMARY_libstdc++-precompile-dev = "GNU standard C++ library - precompiled header files"
 
-FILES_libssp = "${base_libdir}/libssp.so.*"
-FILES_libssp-dev = " \
-  ${base_libdir}/libssp*.so \
-  ${base_libdir}/libssp*_nonshared.a \
-  ${base_libdir}/libssp*.la \
-  ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp"
-FILES_libssp-staticdev = " \
-  ${base_libdir}/libssp*.a"
+FILES_libssp = "${libdir}/libssp.so.*"
+SUMMARY_libssp = "GNU stack smashing protection library"
+FILES_libssp-dev = "\
+    ${libdir}/libssp*.so \
+    ${libdir}/libssp*_nonshared.a \
+    ${libdir}/libssp*.la \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp \
+"
+SUMMARY_libssp-dev = "GNU stack smashing protection library - development files"
+FILES_libssp-staticdev = "${libdir}/libssp*.a"
+SUMMARY_libssp-staticdev = "GNU stack smashing protection library - static development files"
 
-FILES_libgfortran = "${base_libdir}/libgfortran.so.*"
-FILES_libgfortran-dev = " \
-  ${base_libdir}/libgfortran.so \
-  ${base_libdir}/libgfortran.spec"
-FILES_libgfortran-staticdev = " \
-  ${base_libdir}/libgfortran.a \
-  ${base_libdir}/libgfortranbegin.a"
+FILES_libquadmath = "${libdir}/libquadmath*.so.*"
+SUMMARY_libquadmath = "GNU quad-precision math library"
+FILES_libquadmath-dev = "\
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
+    ${libdir}/libquadmath*.so \
+    ${libdir}/libquadmath.la \
+"
+SUMMARY_libquadmath-dev = "GNU quad-precision math library - development files"
+FILES_libquadmath-staticdev = "${libdir}/libquadmath.a"
+SUMMARY_libquadmath-staticdev = "GNU quad-precision math library - static development files"
 
-FILES_libmudflap = "${base_libdir}/libmudflap*.so.*"
+# NOTE: mudflap has been removed as of gcc 4.9 and has been superseded by the address sanitiser
+FILES_libmudflap = "${libdir}/libmudflap*.so.*"
+SUMMARY_libmudflap = "Pointer debugging library for gcc"
 FILES_libmudflap-dev = "\
-  ${base_libdir}/libmudflap*.so \
-  ${base_libdir}/libmudflap*.a \
-  ${base_libdir}/libmudflap*.la"
+    ${libdir}/libmudflap*.so \
+    ${libdir}/libmudflap.la \
+"
+SUMMARY_libmudflap-dev = "Pointer debugging library for gcc - development files"
+FILES_libmudflap-staticdev = "${libdir}/libmudflap.a"
+SUMMARY_libmudflap-staticdev = "Pointer debugging library for gcc - static development files"
 
-FILES_libitm = "${base_libdir}/libitm*${SOLIBS}"
-FILES_libitm-dev = "\
-  ${base_libdir}/libitm*${SOLIBSDEV} \
-  ${base_libdir}/libitm*.la \
-  ${base_libdir}/libitm.spec \
-  "
-FILES_libitm-staticdev = "\
-  ${base_libdir}/libitm*.a \
-  "
-
-FILES_libgomp = "${base_libdir}/libgomp*${SOLIBS}"
+FILES_libgomp = "${libdir}/libgomp*${SOLIBS}"
+SUMMARY_libgomp = "GNU OpenMP parallel programming library"
 FILES_libgomp-dev = "\
-  ${base_libdir}/libgomp*${SOLIBSDEV} \
-  ${base_libdir}/libgomp*.la \
-  ${base_libdir}/libgomp.spec \
-  ${base_libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
-  "
-FILES_libgomp-staticdev = "\
-  ${base_libdir}/libgomp*.a \
-  "
+    ${libdir}/libgomp*${SOLIBSDEV} \
+    ${libdir}/libgomp*.la \
+    ${libdir}/libgomp.spec \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
+"
+SUMMARY_libgomp-dev = "GNU OpenMP parallel programming library - development files"
+FILES_libgomp-staticdev = "${libdir}/libgomp*.a"
+SUMMARY_libgomp-staticdev = "GNU OpenMP parallel programming library - static development files"
+
+FILES_libatomic = "${libdir}/libatomic.so.*"
+SUMMARY_libatomic = "GNU C++11 atomics support library"
+FILES_libatomic-dev = "\
+    ${libdir}/libatomic.so \
+    ${libdir}/libatomic.la \
+"
+SUMMARY_libatomic-dev = "GNU C++11 atomics support library - development files"
+FILES_libatomic-staticdev = "${libdir}/libatomic.a"
+SUMMARY_libatomic-staticdev = "GNU C++11 atomics support library - static development files"
+
+FILES_libitm = "${libdir}/libitm.so.*"
+SUMMARY_libitm = "GNU transactional memory support library"
+FILES_libitm-dev = "\
+    ${libdir}/libitm.so \
+    ${libdir}/libitm.la \
+    ${libdir}/libitm.spec \
+"
+SUMMARY_libitm-dev = "GNU transactional memory support library - development files"
+FILES_libitm-staticdev = "${libdir}/libitm.a"
+SUMMARY_libitm-staticdev = "GNU transactional memory support library - static development files"
+
 EAT_VER_MAIN ??= ""
 
 
