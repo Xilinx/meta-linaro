@@ -52,6 +52,7 @@ PROVIDES += "\
 	libquadmath-staticdev \
 	virtual/linux-libc-headers \
 	libgcov-dev \
+	virtual/libc-locale \
 "
 
 PV = "${EAT_VER_MAIN}"
