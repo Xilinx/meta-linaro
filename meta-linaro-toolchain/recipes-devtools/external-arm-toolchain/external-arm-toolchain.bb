@@ -444,7 +444,8 @@ FILES_libtsan-staticdev = "${base_libdir}/libtsan.a"
 FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
 FILES_libgcc-dev = "${libdir}/libgcc_s.so"
 
-FILES_linux-libc-headers = "\
+FILES_linux-libc-headers = ""
+FILES_linux-libc-headers-dev = "\
 	${includedir}/asm* \
 	${includedir}/linux \
 	${includedir}/mtd \
