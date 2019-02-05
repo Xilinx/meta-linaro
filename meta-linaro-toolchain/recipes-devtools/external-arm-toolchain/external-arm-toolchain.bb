@@ -71,6 +71,7 @@ do_install() {
 	install -d ${D}${libexecdir}
 	install -d ${D}${datadir}
 	install -d ${D}${includedir}
+	install -d ${D}/include
 
 	cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/${EAT_LIBDIR}/*  ${D}${base_libdir}
 	if [ -d ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/${EAT_TARGET_SYS} ]; then
@@ -96,6 +97,9 @@ do_install() {
 		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/include/${EAT_TARGET_SYS}/*  ${D}${includedir}
 		rm -r ${D}${includedir}/${EAT_TARGET_SYS}
 	fi
+
+	cp -a ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include/* ${D}${includedir}
+	ln -sf ../usr/include/c++ ${D}/include/c++
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
 	linker_name="${@bb.utils.contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "ld-linux-armhf.so.3", "ld-linux.so.3",d), d)}"
@@ -513,6 +517,7 @@ FILES_${PN}-dbg += "${base_libdir}/debug"
 
 FILES_libstdc++ = "${base_libdir}/libstdc++.so.*"
 FILES_libstdc++-dev = "\
+  /include/c++ \
   ${includedir}/c++/ \
   ${base_libdir}/libstdc++.so \
   ${base_libdir}/libstdc++.la \
