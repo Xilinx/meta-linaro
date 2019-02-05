@@ -49,28 +49,28 @@ def eat_get_libc_version(d):
     if not syspath:
         return 'UNKNOWN'
 
-    libpath = syspath + '/libc/lib64/' + bb.data.expand('${EAT_TARGET_SYS}/', d)
+    libpath = syspath + '/libc/' + bb.data.expand('${EAT_LIBDIR}/${EAT_TARGET_SYS}/', d)
 
     if os.path.exists(libpath):
         for file in os.listdir(libpath):
             if file.find('libc-') == 0:
                 return file[5:-3]
 
-    libpath = syspath + '/libc/lib64/'
+    libpath = syspath + '/libc/' + bb.data.expand('${EAT_LIBDIR}/', d)
 
     if os.path.exists(libpath):
         for file in os.listdir(libpath):
             if file.find('libc-') == 0:
                 return file[5:-3]
 
-    libpath = syspath + '/libc/usr/lib64/' + bb.data.expand('${EAT_TARGET_SYS}/', d)
+    libpath = syspath + '/libc/usr/' + bb.data.expand('${EAT_LIBDIR}/${EAT_TARGET_SYS}/', d)
 
     if os.path.exists(libpath):
         for file in os.listdir(libpath):
             if file.find('libc-') == 0:
                 return file[5:-3]
 
-    libpath = syspath + '/libc/usr/lib64/'
+    libpath = syspath + '/libc/usr/' + bb.data.expand('${EAT_LIBDIR}/', d)
 
     if os.path.exists(libpath):
         for file in os.listdir(libpath):

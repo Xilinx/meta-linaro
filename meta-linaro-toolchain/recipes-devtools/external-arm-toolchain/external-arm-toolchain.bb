@@ -17,7 +17,6 @@ PROVIDES += "\
 	virtual/${TARGET_PREFIX}g++ \
 	virtual/${TARGET_PREFIX}gcc-initial \
 	virtual/${TARGET_PREFIX}binutils \
-	binutils-cross-aarch64 \
 	virtual/${TARGET_PREFIX}libc-for-gcc \
 	virtual/${TARGET_PREFIX}compilerlibs \
 	virtual/libc \
@@ -73,21 +72,21 @@ do_install() {
 	install -d ${D}${datadir}
 	install -d ${D}${includedir}
 
-	cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/lib64/*  ${D}${base_libdir}
-	if [ -d ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/lib64/${EAT_TARGET_SYS} ]; then
-		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/lib64/${EAT_TARGET_SYS}/*  ${D}${base_libdir}
+	cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/${EAT_LIBDIR}/*  ${D}${base_libdir}
+	if [ -d ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/${EAT_TARGET_SYS} ]; then
+		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/${EAT_TARGET_SYS}/*  ${D}${base_libdir}
 	else
-		if [ -f ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/lib64/ld-${EAT_VER_LIBC}.so ]; then
-			cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/lib64/*  ${D}${base_libdir}
+		if [ -f ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/ld-${EAT_VER_LIBC}.so ]; then
+			cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/*  ${D}${base_libdir}
 		else
-			cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/lib64/*.so*  ${D}${base_libdir}
+			cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/${EAT_LIBDIR}/*.so*  ${D}${base_libdir}
 		fi
 	fi
-	if [ -d ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/lib64/${EAT_TARGET_SYS} ]; then
-		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/lib64/${EAT_TARGET_SYS}/*  ${D}${libdir}
+	if [ -d ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/${EAT_LIBDIR}/${EAT_TARGET_SYS} ]; then
+		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}/*  ${D}${libdir}
 	else
-		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/lib64/*  ${D}${libdir}
-		if [ ! -f ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/lib64/ld-${EAT_VER_LIBC}.so ]; then
+		cp -a -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/${EAT_LIBDIR}/*  ${D}${libdir}
+		if [ ! -f ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/${EAT_LIBDIR}/ld-${EAT_VER_LIBC}.so ]; then
 			rm -rf ${D}${libdir}/*.so*
 		fi
 	fi
@@ -191,19 +190,19 @@ do_install() {
 	fi
 
        if [ -f ${D}${libdir}/libc.so ];then
-               sed -i -e "s# /lib64/${EAT_TARGET_SYS}# ../../lib64#g" -e "s# /usr/lib64/# /usr/lib/#g" -e "s# /usr/lib64/${EAT_TARGET_SYS}# .#g" -e "s# /lib64/ld-linux# ../../lib64/ld-linux#g" ${D}${libdir}/libc.so
-                sed -i -e "s# /lib64/libc.so.6# /lib/libc.so.6#g" ${D}${libdir}/libc.so
+               sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../${EAT_LIBDIR}#g" -e "s# /usr/${EAT_LIBDIR}/# /usr/lib/#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" -e "s# /${EAT_LIBDIR}/ld-linux# ../../${EAT_LIBDIR}/ld-linux#g" ${D}${libdir}/libc.so
+                sed -i -e "s# /${EAT_LIBDIR}/libc.so.6# /lib/libc.so.6#g" ${D}${libdir}/libc.so
                 # cat kjasdkjasd
        fi
 
 	if [ -f ${D}${base_libdir}/libc.so ];then
-		sed -i -e "s# /lib64/${EAT_TARGET_SYS}# ../../lib#g" -e "s# /usr/lib64/${EAT_TARGET_SYS}# .#g" "s# /lib64/# /lib/#g" ${D}${base_libdir}/libc.so
+		sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../lib#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" "s# /${EAT_LIBDIR}/# /lib/#g" ${D}${base_libdir}/libc.so
 		if [ -f ${D}${base_libdir}/libc.so.6 ]; then
-			sed -i -e "s# /usr/lib64/libc.so.6# /lib/libc.so.6#g" "s# /lib64/libc.so.6# /lib/libc.so.6#g" ${D}${base_libdir}/libc.so.6
+			sed -i -e "s# /usr/${EAT_LIBDIR}/libc.so.6# /lib/libc.so.6#g" "s# /${EAT_LIBDIR}/libc.so.6# /lib/libc.so.6#g" ${D}${base_libdir}/libc.so.6
 		fi
 	fi
 	if [ -f ${D}${base_libdir}/libpthread.so.0 ]; then
-			sed -i -e "s# /usr/lib64/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so.0
+			sed -i -e "s# /usr/${EAT_LIBDIR}/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so.0
 	fi
 
 	# Remove if empty
