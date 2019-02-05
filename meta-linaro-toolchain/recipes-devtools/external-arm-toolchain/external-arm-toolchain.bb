@@ -117,7 +117,6 @@ do_install() {
 	ln -sf ../../lib/libutil.so.1 ${D}${libdir}/libutil.so
 	ln -sf ../../lib/libnss_files.so.2 ${D}${libdir}/libnss_files.so
 	ln -sf ../../lib/libnss_compat.so.2 ${D}${libdir}/libnss_compat.so
-#	ln -sf ../../lib/libcidn.so.1 ${D}${libdir}/libcidn.so
 	ln -sf ../../lib/libBrokenLocale.so.1 ${D}${libdir}/libBrokenLocale.so
 	ln -sf ../../lib/libthread_db.so.1 ${D}${libdir}/libthread_db.so
 	ln -sf ../../lib/libpthread.so.0 ${D}${libdir}/libpthread.so
@@ -151,7 +150,6 @@ do_install() {
 	rm -f ${D}${base_libdir}/libutil.so
 	rm -f ${D}${base_libdir}/libnss_files.so
 	rm -f ${D}${base_libdir}/libnss_compat.so
-#	rm -f ${D}${base_libdir}/libcidn.so
 	rm -f ${D}${base_libdir}/libBrokenLocale.so
 	rm -f ${D}${base_libdir}/libthread_db.so
 	rm -f ${D}${base_libdir}/libanl.so
@@ -334,7 +332,6 @@ PKGV_${PN}-staticdev = "${EAT_VER_LIBC}"
 PKGV_catchsegv = "${EAT_VER_LIBC}"
 PKGV_glibc-extra-nss = "${EAT_VER_LIBC}"
 PKGV_glibc-thread-db = "${EAT_VER_LIBC}"
-# PKGV_libcidn = "${EAT_VER_LIBC}"
 
 PKGV_libmemusage = "${EAT_VER_LIBC}"
 PKGV_libsegfault = "${EAT_VER_LIBC}"
@@ -507,14 +504,12 @@ FILES_${PN} += "\
 	${base_libdir}/libanl-*.so \
 	${base_libdir}/libBrokenLocale*.so.* \
 	${base_libdir}/libBrokenLocale-*.so \
-	${base_libdir}/libcidn-*.so \
 	${base_libdir}/libthread_db*.so.* \
 	${base_libdir}/libthread_db-*.so \
 	${base_libdir}/libmemusage.so \
 	${base_libdir}/libSegFault.so \
 	${base_libdir}/libpcprofile.so \
     "
-#	${base_libdir}/libcidn*.so.*
 
 FILES_${PN}-dbg += "${base_libdir}/debug"
 
