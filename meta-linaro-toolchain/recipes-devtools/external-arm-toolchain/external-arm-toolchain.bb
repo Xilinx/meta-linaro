@@ -107,7 +107,6 @@ do_install() {
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
 	linker_name="${@bb.utils.contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "ld-linux-armhf.so.3", "ld-linux.so.3",d), d)}"
 	ln -sf ld-${EAT_VER_LIBC}.so ${D}${base_libdir}/${linker_name}
-	ln -sf ../../lib/libnsl.so.1 ${D}${libdir}/libnsl.so
 	ln -sf ../../lib/librt.so.1 ${D}${libdir}/librt.so
 	ln -sf ../../lib/libgcc_s.so.1 ${D}${libdir}/libgcc_s.so
 	ln -sf ../../lib/libcrypt.so.1 ${D}${libdir}/libcrypt.so
@@ -123,7 +122,6 @@ do_install() {
 	ln -sf ../../lib/libthread_db.so.1 ${D}${libdir}/libthread_db-1.0.so
 	ln -sf ../../lib/libanl.so.1 ${D}${libdir}/libanl.so
 	ln -sf ../../lib/libdl.so.2 ${D}${libdir}/libdl.so
-#	ln -sf ../../lib/libnss_nisplus.so.2 ${D}${libdir}/libnss_nisplus.so
 	ln -sf ../../lib/libnss_db.so.2 ${D}${libdir}/libnss_db.so
 	ln -sf ../../lib/libnss_dns.so.2 ${D}${libdir}/libnss_dns.so
 	ln -sf ../../lib/libnss_files.so.2 ${D}${libdir}/libnss_files.so
@@ -140,7 +138,6 @@ do_install() {
 
 	# remove potential .so duplicates from base_libdir
 	# for all symlinks created above in libdir
-	rm -f ${D}${base_libdir}/libnsl.so
 	rm -f ${D}${base_libdir}/librt.so
 	rm -f ${D}${base_libdir}/libcrypt.so
 	rm -f ${D}${base_libdir}/libnss_nis.so
@@ -193,6 +190,9 @@ do_install() {
 	if [ -d ${D}${base_libdir}/ldscripts ]; then
 	   rm -rf ${D}${base_libdir}/ldscripts
 	fi
+
+	# Provided by libnsl2
+	rm -rf ${D}${includedir}/rpcsvc/yppasswd.*
 
        if [ -f ${D}${libdir}/libc.so ];then
                sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../${EAT_LIBDIR}#g" -e "s# /usr/${EAT_LIBDIR}/# /usr/lib/#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" -e "s# /${EAT_LIBDIR}/ld-linux# ../../${EAT_LIBDIR}/ld-linux#g" ${D}${libdir}/libc.so
@@ -484,8 +484,6 @@ FILES_${PN} += "\
 	${base_libdir}/librt-*.so \
 	${base_libdir}/libutil*.so.* \
 	${base_libdir}/libutil-*.so \
-	${base_libdir}/libnsl*.so.* \
-	${base_libdir}/libnsl-*.so \
 	${base_libdir}/libnss_files*.so.* \
 	${base_libdir}/libnss_files-*.so \
 	${base_libdir}/libnss_compat*.so.* \
