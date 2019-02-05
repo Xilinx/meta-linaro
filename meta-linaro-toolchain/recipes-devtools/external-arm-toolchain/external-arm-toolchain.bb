@@ -193,6 +193,8 @@ do_install() {
 
 	# Provided by libnsl2
 	rm -rf ${D}${includedir}/rpcsvc/yppasswd.*
+	# Provided by quota
+	rm -rf ${D}${includedir}/rpcsvc/rquota.*
 
        if [ -f ${D}${libdir}/libc.so ];then
                sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../${EAT_LIBDIR}#g" -e "s# /usr/${EAT_LIBDIR}/# /usr/lib/#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" -e "s# /${EAT_LIBDIR}/ld-linux# ../../${EAT_LIBDIR}/ld-linux#g" ${D}${libdir}/libc.so
