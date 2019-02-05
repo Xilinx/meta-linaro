@@ -135,8 +135,8 @@ do_install() {
 	ln -sf ../../lib/libitm.so.1 ${D}${libdir}/libitm.so
 	ln -sf ../../lib/libssp.so.0 ${D}${libdir}/libssp.so
 	ln -sf ../../lib/libstdc++.so.6 ${D}${libdir}/libstdc++.so
-	ln -sf ../../lib/libubsan.so.0 ${D}${libdir}/libubsan.so
-        #	ln -sf ../../lib/libasan.so.1 ${D}${libdir}/libasan.so
+	ln -sf ../../lib/libubsan.so.1 ${D}${libdir}/libubsan.so
+	ln -sf ../../lib/libasan.so.5 ${D}${libdir}/libasan.so
 	ln -sf ../../lib/libgfortran.so.5 ${D}${libdir}/libgfortran.so
 
 	# remove potential .so duplicates from base_libdir
