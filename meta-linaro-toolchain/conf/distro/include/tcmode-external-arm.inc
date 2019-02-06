@@ -35,6 +35,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs = "external-arm-toolchai
 PREFERRED_PROVIDER_glibc = "external-arm-toolchain"
 PREFERRED_PROVIDER_libgcc = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/libc = "external-arm-toolchain"
+PREFERRED_PROVIDER_virtual/libc-locale = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/libintl = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/libiconv = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/crypt = "external-arm-toolchain"
@@ -42,7 +43,6 @@ PREFERRED_PROVIDER_glibc-thread-db = "external-arm-toolchain"
 PREFERRED_PROVIDER_glibc-mtrace = "external-arm-toolchain"
 PREFERRED_PROVIDER_libc-mtrace = "external-arm-toolchain"
 PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-arm-toolchain"
-
 TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include "
 TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/lib "
 
