@@ -218,6 +218,8 @@ do_install() {
 	rmdir ${D}${sbindir} || true
 }
 
+PACKAGES_DYNAMIC = "^locale-base-.*"
+
 # PACKAGES is split up according to the 'source' recipes/includes in OE-core
 # Stylistic differences are kept to make copy/pasting easier.
 
