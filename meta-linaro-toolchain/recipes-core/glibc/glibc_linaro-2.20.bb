@@ -1,4 +1,5 @@
 require recipes-core/glibc/glibc.inc
+require recipes-core/glibc/glibc_linaro.inc
 
 DEPENDS += "gperf-native kconfig-frontends-native"
 
