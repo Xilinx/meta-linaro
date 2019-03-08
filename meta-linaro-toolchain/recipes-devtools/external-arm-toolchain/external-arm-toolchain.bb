@@ -19,6 +19,7 @@ PROVIDES += "\
 	virtual/${TARGET_PREFIX}g++ \
 	virtual/${TARGET_PREFIX}gcc-initial \
 	virtual/${TARGET_PREFIX}binutils \
+        binutils-cross-${TARGET_ARCH} \
 	virtual/${TARGET_PREFIX}libc-for-gcc \
 	virtual/${TARGET_PREFIX}compilerlibs \
 	virtual/libc \
