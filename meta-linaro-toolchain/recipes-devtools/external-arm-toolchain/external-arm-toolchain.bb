@@ -4,8 +4,6 @@ INHIBIT_DEFAULT_DEPS = "1"
 INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-ALLOW_EMPTY_ldd = "1"
-
 # License applies to this recipe code, not the toolchain itself
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "\
@@ -105,6 +103,12 @@ do_install() {
 
 	cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include/* ${D}${includedir}
 	ln -sf ../usr/include/c++ ${D}/include/c++
+
+	cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/bin/* ${D}${bindir}
+	cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/sbin/* ${D}${sbindir}
+	rm -rf ${D}${bindir}/gdbserver
+	sed -i -e 's#/arm/tools/gnu/bash/4.2/rhe6-x86_64##' ${D}${bindir}/tzselect
+	sed -i -e 's#/arm/tools/gnu/bash/4.2/rhe6-x86_64##' ${D}${bindir}/ldd
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
 	linker_name="${@bb.utils.contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "ld-linux-armhf.so.3", "ld-linux.so.3",d), d)}"
@@ -338,6 +342,7 @@ PKG_${PN}-thread-db = "glibc-thread-db"
 PKG_${PN}-pcprofile = "glibc-pcprofile"
 PKG_${PN}-staticdev = "glibc-staticdev"
 
+PKGV = "${EAT_VER_LIBC}"
 PKGV_${PN} = "${EAT_VER_LIBC}"
 PKGV_${PN}-dev = "${EAT_VER_LIBC}"
 PKGV_${PN}-doc = "${EAT_VER_LIBC}"
@@ -418,6 +423,9 @@ FILES_libsegfault = "${base_libdir}/libSegFault*"
 
 FILES_catchsegv = "${bindir}/catchsegv"
 RDEPENDS_catchsegv = "libsegfault"
+
+RDEPENDS_ldd = "bash"
+RDEPENDS_tzcode = "bash"
 
 # From libgfortran.inc:
 
