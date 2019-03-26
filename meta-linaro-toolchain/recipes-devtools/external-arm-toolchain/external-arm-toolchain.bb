@@ -66,7 +66,7 @@ do_install() {
 	touch  ${S}/nscd/nscd.init
 	touch  ${S}/nscd/nscd.conf
 	touch  ${S}/nscd/nscd.service
-        touch  ${S}/../makedbs.sh 
+	touch  ${S}/../makedbs.sh
 
 	install -d ${D}${base_libdir}
 	install -d ${D}${bindir}
@@ -103,7 +103,7 @@ do_install() {
 		rm -r ${D}${includedir}/${EAT_TARGET_SYS}
 	fi
 
-	cp -a ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include/* ${D}${includedir}
+	cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/include/* ${D}${includedir}
 	ln -sf ../usr/include/c++ ${D}/include/c++
 
 	# fix up the copied symlinks (they are still pointing to the multiarch directory)
@@ -141,8 +141,8 @@ do_install() {
 	# lib?san is duplicated *and* the files are all hardlinks
 	for lib in lsan tsan ; do
 		rm -f ${D}${libdir}/lib${lib}.so.0 ${D}${libdir}/lib${lib}.so ${D}${base_libdir}/lib${lib}*
-		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}.so.0 
-		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}t.so 
+		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}.so.0
+		ln -sf lib${lib}.so.0.0.0 ${D}${libdir}/lib${lib}t.so
 	done
 
 	# remove potential .so duplicates from base_libdir
@@ -212,11 +212,10 @@ do_install() {
 	# Provided by quota
 	rm -rf ${D}${includedir}/rpcsvc/rquota.*
 
-       if [ -f ${D}${libdir}/libc.so ];then
-               sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../${EAT_LIBDIR}#g" -e "s# /usr/${EAT_LIBDIR}/# /usr/lib/#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" -e "s# /${EAT_LIBDIR}/ld-linux# ../../${EAT_LIBDIR}/ld-linux#g" ${D}${libdir}/libc.so
-                sed -i -e "s# /${EAT_LIBDIR}/libc.so.6# /lib/libc.so.6#g" ${D}${libdir}/libc.so
-                # cat kjasdkjasd
-       fi
+	if [ -f ${D}${libdir}/libc.so ];then
+		sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../${EAT_LIBDIR}#g" -e "s# /usr/${EAT_LIBDIR}/# /usr/lib/#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" -e "s# /${EAT_LIBDIR}/ld-linux# ../../${EAT_LIBDIR}/ld-linux#g" ${D}${libdir}/libc.so
+		sed -i -e "s# /${EAT_LIBDIR}/libc.so.6# /lib/libc.so.6#g" ${D}${libdir}/libc.so
+	fi
 
 	if [ -f ${D}${base_libdir}/libc.so ];then
 		sed -i -e "s# /${EAT_LIBDIR}/${EAT_TARGET_SYS}# ../../lib#g" -e "s# /usr/${EAT_LIBDIR}/${EAT_TARGET_SYS}# .#g" "s# /${EAT_LIBDIR}/# /lib/#g" ${D}${base_libdir}/libc.so
@@ -225,7 +224,7 @@ do_install() {
 		fi
 	fi
 	if [ -f ${D}${base_libdir}/libpthread.so.0 ]; then
-			sed -i -e "s# /usr/${EAT_LIBDIR}/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so.0
+		sed -i -e "s# /usr/${EAT_LIBDIR}/libpthread.so.0# /lib/libpthread.so.0#g" ${D}${base_libdir}/libpthread.so.0
 	fi
 
 	# Remove if empty
