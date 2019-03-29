@@ -24,7 +24,8 @@ LIC_FILES_CHKSUM = "\
 "
 
 #BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-BASEURI ?= "svn://gcc.gnu.org/svn/gcc/branches/ARM;rev=263559;module=arm-8-branch"
+SRCREV = "1a721bce9532193e63acdcdb56fc16e8ac70b20a"
+BASEURI ?= "git://git.linaro.org/toolchain/gcc.git;protocol=https;branch=linaro-local/ARM/arm-8-branch"
 
 SRC_URI = "\
            ${BASEURI} \
@@ -74,7 +75,7 @@ SRC_URI = "\
 BACKPORTS = "\
 "
 
-S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/arm-8-branch"
+S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
 #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
 #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
 #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${RELEASE}"
