@@ -31,6 +31,10 @@ def eat_get_main_version(d):
         if version.split()[4] == '(GNU':
             # gcc version 8.2.1 20180802 (GNU Toolchain for the A-profile Architecture 8.2-2018.11 (arm-rel-8.26)) 
             return version.split()[10].split('-')[1]
+	elif version.split()[3] == '(GNU':
+            # gcc version 8.3.0 (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-rel-8.36))
+            return version.split()[9].split('-')[1]
+	else:
         bb.error('Failed to parse external Arm toolchain version from: %s' % version)
     else:
         return version
