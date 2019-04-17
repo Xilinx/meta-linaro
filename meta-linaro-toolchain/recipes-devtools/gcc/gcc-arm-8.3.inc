@@ -6,7 +6,7 @@ PV = "arm-${BASEPV}"
 MMYY = "19.03"
 RELEASE = "20${MMYY}"
 PR = "r${RELEASE}"
-BINV = "${BASEPV}.1"
+BINV = "${BASEPV}.0"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-${BASEPV}:${FILE_DIRNAME}/gcc-${BASEPV}/backport:"
 
