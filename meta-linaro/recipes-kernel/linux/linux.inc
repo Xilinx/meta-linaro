@@ -9,7 +9,7 @@ inherit kernel siteinfo
 # Specify the commandline for your device
 
 # Set the verbosity of kernel messages during runtime
-# You can define CMDLINE_DEBUG in your local.conf or distro.conf to override this behaviour  
+# You can define CMDLINE_DEBUG in your local.conf or distro.conf to override this behaviour
 CMDLINE_DEBUG ?= '${@oe.utils.conditional("DISTRO_TYPE", "release", "quiet", "debug", d)}'
 CMDLINE_append = " ${CMDLINE_DEBUG} "
 
@@ -22,11 +22,11 @@ ALLOW_EMPTY_kernel-devicetree = "1"
 python __anonymous () {
 
     import bb
-    
+
     devicetree = d.getVar('KERNEL_DEVICETREE', True) or ''
     if devicetree:
-    	depends = d.getVar("DEPENDS", True)
-    	d.setVar("DEPENDS", "%s dtc-native" % depends)
+        depends = d.getVar("DEPENDS", True)
+        d.setVar("DEPENDS", "%s dtc-native" % depends)
 }
 
 do_configure_prepend() {
@@ -40,7 +40,6 @@ do_configure_prepend() {
 
         sed -i -e 's/getline/parseline/g' ${S}/scripts/unifdef.c
 
-
         echo "" > ${B}/.config
 
         #
@@ -52,15 +51,15 @@ do_configure_prepend() {
                 echo "CONFIG_LOGO_LINUX_CLUT224=y"      >> ${B}/.config
         fi
 
-	# Enable thumb2 fixup for specific issue in angstrom toolchains when used on A8 r1p[012] silicon
+        # Enable thumb2 fixup for specific issue in angstrom toolchains when used on A8 r1p[012] silicon
         if [ "${CORTEXA8FIXUP}" = "yes" ] ; then
             sed -i -e /CONFIG_ARM_ERRATA_430973/d ${WORKDIR}/defconfig
             echo "CONFIG_ARM_ERRATA_430973=y" >> ${B}/.config
         fi
 
-	#
-	# endian support
-	#
+        #
+        # endian support
+        #
         if [ "${SITEINFO_ENDIANNESS}" = "be" ]; then
                 echo "CONFIG_CPU_BIG_ENDIAN=y"          >> ${B}/.config
         fi
@@ -74,7 +73,7 @@ do_configure_prepend() {
             -e '/CONFIG_LOGO_LINUX_CLUT224=/d' \
             -e '/CONFIG_LOCALVERSION/d' \
             -e '/CONFIG_LOCALVERSION_AUTO/d' \
-	    < '${WORKDIR}/defconfig' >>'${B}/.config'
+            < '${WORKDIR}/defconfig' >>'${B}/.config'
 
         echo 'CONFIG_LOCALVERSION=""' >>${B}/.config
         echo '# CONFIG_LOCALVERSION_AUTO is not set' >>${B}/.config
@@ -119,7 +118,7 @@ do_configure_prepend() {
             sed -e /CONFIG_CGROUP_SCHED/d \
                 -e /CONFIG_CGROUPS/d \
                 -i '${B}/.config'
-            
+
             echo 'CONFIG_CGROUP_SCHED=y' >> ${B}/.config
             echo 'CONFIG_CGROUPS=y' >> ${B}/.config
             echo 'CONFIG_CGROUP_NS=y' >> ${B}/.config
@@ -171,7 +170,7 @@ do_configure_prepend() {
         if [ ! -z "${KERNEL_CONFIG_FRAGMENTS}" ]
         then
             for f in ${KERNEL_CONFIG_FRAGMENTS}
-            do  
+            do
                 # Check if the config fragment was copied into the WORKDIR from
                 # the OE meta data
                 if [ ! -e "$f" ]
@@ -185,15 +184,15 @@ do_configure_prepend() {
             ( cd ${WORKDIR} && ${S}/scripts/kconfig/merge_config.sh -m -r -O ${B} ${B}/.config ${KERNEL_CONFIG_FRAGMENTS} 1>&2 )
         fi
 
-	yes '' | oe_runmake -C ${S} O=${B} oldconfig
+        yes '' | oe_runmake -C ${S} O=${B} oldconfig
         oe_runmake -C ${S} O=${B} savedefconfig && cp ${B}/defconfig ${WORKDIR}/defconfig.saved
     fi
 }
 
 do_configure_append() {
         if test -e scripts/Makefile.fwinst ; then
-		sed -i -e "s:-m0644:-m 0644:g" scripts/Makefile.fwinst
-	fi
+            sed -i -e "s:-m0644:-m 0644:g" scripts/Makefile.fwinst
+        fi
 }
 
 # bitbake.conf only prepends PARALLEL make in tasks called do_compile, which isn't the case for compile_modules
@@ -201,15 +200,15 @@ do_configure_append() {
 EXTRA_OEMAKE = "${PARALLEL_MAKE} "
 
 do_install_append() {
-	oe_runmake firmware_install INSTALL_MOD_PATH=${D} ARCH=$ARCH
-	install -d ${D}/boot
-	make -C ${S} O=${B} ARCH=$ARCH dtbs || true
-	install -m 0644 ${B}/arch/$ARCH/boot/dts/*.dtb ${D}/boot || true
+        oe_runmake firmware_install INSTALL_MOD_PATH=${D} ARCH=$ARCH
+        install -d ${D}/boot
+        make -C ${S} O=${B} ARCH=$ARCH dtbs || true
+        install -m 0644 ${B}/arch/$ARCH/boot/dts/*.dtb ${D}/boot || true
 
-	install -d ${D}/lib/firmware
-	install -m 0644 ${S}/firmware/capes/*.dts ${D}/lib/firmware || true
+        install -d ${D}/lib/firmware
+        install -m 0644 ${S}/firmware/capes/*.dts ${D}/lib/firmware || true
 
-	rm -f ${D}${KERNEL_SRC_PATH}/arch/*/vdso/vdso*.so
+        rm -f ${D}${KERNEL_SRC_PATH}/arch/*/vdso/vdso*.so
 }
 
 PACKAGES =+ "kernel-devicetree-overlays"
