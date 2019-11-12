@@ -8,7 +8,7 @@ DEPENDS = "optee-client optee-os python-pycrypto-native"
 
 inherit pythonnative
 
-PV = "3.3.0+git${SRCPV}"
+PV = "3.7.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/OP-TEE/optee_test.git \
            file://fix-build-failure-with-GCC6.patch \
