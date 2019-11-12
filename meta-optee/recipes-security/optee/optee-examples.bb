@@ -9,7 +9,7 @@ DEPENDS = "optee-client optee-os python-pycrypto-native"
 inherit pythonnative
 
 SRC_URI = "git://github.com/linaro-swg/optee_examples.git"
-SRCREV = "1c5d96fb2f6abab232bc06705fe557bc4f76964b"
+SRCREV = "559b2141c16bf0f57ccd72f60e4deb84fc2a05b0"
 
 S = "${WORKDIR}/git"
 
