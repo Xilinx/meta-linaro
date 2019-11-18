@@ -2,15 +2,15 @@ SUMMARY = "OP-TEE Trusted OS"
 DESCRIPTION = "OPTEE OS"
 
 LICENSE = "BSD"
-LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
+LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=c1f21c4f72f372ef38a5a4aee55ec173"
 
 PV="3.7.0+git${SRCPV}"
 
-DEPENDS = "python-pycrypto-native"
+inherit deploy python3native
 
-inherit deploy pythonnative
+DEPENDS = "python3-pycrypto-native python3-pyelftools-native"
 
-SRCREV = "ee595e950f5be1ace3e831261c22a0e99f959046"
+SRCREV = "a2fa5018cb595a9cd9ab62e82c7485ca57a62084"
 SRC_URI = "git://github.com/OP-TEE/optee_os.git \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
           "
