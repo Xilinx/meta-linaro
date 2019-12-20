@@ -29,7 +29,8 @@ def eat_get_main_version(d):
     bb.debug(2, 'Trying for parse version info from: %s' % version)
     if version != 'UNKNOWN':
         if version.split()[4] == '(GNU':
-            # gcc version 8.2.1 20180802 (GNU Toolchain for the A-profile Architecture 8.2-2018.11 (arm-rel-8.26)) 
+            # gcc version 9.2.1 20191025 (GNU Toolchain for the A-profile Architecture 9.2-2019.12 (arm-9.10))
+            # gcc version 8.2.1 20180802 (GNU Toolchain for the A-profile Architecture 8.2-2018.11 (arm-rel-8.26))
             return version.split()[10].split('-')[1]
         elif version.split()[3] == '(GNU':
             # gcc version 8.3.0 (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-rel-8.36))

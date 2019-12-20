@@ -7,8 +7,8 @@ EXTERNAL_TOOLCHAIN ?= "/usr/local/arm-binary-toolchain/${TARGET_ARCH}"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
-EAT_TARGET_SYS_arm ?= "arm-linux-gnueabihf"
-EAT_TARGET_SYS_aarch64 ?= "aarch64-linux-gnu"
+EAT_TARGET_SYS_arm ?= "arm-none-linux-gnueabihf"
+EAT_TARGET_SYS_aarch64 ?= "aarch64-none-linux-gnu"
 EAT_TARGET_SYS = "${TARGET_SYS}"
 TARGET_PREFIX = "${EAT_TARGET_SYS}-"
 
