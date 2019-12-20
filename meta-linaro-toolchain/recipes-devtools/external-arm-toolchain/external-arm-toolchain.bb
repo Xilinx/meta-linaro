@@ -70,6 +70,7 @@ do_install() {
 	touch  ${S}/../makedbs.sh
 
 	install -d ${D}${base_libdir}
+	install -d ${D}${base_sbindir}
 	install -d ${D}${bindir}
 	install -d ${D}${sbindir}
 	install -d ${D}${libdir}
@@ -111,6 +112,7 @@ do_install() {
 
 	cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/bin/* ${D}${bindir}
 	cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/usr/sbin/* ${D}${sbindir}
+	cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/${EAT_TARGET_SYS}/libc/sbin/* ${D}${base_sbindir}
 	rm -rf ${D}${bindir}/gdbserver
 	sed -i -e 's#/arm/tools/gnu/bash/4.2/rhe6-x86_64##' ${D}${bindir}/tzselect
 	sed -i -e 's#/arm/tools/gnu/bash/4.2/rhe6-x86_64##' ${D}${bindir}/ldd
@@ -221,6 +223,7 @@ do_install() {
 	# Remove if empty
 	rmdir ${D}${bindir} || true
 	rmdir ${D}${sbindir} || true
+	rmdir ${D}${base_sbindir} || true
 }
 
 # External toolchain doesn't provide multilib support so make corresponding
