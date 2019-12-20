@@ -251,6 +251,12 @@ do_install() {
 	rmdir ${D}${sbindir} || true
 }
 
+# External toolchain doesn't provide multilib support so make corresponding
+# install API as an empty API to avoid an unnecessary errors.
+oe_multilib_header () {
+	return
+}
+
 PACKAGES_DYNAMIC = "^locale-base-.* \
                     ^glibc-gconv-.* ^glibc-charmap-.* ^glibc-localedata-.* ^glibc-binary-localedata-.* \
                     ^${MLPREFIX}glibc-gconv$"
