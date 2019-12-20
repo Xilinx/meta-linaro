@@ -260,7 +260,8 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
 
 # From gcc-runtime.inc
 
-PACKAGES =+ "\
+PACKAGES += "\
+    gcc-runtime-dbg \
     libstdc++ \
     libstdc++-precompile-dev \
     libstdc++-dev \
@@ -285,11 +286,11 @@ PACKAGES =+ "\
     libitm \
     libitm-dev \
     libitm-staticdev \
-   "
+"
 
 # From gcc-sanitizers.inc
 
-PACKAGES += "gcc-sanitizers gcc-sanitizers-dev"
+PACKAGES += "gcc-sanitizers gcc-sanitizers-dbg"
 PACKAGES += "libasan libubsan liblsan libtsan"
 PACKAGES += "libasan-dev libubsan-dev liblsan-dev libtsan-dev"
 PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-staticdev"
@@ -297,10 +298,11 @@ PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-stat
 # From libgfortran.inc:
 
 PACKAGES += "\
+    libgfortran-dbg \
     libgfortran \
     libgfortran-dev \
     libgfortran-staticdev \
-   "
+"
 
 # libgcc.inc uses ${PN}, so replace that
 
@@ -391,6 +393,7 @@ PKGV_libg2c-dev = "${EAT_VER_GCC}"
 PKGV_libg2c = "${EAT_VER_GCC}"
 PKGV_libgcc-dev = "${EAT_VER_GCC}"
 PKGV_libgcc = "${EAT_VER_GCC}"
+PKGV_libgfortran-dbg = "${EAT_VER_GCC}"
 PKGV_libgfortran-dev = "${EAT_VER_GCC}"
 PKGV_libgfortran = "${EAT_VER_GCC}"
 PKGV_libgfortran-staticdev = "${EAT_VER_GCC}"
@@ -458,9 +461,6 @@ FILES_libgfortran-staticdev = "${libdir}/libgfortran.a"
 
 # From gcc-sanitizers.inc:
 
-FILES_gcc-sanitizers = "${libdir}/libsanitizer.so.*"
-FILES_gcc-sanitizers-dev = "${libdir}/libsanitizer.spec"
-
 FILES_libasan += "${libdir}/libasan.so.*"
 FILES_libasan-dev += "\
     ${libdir}/libasan_preinit.o \
@@ -491,6 +491,8 @@ FILES_libtsan-dev += "\
     ${libdir}/libtsan_*.o \
 "
 FILES_libtsan-staticdev += "${libdir}/libtsan.a"
+
+FILES_gcc-sanitizers = "${libdir}/*.spec ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/sanitizer/*.h"
 
 # From libgcc.inc:
 
@@ -568,6 +570,12 @@ FILES_${PN}-dbg += "${base_libdir}/debug"
 
 # From gcc-runtime.inc
 
+# include python debugging scripts
+FILES_gcc-runtime-dbg += "\
+    ${libdir}/libstdc++.so.*-gdb.py \
+    ${datadir}/gcc-${BINV}/python/libstdcxx \
+"
+
 FILES_libg2c = "${target_libdir}/libg2c.so.*"
 SUMMARY_libg2c = "Companion runtime library for g77"
 FILES_libg2c-dev = "\
@@ -638,6 +646,7 @@ FILES_libgomp-dev = "\
     ${libdir}/libgomp*.la \
     ${libdir}/libgomp.spec \
     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
+    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/openacc.h \
 "
 SUMMARY_libgomp-dev = "GNU OpenMP parallel programming library - development files"
 FILES_libgomp-staticdev = "${libdir}/libgomp*.a"
