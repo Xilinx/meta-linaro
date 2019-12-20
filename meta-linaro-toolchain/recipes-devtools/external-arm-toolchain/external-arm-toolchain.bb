@@ -340,7 +340,7 @@ INSANE_SKIP_libitm += "ldflags"
 INSANE_SKIP_gdbserver += "ldflags"
 
 # OE-core has literally listed 'glibc' in LIBC_DEPENDENCIES :/
-RPROVIDES_${PN} = "glibc"
+RPROVIDES_${PN} = "glibc rtld(GNU_HASH)"
 # Add runtime provides for the other libc* packages as well
 RPROVIDES_${PN}-dev = "glibc-dev"
 RPROVIDES_${PN}-doc = "glibc-doc"
