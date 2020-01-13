@@ -23,6 +23,7 @@ PNBLACKLIST[glibc] = "Using external toolchain"
 PNBLACKLIST[libgcc] = "Using external toolchain"
 PNBLACKLIST[gcc-cross] = "Using external toolchain"
 PNBLACKLIST[gcc-runtime] = "Using external toolchain"
+PNBLACKLIST[gcc-sanitizers] = "Using external toolchain"
 
 PREFERRED_PROVIDER_linux-libc-headers = "external-arm-toolchain"
 PREFERRED_PROVIDER_linux-libc-headers-dev = "external-arm-toolchain"
