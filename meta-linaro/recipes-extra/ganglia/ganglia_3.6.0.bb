@@ -22,7 +22,7 @@ EXTRA_OECONF += " \
                  --disable-python \
                 "
 
-inherit pkgconfig autotools-brokensep pythonnative update-rc.d
+inherit pkgconfig autotools-brokensep python3native update-rc.d
 
 # The ganglia autoconf setup doesn't include libmetrics in its
 # AC_OUTPUT list -- it reconfigures libmetrics using its own rules.
