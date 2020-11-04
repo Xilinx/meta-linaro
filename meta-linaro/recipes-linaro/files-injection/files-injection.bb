@@ -3,7 +3,7 @@ LICENSE = "CLOSED"
 
 SRC_URI = "file://files-to-inject.tar.xz"
 
-S = "${WORKDIR}/files-to-inject/"
+S = "${WORKDIR}/files-to-inject"
 
 # all files will be put in /opt/ directory with keeping tarball structure
 
